@@ -8,7 +8,7 @@
         xmlns:v="clr-namespace:WpfApp6.View"
         xmlns:vm="clr-namespace:WpfApp6.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="772" Width="949">
+        Title="SORGAIR 2020" Height="837" Width="969" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" >
 
     <Window.Resources>
 
@@ -29,59 +29,59 @@
 
 
             <DataTemplate x:Key="MenuItemTemplateIC" DataType="{x:Type Controls:HamburgerMenuIconItem}">
-                        <Grid Height="64">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="74" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
-                                <Viewbox ToolTip="{Binding Label}" Width="32" Height="32" >
-                                    <Viewbox.Child>
-                                        <ContentControl Content="{Binding Path=Icon}"></ContentControl>
-                                    </Viewbox.Child>
-                                </Viewbox>
-                            </Grid>
-                            <TextBlock Grid.Column="1"
+                <Grid Height="64">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="74" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Viewbox ToolTip="{Binding Label}" Width="32" Height="32" >
+                            <Viewbox.Child>
+                                <ContentControl Content="{Binding Path=Icon}"></ContentControl>
+                            </Viewbox.Child>
+                        </Viewbox>
+                    </Grid>
+                    <TextBlock Grid.Column="1"
                VerticalAlignment="Center"
                FontSize="16"
                            Margin="0 0 0 0"
                Text="{Binding Label}" />
-                        </Grid>
-                    </DataTemplate>
+                </Grid>
+            </DataTemplate>
 
 
-                    <Style x:Key="HamburgerMenuCreatorsItemStyle"
+            <Style x:Key="HamburgerMenuCreatorsItemStyle"
                    BasedOn="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem}"
                    TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="Controls:ItemHelper.ActiveSelectionBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Accent4 }" />
-                        <Setter Property="Controls:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
-                        <Setter Property="Controls:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.GrayNormal}" />
-                        <Setter Property="Controls:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="Controls:ItemHelper.ActiveSelectionBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Accent4 }" />
+                <Setter Property="Controls:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                <Setter Property="Controls:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.GrayNormal}" />
+                <Setter Property="Controls:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
 
-                        <Setter Property="Controls:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.GrayNormal}" />
-                        <Setter Property="Controls:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                        <Setter Property="Controls:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                        <Setter Property="Controls:ItemHelper.SelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Accent4 }" />
-                        <Setter Property="Controls:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
-                    </Style>
+                <Setter Property="Controls:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.GrayNormal}" />
+                <Setter Property="Controls:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+                <Setter Property="Controls:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+                <Setter Property="Controls:ItemHelper.SelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Accent4 }" />
+                <Setter Property="Controls:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+            </Style>
 
-                    <Style x:Key="HamburgerMenuCreatorsStyle"
+            <Style x:Key="HamburgerMenuCreatorsStyle"
                    BasedOn="{StaticResource {x:Type Controls:HamburgerMenu}}"
                    TargetType="{x:Type Controls:HamburgerMenu}">
-                        <Setter Property="ItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
-                        <Setter Property="OptionsItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
-                        <Setter Property="PaneBackground" Value="{DynamicResource MahApps.Brushes.Gray10}" />
-                        <Setter Property="PaneForeground" Value="{DynamicResource MahApps.Brushes.Text}" />
-                        <Setter Property="ShowSelectionIndicator" Value="True" />
+                <Setter Property="ItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
+                <Setter Property="OptionsItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
+                <Setter Property="PaneBackground" Value="{DynamicResource MahApps.Brushes.Gray10}" />
+                <Setter Property="PaneForeground" Value="{DynamicResource MahApps.Brushes.Text}" />
+                <Setter Property="ShowSelectionIndicator" Value="True" />
 
-                    </Style>
-
-
-
-                </ResourceDictionary>
+            </Style>
 
 
-            </Window.Resources>
+
+        </ResourceDictionary>
+
+
+    </Window.Resources>
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -107,85 +107,107 @@
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/HamburgerMenuTemplate.xaml" />
         </Grid.Resources>
 
-      
-            
-            
-            <Controls:HamburgerMenu Content="{Binding CurrentViewModel}"
+
+
+
+        <Controls:HamburgerMenu Content="{Binding CurrentViewModel}"
                                       DisplayMode="CompactInline"
                                     HamburgerWidth="64"
                                     IsPaneOpen="True"
+                                    Foreground="Red" 
                                     CompactPaneLength="64"
                                     ItemTemplate="{StaticResource MenuItemTemplateIC}"
                                     Style="{StaticResource HamburgerMenuCreatorsStyle}"
                                     VerticalScrollBarOnLeftSide="False">
-                
 
-                
+            <Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock 
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                       FontWeight="DemiBold" 
+                                       HorizontalAlignment="Left"
+                                Margin="10 0 0 0"
+                                   Text="SORGAIR 2020" />
+                </DataTemplate>
+            </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+
+
             <Controls:HamburgerMenu.ItemsSource>
                 <Controls:HamburgerMenuItemCollection>
 
-                    <Controls:HamburgerMenuIconItem Command="{Binding OpenFirstViewModelCommand}" Label="Hledat akci">
+        
+
+                    <Controls:HamburgerMenuIconItem Command="{Binding OpenFirstViewModelCommand}" Label="Nastavení soutěže">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconOcticons Kind="Search" />
+                            <iconPacks:PackIconFontAwesome Kind="AvianexBrands" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Command="{Binding OpenSecondViewModelCommand}" Label="Info o akci">
+                    <Controls:HamburgerMenuIconItem Command="{Binding OpenSecondViewModelCommand}" Label="Audio">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="Information" />
+                            <iconPacks:PackIconOcticons Kind="Unmute" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Command="{Binding OpenHledaniViewModelCommand}" Label="Telefonické konzultace">
+                    <Controls:HamburgerMenuIconItem Command="{Binding OpenSecondViewModelCommand}" Label="Hardware">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconMaterialLight Kind="Phone" />
+                            <iconPacks:PackIconModern Kind="Monitor" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
 
-                    <Controls:HamburgerMenuIconItem Command="{Binding OpenRozvrhViewModelCommand}" Label="Workzilla">
+                    <Controls:HamburgerMenuIconItem Command="{Binding OpenHledaniViewModelCommand}" Label="Seznam Soutěžících">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="Bug" />
+                            <iconPacks:PackIconModern Kind="PeopleCheckbox" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Rozvrh">
+
+                    <Controls:HamburgerMenuIconItem Command="{Binding OpenRozvrhViewModelCommand}" Label="Rozlosování">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconOcticons Kind="Calendar" />
+                            <iconPacks:PackIconModern Kind="DrawPixelFillGrid" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Scripty / kódy" Tag="hokus pokus vole">
+                    <Controls:HamburgerMenuIconItem Label="Seznam kol">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconMaterialLight Kind="Script" />
+                            <iconPacks:PackIconModern Kind="List" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Ceník" Tag="tramtatada">
+                    <Controls:HamburgerMenuIconItem Label="Vybrané kolo" Tag="hokus pokus vole">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="Money" />
+                            <iconPacks:PackIconModern Kind="ListOne" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Reporty">
+                    <Controls:HamburgerMenuIconItem Label="Výsledky" Tag="tramtatada">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="GraphBar" />
+                            <iconPacks:PackIconFontAwesome Kind="TrophySolid" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Docházka">
+                    <Controls:HamburgerMenuIconItem Label="Finálové lety">
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="TimerRewind" />
+                            <iconPacks:PackIconFontAwesome Kind="GemRegular" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Poznámky">
+                    <Controls:HamburgerMenuIconItem Label="Detaily a statistiky" IsEnabled="False" >
                         <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconMaterialLight Kind="NoteText" />
+                            <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
-                    
-                    
+
+                    <Controls:HamburgerMenuIconItem Label="Online">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconMaterial Kind="LanConnect" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                    </Controls:HamburgerMenuIconItem>
+
+
                 </Controls:HamburgerMenuItemCollection>
             </Controls:HamburgerMenu.ItemsSource>
 

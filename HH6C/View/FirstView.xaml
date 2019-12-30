@@ -24,7 +24,7 @@
         <TextBox Controls:TextBoxHelper.Watermark="This is a textbox" Margin="275,105,0,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="165" />
         <TextBox Controls:TextBoxHelper.ClearTextButton="True" Controls:TextBoxHelper.Watermark="{Binding ElementName=_switch, Path=IsChecked}"     Margin="275,69,0,0" HorizontalAlignment="Left" Width="165" Height="31" VerticalAlignment="Top" />
         <Controls:ToggleSwitch x:Name="_switch" OnLabel="Yep" OnSwitchBrush="Green" OffSwitchBrush="IndianRed"  OffLabel=":(" Foreground="{DynamicResource MahApps.Brushes.Accent}" Header="WiFi rest state" Margin="210,273,0,0" Style="{DynamicResource MahApps.Styles.ToggleSwitch.Win10}" HorizontalAlignment="Left" Width="165" Height="70" VerticalAlignment="Top" />
-        <Controls:ToggleSwitchButton Content="aaa" Style="{DynamicResource MahApps.Styles.ToggleSwitchButton.Win10}" Width="95" Height="31" Margin="200,348,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Controls:ToggleSwitchButton x:Name="menuenabled" Content="aaa" Style="{DynamicResource MahApps.Styles.ToggleSwitchButton.Win10}" Width="95" Height="31" Margin="200,348,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Calendar HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" Height="174" Width="175"/>
         <GroupBox Header="GroupBox" HorizontalAlignment="Left" Height="115" Margin="530,36,0,0" VerticalAlignment="Top" Width="222">
             <DatePicker HorizontalAlignment="Left" Margin="38,19,0,0" VerticalAlignment="Top"/>
