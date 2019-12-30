@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SORGAIR", "HH6C\SORGAIR.csproj", "{B6A28923-ECC2-4CE2-A981-F3CE5B587D25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6A28923-ECC2-4CE2-A981-F3CE5B587D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A28923-ECC2-4CE2-A981-F3CE5B587D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A28923-ECC2-4CE2-A981-F3CE5B587D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A28923-ECC2-4CE2-A981-F3CE5B587D25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB38E463-AA55-42D0-BF2E-0EC6C683DFF7}
+	EndGlobalSection
+EndGlobal
