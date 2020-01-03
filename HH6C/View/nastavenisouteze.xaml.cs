@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace WpfApp6.View
 {
     /// <summary>
-    /// Interakční logika pro HledaniView.xaml
+    /// Interakční logika pro nastavenisouteze.xaml
     /// </summary>
-    public partial class HledaniView : UserControl
+    public partial class nastavenisouteze : UserControl
     {
-        public HledaniView()
+        public nastavenisouteze()
         {
             InitializeComponent();
-        }
-
-        private void test(object sender, RoutedEventArgs e)
-        {
-            MainWindow.hledejvsql("blabla");
         }
     }
 }

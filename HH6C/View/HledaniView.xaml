@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="210,120,0,0" VerticalAlignment="Top" Width="355" Height="195"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="210,120,0,0" VerticalAlignment="Top" Width="355" Height="195" Click="test"/>
 
 
     </Grid>

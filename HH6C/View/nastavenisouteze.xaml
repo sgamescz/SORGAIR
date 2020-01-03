@@ -1,0 +1,144 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp6.View"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks" x:Class="WpfApp6.View.nastavenisouteze"
+             mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="1000">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type mah:MetroHeader}">
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" UseLayoutRounding="True" >
+                                <TextBlock Margin="0 0 0 4" Text="{Binding}" Foreground="{DynamicResource MahApps.Brushes.Accent}" />
+                                <Separator Margin="0 0 0 10"  />
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    
+    <Grid Margin="0" Background="{DynamicResource MahApps.Brushes.White}" >
+
+        <StackPanel Margin="0" Orientation="Vertical">
+
+            <mah:MetroHeader Margin="00 0 0 0" Header="Nastavení letových kol">
+                <Grid Margin="30 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"  />
+                        <ColumnDefinition MinWidth="100" />
+                        <ColumnDefinition Width="Auto"  />
+                        <ColumnDefinition MinWidth="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Počet základních kol" Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
+
+                    <Label Grid.Row="1" Grid.Column="1" Content="Počet základních kol" />
+                    <mah:NumericUpDown x:Name="NUD_Min1_Copy"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    mah:TextBoxHelper.Watermark="Počet základních kol"
+                    Maximum="99"
+                    Minimum="1"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+
+                    <Label Grid.Row="2" Grid.Column="1" Content="Počet základních kol" />
+                    <mah:NumericUpDown x:Name="NUD_Min1_Copy2"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    mah:TextBoxHelper.Watermark="Počet základních kol"
+                    InterceptManualEnter="False"
+                    Maximum="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                    Minimum="1"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="1" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+
+                    <Label Grid.Row="3" Grid.Column="1" Content="Počet základních kol" />
+                    <mah:NumericUpDown x:Name="NUD_Min1_Copy1"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    Grid.Column="0"
+                    Grid.Row="3"
+                    mah:TextBoxHelper.Watermark="Počet základních kol"
+                    Maximum="99"
+                    Minimum="1"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="00,0,0,0" />
+
+
+                    <Label Grid.Row="0" Grid.Column="2" Content="Počet Finálových kol" Foreground="{DynamicResource MahApps.Brushes.Accent2}" />
+
+
+                    <Label Grid.Row="1" Grid.Column="3" Content="XXX" />
+                    <mah:NumericUpDown x:Name="NUD_Min1_Copy3"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    mah:TextBoxHelper.Watermark="Počet základních kol"
+                    Maximum="99"
+                    Minimum="1"
+                    Grid.Column="2"
+                    Grid.Row="1"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+
+
+                    <Label Grid.Row="2" Grid.Column="3" Content="XXX" />
+                    <mah:NumericUpDown x:Name="NUD_Min1_Copy24"
+                    Grid.Column="2"
+                    Grid.Row="2"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    mah:TextBoxHelper.Watermark="Počet základních kol"
+                    InterceptManualEnter="False"
+                    Maximum="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                    Minimum="1"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="1" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+
+                    <Label Grid.Row="3" Grid.Column="3" Content="XXX" />
+                    <mah:NumericUpDown x:Name="NUD_Min1_Copy12"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    Grid.Column="2"
+                    Grid.Row="3"
+                    mah:TextBoxHelper.Watermark="Počet základních kol"
+                    Maximum="99"
+                    Minimum="1"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="00,0,0,0" />
+                    
+                </Grid>
+
+            </mah:MetroHeader>
+
+        </StackPanel>
+
+
+
+
+    </Grid>
+</UserControl>

@@ -12,7 +12,7 @@
 
         <Slider  HorizontalAlignment="Left" Margin="155,171,0,0" VerticalAlignment="Top" Height="69" Width="235" />
         <Expander Header="Expander" HorizontalAlignment="Left" Height="100" Margin="120,51,0,0" VerticalAlignment="Top" Width="100">
-            <Grid Background="#FFE5E5E5">
+            <Grid>
                 <TextBox Height="10" Text="ahoj" Margin="0,20,0,19"/>
             </Grid>
         </Expander>
