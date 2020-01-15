@@ -1,4 +1,4 @@
-<Controls:MetroWindow x:Class="WpfApp6.MainWindow"
+<Controls:MetroWindow x:Class="WpfApp6.Core"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,9 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:v="clr-namespace:WpfApp6.View"
         mc:Ignorable="d"
-        Title="SORGAIR 2020" Height="837" Width="969" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" >
+        Title="SORGAIR 2020" Height="900" Width="1270" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"
+                      Loaded="MetroWindow_Loaded" 
+                      >
 
     <Window.Resources>
 
@@ -72,12 +74,12 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Label>Change color</Label>
-            <Button Click="zmenbarvupozadi"  >
+            <Button Click="CLICK_changeforeground"  >
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconOcticons Kind="Paintcan"  Width="24" Height="24"/>
                 </StackPanel>
             </Button>
-            <Button Click="zmenbarvupopredi" >
+            <Button Click="CLICK_changebackground">
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconModern Kind="DrawBrushReflection" Width="24" Height="24"/>
                 </StackPanel>
@@ -123,8 +125,19 @@
             <Controls:HamburgerMenu.ItemsSource>
                 <Controls:HamburgerMenuItemCollection>
 
-        
 
+
+                    <Controls:HamburgerMenuIconItem Label="Úvod">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconUnicons Kind="Favorite" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:Uvod   />
+                        </Controls:HamburgerMenuIconItem.Tag>
+
+                    </Controls:HamburgerMenuIconItem>
+
+                    
                     <Controls:HamburgerMenuIconItem Label="Nastavení soutěže">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Kind="AvianexBrands" />
@@ -191,19 +204,19 @@
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Finálové lety">
+                    <Controls:HamburgerMenuIconItem Label="Finálové lety" IsEnabled="{Binding bindingMENU_finale}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Kind="GemRegular" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Detaily a statistiky" IsEnabled="False" >
+                    <Controls:HamburgerMenuIconItem Label="Detaily a statistiky" IsEnabled="{Binding bindingMENU_detailyastatistiky}" >
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Online">
+                    <Controls:HamburgerMenuIconItem Label="Online" IsEnabled="{Binding Path=bindingMENU_online}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="LanConnect" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -217,41 +230,31 @@
 
 
             <!--  Content  -->
-            <Controls:HamburgerMenu.ContentTemplate>
-                <DataTemplate>
-                    <Grid x:Name="ContentGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="48" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+            <Controls:HamburgerMenu.Content>
+                <Grid x:Name="ContentGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                        <Controls:TransitioningContentControl Grid.Row="0"
-                                    Margin="20 5 -1 0"
-                                                                      Transition="RightReplace"          
-                                    Background="{DynamicResource MahApps.Brushes.WhiteColor}"  FontSize="24"
-                                           Foreground="{DynamicResource MahApps.Brushes.Accent}" Content="{Binding Label}">
-
-
-                        </Controls:TransitioningContentControl>
+                    <Controls:TransitioningContentControl Grid.Row="0"
+                                                          Margin="20,5,-1,0"
+                                                          Background="{DynamicResource MahApps.Brushes.WhiteColor}"
+                                                          Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
+                                                          FontSize="24"
+                                                          Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                                          Transition="RightReplace" />
 
 
-                        <Controls:TransitioningContentControl Grid.Row="1"
-                                                                  Content="{Binding Tag }"
-                                                                  RestartTransitionOnContentChange="True"
-                                                                  Transition="Down"             
-                                                                      Margin="20 10 0 0"
-                                                                      >
+                    <Controls:TransitioningContentControl Grid.Row="1"
+                                                          Margin="20,10,0,0"
+                                                          Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Tag}"
+                                                          RestartTransitionOnContentChange="True"
+                                                          Transition="Down" />
 
 
-                        </Controls:TransitioningContentControl>
-
-
-                    </Grid>
-
-                </DataTemplate>
-
-            </Controls:HamburgerMenu.ContentTemplate>
-
+                </Grid>
+            </Controls:HamburgerMenu.Content>
         
         </Controls:HamburgerMenu>
     </Grid>

@@ -19,13 +19,20 @@ namespace WpfApp6.View
     /// <summary>
     /// Interakční logika pro FirstView.xaml
     /// </summary>
-    public partial class FirstView : UserControl
+    public partial class Uvod : UserControl
     {
         private ViewModel VM => this.DataContext as ViewModel;
-        public FirstView()
+        public Uvod()
         {
 
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Sdsdsd");
+            Console.Write("XXXXXXXXXX");
+
         }
     }
 }

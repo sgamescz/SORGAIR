@@ -10,8 +10,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid >
         <Controls:MetroProgressBar BorderThickness="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Value="13" Maximum="23" x:Name="progressbar" Margin="511,85,10,305" IsIndeterminate="True" />
-
-        <TextBlock FontSize="45" FontFamily="Calibri" Margin="69,38,0,0" Foreground="{DynamicResource MahApps.Brushes.Accent}" HorizontalAlignment="Left" Width="211" Height="61" VerticalAlignment="Top" >SORG AIR</TextBlock>
         <CheckBox Content="Chci zvuky" HorizontalAlignment="Left" Margin="360,115,0,0" VerticalAlignment="Top" Height="30" Width="115" IsChecked="True"/>
         <RadioButton Content="Volím jedničku" HorizontalAlignment="Left" Margin="360,81,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <PasswordBox Controls:PasswordBoxHelper.RevealButtonContent="true"  HorizontalAlignment="Left" Margin="475,38,0,0" VerticalAlignment="Top" Width="175"/>

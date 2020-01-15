@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp6.Model;
 
 namespace WpfApp6.View
 {
@@ -27,7 +28,7 @@ namespace WpfApp6.View
 
         private void test(object sender, RoutedEventArgs e)
         {
-            MainWindow.hledejvsql("blabla");
+           // MainWindow.hledejvsql("blabla");
         }
     }
 }

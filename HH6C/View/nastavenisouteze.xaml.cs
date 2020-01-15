@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp6.Model;
 
 namespace WpfApp6.View
 {
@@ -20,6 +21,7 @@ namespace WpfApp6.View
     /// </summary>
     public partial class nastavenisouteze : UserControl
     {
+        private ViewModel VM => this.DataContext as ViewModel;
         public nastavenisouteze()
         {
             InitializeComponent();
