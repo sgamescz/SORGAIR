@@ -16,19 +16,8 @@
         <Button x:Name="btn_msgbx" Style="{DynamicResource MahApps.Styles.Button.Square}" Content="MSGBOX" HorizontalAlignment="Left" Margin="150,140,0,0" VerticalAlignment="Top" Width="170" Height="30"/>
         <Button Content="Bcolor" HorizontalAlignment="Left" Margin="150,210,-216,-83" VerticalAlignment="Top" Width="170" Height="18"  />
         <ToggleButton Content="Chci" HorizontalAlignment="Left" Width="174" Height="163" VerticalAlignment="Top" Margin="531,260,0,0" />
-        <ToggleButton Width="50"
-                Height="50"
-                Margin="378,224,0,0"
-                Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Rectangle Width="20"
-               Height="20"
-               Fill="{DynamicResource MahApps.Brushes.Gray1}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill"
-                         Visual="{iconPacks:FontAwesome Kind=StarRegular}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </ToggleButton>
+     
+
         <Controls:ProgressRing Foreground="{DynamicResource MahApps.Brushes.Accent}" Margin="200,10,-156,75"/>
         <Button Style="{DynamicResource MahApps.Styles.Button.Square}" Content="Fcolor" HorizontalAlignment="Left" Margin="150,175,-216,-60" VerticalAlignment="Top" Width="170" Height="30"/>
 

@@ -254,6 +254,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
                         <Controls:TransitioningContentControl Grid.Row="1"
                                                           Margin="20,10,30,0"
+                                                              VerticalAlignment="Top"
                                                           Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Tag}"
                                                           RestartTransitionOnContentChange="True"
                                                           Transition="Down" />

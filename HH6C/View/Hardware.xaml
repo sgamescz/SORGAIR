@@ -5,8 +5,212 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp6.View"
                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid/>
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" Height="665" Width="930">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type mah:MetroHeader}">
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" UseLayoutRounding ="True"  >
+                                <TextBlock Margin="0 0 0 4" Text="{Binding}" Foreground="{DynamicResource MahApps.Brushes.Accent}" />
+                                <Separator Margin="0 0 0 10"  />
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style x:Key="toglestyl" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}" TargetType="ToggleButton">
+                <Setter Property="Height" Value="50" />
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Margin" Value="5" />
+               
+
+            </Style>
+            
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+
+    <Grid VerticalAlignment="Top">
+        <StackPanel Margin="0" Orientation="Vertical" VerticalAlignment="Top">
+
+
+            <mah:ToggleSwitch x:Name="usehardware"
+                    Grid.Column="0"
+                    OnLabel="Používat SORG AIR hardware"
+                    OffLabel="Bez použití SORG AIR hardware"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Left"
+                    ContentDirection="RightToLeft"
+                    FontSize="12"
+                        IsChecked="False"
+                    
+                    Grid.Row="0" Margin="0,0,0,20" />
+
+            <mah:MetroHeader Header="Používaný hardware"  Margin="0">
+                
+
+
+
+                         
+
+                            <Grid Margin="0 0 0 0" Grid.Row="1" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"  />
+                                    <ColumnDefinition Width="400"  />
+                                    <ColumnDefinition Width="Auto"  />
+                                    <ColumnDefinition Width="Auto"  />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <ToggleButton Grid.Column="0" 
+                                              Grid.Row="0"
+                                                 IsEnabled="{Binding ElementName=usehardware, Path=IsChecked, Mode=OneWay}"
+                                              Name="HWbasemodul"
+                                              Style="{StaticResource toglestyl}">
+                                            <Rectangle Width="20"
+                                            Height="20"
+                                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                            <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform"
+                                            Visual="{iconPacks:Unicons Kind=WifiRouter}"/>
+                                            </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                 </ToggleButton>
+
+                        <Label Content="Základní modul" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" />
+
+
+                        <ToggleButton         Grid.Column="0" 
+                                              Grid.Row="1"
+                                              
+                                                                              Style="{StaticResource toglestyl}"
+                                              IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                                              >
+                            
+                            <Rectangle Width="20"
+                                Height="20"
+                                Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform"
+                                Visual="{iconPacks:Material Kind=ClockDigital}"/>
+                                </Rectangle.OpacityMask>
+                                </Rectangle>
+                                </ToggleButton>
+                        <Label Content="Bezdrátové hodiny SORG" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+
+
+                    <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                            Grid.Column="2" 
+                            Grid.Row="1"
+                            Style="{StaticResource toglestyl}">
+                            <Rectangle Width="20"
+                                Height="20"
+                                Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform"
+                                Visual="{iconPacks:Material Kind=RemoteTv}"/>
+                                </Rectangle.OpacityMask>
+                                </Rectangle>
+                                </ToggleButton>
+                        <Label Content="Dálkové ovládání" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" />
+
+
+                    <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                            Grid.Column="2" 
+                            Grid.Row="2"
+                            Style="{StaticResource toglestyl}">
+                        <Rectangle Width="20"
+                                Height="20"
+                                Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform"
+                                Visual="{iconPacks:Material Kind=CreditCardWireless}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </ToggleButton>
+                    <Label Content="Bezdrátová čtečka výsledků" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" />
+
+
+                    <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                            Grid.Column="0" 
+                            Grid.Row="3"
+                            Style="{StaticResource toglestyl}">
+                        <Rectangle Width="20"
+                                Height="20"
+                                Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform"
+                                Visual="{iconPacks:Material Kind=CellphoneInformation}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </ToggleButton>
+                    <Label Content="Informační stanice (TAGy) pro soutěžící" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" />
+                                
+
+                    <ToggleButton    IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                                              Grid.Column="0" 
+                                              Grid.Row="2"
+                                Style="{StaticResource toglestyl}">
+                                    <Rectangle Width="20"
+                                Height="20"
+                                Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform"
+                                Visual="{iconPacks:Unicons Kind=Windsock}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
+                        <Label Content="Meteostanice" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
+
+
+                    </Grid>
+
+
+
+                
+
+
+
+
+            
+
+            </mah:MetroHeader>
+
+            <mah:MetroHeader Header="Připojení a technické parametry"  Margin="0 30 0 0">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </mah:MetroHeader>
+
+
+        </StackPanel>
+    </Grid>
+
 </UserControl>

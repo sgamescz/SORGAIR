@@ -90,7 +90,7 @@ namespace WpfApp6
             //          aTimer.Start();
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
-//            HamburgerMenuControl.SelectedIndex = 2;
+            HamburgerMenuControl.SelectedIndex = 0;
         }
 
 
