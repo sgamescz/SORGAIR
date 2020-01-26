@@ -19,9 +19,9 @@ namespace WpfApp6.View
     /// <summary>
     /// Interakční logika pro HledaniView.xaml
     /// </summary>
-    public partial class HledaniView : UserControl
+    public partial class Audio : UserControl
     {
-        public HledaniView()
+        public Audio()
         {
             InitializeComponent();
         }

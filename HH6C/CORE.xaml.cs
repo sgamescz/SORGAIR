@@ -18,6 +18,8 @@ using WpfApp6.View;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WpfApp6.Model;
+using MahApps.Metro.Controls.Dialogs;
+
 
 namespace WpfApp6
 {
@@ -31,9 +33,7 @@ namespace WpfApp6
         private static System.Timers.Timer aTimer;
 
         private ViewModel VM => this.DataContext as ViewModel;
-        public bool bindingMENU_finale { get; set; }
-        public bool bindingMENU_detailyastatistiky { get; set; }
-        public bool bindingMENU_online { get; set; }
+      
 
         public Core()
         {
@@ -43,9 +43,9 @@ namespace WpfApp6
             VM.SQL_READDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
             //MahApps.Metro.ThemeManager.ChangeTheme(Application.Current, pozadi[pouzitepozadi], barva[pouzitabarva]);
-            bindingMENU_finale = true ;
-            bindingMENU_detailyastatistiky = false ;
-            bindingMENU_online = false;
+            VM.bindingMENU_finale = false ;
+            VM.bindingMENU_detailyastatistiky = false ;
+            VM.bindingMENU_online = false;
 
 
         }
@@ -90,8 +90,11 @@ namespace WpfApp6
             //          aTimer.Start();
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
-            HamburgerMenuControl.SelectedIndex = 0;
-
+//            HamburgerMenuControl.SelectedIndex = 2;
         }
+
+
+       
+
     }
 }

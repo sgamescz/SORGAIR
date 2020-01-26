@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using MahApps.Metro.Controls.Dialogs;
 
 
 namespace WpfApp6.Model
@@ -20,6 +21,9 @@ namespace WpfApp6.Model
         string[] pozadi = new string[] { "Light", "Dark" };
         int pouzitabarva = 1;
         int pouzitepozadi = 1;
+        bool bindingMENU_online_value = true;
+        bool bindingMENU_finale_value = true;
+        bool bindingMENU_detailyastatistiky_value = true;
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,24 +37,23 @@ namespace WpfApp6.Model
             }
         }
 
-
-
-
-
-
-
-
-        private string someText;
-        public string SomeText
+        public bool bindingMENU_finale
         {
-            get { return someText; }
-            set
-            {
-                someText = value;
-  //              OnPropertyChanged("SomeText");
-//                OnPropertyChanged(nameof(FancyMessage));
-            }
+            get { return bindingMENU_finale_value; }
+            set { bindingMENU_finale_value = value; OnPropertyChanged("bindingMENU_finale"); }
         }
+
+        public bool bindingMENU_detailyastatistiky
+        {
+            get { return bindingMENU_detailyastatistiky_value; }
+            set { bindingMENU_detailyastatistiky_value = value; OnPropertyChanged("bindingMENU_detailyastatistiky"); }
+        }
+
+        public bool bindingMENU_online {
+            get { return bindingMENU_online_value; }
+            set { bindingMENU_online_value = value; OnPropertyChanged("bindingMENU_online"); }
+        }
+
 
 
 
@@ -116,7 +119,7 @@ namespace WpfApp6.Model
         }
 
 
-        public void SQL_READDATA(string sqltext, string kamulozitvysledek)
+        public string SQL_READDATA(string sqltext, string kamulozitvysledek)
         {
 
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -171,7 +174,7 @@ namespace WpfApp6.Model
             }
 
 
-
+            return vysledek;
 
             vysledek = "";
 

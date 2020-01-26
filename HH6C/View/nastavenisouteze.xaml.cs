@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp6.Model;
+using MahApps.Metro.Controls.Dialogs;
+
 
 namespace WpfApp6.View
 {
@@ -26,5 +28,26 @@ namespace WpfApp6.View
         {
             InitializeComponent();
         }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+
+            
+            
+        }
+
+        public async Task DoSomethingAsync()
+        {
+            Console.WriteLine("start");
+            // In the Real World, we would actually do something...
+            // For this example, we're just going to (asynchronously) wait 100ms.
+            //await this.ShowMessageAsync("This is the title", "Some message", MessageDialogStyle.AffirmativeAndNegative);
+
+            Console.WriteLine("konec");
+        }
+
+
     }
+
+
 }

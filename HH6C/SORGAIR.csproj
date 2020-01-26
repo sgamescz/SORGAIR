@@ -170,14 +170,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\ViewModel.cs" />
+    <Compile Include="View\Hardware.xaml.cs">
+      <DependentUpon>Hardware.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Uvod.xaml.cs">
       <DependentUpon>Uvod.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FirstView.xaml.cs">
       <DependentUpon>FirstView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HledaniView.xaml.cs">
-      <DependentUpon>HledaniView.xaml</DependentUpon>
+    <Compile Include="View\Audio.xaml.cs">
+      <DependentUpon>Audio.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\nastavenisouteze.xaml.cs">
       <DependentUpon>nastavenisouteze.xaml</DependentUpon>
@@ -185,8 +188,8 @@
     <Compile Include="View\RozvrhView.xaml.cs">
       <DependentUpon>RozvrhView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SecondView.xaml.cs">
-      <DependentUpon>SecondView.xaml</DependentUpon>
+    <Compile Include="View\Soutezici.xaml.cs">
+      <DependentUpon>Soutezici.xaml</DependentUpon>
     </Compile>
     <Page Include="CORE.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -200,6 +203,10 @@
       <DependentUpon>CORE.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Hardware.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Uvod.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -208,7 +215,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HledaniView.xaml">
+    <Page Include="View\Audio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,7 +227,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SecondView.xaml">
+    <Page Include="View\Soutezici.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

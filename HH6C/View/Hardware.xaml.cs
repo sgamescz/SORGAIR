@@ -17,22 +17,18 @@ using WpfApp6.Model;
 namespace WpfApp6.View
 {
     /// <summary>
-    /// Interakční logika pro FirstView.xaml
+    /// Interakční logika pro HledaniView.xaml
     /// </summary>
-    public partial class Uvod : UserControl
+    public partial class Hardware : UserControl
     {
-        private ViewModel VM => this.DataContext as ViewModel;
-        public Uvod()
+        public Hardware()
         {
-
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void test(object sender, RoutedEventArgs e)
         {
-            VM.bindingMENU_finale = true;
-            VM.bindingMENU_detailyastatistiky = true;
-            VM.bindingMENU_online = true;
+           // MainWindow.hledejvsql("blabla");
         }
     }
 }

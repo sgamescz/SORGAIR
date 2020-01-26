@@ -7,8 +7,12 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:v="clr-namespace:WpfApp6.View"
         mc:Ignorable="d"
+                      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+Dialog:DialogParticipation.Register="{Binding}"
         Title="SORGAIR 2020" Height="900" Width="1270" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"
                       Loaded="MetroWindow_Loaded" 
+   BorderThickness="1" 
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                       >
 
     <Window.Resources>
@@ -148,12 +152,12 @@
 
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem  Label="Audio">
+                    <Controls:HamburgerMenuIconItem  Label="Audio a další">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconOcticons Kind="Unmute" />
                         </Controls:HamburgerMenuIconItem.Icon>
                         <Controls:HamburgerMenuIconItem.Tag>
-                            <v:SecondView   />
+                            <v:Audio/>
                         </Controls:HamburgerMenuIconItem.Tag>
 
                     </Controls:HamburgerMenuIconItem>
@@ -163,7 +167,7 @@
                             <iconPacks:PackIconModern Kind="Monitor" />
                         </Controls:HamburgerMenuIconItem.Icon>
                         <Controls:HamburgerMenuIconItem.Tag>
-                            <v:HledaniView   />
+                            <v:Hardware   />
                         </Controls:HamburgerMenuIconItem.Tag>
 
                     </Controls:HamburgerMenuIconItem>
@@ -174,7 +178,7 @@
                             <iconPacks:PackIconModern Kind="PeopleCheckbox" />
                         </Controls:HamburgerMenuIconItem.Icon>
                         <Controls:HamburgerMenuIconItem.Tag>
-                            <v:RozvrhView   />
+                            <v:Soutezici/>
                         </Controls:HamburgerMenuIconItem.Tag>
 
                     </Controls:HamburgerMenuIconItem>
@@ -216,7 +220,7 @@
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Online" IsEnabled="{Binding Path=bindingMENU_online}">
+                    <Controls:HamburgerMenuIconItem Label="Online" IsEnabled="{Binding bindingMENU_online}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="LanConnect" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -231,13 +235,15 @@
 
             <!--  Content  -->
             <Controls:HamburgerMenu.Content>
-                <Grid x:Name="ContentGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="48" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
-                    <Controls:TransitioningContentControl Grid.Row="0"
+                    <Grid x:Name="ContentGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="48" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Controls:TransitioningContentControl Grid.Row="0"
                                                           Margin="20,5,-1,0"
                                                           Background="{DynamicResource MahApps.Brushes.WhiteColor}"
                                                           Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
@@ -246,14 +252,15 @@
                                                           Transition="RightReplace" />
 
 
-                    <Controls:TransitioningContentControl Grid.Row="1"
-                                                          Margin="20,10,0,0"
+                        <Controls:TransitioningContentControl Grid.Row="1"
+                                                          Margin="20,10,30,0"
                                                           Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Tag}"
                                                           RestartTransitionOnContentChange="True"
                                                           Transition="Down" />
 
 
-                </Grid>
+                    </Grid>
+                </ScrollViewer>
             </Controls:HamburgerMenu.Content>
         
         </Controls:HamburgerMenu>

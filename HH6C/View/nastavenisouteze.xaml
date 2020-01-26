@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp6.View"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks" x:Class="WpfApp6.View.nastavenisouteze"
              mc:Ignorable="d" 
              d:DesignHeight="750" d:DesignWidth="1000">
@@ -11,6 +12,40 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+
+            <Style x:Key="LargeTileStyle" TargetType="mah:Tile">
+                <Setter Property="Height" Value="125" />
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                <Setter Property="TitleFontSize" Value="14" />
+                <Setter Property="Width" Value="300" />
+            </Style>
+
+            <Style x:Key="ExtraLargeTileStyle" TargetType="mah:Tile">
+                <Setter Property="Height" Value="125" />
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                <Setter Property="TitleFontSize" Value="14" />
+                <Setter Property="Width" Value="347" />
+            </Style>
+
+            <Style x:Key="SmallTileStyle" TargetType="mah:Tile">
+                <Setter Property="Height" Value="125" />
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                <Setter Property="TitleFontSize" Value="14" />
+                <Setter Property="Width" Value="147" />
+            </Style>
+
+            <Style x:Key="extraSmallTileStyle" TargetType="mah:Tile">
+                <Setter Property="Height" Value="85" />
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                <Setter Property="TitleFontSize" Value="12" />
+                <Setter Property="CountFontSize" Value="18" />
+                <Setter Property="Width" Value="147" />
+            </Style>
+
             <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type mah:MetroHeader}">
                 <Setter Property="HeaderTemplate">
                     <Setter.Value>
@@ -32,8 +67,140 @@
     <Grid Margin="0" Background="{DynamicResource MahApps.Brushes.White}" >
 
         <StackPanel Margin="0" Orientation="Vertical">
+            <mah:MetroHeader Margin="0 0 0 0" Header="Základní nastavení soutěže">
+                <Grid Margin="30 0 0 0">
+                    <WrapPanel Grid.Row="1"
+                   Grid.Column="1"
+                   Width="940"
+                   Height="382"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top">
+                        <mah:Tile Title="Kateogire"
+                         
+                           Count="RCEV"
+                           CountFontSize="25"
+                           HorizontalTitleAlignment="Center"
+                           IsEnabled="False"
+                                  Width="100"
+                           Style="{StaticResource SmallTileStyle}"
+                          
+                           />
+                        <mah:Tile Title="Název soutěže : RCEV Dino1"
+                           Margin="3"
+                           mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                           HorizontalTitleAlignment="Left"
+                           Style="{StaticResource ExtraLargeTileStyle}" Click="Tile_Click">
+                            <iconPacks:PackIconUnicons Kind="Trophy" Width="40" Height="40" />
+                        </mah:Tile>
+                        <mah:Tile Title="Lokace : nezadáno"
+                           Margin="3"
+                           mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                           Style="{StaticResource LargeTileStyle}">
+                            <iconPacks:PackIconFontAwesome Kind="MapMarkedAltSolid" Width="40" Height="40" />
+                        </mah:Tile>
+                        <mah:Tile Title="Datum soutěže"
+                           Style="{StaticResource SmallTileStyle  }"
+                                                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+>
+                            <iconPacks:PackIconModern Kind="CalendarDay" Width="40" Height="40"/>
+                        </mah:Tile>
+                        
+                        
 
-            <mah:MetroHeader Margin="00 0 0 0" Header="Nastavení letových kol">
+                        <mah:Tile Title="Počasí"
+                                  Count="20°C"
+                           Style="{StaticResource LargeTileStyle}"
+                                                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+>
+                            <iconPacks:PackIconWeatherIcons Kind="DaySunnyOvercast" Width="40"
+                                            Height="40" Margin="0 0 10 0"/>
+
+                        </mah:Tile>
+                        <mah:Tile Title="Soutěžích"
+                           Background="{DynamicResource MahApps.Brushes.Accent2}"
+                           Count="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                           CountFontSize="42"
+                           HorizontalTitleAlignment="Center"
+                           IsEnabled="False"
+                       
+                           Style="{StaticResource SmallTileStyle}"
+                           TitleFontSize="16"
+                           VerticalTitleAlignment="Top" />
+
+
+                        <mah:Tile Title="Předpoládaný konec"
+                           Background="{DynamicResource MahApps.Brushes.Accent2}"
+                           Count="15:30"
+                           CountFontSize="35"
+                           HorizontalTitleAlignment="Center"
+                           IsEnabled="True"
+                           mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                       
+                           Style="{StaticResource LargeTileStyle}"
+                           TitleFontSize="14"
+                           VerticalTitleAlignment="Bottom" />
+
+                        
+                        
+                        <mah:Tile Title="LMK Polanka"
+                           Margin="3"
+                                  Background="{DynamicResource MahApps.Brushes.Accent}"
+                           mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                           Style="{StaticResource SmallTileStyle}">
+                            <iconPacks:PackIconMaterial Kind="ShieldHomeOutline" Width="40" Height="40"/>
+                        </mah:Tile>
+
+                        <mah:Tile Title="SMČR ID"
+                            Count="1245"
+                            Style="{StaticResource extraSmallTileStyle}"
+                                  Background="YellowGreen"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            >
+                        </mah:Tile>
+                        
+                        <mah:Tile Title="Ředitel soutěže"
+                            Style="{StaticResource extraSmallTileStyle}"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            >
+                            <iconPacks:PackIconMaterial Kind="StarBoxOutline" Width="25" Height="25"/>
+                        </mah:Tile>
+                     
+
+                        <mah:Tile Title="Hlavní rozhodčí"
+                            Style="{StaticResource extraSmallTileStyle}"
+                                  Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            >
+                            <iconPacks:PackIconMaterial Kind="AlphaHBoxOutline" Width="25" Height="25"/>
+                        </mah:Tile>
+                        <mah:Tile Title="Rozhodčí 1"
+                            Style="{StaticResource extraSmallTileStyle}"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            >
+                            <iconPacks:PackIconMaterial Kind="Numeric1BoxOutline" Width="25" Height="25" />
+                        </mah:Tile>
+                        <mah:Tile Title="Rozhodčí 2"
+                                  Background="{DynamicResource MahApps.Brushes.Accent2}"
+                            Style="{StaticResource extraSmallTileStyle}"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            >
+                            <iconPacks:PackIconMaterial Kind="Numeric2BoxOutline" Width="25" Height="25" />
+                        </mah:Tile>
+                        <mah:Tile Title="Rozhodčí 3"
+                            Style="{StaticResource extraSmallTileStyle}"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            >
+                            <iconPacks:PackIconMaterial Kind="Numeric3BoxOutline" Width="25" Height="25" />
+                        </mah:Tile>
+                    </WrapPanel>
+                </Grid>
+
+            </mah:MetroHeader>
+            
+            
+            
+            
+            <mah:MetroHeader Margin="0 0 0 0" Header="Nastavení letových kol">
                 <Grid Margin="30 0 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"  />
@@ -50,55 +217,50 @@
 
 
 
-                    <Label Grid.Row="0" Grid.Column="0" Content="Počet základních kol" Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Nastavení základních kol" Foreground="{DynamicResource MahApps.Brushes.AccentBase}" Margin="0 0 0 10" />
 
-                    <Label Grid.Row="1" Grid.Column="1" Content="Počet základních kol" />
+                    <Label Grid.Row="1" Grid.Column="1" Content="Počet kol" />
                     <mah:NumericUpDown x:Name="NUD_Min1_Copy"
-                    mah:TextBoxHelper.ClearTextButton="False"
-                    mah:TextBoxHelper.Watermark="Počet základních kol"
-                    Maximum="99"
+                    Maximum="40"
                     Minimum="1"
                     Grid.Column="0"
                     Grid.Row="1"
                     TextAlignment="Center"
+                    InterceptManualEnter="False"
                     ButtonsAlignment="Opposite"
                     Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
 
-                    <Label Grid.Row="2" Grid.Column="1" Content="Počet základních kol" />
+                    <Label Grid.Row="2" Grid.Column="1" Content="Počet startovišť v kole" />
                     <mah:NumericUpDown x:Name="NUD_Min1_Copy2"
                     Grid.Column="0"
                     Grid.Row="2"
-                    mah:TextBoxHelper.ClearTextButton="False"
-                    mah:TextBoxHelper.Watermark="Počet základních kol"
                     InterceptManualEnter="False"
-                    Maximum="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                    Maximum="99"
                     Minimum="1"
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="1" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
 
-                    <Label Grid.Row="3" Grid.Column="1" Content="Počet základních kol" />
+                    <Label Grid.Row="3" Grid.Column="1" Content="Počet škrtaných výsledků v základních kolech" />
                     <mah:NumericUpDown x:Name="NUD_Min1_Copy1"
                     mah:TextBoxHelper.ClearTextButton="False"
                     Grid.Column="0"
                     Grid.Row="3"
                     mah:TextBoxHelper.Watermark="Počet základních kol"
-                    Maximum="99"
-                    Minimum="1"
+                    Maximum="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                    Minimum="0"
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="00,0,0,0" />
 
 
-                    <Label Grid.Row="0" Grid.Column="2" Content="Počet Finálových kol" Foreground="{DynamicResource MahApps.Brushes.Accent2}" />
+                    <Label Grid.Row="0" Grid.Column="2" Content="Nastavení finálových kol" Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
 
 
-                    <Label Grid.Row="1" Grid.Column="3" Content="XXX" />
+                    <Label Grid.Row="1" Grid.Column="3" Content="Počet finálových letů" />
                     <mah:NumericUpDown x:Name="NUD_Min1_Copy3"
-                    mah:TextBoxHelper.ClearTextButton="False"
-                    mah:TextBoxHelper.Watermark="Počet základních kol"
-                    Maximum="99"
-                    Minimum="1"
+                    Maximum="15"
+                    Minimum="0"
                     Grid.Column="2"
                     Grid.Row="1"
                     TextAlignment="Center"
@@ -106,25 +268,21 @@
                     Value="5" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
 
 
-                    <Label Grid.Row="2" Grid.Column="3" Content="XXX" />
+                    <Label Grid.Row="2" Grid.Column="3" Content="Počet finalistů" />
                     <mah:NumericUpDown x:Name="NUD_Min1_Copy24"
                     Grid.Column="2"
                     Grid.Row="2"
-                    mah:TextBoxHelper.ClearTextButton="False"
-                    mah:TextBoxHelper.Watermark="Počet základních kol"
                     InterceptManualEnter="False"
-                    Maximum="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                    Maximum="30"
                     Minimum="1"
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="1" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
 
-                    <Label Grid.Row="3" Grid.Column="3" Content="XXX" />
+                    <Label Grid.Row="3" Grid.Column="3" Content="Počet škrtaných výsledků ve finále" />
                     <mah:NumericUpDown x:Name="NUD_Min1_Copy12"
-                    mah:TextBoxHelper.ClearTextButton="False"
                     Grid.Column="2"
                     Grid.Row="3"
-                    mah:TextBoxHelper.Watermark="Počet základních kol"
                     Maximum="99"
                     Minimum="1"
                     TextAlignment="Center"
@@ -134,7 +292,85 @@
                 </Grid>
 
             </mah:MetroHeader>
+            <mah:MetroHeader Margin="0 20 0 0" Header="Další nastavení">
+                <Grid Margin="30 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"  />
+                        <ColumnDefinition Width="100"  />
+                        <ColumnDefinition Width="Auto"  />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
+
+
+                  
+                    <mah:ToggleSwitch
+                    Grid.Column="0"
+                        OnLabel="Zadávat přistání v bodech"
+                        OffLabel="Zadávat přistání v metrech"
+                        HorizontalContentAlignment="Left"
+                        HorizontalAlignment="Left"
+                        ContentDirection="RightToLeft"
+                        FontSize="12"
+                        
+                        OffSwitchBrush="{DynamicResource MahApps.Brushes.Accent2}"
+                    Grid.Row="0" Margin="0,0,0,0" />
+
+                    <mah:ToggleSwitch
+                    Grid.Column="0"
+                        OnLabel="Při zadávání výsledku ENTER uloží a přejde na další záznam"
+                        OffLabel="Při zadávání výsledku ENTER pouze uloží výsledek"
+                        HorizontalContentAlignment="Left"
+                        HorizontalAlignment="Left"
+                        ContentDirection="RightToLeft"
+                        FontSize="12"
+                        OffSwitchBrush="{DynamicResource MahApps.Brushes.Accent2}"
+                    Grid.Row="1" Margin="0,0,0,0" />
+
+
+                    <Grid Grid.Column="2" Grid.Row="0"  Margin="2 5 0 0"
+>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="Auto"  />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <mah:TimePicker Grid.Column="0" Grid.Row="0" 
+                        Culture="cs"
+                        HandVisibility="HourMinute"
+                        IsEnabled="True"
+                        IsReadOnly="False"
+                        PickerVisibility="HourMinute"
+                        SelectedDateTime="9:00"
+                        SelectedTimeFormat="Short"
+                        Width="64"
+                        HorizontalAlignment="Left"
+                        />
+
+                        <Label Grid.Column="1" Grid.Row="0" 
+                        Content="Začátek soutěže"
+                        HorizontalAlignment="Left"
+                               FontWeight= "DemiBold"
+                        />
+
+                        
+                    </Grid>
+
+
+                  
+
+                </Grid>
+
+            </mah:MetroHeader>
         </StackPanel>
 
 

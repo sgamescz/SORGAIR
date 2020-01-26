@@ -20,10 +20,10 @@ namespace WpfApp6.View
     /// <summary>
     /// Interakční logika pro SecondView.xaml
     /// </summary>
-    public partial class SecondView : UserControl
+    public partial class Soutezici : UserControl
     {
         private ViewModel VM => this.DataContext as ViewModel;
-        public SecondView()
+        public Soutezici()
         {
             InitializeComponent();
         }
