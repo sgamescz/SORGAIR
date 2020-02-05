@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using MahApps.Metro.Controls.Dialogs;
 
-
 namespace WpfApp6.Model
 {
     /// <summary>
@@ -16,7 +15,8 @@ namespace WpfApp6.Model
     /// 
     public class ViewModel : INotifyPropertyChanged
     {
-        SQLiteConnection m_dbConnection;
+        SQLiteConnection DBSORG_Connection;
+        SQLiteConnection DBSOUTEZ_Connection;
         string[] barva = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
         string[] pozadi = new string[] { "Light", "Dark" };
         int pouzitabarva = 1;
@@ -25,6 +25,7 @@ namespace WpfApp6.Model
         bool bindingMENU_finale_value = true;
         bool bindingMENU_detailyastatistiky_value = true;
 
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -71,27 +72,44 @@ namespace WpfApp6.Model
 
 
 
+    public string BIND_SQL_SOUTEZ_KATEGORIE {get {return SQL_READSOUTEZDATA("select kategorie from soutez", ""); }}
+    public string BIND_SQL_SOUTEZ_NAZEV {get {return "Název soutěže : "+SQL_READSOUTEZDATA("select nazev from soutez", ""); }}
+    public string BIND_SQL_SOUTEZ_LOKACE {get {return "Lokace : "+SQL_READSOUTEZDATA("select lokace from soutez", ""); }}
+    public string BIND_SQL_SOUTEZ_DATUM {get {return SQL_READSOUTEZDATA("select datum from soutez", ""); }}
 
-        public void SQL_OPENCONNECTION()
+
+        public async void SQL_OPENCONNECTION(string KTERADB)
         {
 
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 
-            m_dbConnection = new SQLiteConnection("Data Source=" + directory + "/db/data.db;");
-            m_dbConnection.Open();
+            if (KTERADB == "SORG")
+            {
+                DBSORG_Connection = new SQLiteConnection("Data Source=" + directory + "/db/data.db;");
+                DBSORG_Connection.Open();
+                
+            }
+
+            if (KTERADB == "SOUTEZ")
+            {
+                DBSOUTEZ_Connection = new SQLiteConnection("Data Source=" + directory + "/db/soutez.db;");
+                DBSOUTEZ_Connection.Open();
+                Console.WriteLine("OPENOPENSOUTEZ");
+            }
+
 
         }
 
-        public void SQL_SAVEDATA(string sqltext)
+        public void SQL_SAVESORGDATA(string sqltext)
         {
 
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 
-            SQLiteCommand command = new SQLiteCommand(sqltext, m_dbConnection);
+            SQLiteCommand command = new SQLiteCommand(sqltext, DBSORG_Connection);
 
-            Console.Write("asdasdasdasd");
+            Console.Write("savedosorgdata");
             try
             {
                 command.ExecuteNonQuery();
@@ -111,25 +129,31 @@ namespace WpfApp6.Model
 
 
 
-        public void SQL_CLOSECONNECTION()
+        public void SQL_CLOSECONNECTION(string KTERADB)
         {
 
-            m_dbConnection.Close();
+            if (KTERADB == "SORG")
+            {
+                DBSORG_Connection.Close();
+            }
 
+            if (KTERADB == "SOUTEZ")
+            {
+                DBSOUTEZ_Connection.Close();
+            }
         }
 
 
-        public string SQL_READDATA(string sqltext, string kamulozitvysledek)
+        public string SQL_READSORGDATA(string sqltext, string kamulozitvysledek)
         {
 
-            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var directory = System.IO.Path.GetDirectoryName(path);
+         
             string vysledek = "";
 
 
 
 
-            SQLiteCommand command = new SQLiteCommand(sqltext, m_dbConnection);
+            SQLiteCommand command = new SQLiteCommand(sqltext, DBSORG_Connection);
 
 
 
@@ -184,6 +208,48 @@ namespace WpfApp6.Model
         }
 
 
+
+
+
+
+
+        public string SQL_READSOUTEZDATA(string sqltext, string kamulozitvysledek)
+        {
+
+            Console.WriteLine("SQL_READSOUTEZDATASQL_READSOUTEZDATASQL_READSOUTEZDATASQL_READSOUTEZDATA");
+            string vysledek = "";
+            SQLiteCommand command = new SQLiteCommand(sqltext, DBSOUTEZ_Connection);
+
+            SQLiteDataReader sqlite_datareader;
+            try
+            {
+                sqlite_datareader = command.ExecuteReader();
+                while (sqlite_datareader.Read())
+                {
+                    string myreader = sqlite_datareader.GetString(0);
+                    Console.WriteLine("soutezread:"+myreader);
+                    vysledek = myreader;
+                }
+            }
+            catch (SQLiteException myException)
+            {
+                Console.WriteLine("soutezreadERRMessage: " + myException.Message + "\n");
+            }
+
+
+
+
+            return vysledek;
+
+            vysledek = "";
+
+
+
+
+        }
+
+
+
         public void zmenbarvupopredi()
         {
 
@@ -197,7 +263,7 @@ namespace WpfApp6.Model
 
 
             MahApps.Metro.ThemeManager.ChangeTheme(System.Windows.Application.Current, pozadi[pouzitepozadi], barva[pouzitabarva]);
-            SQL_SAVEDATA("update nastaveni set hodnota = " + pouzitabarva + " where polozka='popredi'");
+            SQL_SAVESORGDATA("update nastaveni set hodnota = " + pouzitabarva + " where polozka='popredi'");
 
         }
 
@@ -212,7 +278,7 @@ namespace WpfApp6.Model
                 pouzitepozadi = 0;
             }
 
-            SQL_SAVEDATA("update nastaveni set hodnota = " + pouzitepozadi + " where polozka='pozadi'");
+            SQL_SAVESORGDATA("update nastaveni set hodnota = " + pouzitepozadi + " where polozka='pozadi'");
             MahApps.Metro.ThemeManager.ChangeTheme(System.Windows.Application.Current, pozadi[pouzitepozadi].ToString(), barva[pouzitabarva].ToString());
 
         }

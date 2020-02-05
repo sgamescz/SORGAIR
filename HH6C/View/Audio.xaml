@@ -99,7 +99,7 @@
 IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"                        
                     Margin="0,0,0,0" />
 
-                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsChecked}"
+                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsEnabled}"
                             Grid.Column="0" 
                             Grid.Row="1"
                                       Margin="5"
@@ -117,7 +117,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                                 </ToggleButton>
 
 
-                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsChecked}"
+                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsEnabled}"
                             Grid.Column="2" 
                             Grid.Row="1"
                                       Margin="5"
@@ -159,7 +159,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     
                     Margin="0,0,0,0" />
 
-                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsChecked}"
+                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsEnabled}"
                             Grid.Column="0" 
                             Grid.Row="0"
                                       Margin="5"
@@ -318,7 +318,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     <mah:TimePicker x:Name="kdyspustitpripravny" Grid.Column="2" Grid.Row="1"  Margin="0 2 0 0"
                         Culture="cs"
                         HandVisibility="HourMinute"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
+                        IsEnabled="{Binding ElementName=tg1, Path=IsChecked}"
                         IsReadOnly="False"
                         PickerVisibility="HourMinute"
                         SelectedDateTime="00:00"
@@ -358,7 +358,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
 
 
 
-                    <ToggleButton     IsChecked="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
+                    <ToggleButton    Name="pouzivatpripravnycas"
                             Grid.Column="0" 
                             Grid.Row="0"
                                       Margin="5"
@@ -375,7 +375,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                         </Rectangle>
                     </ToggleButton>
 
-                    <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsChecked}"
+                    <ToggleButton  Name="tg1" 
                             Grid.Column="0" 
                             Grid.Row="1"
                                       Margin="5"
@@ -410,7 +410,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     </ToggleButton>
                     
                     
-                    <Label Name="pouzivatpripravnycas"
+                    <Label 
                     Grid.Column="1"
                                       VerticalAlignment="Center"
                         Grid.Row="0"

@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp6.Model;
+using MahApps.Metro.Controls.Dialogs;
+
 
 namespace WpfApp6.View
 {
@@ -21,18 +23,35 @@ namespace WpfApp6.View
     /// </summary>
     public partial class Uvod : UserControl
     {
+
         private ViewModel VM => this.DataContext as ViewModel;
+//        ViewModel XX = new ViewModel(DialogCoordinator.Instance);
+
         public Uvod()
         {
 
             InitializeComponent();
+            DataContext = VM ;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            VM.bindingMENU_finale = true;
-            VM.bindingMENU_detailyastatistiky = true;
-            VM.bindingMENU_online = true;
+            
+            
+            
         }
+
+
+        public async Task DoSomethingAsync()
+        {
+            Console.WriteLine("start");
+
+            // In the Real World, we would actually do something...
+            // For this example, we're just going to (asynchronously) wait 100ms.
+            //await this.ShowMessageAsync("This is the title", "Some message", MessageDialogStyle.AffirmativeAndNegative);
+
+            Console.WriteLine("konec");
+        }
+
     }
 }

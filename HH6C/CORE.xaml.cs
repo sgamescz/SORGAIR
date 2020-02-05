@@ -27,10 +27,11 @@ namespace WpfApp6
     /// Interakční logika pro MainWindow.xaml
     /// </summary>
     /// 
-
+   
     public partial class Core : MetroWindow
     {
         private static System.Timers.Timer aTimer;
+
 
         private ViewModel VM => this.DataContext as ViewModel;
       
@@ -39,9 +40,10 @@ namespace WpfApp6
         {
             this.DataContext = new ViewModel();
             InitializeComponent();
-            VM.SQL_OPENCONNECTION();
-            VM.SQL_READDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
-            VM.SQL_READDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
+            VM.SQL_OPENCONNECTION("SORG");
+            VM.SQL_OPENCONNECTION("SOUTEZ");
+            VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
+            VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
             //MahApps.Metro.ThemeManager.ChangeTheme(Application.Current, pozadi[pouzitepozadi], barva[pouzitabarva]);
             VM.bindingMENU_finale = false ;
             VM.bindingMENU_detailyastatistiky = false ;
@@ -70,7 +72,8 @@ namespace WpfApp6
 
         private void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            VM.SQL_CLOSECONNECTION();
+            VM.SQL_CLOSECONNECTION("SORG");
+            VM.SQL_CLOSECONNECTION("SOUTEZ");
         }
 
         private void CLICK_changeforeground(object sender, RoutedEventArgs e)
@@ -91,10 +94,11 @@ namespace WpfApp6
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
             HamburgerMenuControl.SelectedIndex = 0;
+      
         }
 
+      
 
-       
 
     }
 }

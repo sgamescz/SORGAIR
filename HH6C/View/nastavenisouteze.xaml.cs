@@ -32,13 +32,15 @@ namespace WpfApp6.View
         private void Tile_Click(object sender, RoutedEventArgs e)
         {
 
-            
-            
+
         }
 
         public async Task DoSomethingAsync()
         {
             Console.WriteLine("start");
+
+           // await this.ShowMessageAsync("This is the title", "Some message");
+
             // In the Real World, we would actually do something...
             // For this example, we're just going to (asynchronously) wait 100ms.
             //await this.ShowMessageAsync("This is the title", "Some message", MessageDialogStyle.AffirmativeAndNegative);
@@ -46,7 +48,10 @@ namespace WpfApp6.View
             Console.WriteLine("konec");
         }
 
-
+        private void Tile_Click_1(object sender, RoutedEventArgs e)
+        {
+//            VM.BIND_SQL_SOUTEZ_KATEGORIE
+        }
     }
 
 

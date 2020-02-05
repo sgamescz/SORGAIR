@@ -77,28 +77,28 @@
                    VerticalAlignment="Top">
                         <mah:Tile Title="Kateogire"
                          
-                           Count="RCEV"
+                           Count="{Binding BIND_SQL_SOUTEZ_KATEGORIE}"
                            CountFontSize="25"
                            HorizontalTitleAlignment="Center"
                            IsEnabled="False"
                                   Width="100"
-                           Style="{StaticResource SmallTileStyle}"
+                           Style="{StaticResource SmallTileStyle}" Click="Tile_Click_1"
                           
                            />
-                        <mah:Tile Title="Název soutěže : RCEV Dino1"
+                        <mah:Tile Title="{Binding BIND_SQL_SOUTEZ_NAZEV}"
                            Margin="3"
                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                            HorizontalTitleAlignment="Left"
                            Style="{StaticResource ExtraLargeTileStyle}" Click="Tile_Click">
                             <iconPacks:PackIconUnicons Kind="Trophy" Width="40" Height="40" />
                         </mah:Tile>
-                        <mah:Tile Title="Lokace : nezadáno"
+                        <mah:Tile Title="{Binding BIND_SQL_SOUTEZ_LOKACE}"
                            Margin="3"
                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                            Style="{StaticResource LargeTileStyle}">
                             <iconPacks:PackIconFontAwesome Kind="MapMarkedAltSolid" Width="40" Height="40" />
                         </mah:Tile>
-                        <mah:Tile Title="Datum soutěže"
+                        <mah:Tile Title="{Binding BIND_SQL_SOUTEZ_DATUM}"
                            Style="{StaticResource SmallTileStyle  }"
                                                              mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
 >
