@@ -141,6 +141,15 @@ Dialog:DialogParticipation.Register="{Binding}"
 
                     </Controls:HamburgerMenuIconItem>
 
+                    <Controls:HamburgerMenuIconItem Label="Players">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconUnicons Kind="UserCheck" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:PlayersView   />
+                        </Controls:HamburgerMenuIconItem.Tag>
+
+                    </Controls:HamburgerMenuIconItem>
                     
                     <Controls:HamburgerMenuIconItem Label="Nastavení soutěže">
                         <Controls:HamburgerMenuIconItem.Icon>
@@ -235,7 +244,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
             <!--  Content  -->
             <Controls:HamburgerMenu.Content>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
 
                     <Grid x:Name="ContentGrid">
                         <Grid.RowDefinitions>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using MahApps.Metro.Controls.Dialogs;
+using System.Collections.ObjectModel;
 
 namespace WpfApp6.Model
 {
@@ -26,6 +27,11 @@ namespace WpfApp6.Model
         bool bindingMENU_detailyastatistiky_value = true;
 
         
+        public ViewModel()
+        {
+            CreateTestDataForPlayers();
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -284,6 +290,26 @@ namespace WpfApp6.Model
         }
 
 
+
+        #region Players
+        public ObservableCollection<Player> Players { get; set; } = new ObservableCollection<Player>();
+
+        void CreateTestDataForPlayers()
+        {
+
+            for (int i = 0; i < 1000; i++)
+            {
+                var player = new Player() { ID = i, Username = "Player " + i.ToString("0") };
+                
+                if (i%2 == 0) player.Pets.Add("Cat"); // Only add this to every second item
+                player.Pets.Add("Dog");
+                player.Pets.Add("Bird");
+
+                Players.Add(player);
+            }
+        }
+
+        #endregion
 
     }
 }

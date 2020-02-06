@@ -170,9 +170,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\VisualHelper.cs" />
+    <Compile Include="Model\BaseClass.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Model\ViewModel.cs" />
     <Compile Include="View\Hardware.xaml.cs">
       <DependentUpon>Hardware.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlayersView.xaml.cs">
+      <DependentUpon>PlayersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Uvod.xaml.cs">
       <DependentUpon>Uvod.xaml</DependentUpon>
@@ -207,6 +212,10 @@
     <Page Include="View\Hardware.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PlayersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Uvod.xaml">
       <Generator>MSBuild:Compile</Generator>
