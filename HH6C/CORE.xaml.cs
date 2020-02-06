@@ -40,10 +40,10 @@ namespace WpfApp6
         {
             this.DataContext = new ViewModel();
             InitializeComponent();
-            VM.SQL_OPENCONNECTION("SORG");
-            VM.SQL_OPENCONNECTION("SOUTEZ");
-            VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
-            VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
+            //VM.SQL_OPENCONNECTION("SORG");
+            //VM.SQL_OPENCONNECTION("SOUTEZ");
+            //VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
+            //VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
             //MahApps.Metro.ThemeManager.ChangeTheme(Application.Current, pozadi[pouzitepozadi], barva[pouzitabarva]);
             VM.bindingMENU_finale = false ;
             VM.bindingMENU_detailyastatistiky = false ;

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
-
+using MahApps.Metro.Controls;
 
 namespace WpfApp6.View
 {
@@ -36,9 +36,10 @@ namespace WpfApp6.View
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            
-            
-            
+            // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var result = await currentWindow.ShowInputAsync("Hi", "What's your name?");
+            await currentWindow.ShowMessageAsync("Hi again", $"You are welcome {result}");
         }
 
 
