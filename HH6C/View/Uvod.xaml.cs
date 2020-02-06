@@ -43,16 +43,7 @@ namespace WpfApp6.View
         }
 
 
-        public async Task DoSomethingAsync()
-        {
-            Console.WriteLine("start");
-
-            // In the Real World, we would actually do something...
-            // For this example, we're just going to (asynchronously) wait 100ms.
-            //await this.ShowMessageAsync("This is the title", "Some message", MessageDialogStyle.AffirmativeAndNegative);
-
-            Console.WriteLine("konec");
-        }
+      
 
     }
 }
