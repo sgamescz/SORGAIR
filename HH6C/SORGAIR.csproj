@@ -169,6 +169,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\VisualHelper.cs" />
     <Compile Include="Model\ViewModel.cs" />
     <Compile Include="View\Hardware.xaml.cs">
       <DependentUpon>Hardware.xaml</DependentUpon>
