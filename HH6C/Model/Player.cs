@@ -29,6 +29,19 @@ namespace WpfApp6.Model
             set { _Username = value; RaisePropertyChanged(nameof(Username)); }
         }
 
+        private double _Score;
+        public double Score
+        {
+            get { return _Score; }
+            set 
+            {
+                if (value < 0) value = 100;
+                _Score = value; 
+                RaisePropertyChanged(nameof(Score)); 
+            }
+        }
+
+
         // Used for the second datatemplate
         public ObservableCollection<string> Pets { get; private set; } = new ObservableCollection<string>();
     }
