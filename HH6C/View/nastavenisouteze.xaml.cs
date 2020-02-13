@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
+
 
 
 namespace WpfApp6.View
@@ -27,30 +29,69 @@ namespace WpfApp6.View
         public nastavenisouteze()
         {
             InitializeComponent();
-        }
-
-        private void Tile_Click(object sender, RoutedEventArgs e)
-        {
-
 
         }
 
-        public async Task DoSomethingAsync()
+
+
+        private async void nastaveni_soutez_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("start");
 
-           // await this.ShowMessageAsync("This is the title", "Some message");
+            string content = (sender as Tile).Tag.ToString();
+            string[] TAGY = content.Split('|');
+            Console.WriteLine(TAGY.Length);
+            int a = TAGY.Length / 3;
 
-            // In the Real World, we would actually do something...
-            // For this example, we're just going to (asynchronously) wait 100ms.
-            //await this.ShowMessageAsync("This is the title", "Some message", MessageDialogStyle.AffirmativeAndNegative);
+            for (int i = 0; i < a; i++)
+            {
+                var currentWindow = this.TryFindParent<MetroWindow>();
+                var result = await currentWindow.ShowInputAsync(TAGY[(i*3)], TAGY[(i * 3)+1]);
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_NAZEV") { VM.BIND_SQL_SOUTEZ_NAZEV = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_LOKACE") { VM.BIND_SQL_SOUTEZ_LOKACE = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_DATUM") { VM.BIND_SQL_SOUTEZ_DATUM = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_KATEGORIE") { VM.BIND_SQL_SOUTEZ_KATEGORIE = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_TEPLOTA") { VM.BIND_SQL_SOUTEZ_TEPLOTA = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_POCASI") { VM.BIND_SQL_SOUTEZ_POCASI = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_CLUB") { VM.BIND_SQL_SOUTEZ_CLUB = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_SMCRID") { VM.BIND_SQL_SOUTEZ_SMCRID = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_DIRECTOR") { VM.BIND_SQL_SOUTEZ_DIRECTOR = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_HEADJURY") { VM.BIND_SQL_SOUTEZ_HEADJURY = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY1") { VM.BIND_SQL_SOUTEZ_JURY1 = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY2") { VM.BIND_SQL_SOUTEZ_JURY2 = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY3") { VM.BIND_SQL_SOUTEZ_JURY3 = result; }
 
-            Console.WriteLine("konec");
+            }
+
+
+
+
         }
 
-        private void Tile_Click_1(object sender, RoutedEventArgs e)
+        private void Roundsetingupdown(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
-//            VM.BIND_SQL_SOUTEZ_KATEGORIE
+            int xxx = Convert.ToInt32((sender as NumericUpDown).Value);
+            string tagy = (sender as NumericUpDown).Tag.ToString();
+
+            try
+            {
+                if (tagy == "startpoints") { VM.BIND_SQL_SOUTEZ_STARTPOINTS = xxx; }
+                if (tagy == "deletes") { VM.BIND_SQL_SOUTEZ_DELETES = xxx; }
+                if (tagy == "rounds") { VM.BIND_SQL_SOUTEZ_ROUNDS = xxx; }
+                if (tagy == "startpointsfinale") { VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE = xxx; }
+                if (tagy == "deletesfinale") { VM.BIND_SQL_SOUTEZ_DELETESFINALE = xxx; }
+                if (tagy == "roundsfinale") { VM.BIND_SQL_SOUTEZ_ROUNDSFINALE = xxx; }
+
+            }
+            catch
+            {
+                Console.WriteLine("EER numericupdown - mohu ignorovat");
+                //MessageBox.Show("err");
+            }
+        }
+
+        private void landingoptions_IsCheckedChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("AAA");
         }
     }
 

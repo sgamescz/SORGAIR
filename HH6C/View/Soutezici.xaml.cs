@@ -26,6 +26,25 @@ namespace WpfApp6.View
         public Soutezici()
         {
             InitializeComponent();
+
+            List<TodoItem> items = new List<TodoItem>();
+//            MessageBox.Show(VM.SQL_READSOUTEZDATA("select count(ID) from users", ""));
+            for (int i = 0; i < Convert.ToInt32(20); i++)
+            {
+                items.Add(new TodoItem() { Title = "Complete this WPF tutorial", Completion = 45 });
+            }
+
+
+
+            lbTodoList.ItemsSource = items;
         }
+
+        public class TodoItem
+        {
+            public string Title { get; set; }
+            public int Completion { get; set; }
+        }
+
+
     }
 }

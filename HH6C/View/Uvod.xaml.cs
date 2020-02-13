@@ -39,11 +39,34 @@ namespace WpfApp6.View
             // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
             var currentWindow = this.TryFindParent<MetroWindow>();
             var result = await currentWindow.ShowInputAsync("Hi", "What's your name?");
-            await currentWindow.ShowMessageAsync("Hi again", $"You are welcome {result}");
+            await currentWindow.ShowMessageAsync("Hi again", $"You are welcome {result}", MessageDialogStyle.AffirmativeAndNegativeAndDoubleAuxiliary );
+            var controller = await currentWindow.ShowProgressAsync("Please wait...", "Progress message");
+
+            await Task.Delay(3000);
+            controller.SetTitle("Magnetometer Calibration");
+            for (int i = 0; i < 101; i++)
+            {
+                controller.SetProgress(i / 100.0);
+                controller.SetMessage(string.Format("Rotate the controller in all directions: {0}%", i));
+
+                if (controller.IsCanceled) break;
+                await Task.Delay(100);
+            }
+            await controller.CloseAsync();
+
+            if (controller.IsCanceled)
+            {
+                await currentWindow.ShowMessageAsync("Magnetometer Calibration", "Calibration has been cancelled.");
+            }
+            else
+            {
+                await currentWindow.ShowMessageAsync("Magnetometer Calibration", "Calibration finished successfully.");
+            }
+
         }
 
 
-      
+
 
     }
 }

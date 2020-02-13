@@ -83,7 +83,6 @@ namespace WpfApp6
         private void CLICK_changebackground(object sender, RoutedEventArgs e)
         {
             VM.Function_global_changebackground = VM.Function_global_changebackground + 1;
-
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
