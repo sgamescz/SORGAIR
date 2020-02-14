@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:WpfApp6.View"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:model="clr-namespace:WpfApp6.Model"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              d:DataContext="{d:DesignInstance model:ViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -30,6 +31,9 @@
                         <StackPanel Margin="5">
                             <TextBlock Text="{Binding ID, StringFormat='ID: {0:0,000}'}" />
                             <TextBlock Text="{Binding Username}" />
+                            <mah:MetroHeader >
+                                <mah:NumericUpDown Interval="0.1" SnapToMultipleOfInterval="True" Value="{Binding Score}" />
+                            </mah:MetroHeader>    
                             <GroupBox Header="Pets">
                                 <ItemsControl ItemsSource="{Binding Pets}" />
                             </GroupBox>
