@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfApp6.View.Uvod"
+﻿<UserControl x:Class="WpfApp6.View.selectedround"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,7 @@
     <Grid>
         <Label Content="Vítejte v nové verzi SORG AIR pro rok 2020. Aktuální novinky jsou blabla a tak dále a tak dale nějaký text z netu" HorizontalAlignment="Center" VerticalAlignment="Top" Height="74" Margin="99,66,105,0"/>
         <Button Content="Show async message" Margin="214,285,215,0" VerticalAlignment="Top" Width="371" Height="85" Click="Button_Click" HorizontalAlignment="Center"/>
-        <TextBlock FontSize="45" FontFamily="Calibri" Foreground="{DynamicResource MahApps.Brushes.Accent}" Height="61" VerticalAlignment="Top" HorizontalAlignment="Center" Text="SORG AIR 2020 v.1.0"></TextBlock>
-        <Button Content="Show async message" Margin="80,160,349,0" VerticalAlignment="Top" Width="371" Height="85" Click="Button_Click_1" HorizontalAlignment="Center"/>
+        <TextBlock FontSize="45" FontFamily="Calibri" Foreground="{DynamicResource MahApps.Brushes.Accent}" Height="61" VerticalAlignment="Top" HorizontalAlignment="Center" Text="vybrane kolo"></TextBlock>
+        <Controls:MetroProgressBar Margin="0,175,0,235" Value="20" IsIndeterminate="False"  />
     </Grid>
 </UserControl>

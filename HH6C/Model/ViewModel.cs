@@ -26,7 +26,28 @@ namespace WpfApp6.Model
         bool bindingMENU_finale_value = true;
         bool bindingMENU_detailyastatistiky_value = true;
 
-        
+
+        public string BIND_SQL_SOUTEZ_KATEGORIE_value;
+        public string BIND_SQL_SOUTEZ_NAZEV_value;
+        public string BIND_SQL_SOUTEZ_LOKACE_value;
+        public string BIND_SQL_SOUTEZ_DATUM_value;
+        public string BIND_SQL_SOUTEZ_TEPLOTA_value;
+        public string BIND_SQL_SOUTEZ_POCASI_value;
+        public string BIND_SQL_SOUTEZ_CLUB_value;
+        public string BIND_SQL_SOUTEZ_SMCRID_value;
+        public string BIND_SQL_SOUTEZ_DIRECTOR_value;
+        public string BIND_SQL_SOUTEZ_HEADJURY_value;
+        public string BIND_SQL_SOUTEZ_JURY1_value;
+        public string BIND_SQL_SOUTEZ_JURY2_value;
+        public string BIND_SQL_SOUTEZ_JURY3_value;
+        public int BIND_SQL_SOUTEZ_ROUNDS_value;
+        public int BIND_SQL_SOUTEZ_STARTPOINTS_value;
+        public int BIND_SQL_SOUTEZ_DELETES_value;
+        public int BIND_SQL_SOUTEZ_ROUNDSFINALE_value;
+        public int BIND_SQL_SOUTEZ_STARTPOINTSFINALE_value;
+        public int BIND_SQL_SOUTEZ_DELETESFINALE_value;
+
+
         public ViewModel()
         {
             CreateTestDataForPlayers();
@@ -81,112 +102,139 @@ namespace WpfApp6.Model
 
         #region BINDING_Nastavení
 
-        public string BIND_SQL_SOUTEZ_KATEGORIE {
-            get {return SQL_READSOUTEZDATA("select value from contest where item='Category'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Category'"); OnPropertyChanged("BIND_SQL_SOUTEZ_KATEGORIE"); }
-        }
-        public string BIND_SQL_SOUTEZ_NAZEV {
-            get {return "Název soutěže : "+SQL_READSOUTEZDATA("select value from contest where item='Name'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Name'"); OnPropertyChanged("BIND_SQL_SOUTEZ_NAZEV"); }
-        }
-    public string BIND_SQL_SOUTEZ_LOKACE {
-            get {return "Lokace : "+SQL_READSOUTEZDATA("select value from contest where item='Location'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Location'"); OnPropertyChanged("BIND_SQL_SOUTEZ_LOKACE"); }
+        public void nactisoutez()
+        {
+            Console.WriteLine("asdasd");
+            BIND_SQL_SOUTEZ_NAZEV= SQL_READSOUTEZDATA("select value from contest where item='Name'", "");
+            BIND_SQL_SOUTEZ_KATEGORIE= SQL_READSOUTEZDATA("select value from contest where item='Category'", ""); 
+            BIND_SQL_SOUTEZ_LOKACE=  SQL_READSOUTEZDATA("select value from contest where item='Location'", "");
+            BIND_SQL_SOUTEZ_DATUM = SQL_READSOUTEZDATA("select value from contest where item='Date'", "");
+            BIND_SQL_SOUTEZ_TEPLOTA=SQL_READSOUTEZDATA("select value from contest where item='Temperature'", "") ;
+            BIND_SQL_SOUTEZ_POCASI= SQL_READSOUTEZDATA("select value from contest where item='Weather'", ""); 
+            BIND_SQL_SOUTEZ_CLUB= SQL_READSOUTEZDATA("select value from contest where item='Club'", "");
+            BIND_SQL_SOUTEZ_SMCRID= SQL_READSOUTEZDATA("select value from contest where item='SMCRID'", "");
+            BIND_SQL_SOUTEZ_DIRECTOR= SQL_READSOUTEZDATA("select value from contest where item='Director'", "");
+            BIND_SQL_SOUTEZ_HEADJURY= SQL_READSOUTEZDATA("select value from contest where item='Headjury'", "");
+            BIND_SQL_SOUTEZ_JURY1= SQL_READSOUTEZDATA("select value from contest where item='Jury1'", "");
+            BIND_SQL_SOUTEZ_JURY2= SQL_READSOUTEZDATA("select value from contest where item='Jury2'", "");
+            BIND_SQL_SOUTEZ_ROUNDS= Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Rounds'", ""));
+            BIND_SQL_SOUTEZ_STARTPOINTS= Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Startpoints'", ""));
+            BIND_SQL_SOUTEZ_DELETES= Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletes'", ""));
+            BIND_SQL_SOUTEZ_ROUNDSFINALE= Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Roundsfinale'", ""));
+            BIND_SQL_SOUTEZ_STARTPOINTSFINALE= Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Startpointsfinale'", ""));
+            BIND_SQL_SOUTEZ_DELETESFINALE= Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletesfinale'", ""));
         }
 
-        public string BIND_SQL_SOUTEZ_DATUM {
-            get {return SQL_READSOUTEZDATA("select value from contest where item='Date'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Date'"); OnPropertyChanged("BIND_SQL_SOUTEZ_DATUM"); }
-        }
 
-        public string BIND_SQL_SOUTEZ_TEPLOTA
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Temperature'", "")+"°C" ; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Temperature'"); OnPropertyChanged("BIND_SQL_SOUTEZ_TEPLOTA"); }
-        }
+   
 
-        public string BIND_SQL_SOUTEZ_POCASI
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Weather'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Weather'"); OnPropertyChanged("BIND_SQL_SOUTEZ_POCASI"); }
-        }
-
-        public string BIND_SQL_SOUTEZ_CLUB
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Club'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Club'"); OnPropertyChanged("BIND_SQL_SOUTEZ_CLUB"); }
-        }
-
-        public string BIND_SQL_SOUTEZ_SMCRID
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='SMCRID'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='SMCRID'"); OnPropertyChanged("BIND_SQL_SOUTEZ_SMCRID"); }
-        }
-
-        public string BIND_SQL_SOUTEZ_DIRECTOR
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Director'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Director'"); OnPropertyChanged("BIND_SQL_SOUTEZ_DIRECTOR"); }
-        }
-        public string BIND_SQL_SOUTEZ_HEADJURY
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Headjury'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Headjury'"); OnPropertyChanged("BIND_SQL_SOUTEZ_HEADJURY"); }
-        }
-
-        public string BIND_SQL_SOUTEZ_JURY1
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Jury1'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Jury1'"); OnPropertyChanged("BIND_SQL_SOUTEZ_JURY1"); }
-        }
-
-        public string BIND_SQL_SOUTEZ_JURY2
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Jury2'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Jury2'"); OnPropertyChanged("BIND_SQL_SOUTEZ_JURY2"); }
-        }
-
-        public string BIND_SQL_SOUTEZ_JURY3
-        {
-            get { return SQL_READSOUTEZDATA("select value from contest where item='Jury3'", ""); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Jury3'"); OnPropertyChanged("BIND_SQL_SOUTEZ_JURY3"); }
-        }
 
         public int BIND_SQL_SOUTEZ_ROUNDS
         {
-            get { return  Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Rounds'", "")); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rounds'"); OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS"); }
+            get { return BIND_SQL_SOUTEZ_ROUNDS_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rounds'"); BIND_SQL_SOUTEZ_ROUNDS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS"); }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTS
         {
-            get { return Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Startpoints'", "")); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpoints'"); OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTS"); }
+            get { return BIND_SQL_SOUTEZ_STARTPOINTS_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpoints'"); BIND_SQL_SOUTEZ_STARTPOINTS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTS"); }
         }
 
         public int BIND_SQL_SOUTEZ_DELETES
         {
-            get { return Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletes'", "")); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Deletes'"); OnPropertyChanged("BIND_SQL_SOUTEZ_DELETES"); }
+            get { return BIND_SQL_SOUTEZ_DELETES_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Deletes'");BIND_SQL_SOUTEZ_DELETES_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DELETES"); }
         }
 
         public int BIND_SQL_SOUTEZ_ROUNDSFINALE
         {
-            get { return Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Roundsfinale'", "")); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Roundsfinale'"); OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDSFINALE"); }
+            get { return BIND_SQL_SOUTEZ_ROUNDSFINALE_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Roundsfinale'");BIND_SQL_SOUTEZ_ROUNDSFINALE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDSFINALE"); }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTSFINALE
         {
-            get { return Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Startpointsfinale'", "")); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpointsfinale'"); OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTSFINALE"); }
+            get { return BIND_SQL_SOUTEZ_STARTPOINTSFINALE_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpointsfinale'");BIND_SQL_SOUTEZ_STARTPOINTSFINALE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTSFINALE"); }
         }
 
         public int BIND_SQL_SOUTEZ_DELETESFINALE
         {
-            get { return Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletesfinale'", "")); }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Deletesfinale'"); OnPropertyChanged("BIND_SQL_SOUTEZ_DELETESFINALE"); }
+            get { return BIND_SQL_SOUTEZ_DELETESFINALE_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Deletesfinale'");BIND_SQL_SOUTEZ_DELETESFINALE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DELETESFINALE"); }
         }
+
+
+        public string BIND_SQL_SOUTEZ_JURY1
+        {
+            get { return BIND_SQL_SOUTEZ_JURY1_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Jury1'"); BIND_SQL_SOUTEZ_JURY1_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_JURY1"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_JURY2
+        {
+            get { return BIND_SQL_SOUTEZ_JURY2_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Jury2'"); BIND_SQL_SOUTEZ_JURY2_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_JURY2"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_JURY3
+        {
+            get { return BIND_SQL_SOUTEZ_JURY3_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Jury3'"); BIND_SQL_SOUTEZ_JURY3_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_JURY3"); }
+        }
+        public string BIND_SQL_SOUTEZ_SMCRID
+        {
+            get { return BIND_SQL_SOUTEZ_SMCRID_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='SMCRID'"); BIND_SQL_SOUTEZ_SMCRID_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_SMCRID"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_DIRECTOR
+        {
+            get { return BIND_SQL_SOUTEZ_DIRECTOR_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Director'"); BIND_SQL_SOUTEZ_DIRECTOR_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DIRECTOR"); }
+        }
+        public string BIND_SQL_SOUTEZ_HEADJURY
+        {
+            get { return BIND_SQL_SOUTEZ_HEADJURY_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Headjury'"); BIND_SQL_SOUTEZ_HEADJURY_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_HEADJURY"); }
+        }
+        public string BIND_SQL_SOUTEZ_KATEGORIE {
+            get { return BIND_SQL_SOUTEZ_KATEGORIE_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Category'"); BIND_SQL_SOUTEZ_KATEGORIE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_KATEGORIE"); }
+        }
+        public string BIND_SQL_SOUTEZ_NAZEV {
+            get { return "Název soutěže : " + BIND_SQL_SOUTEZ_NAZEV_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Name'"); BIND_SQL_SOUTEZ_NAZEV_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_NAZEV"); }
+        }
+        public string BIND_SQL_SOUTEZ_LOKACE {
+            get { return "Lokace : " + BIND_SQL_SOUTEZ_LOKACE_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Location'"); BIND_SQL_SOUTEZ_LOKACE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_LOKACE"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_DATUM {
+            get { return BIND_SQL_SOUTEZ_DATUM_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Date'"); BIND_SQL_SOUTEZ_DATUM_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DATUM"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_TEPLOTA
+        {
+            get { return BIND_SQL_SOUTEZ_TEPLOTA_value + "°C"; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Temperature'"); BIND_SQL_SOUTEZ_TEPLOTA_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_TEPLOTA"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_POCASI
+        {
+            get { return BIND_SQL_SOUTEZ_POCASI_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Weather'"); BIND_SQL_SOUTEZ_POCASI_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_POCASI"); }
+        }
+
+        public string BIND_SQL_SOUTEZ_CLUB
+        {
+            get { return BIND_SQL_SOUTEZ_CLUB_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Club'"); BIND_SQL_SOUTEZ_CLUB_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_CLUB"); }
+        }
+
         #endregion
 
         #region SQL_funkce

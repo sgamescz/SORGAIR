@@ -31,11 +31,13 @@ namespace WpfApp6.View
         {
 
             InitializeComponent();
-            DataContext = VM ;
+            //DataContext = VM ;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+
+
             // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
             var currentWindow = this.TryFindParent<MetroWindow>();
             var result = await currentWindow.ShowInputAsync("Hi", "What's your name?");
@@ -65,8 +67,9 @@ namespace WpfApp6.View
 
         }
 
-
-
-
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            VM.nactisoutez();
+        }
     }
 }

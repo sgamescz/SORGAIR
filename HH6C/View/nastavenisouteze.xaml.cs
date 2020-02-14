@@ -44,8 +44,27 @@ namespace WpfApp6.View
 
             for (int i = 0; i < a; i++)
             {
+                string vyplnenyinput = "";
+
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_NAZEV") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_NAZEV ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_LOKACE") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_LOKACE ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_DATUM") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_DATUM ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_KATEGORIE") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_KATEGORIE ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_TEPLOTA") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_TEPLOTA ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_POCASI") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_POCASI ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_CLUB") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_CLUB ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_SMCRID") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_SMCRID ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_DIRECTOR") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_DIRECTOR ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_HEADJURY") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_HEADJURY ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY1") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_JURY1 ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY2") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_JURY2 ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY3") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_JURY3 ;}
+
                 var currentWindow = this.TryFindParent<MetroWindow>();
-                var result = await currentWindow.ShowInputAsync(TAGY[(i*3)], TAGY[(i * 3)+1]);
+                var result = await currentWindow.ShowInputAsync(TAGY[(i*3)], TAGY[(i * 3)+1], new MetroDialogSettings() { DefaultText = vyplnenyinput });
+                if (result == null)
+                    return;
+
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_NAZEV") { VM.BIND_SQL_SOUTEZ_NAZEV = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_LOKACE") { VM.BIND_SQL_SOUTEZ_LOKACE = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_DATUM") { VM.BIND_SQL_SOUTEZ_DATUM = result; }
@@ -59,7 +78,6 @@ namespace WpfApp6.View
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY1") { VM.BIND_SQL_SOUTEZ_JURY1 = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY2") { VM.BIND_SQL_SOUTEZ_JURY2 = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY3") { VM.BIND_SQL_SOUTEZ_JURY3 = result; }
-
             }
 
 
@@ -92,6 +110,18 @@ namespace WpfApp6.View
         private void landingoptions_IsCheckedChanged(object sender, EventArgs e)
         {
             MessageBox.Show("AAA");
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+          //'  VM.nactisoutez();
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            VM.nactisoutez();
+
         }
     }
 

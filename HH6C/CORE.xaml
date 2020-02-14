@@ -205,10 +205,13 @@ Dialog:DialogParticipation.Register="{Binding}"
                         </Controls:HamburgerMenuIconItem.Icon>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Vybrané kolo" Tag="hokus pokus vole">
+                    <Controls:HamburgerMenuIconItem Label="Vybrané kolo">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconModern Kind="ListOne" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:selectedround/>
+                        </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
                     <Controls:HamburgerMenuIconItem Label="Výsledky" Tag="tramtatada">
