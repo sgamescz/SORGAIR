@@ -7,7 +7,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks" x:Class="WpfApp6.View.nastavenisouteze"
              mc:Ignorable="d" 
-             d:DesignHeight="750" d:DesignWidth="1000" Loaded="UserControl_Loaded">
+             d:DesignHeight="750" d:DesignWidth="1000" Width="1000"  Loaded="UserControl_Loaded">
 
 
     <UserControl.Resources>
@@ -64,9 +64,9 @@
     </UserControl.Resources>
 
 
-    <Grid Margin="0" Background="{DynamicResource MahApps.Brushes.White}" >
+    <Grid Margin="0"  >
 
-        <StackPanel Margin="0" Orientation="Vertical">
+        <StackPanel >
             <mah:MetroHeader Margin="0 0 0 0" Header="Základní nastavení soutěže">
                 <Grid Margin="30 0 0 0">
                     <WrapPanel Grid.Row="1"
@@ -124,14 +124,14 @@
                         </mah:Tile>
                         <mah:Tile Title="Soutěžích"
                            Background="{DynamicResource MahApps.Brushes.Accent2}"
-                           Count="{Binding ElementName=NUD_Min1_Copy, Path=Value}"
+                           Count="{Binding BIND_POCETSOUTEZICICH}"
                            CountFontSize="42"
                            HorizontalTitleAlignment="Center"
                            IsEnabled="False"
                        
                            Style="{StaticResource SmallTileStyle}"
                            TitleFontSize="16"
-                           VerticalTitleAlignment="Top" />
+                           VerticalTitleAlignment="top" />
 
 
                         <mah:Tile Title="Předpoládaný konec"
@@ -221,7 +221,7 @@
 
 
 
-            <mah:MetroHeader Margin="0 0 0 0" Header="Nastavení letových kol">
+            <mah:MetroHeader Margin="0 0 0 0" Header="Nastavení letových kol" Height="202">
                 <Grid Margin="30 0 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"  />
@@ -234,6 +234,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
 
@@ -241,7 +242,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="Nastavení základních kol" Foreground="{DynamicResource MahApps.Brushes.AccentBase}" Margin="0 0 0 10" />
 
                     <Label Grid.Row="1" Grid.Column="1" Content="Počet kol" />
-                    <mah:NumericUpDown x:Name="NUD_Min1_Copy"
+                    <mah:NumericUpDown x:Name="NUM_BASEROUNDS"
                     Maximum="40"        
                     Minimum="1"
                     Grid.Column="0"
@@ -251,34 +252,47 @@
                     ButtonsAlignment="Opposite"
                     Value="{Binding BIND_SQL_SOUTEZ_ROUNDS}" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
 
-                    <Label Grid.Row="2" Grid.Column="1" Content="Počet startovišť v kole" />
-                    <mah:NumericUpDown x:Name="NUD_Min1_Copy2"
+                    <mah:NumericUpDown x:Name="NUM_BASEGROUPS"
+                    mah:TextBoxHelper.ClearTextButton="False"
                     Grid.Column="0"
                     Grid.Row="2"
+                    Maximum="10"
+                    Minimum="0"
+                    TextAlignment="Center"
+                    ButtonsAlignment="Opposite"
+                    Value="{Binding BIND_SQL_SOUTEZ_GROUPS}" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="00,0,0,0" />
+                    <Label Grid.Row="2" Grid.Column="1" Content="Počet skupin v kole" />
+                    
+                    <mah:NumericUpDown x:Name="NUM_BASESTARTPOINTS"
+                    Grid.Column="0"
+                    Grid.Row="3"
                     InterceptManualEnter="False"
                     Maximum="99"
                     Minimum="1"
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="{Binding BIND_SQL_SOUTEZ_STARTPOINTS}" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Grid.Row="3" Grid.Column="1" Content="Počet startovišť ve skupině" />
 
-                    <Label Grid.Row="3" Grid.Column="1" Content="Počet škrtaných výsledků v základních kolech" />
-                    <mah:NumericUpDown
+                    <mah:NumericUpDown x:Name="NUM_BASEDELETEDROUNDS"
                     mah:TextBoxHelper.ClearTextButton="False"
                     Grid.Column="0"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Maximum="3"
                     Minimum="0"
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="{Binding BIND_SQL_SOUTEZ_DELETES}" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="00,0,0,0" />
+                    <Label Grid.Row="4" Grid.Column="1" Content="Počet škrtaných výsledků v základních kolech" />
 
+                  
+
+                    
 
                     <Label Grid.Row="0" Grid.Column="2" Content="Nastavení finálových kol" Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
 
 
-                    <Label Grid.Row="1" Grid.Column="3" Content="Počet finálových letů" />
-                    <mah:NumericUpDown
+                    <mah:NumericUpDown x:Name="NUM_FINROUNDS"
                     Maximum="15"
                     Minimum="0"
                     Grid.Column="2"
@@ -287,10 +301,10 @@
                     ButtonsAlignment="Opposite"
                     Value="{Binding BIND_SQL_SOUTEZ_ROUNDSFINALE}"
                    Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Grid.Row="1" Grid.Column="3" Content="Počet finálových letů" />
 
 
-                    <Label Grid.Row="2" Grid.Column="3" Content="Počet finalistů" />
-                    <mah:NumericUpDown 
+                    <mah:NumericUpDown x:Name="NUM_FINSTARTPOINTS" 
                     Grid.Column="2"
                     Grid.Row="2"
                     InterceptManualEnter="False"
@@ -299,9 +313,9 @@
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="{Binding BIND_SQL_SOUTEZ_STARTPOINTSFINALE}"  Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="0,0,0,0" />
+                    <Label Grid.Row="2" Grid.Column="3" Content="Počet finalistů" />
 
-                    <Label Grid.Row="3" Grid.Column="3" Content="Počet škrtaných výsledků ve finále" />
-                    <mah:NumericUpDown
+                    <mah:NumericUpDown x:Name="NUM_FINDELETEDROUNDS"
                     Grid.Column="2"
                     Grid.Row="3"
                     Maximum="99"
@@ -309,6 +323,7 @@
                     TextAlignment="Center"
                     ButtonsAlignment="Opposite"
                     Value="{Binding BIND_SQL_SOUTEZ_DELETESFINALE}" Height="26" HorizontalAlignment="Left" Width="70" VerticalAlignment="Top" Margin="00,0,0,0" />
+                    <Label Grid.Row="3" Grid.Column="3" Content="Počet škrtaných výsledků ve finále" />
 
                 </Grid>
 
@@ -327,18 +342,15 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-
-                    <Button Content="asdasd" Click="Button_Click"/>
-
-                    <mah:ToggleSwitch Name="landingoptions"
+                    <mah:ToggleSwitch x:Name="landingoptions"
                     Grid.Column="0"
                         OnLabel="Zadávat přistání v bodech"
                         OffLabel="Zadávat přistání v metrech"
                         HorizontalContentAlignment="Left"
                         HorizontalAlignment="Left"
                         ContentDirection="RightToLeft"
+                        IsChecked="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLE}"
                         FontSize="12"
-                        
                         OffSwitchBrush="{DynamicResource MahApps.Brushes.Accent2}"
                     Grid.Row="0" Margin="0,0,0,0" IsCheckedChanged="landingoptions_IsCheckedChanged" />
 
@@ -349,6 +361,7 @@
                         HorizontalContentAlignment="Left"
                         HorizontalAlignment="Left"
                         ContentDirection="RightToLeft"
+                        IsChecked="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLENEXT}"
                         FontSize="12"
                         OffSwitchBrush="{DynamicResource MahApps.Brushes.Accent2}"
                     Grid.Row="1" Margin="0,0,0,0" />
@@ -368,10 +381,9 @@
                         <mah:TimePicker Grid.Column="0" Grid.Row="0" 
                         Culture="cs"
                         HandVisibility="HourMinute"
-                        IsEnabled="True"
                         IsReadOnly="False"
                         PickerVisibility="HourMinute"
-                        SelectedDateTime="9:00"
+                        SelectedDateTime="{Binding BIND_CONTESTBEGIN}"
                         SelectedTimeFormat="Short"
                         Width="64"
                         HorizontalAlignment="Left"
@@ -379,8 +391,7 @@
 
                         <Label Grid.Column="1" Grid.Row="0" 
                         Content="Začátek soutěže"
-                        HorizontalAlignment="Left"
-                               FontWeight= "DemiBold"
+                               FontWeight= "DemiBold" HorizontalAlignment="Left" Width="97"
                         />
 
 

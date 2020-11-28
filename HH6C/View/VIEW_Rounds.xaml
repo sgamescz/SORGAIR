@@ -1,0 +1,382 @@
+﻿<UserControl
+    x:Class="WpfApp6.View.Rounds"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:WpfApp6.View"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:WpfApp6.Model"
+    d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type Controls:MetroHeader}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" UseLayoutRounding="True">
+                            <TextBlock
+                                Margin="0,0,0,4"
+                                Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                Text="{Binding}" />
+                            <Separator Margin="0,0,0,10" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="toglestyl"
+            BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}"
+            TargetType="{x:Type ToggleButton}">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Margin" Value="5" />
+
+
+        </Style>
+
+        <Style
+            x:Key="typss"
+            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.White}" />
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Badged.DisabledBackground}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="userbuttonstyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Margin="0,0,10,0">
+
+
+
+        <StackPanel Orientation="Vertical">
+
+            <mah:MetroHeader VerticalAlignment="Top" Header="Vyber kolo">
+
+
+                <ItemsControl ItemsSource="{Binding MODEL_CONTEST_ROUNDS}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+
+                    </ItemsControl.ItemsPanel>
+
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="2"
+                                BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
+                                BorderThickness="2">
+                                <StackPanel>
+                                    <mah:Tile
+                                        Title="{Binding ID, StringFormat={} Počet startpointů je :{0}}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="2,0,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconSimpleIcons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Bamboo" />
+                                    </mah:Tile>
+
+                                    <mah:Tile
+                                        Title="{Binding ROUNDNAME}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconModern
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="DeeplinkRound" />
+                                    </mah:Tile>
+
+                                    <mah:Tile
+                                        Title="{Binding ROUNDTYPE}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconMaterial
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="FormatListBulletedType" />
+                                    </mah:Tile>
+
+                                    <mah:Tile
+                                        x:Name="userdetail_ch1"
+                                        Title="{Binding ROUNDLENGHT}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent3}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconTypicons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Stopwatch" />
+                                    </mah:Tile>
+
+
+
+                                    <mah:Tile
+                                        Title="{Binding ROUNDZADANO}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent4}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconUnicons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="CheckCircle" />
+                                    </mah:Tile>
+
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </mah:MetroHeader>
+            <TextBlock
+                FontSize="20"
+                Text="{Binding BIND_SQL_SOUTEZ_STARTPOINTS, StringFormat={} Počet startpointů je :{0}}"
+                Visibility="Collapsed" />
+
+            <mah:MetroHeader VerticalAlignment="Top" Header="Vyber skupinu">
+                <ItemsControl Margin="0,00,0,0" ItemsSource="{Binding MODEL_CONTEST_GROUPS}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+
+                    </ItemsControl.ItemsPanel>
+
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="2"
+                                BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
+                                BorderThickness="2">
+                                <StackPanel>
+
+                                    <mah:Tile
+                                        Title="{Binding ID}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click_1"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconSimpleIcons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Bamboo" />
+                                    </mah:Tile>
+                                    <mah:Tile
+                                        Title="{Binding GROUPNAME}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click_1"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconSimpleIcons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Bamboo" />
+                                    </mah:Tile>
+                                    <mah:Tile
+                                        Title="{Binding GROUPTYPE}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                                        Click="Button_Click_1"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconMaterial
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="FormatListBulletedType" />
+                                    </mah:Tile>
+
+                                    <mah:Tile
+                                        Title="{Binding GROUPLENGHT}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                                        Click="Button_Click_1"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconTypicons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Stopwatch" />
+                                    </mah:Tile>
+                                    <mah:Tile
+                                        Title="{Binding GROUPZADANO}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent3}"
+                                        Click="Button_Click_1"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconUnicons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="CheckCircle" />
+                                    </mah:Tile>
+
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </mah:MetroHeader>
+        </StackPanel>
+
+
+
+
+        <Button
+            Width="150"
+            Margin="95,413,0,-50"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Button_Click_2"
+            Content="Vybrat toto kolo" />
+
+    </Grid>
+</UserControl>

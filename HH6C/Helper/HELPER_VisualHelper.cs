@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace WpfApp6.Helper
 {
-    public static class VisualHelper
+    public static class HELPER_VisualHelper
     {
         public static T TryFindParent<T>(this DependencyObject child) where T : DependencyObject
         {

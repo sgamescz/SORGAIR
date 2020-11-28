@@ -21,7 +21,7 @@ Dialog:DialogParticipation.Register="{Binding}"
           
 
             <DataTemplate x:Key="MenuItemTemplateIC" DataType="{x:Type Controls:HamburgerMenuIconItem}">
-                <Grid Height="64">
+                <Grid Height="60">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="74" />
                         <ColumnDefinition />
@@ -80,12 +80,12 @@ Dialog:DialogParticipation.Register="{Binding}"
             <Label>Change color</Label>
             <Button Click="CLICK_changeforeground"  >
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconOcticons Kind="Paintcan"  Width="24" Height="24"/>
+                    <iconPacks:PackIconModern Kind="DrawBrushReflection"  Width="24" Height="24"/>
                 </StackPanel>
             </Button>
             <Button Click="CLICK_changebackground">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconModern Kind="DrawBrushReflection" Width="24" Height="24"/>
+                    <iconPacks:PackIconOcticons Kind="Paintcan" Width="24" Height="24"/>
                 </StackPanel>
             </Button>
         </Controls:WindowCommands>
@@ -127,7 +127,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
 
             <Controls:HamburgerMenu.ItemsSource>
-                <Controls:HamburgerMenuItemCollection>
+                <Controls:HamburgerMenuItemCollection >
 
 
 
@@ -141,17 +141,9 @@ Dialog:DialogParticipation.Register="{Binding}"
 
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Players">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconUnicons Kind="UserCheck" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:PlayersView   />
-                        </Controls:HamburgerMenuIconItem.Tag>
 
-                    </Controls:HamburgerMenuIconItem>
-                    
-                    <Controls:HamburgerMenuIconItem Label="Nastavení soutěže">
+
+                    <Controls:HamburgerMenuIconItem Label="Nastavení soutěže" IsEnabled="{Binding BIND_MENU_ENABLED_nastavenisouteze}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Kind="AvianexBrands" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -161,7 +153,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem  Label="Audio a další">
+                    <Controls:HamburgerMenuIconItem  Label="Audio a další" IsEnabled="{Binding BIND_MENU_ENABLED_audioadalsi}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconOcticons Kind="Unmute" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -171,7 +163,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem  Label="Hardware">
+                    <Controls:HamburgerMenuIconItem  Label="Hardware" IsEnabled="{Binding BIND_MENU_ENABLED_hardware}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconModern Kind="Monitor" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -182,7 +174,7 @@ Dialog:DialogParticipation.Register="{Binding}"
                     </Controls:HamburgerMenuIconItem>
 
 
-                    <Controls:HamburgerMenuIconItem  Label="Seznam Soutěžících">
+                    <Controls:HamburgerMenuIconItem  Label="{Binding BIND_POCETSOUTEZICICHMENU}" IsEnabled="{Binding BIND_MENU_ENABLED_soutezici}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconModern Kind="PeopleCheckbox" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -193,19 +185,36 @@ Dialog:DialogParticipation.Register="{Binding}"
                     </Controls:HamburgerMenuIconItem>
 
 
-                    <Controls:HamburgerMenuIconItem  Label="Rozlosování">
+                    <Controls:HamburgerMenuIconItem  Label="Týmy" IsEnabled="{Binding BIND_MENU_ENABLED_soutezici}">
+                        <Controls:HamburgerMenuIconItem.Icon>
+                            <iconPacks:PackIconPicolIcons Kind="GroupFull" />
+                        </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:Teams/>
+                        </Controls:HamburgerMenuIconItem.Tag>
+
+                    </Controls:HamburgerMenuIconItem>
+
+                    
+                    <Controls:HamburgerMenuIconItem  Label="Rozlosování" IsEnabled="{Binding BIND_MENU_ENABLED_rozlosovani}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconModern Kind="DrawPixelFillGrid" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:Draw />
+                        </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Seznam kol">
+                    <Controls:HamburgerMenuIconItem Label="Seznam kol" IsEnabled="{Binding BIND_MENU_ENABLED_seznamkol}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconModern Kind="List" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:Rounds  />
+                        </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Vybrané kolo">
+                    <Controls:HamburgerMenuIconItem Label="{Binding BIND_VYBRANEKOLOMENU}" IsEnabled="{Binding BIND_MENU_ENABLED_vybranekolo}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconModern Kind="ListOne" />
                         </Controls:HamburgerMenuIconItem.Icon>
@@ -214,28 +223,43 @@ Dialog:DialogParticipation.Register="{Binding}"
                         </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Výsledky" Tag="tramtatada">
+                    <Controls:HamburgerMenuIconItem Label="Výsledky" IsEnabled="{Binding BIND_MENU_ENABLED_vysledky}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Kind="TrophySolid" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:UserControl1 />
+                        </Controls:HamburgerMenuIconItem.Tag>
+
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Finálové lety" IsEnabled="{Binding bindingMENU_finale}">
+                    <Controls:HamburgerMenuIconItem Label="Finálové lety" IsEnabled="{Binding BIND_MENU_ENABLED_finale}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconFontAwesome Kind="GemRegular" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:FirstView />
+                        </Controls:HamburgerMenuIconItem.Tag>
+
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Detaily a statistiky" IsEnabled="{Binding bindingMENU_detailyastatistiky}" >
+                    <Controls:HamburgerMenuIconItem Label="Detaily a statistiky" IsEnabled="{Binding BIND_MENU_ENABLED_detailyastatistiky}" >
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:RozvrhView />
+                        </Controls:HamburgerMenuIconItem.Tag>
+
                     </Controls:HamburgerMenuIconItem>
 
-                    <Controls:HamburgerMenuIconItem Label="Online" IsEnabled="{Binding bindingMENU_online}">
+                    <Controls:HamburgerMenuIconItem Label="Online" IsEnabled="{Binding BIND_MENU_ENABLED_online}">
                         <Controls:HamburgerMenuIconItem.Icon>
                             <iconPacks:PackIconMaterial Kind="LanConnect" />
                         </Controls:HamburgerMenuIconItem.Icon>
+                        <Controls:HamburgerMenuIconItem.Tag>
+                            <v:Draw  />
+                        </Controls:HamburgerMenuIconItem.Tag>
                     </Controls:HamburgerMenuIconItem>
 
 
@@ -247,7 +271,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
             <!--  Content  -->
             <Controls:HamburgerMenu.Content>
-                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
                     <Grid x:Name="ContentGrid">
                         <Grid.RowDefinitions>
@@ -265,7 +289,7 @@ Dialog:DialogParticipation.Register="{Binding}"
 
 
                         <Controls:TransitioningContentControl Grid.Row="1"
-                                                          Margin="20,10,30,0"
+                                                          Margin="20,10,0,0"
                                                               VerticalAlignment="Top"
                                                           Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Tag}"
                                                           RestartTransitionOnContentChange="True"

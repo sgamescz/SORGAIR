@@ -13,38 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp6.Model;
-using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro.Controls;
 
 namespace WpfApp6.View
 {
     /// <summary>
     /// Interakční logika pro FirstView.xaml
     /// </summary>
-    public partial class selectedround : UserControl
+    public partial class FirstView : UserControl
     {
-
-        private ViewModel VM => this.DataContext as ViewModel;
-//        ViewModel XX = new ViewModel(DialogCoordinator.Instance);
-
-        public selectedround()
+        private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+        public FirstView()
         {
 
             InitializeComponent();
-            DataContext = VM ;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Audio\petiminutoveho.wav");
-            player.PlayLooping();
-            //'player.
-
+            trans.Content = "aaaa";
+            
         }
-
-
-
-
     }
 }

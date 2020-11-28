@@ -1,0 +1,317 @@
+﻿<UserControl
+    x:Class="WpfApp6.View.selectedround"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:WpfApp6.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:WpfApp6.Model"
+    d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type Controls:MetroHeader}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" UseLayoutRounding="True">
+                            <TextBlock
+                                Margin="0,0,0,4"
+                                Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                Text="{Binding}" />
+                            <Separator Margin="0,0,0,10" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="toglestyl"
+            BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}"
+            TargetType="{x:Type ToggleButton}">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Margin" Value="5" />
+
+
+        </Style>
+
+        <Style
+            x:Key="typss"
+            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.White}" />
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Badged.DisabledBackground}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+    </UserControl.Resources>
+    <Grid Margin="0,0,0,-275">
+        <StackPanel>
+
+            <Controls:MetroHeader
+                Height="295"
+                Margin="0,0,0,0"
+                Header="Ovládaní soutěžního kola">
+                <Grid Margin="0,0,0,9">
+                    <Controls:MetroProgressBar
+                        Height="40"
+                        Margin="10,109,10,0"
+                        VerticalAlignment="Top"
+                        IsIndeterminate="False"
+                        Maximum="{Binding BIND_LETOVYCAS_MAX}"
+                        Value="{Binding BIND_PROGRESS_1}" />
+                    <Controls:MetroProgressBar
+                        Height="15"
+                        Margin="10,227,10,0"
+                        VerticalAlignment="Top"
+                        IsIndeterminate="False"
+                        Value="0" />
+                    <Label
+                        Width="770"
+                        Height="30"
+                        Margin="10,-5,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Letový čas (-0:25 až 10:06) - F5J CZ 10 minut"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent2}" />
+                    <Controls:Tile
+                        x:Name="HWbasemodul_Copywe2"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="110"
+                        Height="36"
+                        Margin="10,186,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="HWbasemodul_Copywe2_Click"
+                        IsEnabled="True"
+                        TitleFontSize="12">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Black}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularPlayCircle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile
+                        x:Name="HWbasemodul_Copy3we"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="110"
+                        Height="36"
+                        Margin="125,186,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        IsEnabled="False"
+                        TitleFontSize="12">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularPauseCircle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile
+                        x:Name="HWbasemodul_Copy4s"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="115"
+                        Height="36"
+                        Margin="240,186,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="HWbasemodul_Copy1_Click"
+                        IsEnabled="True"
+                        TitleFontSize="12">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularStopCircle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Label
+                        Width="770"
+                        Height="30"
+                        Margin="10,154,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Přípravný čas (-0:25 až 10:06) - F5J CZ 10 minut"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent2}" />
+                    <Controls:Tile
+                        x:Name="maintimer_play"
+                        Title="Spustit"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="110"
+                        Height="80"
+                        Margin="10,23,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="HWbasemodul_Copy2_Click"
+                        IsEnabled="True"
+                        TitleFontSize="12">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularPlayCircle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile
+                        x:Name="maintimer_pause"
+                        Title="Pozastavit"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="110"
+                        Height="81"
+                        Margin="125,23,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="maintimer_pause_Click"
+                        IsEnabled="False"
+                        TitleFontSize="12">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularPauseCircle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Controls:Tile>
+                    <Controls:Tile
+                        x:Name="maintimer_stop"
+                        Title="Zastavit"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="115"
+                        Height="81"
+                        Margin="240,23,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="HWbasemodul_Copy1_Click"
+                        IsEnabled="False"
+                        TitleFontSize="12">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularStopCircle}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Controls:Tile>
+
+                    <TextBlock
+                        Height="78"
+                        Margin="360,25,10,0"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding BIND_LETOVYCAS_STRING}"
+                        TextAlignment="Center" />
+                    <Label
+                        Height="35"
+                        Margin="360,185,10,0"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="Přípravný čas : 0:00 (zbývá 5:00)"
+                        FontSize="20"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}" />
+                </Grid>
+            </Controls:MetroHeader>
+
+            <Controls:MetroHeader
+                Height="385"
+                Margin="0,0,0,0"
+                Header="Seznam soutěžících a výsledků">
+                <ItemsControl Margin="10,0,10,9" ItemsSource="{Binding Players_Actual}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+
+                    </ItemsControl.ItemsPanel>
+
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Button
+                                    Height="35"
+                                    Margin="5,5,5,0"
+                                    Content="{Binding STARTPOINT}"
+                                    ContentStringFormat="Startoviště: {0}"
+                                    Style="{StaticResource MahApps.Styles.Button.AccentedSquare}" />
+                                <Button
+                                    Height="155"
+                                    Margin="5,5,5,0"
+                                    Content="{Binding PLAYERDATA}"
+                                    Style="{StaticResource MahApps.Styles.Button.Square}" />
+                                <Button
+                                    Height="30"
+                                    Margin="5,5,5,0"
+                                    Content="{Binding RAWSCORE}"
+                                    ContentStringFormat="RAW: {0}"
+                                    Style="{StaticResource MahApps.Styles.Button.AccentedSquare}" />
+                                <Button
+                                    Height="30"
+                                    Margin="5,5,5,0"
+                                    Content="{Binding PREPSCORE}"
+                                    ContentStringFormat="REC: {0}"
+                                    Style="{StaticResource MahApps.Styles.Button.AccentedSquare}" />
+                                <Button
+                                    Height="30"
+                                    Margin="5,5,5,0"
+                                    Content="REFLY"
+                                    Style="{StaticResource MahApps.Styles.Button}" />
+                                <Button
+                                    Height="30"
+                                    Margin="5,5,5,0"
+                                    Content="READY CHECK"
+                                    Style="{StaticResource MahApps.Styles.Button}" />
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+
+
+            </Controls:MetroHeader>
+            <Button
+                Height="30"
+                Margin="5,5,5,0"
+                Click="Button_Click_1"
+                Content="READY CHECK"
+                Style="{StaticResource MahApps.Styles.Button}" />
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

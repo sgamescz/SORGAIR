@@ -25,7 +25,7 @@ namespace WpfApp6.View
     /// </summary>
     public partial class nastavenisouteze : UserControl
     {
-        private ViewModel VM => this.DataContext as ViewModel;
+        private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
         public nastavenisouteze()
         {
             InitializeComponent();
@@ -46,11 +46,25 @@ namespace WpfApp6.View
             {
                 string vyplnenyinput = "";
 
-                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_NAZEV") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_NAZEV ;}
-                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_LOKACE") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_LOKACE ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_NAZEV")
+                {
+                    String nazev = VM.BIND_SQL_SOUTEZ_NAZEV;
+                    char[] spearator1 = { ':' };
+                    String[] strlist1 = nazev.Split(spearator1);
+                    vyplnenyinput = strlist1[1];
+                }
+                    
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_LOKACE") {
+                    String lokace = VM.BIND_SQL_SOUTEZ_LOKACE;
+                    char[] spearator2 = { ':'};
+                    String[] strlist2 = lokace.Split(spearator2);
+                    vyplnenyinput = strlist2[1];
+                }
+
+
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_DATUM") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_DATUM ;}
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_KATEGORIE") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_KATEGORIE ;}
-                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_TEPLOTA") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_TEPLOTA ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_TEPLOTA") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_TEPLOTA.Substring(0, VM.BIND_SQL_SOUTEZ_TEPLOTA.Length-2) ;}
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_POCASI") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_POCASI ;}
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_CLUB") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_CLUB ;}
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_SMCRID") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_SMCRID ;}
@@ -109,18 +123,17 @@ namespace WpfApp6.View
 
         private void landingoptions_IsCheckedChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("AAA");
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-          //'  VM.nactisoutez();
+          //'  VM.FUNCTION_LOADCONTEST();
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            VM.nactisoutez();
+            VM.FUNCTION_LOADCONTEST();
 
         }
     }

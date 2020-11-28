@@ -11,7 +11,7 @@
 
     <Grid>
                     <Controls:MetroProgressBar BorderThickness="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Value="13" Maximum="23" x:Name="progressbar" Margin="511,85,10,305" IsIndeterminate="True" />
-        <CheckBox Content="Chci zvuky" HorizontalAlignment="Left" Margin="360,115,0,0" VerticalAlignment="Top" Height="30" Width="115" IsChecked="{Binding bindingMENU_finale, Mode=TwoWay}"/>
+        <CheckBox Content="Chci zvuky" HorizontalAlignment="Left" Margin="360,115,0,0" VerticalAlignment="Top" Height="30" Width="115" IsChecked="{Binding BIND_MENU_ENABLED_finale, Mode=TwoWay}"/>
         <RadioButton Content="Volím jedničku" HorizontalAlignment="Left" Margin="360,81,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <PasswordBox Controls:PasswordBoxHelper.RevealButtonContent="true"  HorizontalAlignment="Left" Margin="475,38,0,0" VerticalAlignment="Top" Width="175"/>
         <Button x:Name="btn_msgbx" Style="{DynamicResource MahApps.Styles.Button.Square}" Content="MSGBOX" HorizontalAlignment="Left" Margin="150,140,0,0" VerticalAlignment="Top" Width="170" Height="30"/>
@@ -25,6 +25,9 @@
         <Controls:Tile x:Name="tile" Title="Ahoj" Width="155" Height="165" Count="1" Margin="69,275,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
         <Button Content="Button" Margin="22,190,0,0" HorizontalAlignment="Left" Width="83" Height="55" VerticalAlignment="Top"/>
 
+        
+        
+        
 
     </Grid>
 </UserControl>

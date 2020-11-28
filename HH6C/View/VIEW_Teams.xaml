@@ -1,0 +1,387 @@
+﻿<UserControl
+    x:Class="WpfApp6.View.Teams"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:WpfApp6.View"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:WpfApp6.Model"
+    Height="715"
+    d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+
+
+
+        <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type Controls:MetroHeader}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" UseLayoutRounding="True">
+                            <TextBlock
+                                Margin="0,0,0,4"
+                                Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                Text="{Binding}" />
+                            <Separator Margin="0,0,0,10" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="toglestyl"
+            BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}"
+            TargetType="{x:Type ToggleButton}">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Margin" Value="5" />
+
+
+        </Style>
+
+        <Style
+            x:Key="typss"
+            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.White}" />
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Badged.DisabledBackground}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="userbuttonstyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+    </UserControl.Resources>
+    <Grid Margin="0,0,10,10" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+
+
+        <Controls:MetroHeader
+            Height="200"
+            Margin="10,0"
+            VerticalAlignment="Top"
+            Header="Seznam týmů">
+            <Grid>
+                <mah:Tile
+                    x:Name="teams_delete"
+                    Title="Smazat tým"
+                    Width="190"
+                    Height="70"
+                    Margin="10,84,0,0"
+                    HorizontalAlignment="left"
+                    VerticalAlignment="Top"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Click="teams_delete_Click"
+                    HorizontalTitleAlignment="Center"
+                    IsEnabled="False"
+                    TitleFontSize="12">
+                    <iconPacks:PackIconPicolIcons
+                        Width="20"
+                        Height="20"
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        Kind="GroupFullRemove" />
+                </mah:Tile>
+
+
+                <mah:Tile
+                    x:Name="teams_add"
+                    Title="Přidat tým"
+                    Width="190"
+                    Height="69"
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Top"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                    Click="teams_add_Click"
+                    HorizontalTitleAlignment="center"
+                    Style="{StaticResource userbuttonstyle}"
+                    Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                    TitleFontSize="12"
+                    VerticalTitleAlignment="Bottom">
+                    <iconPacks:PackIconPicolIcons
+                        Width="20"
+                        Height="20"
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        Kind="GroupFullAdd" />
+                </mah:Tile>
+                <ListBox
+                    x:Name="teamlist"
+                    Height="144"
+                    Margin="205,10,10,0"
+                    VerticalAlignment="Top"
+                    BorderThickness="2"
+                    ItemsSource="{Binding Teams}"
+                    SelectionChanged="teamlist_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+
+
+
+                                <TextBlock
+                                    x:Name="XXX"
+                                    Grid.Column="0"
+                                    Text="{Binding ID}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding TEAMNAME}" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding POCETCLENU}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <mah:Tile
+                    Title="Smazat tým"
+                    Width="460"
+                    Height="54"
+                    Margin="500,164,0,0"
+                    HorizontalAlignment="left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Top"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Click="teams_delete_Click"
+                    HorizontalTitleAlignment="Center"
+                    IsEnabled="True"
+                    TitleFontSize="12">
+
+                    <iconPacks:PackIconMaterial
+                        Width="20"
+                        Height="20"
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        Kind="ArrowUpBoldBoxOutline" />
+                </mah:Tile>
+                <mah:Tile
+                    x:Name="usdsderdetail_ch2"
+                    Title="Přidat tým"
+                    Width="485"
+                    Height="54"
+                    Margin="10,164,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Top"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                    HorizontalTitleAlignment="center"
+                    Style="{StaticResource userbuttonstyle}"
+                    Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                    TitleFontSize="12"
+                    VerticalTitleAlignment="Bottom">
+                    <iconPacks:PackIconMaterial
+                        Width="20"
+                        Height="20"
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        Kind="ArrowDownBoldBoxOutline" />
+                </mah:Tile>
+            </Grid>
+        </Controls:MetroHeader>
+        <Controls:MetroHeader
+            Height="135"
+            Margin="10,206,10,0"
+            VerticalAlignment="Top"
+            Header="Detail týmu">
+            <Grid Height="95" VerticalAlignment="Top">
+
+                <mah:Tile
+                    x:Name="teams_teamname"
+                    Title="---"
+                    Width="Auto"
+                    Height="83"
+                    Margin="205,0,10,0"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Left"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Click="teams_teamname_Click"
+                    HorizontalTitleAlignment="Center"
+                    IsEnabled="False"
+                    Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                    TitleFontSize="20"
+                    VerticalTitleAlignment="Center">
+                    <iconPacks:PackIconPicolIcons
+                        Width="30"
+                        Height="30"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Kind="GroupFull" />
+
+                </mah:Tile>
+
+                <Controls:Tile
+                    x:Name="teams_usersinteamcount"
+                    Title="Počet členů týmu"
+                    Width="190"
+                    Height="83"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    Background="YellowGreen"
+                    Count="{Binding BIND_kolikjelidivteamu}"
+                    CountFontSize="29"
+                    FontStyle="Italic"
+                    Style="{StaticResource userbuttonstyle}" />
+
+
+            </Grid>
+        </Controls:MetroHeader>
+        <mah:MetroHeader
+            Height="264"
+            Margin="10,346,10,0"
+            VerticalAlignment="Top"
+            Header="Členové týmu">
+            <Grid Margin="0,0,0,-6">
+
+
+                <UniformGrid Columns="2" Rows="2">
+
+                    <StackPanel Margin="0,0,0,-117">
+                        <ListBox
+                            x:Name="usersINteam"
+                            Height="152"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            BorderThickness="2"
+                            ItemsSource="{Binding Usersinteams}"
+                            MouseDoubleClick="move_from_team"
+                            SelectionChanged="competitorlist2_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <TextBlock Grid.Column="0" Text="{Binding ID}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding FIRSTNAME}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding LASTNAME}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <mah:Tile
+                            x:Name="teams_removefromteam"
+                            Title="Odebrat soutěžícího z týmu"
+                            Width="Auto"
+                            Height="56"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Top"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            Click="move_from_team"
+                            HorizontalTitleAlignment="Center"
+                            IsEnabled="False"
+                            TitleFontSize="12">
+
+                            <iconPacks:PackIconMaterial
+                                Width="20"
+                                Height="20"
+                                Margin="10"
+                                VerticalAlignment="Center"
+                                Kind="ArrowRightBoldBoxOutline" />
+                        </mah:Tile>
+
+                    </StackPanel>
+                    <StackPanel Margin="0,0,0,-117">
+
+                        <ListBox
+                            x:Name="usersNOTinteam"
+                            Height="152"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            BorderThickness="2"
+                            ItemsSource="{Binding UsersNOTinteams}"
+                            MouseDoubleClick="move_to_team">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <TextBlock Grid.Column="0" Text="{Binding ID}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding FIRSTNAME}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding LASTNAME}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <mah:Tile
+                            x:Name="teams_addtoteam"
+                            Title="Přidat vybraného soutěžícího do týmu"
+                            Width="auto"
+                            Height="56"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Top"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                            Click="move_to_team"
+                            HorizontalTitleAlignment="center"
+                            IsEnabled="False"
+                            Style="{StaticResource userbuttonstyle}"
+                            TitleFontSize="12"
+                            VerticalTitleAlignment="Bottom">
+                            <iconPacks:PackIconMaterial
+                                Width="20"
+                                Height="20"
+                                Margin="10"
+                                VerticalAlignment="Center"
+                                Kind="ArrowLeftBoldBoxOutline" />
+                        </mah:Tile>
+
+                    </StackPanel>
+
+
+
+                </UniformGrid>
+
+            </Grid>
+        </mah:MetroHeader>
+    </Grid>
+
+
+</UserControl>
+

@@ -18,9 +18,9 @@ namespace WpfApp6.View
     /// <summary>
     /// Interaction logic for PlayersView.xaml
     /// </summary>
-    public partial class PlayersView : UserControl
+    public partial class Draw : UserControl
     {
-        public PlayersView()
+        public Draw()
         {
             InitializeComponent();
         }

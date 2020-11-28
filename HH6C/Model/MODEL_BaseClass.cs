@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp6.Model
 {
-    public class BaseClass : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class MODEL_BaseClass : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         #region INotifyPropertyChanged
         // This event tells the UI to update 

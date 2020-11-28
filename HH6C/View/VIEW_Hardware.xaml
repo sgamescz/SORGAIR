@@ -7,7 +7,8 @@
                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:Custom="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             mc:Ignorable="d" Height="665" Width="930">
+            mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="1000" >
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -40,8 +41,8 @@
 
 
 
-    <Grid VerticalAlignment="Top">
-        <StackPanel Margin="0" Orientation="Vertical" VerticalAlignment="Top">
+    <Grid HorizontalAlignment="Center" Width="1000" >
+        <StackPanel >
 
 
             <mah:ToggleSwitch x:Name="usehardware"
@@ -92,7 +93,9 @@
                                             </Rectangle>
                                  </ToggleButton>
 
-                        <Label Content="Základní modul" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" />
+                        <Label Content="Základní modul" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                                                          IsEnabled="{Binding ElementName=usehardware , Path=IsChecked}"
+/>
 
 
                         <ToggleButton         Grid.Column="0" 
@@ -111,7 +114,7 @@
                                 </Rectangle.OpacityMask>
                                 </Rectangle>
                                 </ToggleButton>
-                        <Label Content="Bezdrátové LED hodiny SORG" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+                    <Label Content="Bezdrátové LED hodiny SORG" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=HWbasemodul , Path=IsChecked}"/>
 
 
                     <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
@@ -127,7 +130,7 @@
                                 </Rectangle.OpacityMask>
                                 </Rectangle>
                                 </ToggleButton>
-                        <Label Content="Dálkové ovládání" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" />
+                    <Label Content="Dálkové ovládání" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" IsEnabled="{Binding ElementName=HWbasemodul , Path=IsChecked}"/>
 
 
                     <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
@@ -143,7 +146,7 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
-                    <Label Content="Bezdrátová čtečka výsledků" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" />
+                    <Label Content="Bezdrátová čtečka výsledků" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" IsEnabled="{Binding ElementName=HWbasemodul , Path=IsChecked}"/>
 
 
                     <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
@@ -159,7 +162,7 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
-                    <Label Content="Informační stanice (TAGy) pro soutěžící" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" />
+                    <Label Content="Informační stanice (TAGy) pro soutěžící" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=HWbasemodul , Path=IsChecked}"/>
                                 
 
                     <ToggleButton    IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
@@ -175,7 +178,7 @@
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </ToggleButton>
-                        <Label Content="Meteostanice" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" />
+                    <Label Content="Meteostanice" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" IsEnabled="{Binding ElementName=HWbasemodul , Path=IsChecked}" />
 
 
 
@@ -192,7 +195,7 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
-                    <Label Content="Bezdrátové mechanické hodiny" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
+                    <Label Content="Bezdrátové mechanické hodiny" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=HWbasemodul , Path=IsChecked}"/>
 
                 </Grid>
 

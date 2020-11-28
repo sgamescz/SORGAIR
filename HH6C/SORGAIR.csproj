@@ -169,39 +169,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helper\VisualHelper.cs" />
-    <Compile Include="Model\BaseClass.cs" />
-    <Compile Include="Model\Player.cs" />
-    <Compile Include="Model\ViewModel.cs" />
-    <Compile Include="View\Hardware.xaml.cs">
-      <DependentUpon>Hardware.xaml</DependentUpon>
+    <Compile Include="Helper\HELPER_VisualHelper.cs" />
+    <Compile Include="Model\MODEL_BaseClass.cs" />
+    <Compile Include="Model\MODEL_Contest.cs" />
+    <Compile Include="Model\MODEL_Team.cs" />
+    <Compile Include="Model\MODEL_Player.cs" />
+    <Compile Include="Model\MODEL_ViewModel.cs" />
+    <Compile Include="View\VIEW_Rounds.xaml.cs">
+      <DependentUpon>VIEW_Rounds.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PlayersView.xaml.cs">
-      <DependentUpon>PlayersView.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Teams.xaml.cs">
+      <DependentUpon>VIEW_Teams.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Hardware.xaml.cs">
+      <DependentUpon>VIEW_Hardware.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\selectedround.xaml.cs">
-      <DependentUpon>selectedround.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Draw.xaml.cs">
+      <DependentUpon>VIEW_Draw.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Uvod.xaml.cs">
-      <DependentUpon>Uvod.xaml</DependentUpon>
+    <Compile Include="View\TMP_1.xaml.cs">
+      <DependentUpon>TMP_1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FirstView.xaml.cs">
-      <DependentUpon>FirstView.xaml</DependentUpon>
+    <Compile Include="View\VIEW_SelectedRound.xaml.cs">
+      <DependentUpon>VIEW_SelectedRound.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Audio.xaml.cs">
-      <DependentUpon>Audio.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Home.xaml.cs">
+      <DependentUpon>VIEW_Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\nastavenisouteze.xaml.cs">
-      <DependentUpon>nastavenisouteze.xaml</DependentUpon>
+    <Compile Include="View\TMP_2.xaml.cs">
+      <DependentUpon>TMP_2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\RozvrhView.xaml.cs">
-      <DependentUpon>RozvrhView.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Audio.xaml.cs">
+      <DependentUpon>VIEW_Audio.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Soutezici.xaml.cs">
-      <DependentUpon>Soutezici.xaml</DependentUpon>
+    <Compile Include="View\VIEW_ContestSettings.xaml.cs">
+      <DependentUpon>VIEW_ContestSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TMP_3.xaml.cs">
+      <DependentUpon>TMP_3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VIEW_Competitors.xaml.cs">
+      <DependentUpon>VIEW_Competitors.xaml</DependentUpon>
     </Compile>
     <Page Include="CORE.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -215,43 +223,51 @@
       <DependentUpon>CORE.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Hardware.xaml">
+    <Page Include="View\VIEW_Rounds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\PlayersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\UserControl1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\selectedround.xaml">
+    <Page Include="View\VIEW_Teams.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Uvod.xaml">
+    <Page Include="View\VIEW_Hardware.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\FirstView.xaml">
+    <Page Include="View\VIEW_Draw.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Audio.xaml">
+    <Page Include="View\TMP_1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\nastavenisouteze.xaml">
+    <Page Include="View\VIEW_SelectedRound.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VIEW_Home.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TMP_2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\RozvrhView.xaml">
+    <Page Include="View\VIEW_Audio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Soutezici.xaml">
+    <Page Include="View\VIEW_ContestSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TMP_3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VIEW_Competitors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

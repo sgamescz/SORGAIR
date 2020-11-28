@@ -33,20 +33,17 @@ namespace WpfApp6
         private static System.Timers.Timer aTimer;
 
 
-        private ViewModel VM => this.DataContext as ViewModel;
+        private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
       
-
+        
         public Core()
         {
-            this.DataContext = new ViewModel();
+            this.DataContext = new MODEL_ViewModel();
             InitializeComponent();
             VM.SQL_OPENCONNECTION("SORG");
             VM.SQL_OPENCONNECTION("SOUTEZ");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
-            VM.bindingMENU_finale = false ;
-            VM.bindingMENU_detailyastatistiky = false ;
-            VM.bindingMENU_online = false;
 
 
         }
@@ -85,17 +82,20 @@ namespace WpfApp6
             VM.Function_global_changebackground = VM.Function_global_changebackground + 1;
         }
 
+
+
+
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //        aTimer = new System.Timers.Timer(20000);
-            //          aTimer.Start();
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
             HamburgerMenuControl.SelectedIndex = 0;
-      
+
+
         }
 
       
+
 
 
     }

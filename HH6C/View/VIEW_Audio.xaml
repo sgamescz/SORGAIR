@@ -69,7 +69,7 @@
                     HorizontalAlignment="Left"
                     ContentDirection="RightToLeft"
                     FontSize="12"
-                        IsChecked="True"
+                        IsChecked="{Binding BIND_USEAUDIO}"
                     
                     Grid.Row="0" Margin="0,0,0,20" />
 
@@ -95,16 +95,20 @@
                     Content="Hlásit kolo a skupinu na začátku letu"
                     HorizontalContentAlignment="Left"
                     HorizontalAlignment="Left"
+                                    
                     FontSize="12"
-IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"                        
+                    IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"                        
+                    
                     Margin="0,0,0,0" />
 
-                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsEnabled}"
+                                <ToggleButton    IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
+
                             Grid.Column="0" 
                             Grid.Row="1"
                                       Margin="5"
                                       Width="50"
                                       Height="50"
+                                                                       IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPFLIGHT}"
                             Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                                     <Rectangle Width="20"
                                 Height="20"
@@ -117,16 +121,19 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                                 </ToggleButton>
 
 
-                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsEnabled}"
+                                <ToggleButton  IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
+
                             Grid.Column="2" 
                             Grid.Row="1"
                                       Margin="5"
                                       Width="50"
                                       Height="50"
-                            Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                                                                       IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPPREP}"
+    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                                     <Rectangle Width="20"
                                 Height="20"
-                                Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                        
+                                               Fill="{DynamicResource MahApps.Brushes.Gray1}">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Uniform"
                                 Visual="{iconPacks:Modern Kind=SocialUservoice}"/>
@@ -153,18 +160,21 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     Content="Hlásit čísla soutěžících na začátku přípravného času"
                     HorizontalContentAlignment="Left"
                     HorizontalAlignment="Left"
+                                    
 IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     FontSize="12"
                         
                     
                     Margin="0,0,0,0" />
 
-                                <ToggleButton     IsChecked="{Binding ElementName=toggle_spoustetautomatickypripravnycas, Path=IsEnabled}"
+                                <ToggleButton  IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
+
                             Grid.Column="0" 
                             Grid.Row="0"
                                       Margin="5"
                                       Width="50"
                                       Height="50"
+                                               IsChecked="{Binding BIND_SQL_AUDIO_COMPNUMBERS}"
                             Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                                     <Rectangle Width="20"
                                 Height="20"
@@ -304,6 +314,7 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
 
                     <Label x:Name="toggle_spoustetautomatickypripravnycas"
                     Grid.Row="1" 
+                           IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
                     Grid.Column="1"
                                  VerticalAlignment="Center"
                     Content="V daném čase automaticky spustit přípravný čas pro další let"
@@ -318,10 +329,10 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     <mah:TimePicker x:Name="kdyspustitpripravny" Grid.Column="2" Grid.Row="1"  Margin="0 2 0 0"
                         Culture="cs"
                         HandVisibility="HourMinute"
-                        IsEnabled="{Binding ElementName=tg1, Path=IsChecked}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
                         IsReadOnly="False"
                         PickerVisibility="HourMinute"
-                        SelectedDateTime="00:00"
+                        SelectedDateTime="{Binding BIND_SQL_AUTO_PREPTIMESTART}"
                         SelectedTimeFormat="Short"
                         Width="64"
                                     Height="30"
@@ -329,16 +340,19 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                         />
 
                     <Label Grid.Column="3" Grid.Row="1" 
-                        Content="Čas ( minuta : vteřina ) spuštění přípravného času"
+                        Content="Čas (minuta : vteřina) spuštění přípravného času"
                         HorizontalAlignment="Left"
+                                                      IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
+
                            VerticalAlignment="Center"
-                               FontWeight= "DemiBold"
                         />
 
 
                     <Label
                     Grid.Row="2" 
                     Grid.Column="1"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
+
                         VerticalAlignment="Center"
                     Content="Po doběhnutí přípravného času spustit letový čas dalšího kola"
                     HorizontalContentAlignment="Left"
@@ -361,9 +375,10 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     <ToggleButton    Name="pouzivatpripravnycas"
                             Grid.Column="0" 
                             Grid.Row="0"
-                                      Margin="5"
+                                     Margin="0 0 0 10"
                                       Width="50"
                                       Height="50"
+                                     IsChecked="{Binding BIND_SQL_AUTO_USEPREPTIME}"
                             Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                         <Rectangle Width="20"
                                 Height="20"
@@ -378,9 +393,11 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                     <ToggleButton  Name="tg1" 
                             Grid.Column="0" 
                             Grid.Row="1"
-                                      Margin="5"
+                                   Margin="0 0 0 10"
                                       Width="50"
                                       Height="50"
+                                   IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
+                                    IsChecked="{Binding BIND_SQL_AUTO_RUNPREPTIMENEXTROUND}"
                             Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                         <Rectangle Width="20"
                                 Height="20"
@@ -392,12 +409,12 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                         </Rectangle>
                     </ToggleButton>
 
-                    <ToggleButton     IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                    <ToggleButton     IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
                             Grid.Column="0" 
                             Grid.Row="2"
-                                      Margin="5"
                                       Width="50"
                                       Height="50"
+                                       IsChecked="{Binding BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME}"
                             Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                         <Rectangle Width="20"
                                 Height="20"
@@ -424,11 +441,11 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
 
                     <mah:TimePicker Grid.Column="2" Grid.Row="0" 
                         Culture="cs"
-                        HandVisibility="Minute"
+                        HandVisibility="HourMinute"
                         IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
                         IsReadOnly="False"
-                        PickerVisibility="Minute"
-                        SelectedDateTime="00:00"
+                        PickerVisibility="HourMinute"
+                        SelectedDateTime="{Binding BIND_SQL_AUTO_PREPTIMELENGHT}"
                         SelectedTimeFormat="Short"
                         Width="64"
                                         Height="30"
@@ -436,10 +453,11 @@ IsEnabled="{Binding ElementName=useaudio, Path=IsChecked}"
                         />
 
                     <Label Grid.Column="3" Grid.Row="0" 
-                        Content="Délka přípravného času mezi koly"
+                                                      IsEnabled="{Binding ElementName=pouzivatpripravnycas , Path=IsChecked}"
+
+                        Content="Délka přípravného času mezi koly (minuta : vteřina)"
                            VerticalContentAlignment="Center"
                         HorizontalAlignment="Left"
-                               FontWeight= "DemiBold"
                         />
 
 

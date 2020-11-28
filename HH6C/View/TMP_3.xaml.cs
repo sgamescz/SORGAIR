@@ -14,17 +14,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp6.Model;
 
+
 namespace WpfApp6.View
 {
     /// <summary>
-    /// Interakční logika pro FirstView.xaml
+    /// Interakční logika pro RozvrhView.xaml
     /// </summary>
-    public partial class FirstView : UserControl
+    public partial class RozvrhView : UserControl
     {
-        private ViewModel VM => this.DataContext as ViewModel;
-        public FirstView()
+        private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+        public RozvrhView()
         {
-
             InitializeComponent();
         }
     }
