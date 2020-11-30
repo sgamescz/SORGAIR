@@ -14,6 +14,8 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
+
+    
     <UserControl.Resources>
 
         <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type Controls:MetroHeader}">
@@ -57,6 +59,14 @@
                 </Trigger>
             </Style.Triggers>
 
+        </Style>
+        <Style x:Key="userbuttonstyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
         </Style>
 
     </UserControl.Resources>
@@ -267,7 +277,7 @@
                                     Margin="5,5,5,0"
                                     Content="{Binding STARTPOINT}"
                                     ContentStringFormat="Startoviště: {0}"
-                                    Style="{StaticResource MahApps.Styles.Button.AccentedSquare}" />
+                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" Width="Auto" HorizontalAlignment="Stretch" />
                                 <Button
                                     Height="155"
                                     Margin="5,5,5,0"
@@ -278,13 +288,13 @@
                                     Margin="5,5,5,0"
                                     Content="{Binding RAWSCORE}"
                                     ContentStringFormat="RAW: {0}"
-                                    Style="{StaticResource MahApps.Styles.Button.AccentedSquare}" />
+                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" Width="Auto" HorizontalAlignment="Stretch" />
                                 <Button
                                     Height="30"
                                     Margin="5,5,5,0"
                                     Content="{Binding PREPSCORE}"
                                     ContentStringFormat="REC: {0}"
-                                    Style="{StaticResource MahApps.Styles.Button.AccentedSquare}" />
+                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" Width="Auto" HorizontalAlignment="Stretch" />
                                 <Button
                                     Height="30"
                                     Margin="5,5,5,0"

@@ -32,10 +32,7 @@
             </Setter>
         </Style>
 
-        <Style
-            x:Key="toglestyl"
-            BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}"
-            TargetType="{x:Type ToggleButton}">
+        <Style x:Key="toglestyl" TargetType="{x:Type ToggleButton}">
             <Setter Property="Height" Value="50" />
             <Setter Property="Width" Value="50" />
             <Setter Property="Margin" Value="5" />
@@ -43,10 +40,7 @@
 
         </Style>
 
-        <Style
-            x:Key="typss"
-            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
-            TargetType="{x:Type Button}">
+        <Style x:Key="typss" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
             <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
             <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Black}" />
@@ -376,17 +370,16 @@
                         x:Name="ispaid"
                         Width="180"
                         Height="35"
+                        Margin="10,0,0,0"
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Left"
-                        Click="ispaid_Click"
                         ContentDirection="RightToLeft"
                         FontSize="12"
-                        IsChecked="{Binding BIND_PAID}"
                         IsEnabled="False"
-                        OffLabel="Neregistrován"
-                        OffSwitchBrush="{DynamicResource MahApps.Brushes.Accent}"
-                        OnLabel="Registrován"
-                        OnSwitchBrush="{DynamicResource MahApps.Brushes.Accent}" />
+                        IsOn="{Binding BIND_PAID}"
+                        Mouse.MouseUp="ispaid_Click"
+                        OffContent="Neregistrován"
+                        OnContent="Registrován" />
 
                 </mah:Tile>
 
@@ -456,7 +449,7 @@
                 x:Name="firstFlyout"
                 Margin="10,0,0,0"
                 Header="Přidání nového soutěžícího"
-                IsOpen="True"
+                IsOpen="False"
                 Position="Right">
 
 
@@ -674,11 +667,9 @@
                             HorizontalContentAlignment="Left"
                             ContentDirection="RightToLeft"
                             FontSize="12"
-                            IsChecked="False"
-                            OffLabel="Neregistrován"
-                            OffSwitchBrush="{DynamicResource MahApps.Brushes.Accent}"
-                            OnLabel="Registrován"
-                            OnSwitchBrush="{DynamicResource MahApps.Brushes.Accent}"
+                            IsOn="False"
+                            OffContent="Neregistrován"
+                            OnContent="Registrován"
                             TabIndex="8" />
 
                     </mah:Tile>
@@ -769,7 +760,7 @@
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                        Background="{DynamicResource MahApps.Brushes.Gray9 }"
+                        Background="{DynamicResource MahApps.Brushes.Gray9}"
                         Click="L_close_Click"
                         HorizontalTitleAlignment="center"
                         Style="{StaticResource userbuttonstyle}"

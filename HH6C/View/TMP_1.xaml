@@ -1,33 +1,100 @@
-﻿<UserControl x:Class="WpfApp6.View.UserControl1"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WpfApp6.View"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="WpfApp6.View.UserControl1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:WpfApp6.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
 
     <Grid>
-                    <Controls:MetroProgressBar BorderThickness="2" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Value="13" Maximum="23" x:Name="progressbar" Margin="511,85,10,305" IsIndeterminate="True" />
-        <CheckBox Content="Chci zvuky" HorizontalAlignment="Left" Margin="360,115,0,0" VerticalAlignment="Top" Height="30" Width="115" IsChecked="{Binding BIND_MENU_ENABLED_finale, Mode=TwoWay}"/>
-        <RadioButton Content="Volím jedničku" HorizontalAlignment="Left" Margin="360,81,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <PasswordBox Controls:PasswordBoxHelper.RevealButtonContent="true"  HorizontalAlignment="Left" Margin="475,38,0,0" VerticalAlignment="Top" Width="175"/>
-        <Button x:Name="btn_msgbx" Style="{DynamicResource MahApps.Styles.Button.Square}" Content="MSGBOX" HorizontalAlignment="Left" Margin="150,140,0,0" VerticalAlignment="Top" Width="170" Height="30"/>
-        <Button Content="Bcolor" HorizontalAlignment="Left" Margin="150,210,-216,-83" VerticalAlignment="Top" Width="170" Height="18"  />
-        <ToggleButton Content="Chci" HorizontalAlignment="Left" Width="174" Height="163" VerticalAlignment="Top" Margin="531,260,0,0" />
-     
+        <Controls:MetroProgressBar
+            x:Name="progressbar"
+            Margin="511,85,10,305"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+            BorderThickness="2"
+            IsIndeterminate="True"
+            Maximum="23"
+            Value="13" />
+        <CheckBox
+            Width="115"
+            Height="30"
+            Margin="360,115,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Chci zvuky"
+            IsChecked="{Binding BIND_MENU_ENABLED_finale, Mode=TwoWay}" />
+        <RadioButton
+            Margin="360,81,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Volím jedničku"
+            IsChecked="True" />
+        <PasswordBox
+            Width="175"
+            Margin="475,38,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Controls:PasswordBoxHelper.RevealButtonContent="true" />
+        <Button
+            x:Name="btn_msgbx"
+            Width="170"
+            Height="30"
+            Margin="150,140,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="MSGBOX"
+            Style="{DynamicResource MahApps.Styles.Button.Square}" />
+        <Button
+            Width="170"
+            Height="18"
+            Margin="150,210,-216,-83"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Bcolor" />
+        <ToggleButton
+            Width="174"
+            Height="163"
+            Margin="531,260,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Chci" />
 
-        <Controls:ProgressRing Foreground="{DynamicResource MahApps.Brushes.Accent}" Margin="200,10,-156,75"/>
-        <Button Style="{DynamicResource MahApps.Styles.Button.Square}" Content="Fcolor" HorizontalAlignment="Left" Margin="150,175,-216,-60" VerticalAlignment="Top" Width="170" Height="30"/>
 
-        <Controls:Tile x:Name="tile" Title="Ahoj" Width="155" Height="165" Count="1" Margin="69,275,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-        <Button Content="Button" Margin="22,190,0,0" HorizontalAlignment="Left" Width="83" Height="55" VerticalAlignment="Top"/>
+        <Controls:ProgressRing Margin="200,10,-156,75" Foreground="{DynamicResource MahApps.Brushes.Accent}" />
+        <Button
+            Width="170"
+            Height="30"
+            Margin="150,175,-216,-60"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Fcolor"
+            Style="{DynamicResource MahApps.Styles.Button.Square}" />
 
-        
-        
-        
+        <Controls:Tile
+            x:Name="tile"
+            Title="Ahoj"
+            Width="155"
+            Height="165"
+            Margin="69,275,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Count="1" />
+        <Button
+            Width="83"
+            Height="55"
+            Margin="22,190,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Button" />
+
+
+
+
 
     </Grid>
 </UserControl>

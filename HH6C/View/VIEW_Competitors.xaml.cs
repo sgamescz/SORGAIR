@@ -90,7 +90,7 @@ namespace WpfApp6.View
             l_naclic.Text = "";
             l_agecat.SelectedIndex = -1;
             l_freq.SelectedIndex = -1;
-            l_registered.IsChecked  = false;
+            l_registered.IsOn  = false;
             l_nextid.Count = VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "");
 
 
@@ -109,7 +109,7 @@ namespace WpfApp6.View
 
         private void ispaid_Click(object sender, RoutedEventArgs e)
         {
-            string check = (sender as MahApps.Metro.Controls.ToggleSwitch).IsChecked .ToString();
+            string check = (sender as MahApps.Metro.Controls.ToggleSwitch).IsOn  .ToString();
             VM.Players[competitorlist.SelectedIndex].PAIDSTR = check;
             VM.Players[competitorlist.SelectedIndex].PAID = @"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\" + check + ".png";
             VM.FUNCTION_COMPETITOR_UPDATE("Paid", check, VM.Players[competitorlist.SelectedIndex].ID);
@@ -190,7 +190,7 @@ namespace WpfApp6.View
             }
             else
             {
-                VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), l_failic.Text, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsChecked), 1, 1);
+                VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), l_failic.Text, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 1, 1);
             }
             return results;
         }

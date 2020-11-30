@@ -9,6 +9,8 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Collections.ObjectModel;
 using WpfApp6.View;
 using System.IO;
+using ControlzEx.Theming;
+
 
 
 namespace WpfApp6.Model
@@ -17,8 +19,20 @@ namespace WpfApp6.Model
     /// Interakční logika pro MainWindow.xaml
     /// </summary>
     /// 
+
+
+
+    
+
+
+
     public class MODEL_ViewModel : INotifyPropertyChanged
     {
+
+
+
+        
+        
         SQLiteConnection DBSORG_Connection;
         SQLiteConnection DBSOUTEZ_Connection;
         System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
@@ -112,7 +126,7 @@ namespace WpfApp6.Model
     }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -214,17 +228,22 @@ namespace WpfApp6.Model
         #endregion
 
         #region BIND_Nastavení
+        public ObservableCollection<DataObject> xxxx { get; set; } = new ObservableCollection<DataObject>();
 
         public void FUNCTION_LOADCONTEST()
         {
 
 
 
-            mArrayOfflags = Directory.GetFiles(@"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\", "*.*", SearchOption.TopDirectoryOnly);
+
+
+        mArrayOfflags = Directory.GetFiles(@"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\", "*.*", SearchOption.TopDirectoryOnly);
             foreach (var file in mArrayOfflags)
             {
                 FileInfo info = new FileInfo(file);
                 var players_flags = new MODEL_Player_flags()
+
+
                 { FILENAME = Path.GetFileNameWithoutExtension(info.Name) };
                 MODEL_Contest_FLAGS.Add(players_flags);
             }
@@ -253,7 +272,14 @@ namespace WpfApp6.Model
 
 
 
-            BIND_SQL_SOUTEZ_NAZEV = SQL_READSOUTEZDATA("select value from contest where item='Name'", "");
+
+
+
+
+
+
+
+        BIND_SQL_SOUTEZ_NAZEV = SQL_READSOUTEZDATA("select value from contest where item='Name'", "");
             BIND_SQL_SOUTEZ_KATEGORIE = SQL_READSOUTEZDATA("select value from contest where item='Category'", "");
             BIND_SQL_SOUTEZ_LOKACE = SQL_READSOUTEZDATA("select value from contest where item='Location'", "");
             BIND_SQL_SOUTEZ_DATUM = SQL_READSOUTEZDATA("select value from contest where item='Date'", "");
@@ -290,8 +316,7 @@ namespace WpfApp6.Model
         }
 
 
-
-
+        
         public string BIND_LETOVYCAS_STRING
         {
             get
@@ -836,7 +861,8 @@ namespace WpfApp6.Model
                             PAIDSTR = paid,
                             TEAM = team,
                             CUSTOMAGECAT = customagecat
-                        };
+
+                    };
                         Players.Add(player);
                         vysledek = "get_players";
 
@@ -854,7 +880,7 @@ namespace WpfApp6.Model
                             STARTPOINT = sqlite_datareader.GetInt32(1),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")),
                             RAWSCORE = 145,
-                            PREPSCORE = 988
+                            PREPSCORE = 988 
                         };
                         Players_Actual.Add(player_actual);
                         vysledek = kamulozitvysledek;
@@ -1009,9 +1035,8 @@ namespace WpfApp6.Model
             {
                 pouzitabarva = 0;
             }
-
-
-            MahApps.Metro.ThemeManager.ChangeTheme(System.Windows.Application.Current, pozadi[pouzitepozadi], barva[pouzitabarva]);
+            
+ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouzitepozadi], barva[pouzitabarva]);
             SQL_SAVESORGDATA("update nastaveni set hodnota = " + pouzitabarva + " where polozka='popredi'");
 
         }
@@ -1068,7 +1093,7 @@ namespace WpfApp6.Model
             }
 
             SQL_SAVESORGDATA("update nastaveni set hodnota = " + pouzitepozadi + " where polozka='pozadi'");
-            MahApps.Metro.ThemeManager.ChangeTheme(System.Windows.Application.Current, pozadi[pouzitepozadi].ToString(), barva[pouzitabarva].ToString());
+            ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouzitepozadi].ToString(), barva[pouzitabarva].ToString());
 
         }
 
@@ -1150,6 +1175,9 @@ namespace WpfApp6.Model
 
 
 
+        public ObservableCollection<DataObject> testdata { get; set; } = new ObservableCollection<DataObject>();
+
+
         #region Players
         public ObservableCollection<MODEL_Player> Players { get; set; } = new ObservableCollection<MODEL_Player>();
         public ObservableCollection<MODEL_Player_actual> Players_Actual { get; set; } = new ObservableCollection<MODEL_Player_actual>();
@@ -1193,6 +1221,8 @@ namespace WpfApp6.Model
 
         public ObservableCollection<MODEL_Player_agecategories> MODEL_Contest_AGECATEGORIES { get; set; } = new ObservableCollection<MODEL_Player_agecategories>();
         public ObservableCollection<MODEL_Player_frequencies> MODEL_Contest_FREQUENCIES { get; set; } = new ObservableCollection<MODEL_Player_frequencies>();
+
+        
 
         public void FUNCTION_ROUNDS_LOAD_ROUNDS()
         {

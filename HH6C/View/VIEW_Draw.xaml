@@ -16,48 +16,39 @@
 
 
 
-    <Grid Margin="0,0,10,60" Background="AliceBlue" >
+    <Grid Margin="0,0,10,60" Background="AliceBlue">
 
-
-        <ItemsControl
-            Width="1140"
-            HorizontalAlignment="Left"
-            
-            Background="DarkBlue"
-            ItemsSource="{Binding MODEL_Contest_FREQUENCIES}" Margin="0,0,0,-40">
+        <ItemsControl ItemsSource="{Binding Players}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
+                    <Grid>
+                        <ItemsControl
+                            Margin="5"
+                            Background="Gray"
+                            ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBox
+                                            Margin="5"
+                                            Background="Green"
+                                            Text="{Binding Title}" />
+                                    </Grid>
+                                    <!--  You Are missing this!  -->
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
 
-
-                    <ItemsControl
-                        Width="600"
-                        Height="100"
-                        Margin="5"
-                        HorizontalAlignment="Stretch"
-                        Background="Cyan"
-                        ItemsSource="{Binding MODEL_Contest_AGECATEGORIES}">
-
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <Grid
-                                    Width="50"
-                                    Height="50"
-                                    Margin="5"
-                                    Background="Magenta" />
-
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-
-                    </ItemsControl>
-
-
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-
         </ItemsControl>
-
 
     </Grid>
 </UserControl>

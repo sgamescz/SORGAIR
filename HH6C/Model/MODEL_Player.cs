@@ -7,17 +7,39 @@ using System.Threading.Tasks;
 
 namespace WpfApp6.Model
 {
+
+
+
+
+    public class TodoItem
+    {
+        public string Title { get; set; }
+        public int Completion { get; set; }
+    }
+
+
+
+
+
     public class MODEL_Player : MODEL_BaseClass
     {
         // Default constructor for Player
+
+
         public MODEL_Player()
         {
-          
+
+
+
+            items.Add(new TodoItem() { Title = "Complete this WPF tutorial", Completion = 45 });
+            items.Add(new TodoItem() { Title = "Learn C#", Completion = 80 });
+            items.Add(new TodoItem() { Title = "Wash the car", Completion = 0 });
+
 
         }
 
 
-      
+
         private int _ID;
         public int  ID
         {
@@ -141,6 +163,10 @@ namespace WpfApp6.Model
             set { _PAIDSTR = value; RaisePropertyChanged(nameof(PAIDSTR)); }
         }
 
+
+        public List<TodoItem> items = new List<TodoItem>();
+
+
     }
 
 
@@ -158,8 +184,10 @@ namespace WpfApp6.Model
         // Default constructor for Player
         public MODEL_Player_actual()
         {
-
         }
+
+
+
 
         private int _ID;
         public int ID
@@ -199,6 +227,9 @@ namespace WpfApp6.Model
             get { return _PREPSCORE; }
             set { _PREPSCORE = value; RaisePropertyChanged(nameof(PREPSCORE)); }
         }
+
+
+
 
     }
 
@@ -249,6 +280,13 @@ namespace WpfApp6.Model
         }
 
 
+
+
+    }
+
+    public class DataObject
+    {
+  
     }
 
 
