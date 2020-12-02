@@ -11,11 +11,6 @@ namespace WpfApp6.Model
 
 
 
-    public class TodoItem
-    {
-        public string Title { get; set; }
-        public int Completion { get; set; }
-    }
 
 
 
@@ -31,9 +26,7 @@ namespace WpfApp6.Model
 
 
 
-            items.Add(new TodoItem() { Title = "Complete this WPF tutorial", Completion = 45 });
-            items.Add(new TodoItem() { Title = "Learn C#", Completion = 80 });
-            items.Add(new TodoItem() { Title = "Wash the car", Completion = 0 });
+
 
 
         }
@@ -164,7 +157,7 @@ namespace WpfApp6.Model
         }
 
 
-        public List<TodoItem> items = new List<TodoItem>();
+
 
 
     }

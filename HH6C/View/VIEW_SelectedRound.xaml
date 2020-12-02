@@ -114,7 +114,7 @@
                         <Rectangle
                             Width="20"
                             Height="20"
-                            Fill="{DynamicResource MahApps.Brushes.Black}">
+                            Fill="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeBlackHigh}">
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularPlayCircle}" />
                             </Rectangle.OpacityMask>

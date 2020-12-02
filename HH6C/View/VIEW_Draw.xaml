@@ -2,53 +2,160 @@
     x:Class="WpfApp6.View.Draw"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:WpfApp6.View"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:WpfApp6.Model"
-    Width="1150"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
     d:DesignHeight="450"
-    Background="Red"
+    d:DesignWidth="600"
     mc:Ignorable="d">
 
 
+    <UserControl.Resources>
 
-    <Grid Margin="0,0,10,60" Background="AliceBlue">
+        <Style BasedOn="{StaticResource MahApps.Styles.MetroHeader}" TargetType="{x:Type Controls:MetroHeader}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" UseLayoutRounding="True">
+                            <TextBlock
+                                Margin="10,0,0,0"
+                                FontWeight="DemiBold"
+                                Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
+                                Text="{Binding}" />
+                            <Separator Margin="0,0,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <ItemsControl ItemsSource="{Binding Players}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+        <Style
+            x:Key="toglestyl"
+            BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}"
+            TargetType="{x:Type ToggleButton}">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Margin" Value="5" />
+
+
+        </Style>
+
+        <Style
+            x:Key="typss"
+            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Black}" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.White}" />
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Badged.DisabledBackground}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="userbuttonstyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+    </UserControl.Resources>
+
+
+
+    <StackPanel Margin="0,0,0,0">
+        <StackPanel>
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{} Rounds:{0} Groups:{1} Startpoints:{2}">
+                        <Binding Path="BIND_SQL_SOUTEZ_ROUNDS" />
+                        <Binding Path="BIND_SQL_SOUTEZ_GROUPS" />
+                        <Binding Path="BIND_SQL_SOUTEZ_STARTPOINTS" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <Button x:Name="btn_create_new_matrix" Content="Create new empty matrix by count of rounds, groups and startpoints without competitors" Click="btn_create_new_matrix_Click"  />
+            <Button x:Name="btn_delete_matrix" Content="smazat rozlosování" Click="btn_delete_matrix_Click" />
+        </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding MODEL_CONTEST_ROUNDS}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <ItemsControl
-                            Margin="5"
-                            Background="Gray"
-                            ItemsSource="{Binding Items}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <TextBox
-                                            Margin="5"
-                                            Background="Green"
-                                            Text="{Binding Title}" />
-                                    </Grid>
-                                    <!--  You Are missing this!  -->
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                    <Grid
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource MahApps.Brushes.Gray10}">
+                        <Controls:MetroHeader Margin="0" Header="{Binding ROUNDNAME}">
+                            <ItemsControl
+                                Margin="10"
+                                Padding="10"
+                                ItemsSource="{Binding items}">
 
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Controls:MetroHeader
+                                            Margin="0,0,0,5"
+                                            Background="{DynamicResource MahApps.Brushes.Gray8}"
+                                            Header="{Binding Title}">
+                                            <ItemsControl ItemsSource="{Binding items2}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Rows="1" />
+                                                    </ItemsPanelTemplate>
 
+                                                </ItemsControl.ItemsPanel>
+
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+
+                                                            <Button
+                                                                Width="Auto"
+                                                                Height="35"
+                                                                Margin="5,5,5,0"
+                                                                HorizontalAlignment="Stretch"
+                                                                Background="{DynamicResource MahApps.Brushes.Accent4}"
+                                                                Content="{Binding startpoint}"
+                                                                ContentStringFormat="Startoviště: {0}"
+                                                                Foreground="{DynamicResource MahApps.Brushes.Badged.Foreground}"
+                                                                Style="{StaticResource MahApps.Styles.Button.Flat}" />
+
+                                                            <Button
+                                                                Width="Auto"
+                                                                Height="35"
+                                                                Margin="5,0,5,10"
+                                                                HorizontalAlignment="Stretch"
+                                                                Background="{DynamicResource MahApps.Brushes.Accent}"
+                                                                Content="{Binding name}"
+                                                                ContentStringFormat="Soutěžící: {0}"
+                                                                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" />
+
+                                                        </StackPanel>
+                                                        <!--  You Are missing this!  -->
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                        </Controls:MetroHeader>
+                                        <!--  You Are missing this!  -->
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </Controls:MetroHeader>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-    </Grid>
+    </StackPanel>
 </UserControl>

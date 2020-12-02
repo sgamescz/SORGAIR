@@ -362,6 +362,7 @@
                     HorizontalContentAlignment="Left"
                     mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                     Background="{DynamicResource MahApps.Brushes.Accent3}"
+                    Click="ispaid_Click"
                     HorizontalTitleAlignment="Right"
                     Style="{StaticResource userbuttonstyle}"
                     Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
@@ -377,9 +378,9 @@
                         FontSize="12"
                         IsEnabled="False"
                         IsOn="{Binding BIND_PAID}"
-                        Mouse.MouseUp="ispaid_Click"
                         OffContent="Neregistrován"
-                        OnContent="Registrován" />
+                        OnContent="Registrován"
+                        Toggled="ispaid_Click" />
 
                 </mah:Tile>
 
@@ -401,7 +402,6 @@
                     Height="60"
                     Margin="10,69,10,0"
                     VerticalAlignment="Top"
-                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                     Background="{DynamicResource MahApps.Brushes.Accent}"
                     Click="delete_competitor_Click"
                     HorizontalTitleAlignment="Center"
@@ -663,6 +663,7 @@
                             x:Name="l_registered"
                             Width="180"
                             Height="35"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             HorizontalContentAlignment="Left"
                             ContentDirection="RightToLeft"

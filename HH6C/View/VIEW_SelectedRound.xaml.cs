@@ -33,7 +33,7 @@ namespace WpfApp6.View
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
 
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Audio\petiminutoveho.wav");

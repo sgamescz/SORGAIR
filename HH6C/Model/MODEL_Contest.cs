@@ -11,6 +11,10 @@ namespace WpfApp6.Model
     {
 
 
+
+
+
+
         // Default constructor for Player
         public MODEL_Contest_Rounds()
         {
@@ -55,6 +59,8 @@ namespace WpfApp6.Model
             set { _ROUNDZADANO = value; RaisePropertyChanged(nameof(ROUNDZADANO)); }
         }
 
+
+        public List<TodoItem> items { get; set; } = new List<TodoItem>();
 
 
 

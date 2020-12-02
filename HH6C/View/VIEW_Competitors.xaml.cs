@@ -109,10 +109,12 @@ namespace WpfApp6.View
 
         private void ispaid_Click(object sender, RoutedEventArgs e)
         {
-            string check = (sender as MahApps.Metro.Controls.ToggleSwitch).IsOn  .ToString();
-            VM.Players[competitorlist.SelectedIndex].PAIDSTR = check;
-            VM.Players[competitorlist.SelectedIndex].PAID = @"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\" + check + ".png";
-            VM.FUNCTION_COMPETITOR_UPDATE("Paid", check, VM.Players[competitorlist.SelectedIndex].ID);
+            if ( competitorlist.SelectedIndex > 0) {
+                string check = (sender as MahApps.Metro.Controls.ToggleSwitch).IsOn.ToString();
+                VM.Players[competitorlist.SelectedIndex].PAIDSTR = check;
+                VM.Players[competitorlist.SelectedIndex].PAID = @"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\" + check + ".png";
+                VM.FUNCTION_COMPETITOR_UPDATE("Paid", check, VM.Players[competitorlist.SelectedIndex].ID);
+            }
         }
 
         private void SplitButton_SelectionChanged(object sender, SelectionChangedEventArgs e)

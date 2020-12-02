@@ -22,8 +22,22 @@ namespace WpfApp6.Model
 
 
 
-    
 
+    public class TodoItem
+    {
+        public string Title { get; set; }
+        public int Completion { get; set; }
+        public List<TodoItem2> items2 { get; set; } = new List<TodoItem2>();
+
+    }
+
+
+    public class TodoItem2
+    {
+        public string name { get; set; }
+        public int userid { get; set; }
+        public int startpoint { get; set; }
+    }
 
 
     public class MODEL_ViewModel : INotifyPropertyChanged
@@ -293,6 +307,7 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_JURY2 = SQL_READSOUTEZDATA("select value from contest where item='Jury2'", "");
             BIND_SQL_SOUTEZ_JURY3 = SQL_READSOUTEZDATA("select value from contest where item='Jury3'", "");
             BIND_SQL_SOUTEZ_ROUNDS = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Rounds'", ""));
+            BIND_SQL_SOUTEZ_GROUPS = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Groups'", ""));
             BIND_SQL_SOUTEZ_STARTPOINTS = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Startpoints'", ""));
             BIND_SQL_SOUTEZ_DELETES = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletes'", ""));
             BIND_SQL_SOUTEZ_ROUNDSFINALE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Roundsfinale'", ""));
@@ -316,7 +331,7 @@ namespace WpfApp6.Model
         }
 
 
-        
+
         public string BIND_LETOVYCAS_STRING
         {
             get
@@ -428,7 +443,17 @@ namespace WpfApp6.Model
         public int BIND_SQL_SOUTEZ_ROUNDS
         {
             get { return BIND_SQL_SOUTEZ_ROUNDS_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rounds'"); BIND_SQL_SOUTEZ_ROUNDS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS"); }
+
+            set { 
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rounds'");
+                if (value > BIND_SQL_SOUTEZ_ROUNDS_value)
+                {
+                    SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values ("+ value + ",'autopridani','auto',600,0);");
+                }
+                SQL_SAVESOUTEZDATA("delete from rounds where id > " + value + ";");
+                BIND_SQL_SOUTEZ_ROUNDS_value = value; 
+                OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS"); 
+            }
         }
 
 
@@ -722,6 +747,96 @@ namespace WpfApp6.Model
 
 
 
+
+        public List<TodoItem> SQL__SUBQUERY_ADD_GROUPS(int kolo)
+
+        {
+
+
+
+
+            Console.WriteLine("select * from matrix M left join groups G on M.grp = G.id where M.rnd=" + kolo + ";");
+            List<TodoItem> test = new List<TodoItem>();
+            List<TodoItem2> test2 = new List<TodoItem2>();
+
+            SQLiteCommand command = new SQLiteCommand("select rnd,grp,g.* from matrix M left join groups G on M.grp = G.id where M.rnd=" + kolo + " group by grp;", DBSOUTEZ_Connection);
+            SQLiteDataReader sqlite_datareader;
+
+            try
+            {
+                sqlite_datareader = command.ExecuteReader();
+                while (sqlite_datareader.Read())
+                {
+                    test2 = SQL__SUBQUERY_ADD_STARTPOINTS(kolo, sqlite_datareader.GetInt32(1));
+
+                    string myreader = sqlite_datareader.GetString(3);
+                    test.Add(new TodoItem() { Title = myreader, Completion = 45, items2 = test2 });
+
+                    Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + "kamulozitvysledek");
+                }
+            }
+            catch (SQLiteException myException)
+            {
+                Console.WriteLine("Message: " + myException.Message + "\n");
+
+            }
+
+
+
+            return test;
+
+
+
+
+
+        }
+
+
+
+
+
+        public List<TodoItem2> SQL__SUBQUERY_ADD_STARTPOINTS(int kolo, int group)
+
+        {
+
+
+
+
+            Console.WriteLine("select * from matrix M left join users U on M.user = U.ID where rnd=" + kolo + " and grp=" + group + ";");
+            List<TodoItem2> test2 = new List<TodoItem2>();
+            SQLiteCommand command = new SQLiteCommand("select * from matrix M left join users U on M.user = U.ID where rnd = " + kolo + " and grp = " + group + "; ", DBSOUTEZ_Connection);
+            SQLiteDataReader sqlite_datareader;
+
+            try
+            {
+                sqlite_datareader = command.ExecuteReader();
+                while (sqlite_datareader.Read())
+                {
+                    string tmpname = sqlite_datareader.GetString(6);
+                    int tmpid = sqlite_datareader.GetInt32(3);
+                    int tmpstp = sqlite_datareader.GetInt32(2);
+                    test2.Add(new TodoItem2() { name = tmpname, userid= tmpid, startpoint=tmpstp});
+
+                    Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + tmpname + " >>>> " + "kamulozitvysledek");
+                }
+            }
+            catch (SQLiteException myException)
+            {
+                Console.WriteLine("Message: " + myException.Message + "\n");
+
+            }
+
+
+
+            return test2;
+
+
+
+
+
+        }
+
+
         public void SQL_CLOSECONNECTION(string KTERADB)
         {
 
@@ -795,7 +910,6 @@ namespace WpfApp6.Model
 
             return vysledek;
 
-            vysledek = "";
 
 
 
@@ -888,19 +1002,25 @@ namespace WpfApp6.Model
                     }
 
 
+
                     if (kamulozitvysledek == "get_rounds")
                     {
 
+
                         Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
 
+                
 
                         var rounds = new MODEL_Contest_Rounds()
                         {
+
                             ID = sqlite_datareader.GetInt32(0),
                             ROUNDNAME = sqlite_datareader.GetString(1),
                             ROUNDTYPE = sqlite_datareader.GetString(2),
                             ROUNDLENGHT = sqlite_datareader.GetInt32(3),
-                            ROUNDZADANO = sqlite_datareader.GetInt32(4)
+                            ROUNDZADANO = sqlite_datareader.GetInt32(4), 
+                            items= SQL__SUBQUERY_ADD_GROUPS(sqlite_datareader.GetInt32(0))
+
                         };
                         MODEL_CONTEST_ROUNDS.Add(rounds);
                         vysledek = kamulozitvysledek;
@@ -914,11 +1034,11 @@ namespace WpfApp6.Model
 
                         var groups = new MODEL_Contest_Groups()
                         {
-                            ID = sqlite_datareader.GetInt32(3),
-                            GROUPNAME = sqlite_datareader.GetString(4),
-                            GROUPTYPE= sqlite_datareader.GetString(5),
-                            GROUPLENGHT= sqlite_datareader.GetInt32(6),
-                            GROUPZADANO = sqlite_datareader.GetInt32(7)
+                            ID = sqlite_datareader.GetInt32(2),
+                            GROUPNAME = sqlite_datareader.GetString(3),
+                            GROUPTYPE= sqlite_datareader.GetString(4),
+                            GROUPLENGHT= sqlite_datareader.GetInt32(5),
+                            GROUPZADANO = sqlite_datareader.GetInt32(6)
                         };
                         MODEL_CONTEST_GROUPS.Add(groups);
                         vysledek = kamulozitvysledek;
@@ -1015,7 +1135,7 @@ namespace WpfApp6.Model
 
             return vysledek;
 
-            vysledek = "";
+      
 
 
 
@@ -1185,7 +1305,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_USERS_LOAD_ALLCOMPETITORS()
         {
             Players.Clear();
-            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U; ", "get_players");
+            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U where id > 0; ", "get_players");
             BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users", "");
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users", ""));
             
@@ -1196,7 +1316,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             SQL_SAVESOUTEZDATA("insert into users values (null,'"+ firstname + "', '" + lastname  + "', '" + country  + "', '" + agecat  + "', '" + freq  + "', '" + chanel1  + "', '" + chanel2 + "' , '" + failic + "', '" + naclic + "', '" + club + "' , '" + registered + "', '" + team + "', '" + customagecat + "' );");
             Players.Clear();
-            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U;", "get_players");
+            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U where id > 0 ;", "get_players");
             BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users", "");
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users", ""));
 
@@ -1234,7 +1354,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_ROUNDS_LOAD_GROUPS(int  kolo)
         {
             MODEL_CONTEST_GROUPS.Clear();
-            SQL_READSOUTEZDATA("select * from matrix M left join groups G on M.grp = G.id where M.rnd="+kolo +";", "get_groups");
+            SQL_READSOUTEZDATA("select rnd,grp,g.* from matrix M left join groups G on M.grp = G.id where M.rnd=" + kolo + " group by grp;", "get_groups");
         }
 
 
@@ -1243,7 +1363,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (rnd==0) { rnd = BIND_SELECTED_ROUND; }
             if (grp== 0) { grp = BIND_SELECTED_GROUP; }
             Players_Actual.Clear();
-            SQL_READSOUTEZDATA("select U.ID,D.sp,U.Firstname,U.Lastname from draw D left join users U on D.user = U.id where D.rnd = " + rnd  +  " and D.grp = "+ grp +" order by sp asc;", "get_players_actual");
+            SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd  +  " and M.grp = "+ grp +" order by stp asc;", "get_players_actual");
         }
 
 

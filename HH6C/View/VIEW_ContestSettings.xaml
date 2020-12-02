@@ -309,6 +309,7 @@
                         InterceptManualEnter="False"
                         Maximum="40"
                         Minimum="1"
+                        
                         TextAlignment="Center"
                         Value="{Binding BIND_SQL_SOUTEZ_ROUNDS}" />
 
