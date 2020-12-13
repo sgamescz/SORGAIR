@@ -260,12 +260,12 @@
                                         Tag="{Binding ID}"
                                         VerticalTitleAlignment="Center"
                                         Visibility="Collapsed">
-                                        <iconPacks:PackIconSimpleIcons
+                                        <iconPacks:PackIconFontAwesome
                                             Width="20"
                                             Height="20"
                                             Margin="5"
                                             VerticalAlignment="Center"
-                                            Kind="Bamboo" />
+                                            Kind="LayerGroupSolid" />
                                     </mah:Tile>
                                     <mah:Tile
                                         Title="{Binding GROUPNAME}"
@@ -282,12 +282,12 @@
                                         HorizontalTitleAlignment="center"
                                         Tag="{Binding ID}"
                                         VerticalTitleAlignment="Center">
-                                        <iconPacks:PackIconSimpleIcons
+                                        <iconPacks:PackIconFontAwesome
                                             Width="20"
                                             Height="20"
                                             Margin="5"
                                             VerticalAlignment="Center"
-                                            Kind="Bamboo" />
+                                            Kind="LayerGroupSolid" />
                                     </mah:Tile>
                                     <mah:Tile
                                         Title="{Binding GROUPTYPE}"

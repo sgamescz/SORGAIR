@@ -48,7 +48,7 @@ namespace WpfApp6.View
         {
             VM.BIND_SELECTED_ROUND = VM.BIND_VIEWED_ROUND;
             VM.BIND_SELECTED_GROUP = VM.BIND_VIEWED_GROUP;
-            VM.FUNCTION_TEAM_ACTIVEMEMBERS(0, 0);
+            VM.FUNCTION_SELECTED_ROUND_USERS(0, 0);
             
         }
     }

@@ -128,6 +128,7 @@ namespace WpfApp6.View
 
         private void move_from_team(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("REMOVE");
             if (usersINteam.SelectedIndex >= 0 & teamlist.SelectedIndex >= 0)
             {
 

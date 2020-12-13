@@ -72,10 +72,10 @@ namespace WpfApp6.View
             player.Play();
             VM.BIND_LETOVYCAS = 0;
             VM.BIND_LETOVYCAS_MAX = 600;
-            VM.clock_start ();
             maintimer_play .IsEnabled = false;
             maintimer_pause.IsEnabled = true;
             maintimer_stop.IsEnabled = true ;
+            VM.clock_start();
 
 
 
@@ -95,7 +95,25 @@ namespace WpfApp6.View
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             VM.BIND_SELECTED_GROUP += 1;
-            VM.FUNCTION_TEAM_ACTIVEMEMBERS(0, 0);
+            if (VM.BIND_SELECTED_GROUP > VM.BIND_SQL_SOUTEZ_GROUPS) { VM.BIND_SELECTED_GROUP = 1;VM.BIND_SELECTED_ROUND += 1; }
+            VM.FUNCTION_SELECTED_ROUND_USERS(0, 0);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            scoreentry.IsOpen = true;
+            //topfly.IsOpen = true;
+        }
+
+        private void scoreentry_back_Click(object sender, RoutedEventArgs e)
+        {
+            scoreentry.IsOpen = false;
+        }
+
+        private void scoreentry_save_Click(object sender, RoutedEventArgs e)
+        {
+            scoreentry.IsOpen = false;
+
         }
     }
 }

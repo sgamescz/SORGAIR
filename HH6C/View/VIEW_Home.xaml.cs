@@ -77,7 +77,6 @@ namespace WpfApp6.View
             VM.FUNCTION_USERS_LOAD_ALLCOMPETITORS();
             VM.FUNCTION_TEAM_LOAD_TEAMS();
             VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
-
             //VM.BIND_VYBRANEKOLOMENU = "Vybrané kolo: 1/4";
             VM.clock_create ();
             VM.BIND_MENU_ENABLED_finale = false;
@@ -115,8 +114,9 @@ namespace WpfApp6.View
         public void download_news(object sender, RoutedEventArgs e)
         {
 
-            Thread test = new Thread(new ThreadStart(thread2));
-            test.Start();
+            VM.FUNCTION_LOAD_MATRIX_FILES();
+            //Thread test = new Thread(new ThreadStart(thread2));
+            //test.Start();
 
 
         }

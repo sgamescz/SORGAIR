@@ -40,13 +40,15 @@ namespace WpfApp6.Model
     }
 
 
+    
+
     public class MODEL_ViewModel : INotifyPropertyChanged
     {
 
 
 
-        
-        
+
+
         SQLiteConnection DBSORG_Connection;
         SQLiteConnection DBSOUTEZ_Connection;
         System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
@@ -137,10 +139,10 @@ namespace WpfApp6.Model
 
 
 
-    }
+        }
 
 
-    public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
@@ -251,7 +253,7 @@ namespace WpfApp6.Model
 
 
 
-        mArrayOfflags = Directory.GetFiles(@"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\", "*.*", SearchOption.TopDirectoryOnly);
+            mArrayOfflags = Directory.GetFiles(@"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\", "*.*", SearchOption.TopDirectoryOnly);
             foreach (var file in mArrayOfflags)
             {
                 FileInfo info = new FileInfo(file);
@@ -293,7 +295,7 @@ namespace WpfApp6.Model
 
 
 
-        BIND_SQL_SOUTEZ_NAZEV = SQL_READSOUTEZDATA("select value from contest where item='Name'", "");
+            BIND_SQL_SOUTEZ_NAZEV = SQL_READSOUTEZDATA("select value from contest where item='Name'", "");
             BIND_SQL_SOUTEZ_KATEGORIE = SQL_READSOUTEZDATA("select value from contest where item='Category'", "");
             BIND_SQL_SOUTEZ_LOKACE = SQL_READSOUTEZDATA("select value from contest where item='Location'", "");
             BIND_SQL_SOUTEZ_DATUM = SQL_READSOUTEZDATA("select value from contest where item='Date'", "");
@@ -315,18 +317,18 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_DELETESFINALE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletesfinale'", ""));
             BIND_CONTESTBEGIN = SQL_READSOUTEZDATA("select value from contest where item='contestbegin'", "");
             BIND_USEAUDIO = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='useaudio'", ""));
-            BIND_SQL_SOUTEZ_ENTRYSTYLE  = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystyle'", ""));
+            BIND_SQL_SOUTEZ_ENTRYSTYLE = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystyle'", ""));
             BIND_SQL_SOUTEZ_ENTRYSTYLENEXT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystylenext'", ""));
             BIND_SQL_AUDIO_COMPNUMBERS = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumber'", ""));
             BIND_SQL_AUDIO_RNDGRPFLIGHT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpflight'", ""));
             BIND_SQL_AUDIO_RNDGRPPREP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpprep'", ""));
-            BIND_SQL_AUTO_USEPREPTIME  = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Usepreptime'", ""));
-            BIND_SQL_AUTO_RUNPREPTIMENEXTROUND  = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runnextroundafterpreptime'", ""));
-            BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME   = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runpreptime'", ""));
+            BIND_SQL_AUTO_USEPREPTIME = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Usepreptime'", ""));
+            BIND_SQL_AUTO_RUNPREPTIMENEXTROUND = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runnextroundafterpreptime'", ""));
+            BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runpreptime'", ""));
             BIND_SQL_AUTO_PREPTIMELENGHT = SQL_READSOUTEZDATA("select value from contest where item='Preptimelenght'", "");
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
 
-
+            FUNCTION_LOAD_MATRIX_FILES();
 
         }
 
@@ -342,8 +344,8 @@ namespace WpfApp6.Model
                 TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_MAX);
                 TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                 TimeSpan rozdil = time_remaining.Subtract(totalsec);
-//                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
-                return "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : "+ rozdil.ToString("mm':'ss':'ff")+")";
+                //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
+                return "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil.ToString("mm':'ss':'ff") + ")";
             }
 
         }
@@ -405,8 +407,8 @@ namespace WpfApp6.Model
         public string BIND_PAID
         {
             get { return BIND_PAID_value; }
-            set { Console.WriteLine(value); BIND_PAID_value =value; OnPropertyChanged("BIND_PAID");}
-            
+            set { Console.WriteLine(value); BIND_PAID_value = value; OnPropertyChanged("BIND_PAID"); }
+
         }
 
         public string BIND_CONTESTBEGIN
@@ -422,7 +424,7 @@ namespace WpfApp6.Model
 
         public string BIND_VYBRANEKOLOMENU
         {
-            get { return "Vybrané kolo:" + BIND_SELECTED_ROUND + "/" +  BIND_SELECTED_GROUP; }
+            get { return "Vybrané kolo:" + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP; }
         }
 
 
@@ -435,7 +437,7 @@ namespace WpfApp6.Model
 
         public int BIND_POCETSOUTEZICICH
         {
-            get { return BIND_POCETSOUTEZICICH_value ; }
+            get { return BIND_POCETSOUTEZICICH_value; }
             set { BIND_POCETSOUTEZICICH_value = value; OnPropertyChanged("BIND_POCETSOUTEZICICH"); }
         }
 
@@ -444,15 +446,17 @@ namespace WpfApp6.Model
         {
             get { return BIND_SQL_SOUTEZ_ROUNDS_value; }
 
-            set { 
+            set {
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rounds'");
                 if (value > BIND_SQL_SOUTEZ_ROUNDS_value)
                 {
-                    SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values ("+ value + ",'autopridani','auto',600,0);");
+                    SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + value + ",'autopridani','auto',600,0);");
                 }
                 SQL_SAVESOUTEZDATA("delete from rounds where id > " + value + ";");
-                BIND_SQL_SOUTEZ_ROUNDS_value = value; 
-                OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS"); 
+                BIND_SQL_SOUTEZ_ROUNDS_value = value;
+                OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS");
+                FUNCTION_LOAD_MATRIX_FILES();
+
             }
         }
 
@@ -460,7 +464,7 @@ namespace WpfApp6.Model
         public int BIND_SELECTED_ROUND
         {
             get { return BIND_SELECTED_ROUND_value; }
-            set { BIND_SELECTED_ROUND_value = value; OnPropertyChanged("BIND_SELECTED_ROUND");OnPropertyChanged("BIND_VYBRANEKOLOMENU");Console.WriteLine("BIND_SELECTED_ROUND:" + BIND_SELECTED_ROUND); }
+            set { BIND_SELECTED_ROUND_value = value; OnPropertyChanged("BIND_SELECTED_ROUND"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); Console.WriteLine("BIND_SELECTED_ROUND:" + BIND_SELECTED_ROUND); }
         }
 
         public int BIND_SELECTED_GROUP
@@ -480,7 +484,7 @@ namespace WpfApp6.Model
         public int BIND_VIEWED_GROUP
         {
             get { return BIND_VIEWED_GROUP_value; }
-            set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP");  Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); }
+            set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); }
         }
 
 
@@ -488,13 +492,13 @@ namespace WpfApp6.Model
         public int BIND_SQL_SOUTEZ_GROUPS
         {
             get { return BIND_SQL_SOUTEZ_GROUPS_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Groups'"); BIND_SQL_SOUTEZ_GROUPS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_GROUPS"); }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Groups'"); BIND_SQL_SOUTEZ_GROUPS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_GROUPS"); FUNCTION_LOAD_MATRIX_FILES();            }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTS
         {
             get { return BIND_SQL_SOUTEZ_STARTPOINTS_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpoints'"); BIND_SQL_SOUTEZ_STARTPOINTS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTS"); }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpoints'"); BIND_SQL_SOUTEZ_STARTPOINTS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTS"); FUNCTION_LOAD_MATRIX_FILES();}
         }
 
         public int BIND_SQL_SOUTEZ_DELETES
@@ -579,7 +583,7 @@ namespace WpfApp6.Model
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Date'"); BIND_SQL_SOUTEZ_DATUM_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DATUM"); }
         }
 
-        public bool  BIND_SQL_SOUTEZ_ENTRYSTYLE
+        public bool BIND_SQL_SOUTEZ_ENTRYSTYLE
         {
             get { return BIND_SQL_SOUTEZ_ENTRYSTYLE_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Entrystyle'"); BIND_SQL_SOUTEZ_ENTRYSTYLE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_ENTRYSTYLE"); }
@@ -681,14 +685,14 @@ namespace WpfApp6.Model
 
             if (KTERADB == "SORG")
             {
-                DBSORG_Connection = new SQLiteConnection("Data Source=" + directory + "/db/data.db;");
+                DBSORG_Connection = new SQLiteConnection("Data Source=" + directory + "/Data/sorgair.db;");
                 DBSORG_Connection.Open();
 
             }
 
             if (KTERADB == "SOUTEZ")
             {
-                DBSOUTEZ_Connection = new SQLiteConnection("Data Source=" + directory + "/db/soutez.db;");
+                DBSOUTEZ_Connection = new SQLiteConnection("Data Source=" + directory + "/Data/soutez.db;");
                 DBSOUTEZ_Connection.Open();
             }
 
@@ -815,7 +819,7 @@ namespace WpfApp6.Model
                     string tmpname = sqlite_datareader.GetString(6);
                     int tmpid = sqlite_datareader.GetInt32(3);
                     int tmpstp = sqlite_datareader.GetInt32(2);
-                    test2.Add(new TodoItem2() { name = tmpname, userid= tmpid, startpoint=tmpstp});
+                    test2.Add(new TodoItem2() { name = tmpname, userid = tmpid, startpoint = tmpstp });
 
                     Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + tmpname + " >>>> " + "kamulozitvysledek");
                 }
@@ -835,6 +839,10 @@ namespace WpfApp6.Model
 
 
         }
+
+
+
+
 
 
         public void SQL_CLOSECONNECTION(string KTERADB)
@@ -1164,7 +1172,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void clock_create()
         {
             dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
         }
 
 
@@ -1227,20 +1235,22 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_TEAM_LOAD_TEAMS()
         {
             Teams.Clear();
-            SQL_READSOUTEZDATA("select distinct id, name, (select count(userid) from users_in_teams where teamid = t.id ) pocet from teams T;", "get_teams");
+            SQL_READSOUTEZDATA("select distinct id, name, (select count(id) from users where team= t.id ) pocet from teams T;", "get_teams");
+            UsersNOTinteams.Clear();
+            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where U.team = 0 and U.id > 0;", "get_usersnotinteam");
         }
 
 
-        
+
         public ObservableCollection<MODEL_usersinteam> Usersinteams { get; set; } = new ObservableCollection<MODEL_usersinteam>();
 
         public void FUNCTION_TEAM_SHOW_USERS_IN_TEAMS(int idteamu)
         {
             Usersinteams.Clear();
-            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where teamid = "+idteamu+";", "get_usersinteam");
+            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where U.team = "+idteamu+ " and U.id > 0;", "get_usersinteam");
 
             UsersNOTinteams.Clear();
-            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where teamid = 0", "get_usersnotinteam");
+            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where U.team = 0 and U.id > 0;" , "get_usersnotinteam");
 
 
         }
@@ -1254,15 +1264,56 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public string BIND_kolikjelidivteamu(int idteamu)
         {
-                return SQL_READSOUTEZDATA("select count(userid) from users_in_teams where teamid = "+ idteamu + ";", "");
+            //return SQL_READSOUTEZDATA("select count(userid) from users_in_teams where teamid = "+ idteamu + ";", "");
+            return SQL_READSOUTEZDATA("select count(id) from users where team = " + idteamu + ";", "");
 
         }
 
         public void FUNCTION_team_move_user_into_team(int id_competitor, int id_new_team, int id_old_team)
         {
-            SQL_SAVESOUTEZDATA("update users_in_teams set teamid = "+id_new_team+" where userid = "+ id_competitor + ";");
+            //SQL_SAVESOUTEZDATA("update users_in_teams set teamid = "+id_new_team+" where userid = "+ id_competitor + ";");
+            SQL_SAVESOUTEZDATA("update users set team = "+id_new_team+" where id = "+ id_competitor + ";");
             FUNCTION_TEAM_SHOW_USERS_IN_TEAMS(id_old_team);
         }
+
+        public List<MatrixFiles> Listofmatrixes { get; } = new List<MatrixFiles>();
+        public class MatrixFiles
+        {
+            public string Filename { get; set; }
+            public string Autor { get; set; }
+            public string Info { get; set; }
+
+            public string all { get; set; }
+
+        }
+
+
+
+        public void FUNCTION_LOAD_MATRIX_FILES()
+        {
+            string[] mArrayOfflags = new string[300];
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Listofmatrixes.Clear();
+
+            mArrayOfflags = Directory.GetFiles(@"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\Matrix\", "*" + BIND_SQL_SOUTEZ_ROUNDS+ "_" + BIND_SQL_SOUTEZ_GROUPS + "_" + BIND_SQL_SOUTEZ_STARTPOINTS + "*.*", SearchOption.TopDirectoryOnly);
+            Listofmatrixes.Add(new MatrixFiles() { Filename = "Náhodná rotace SORG AIR", Autor = "SORG AIR", Info = "---", all = "Náhodná rotace SORG AIR" });
+            foreach (var file in mArrayOfflags)
+            {
+                FileInfo info = new FileInfo(file);
+                string tmpautor = "autor";
+                string tmpinfo = "info";
+                Console.WriteLine(info.Name);
+                string tmpall = info.Name + " | Score: " + tmpinfo + " | Autor: " + tmpautor;
+                Listofmatrixes.Add(new MatrixFiles() { Filename = Path.GetFileNameWithoutExtension(info.Name), Autor = tmpautor, Info = tmpinfo, all = tmpall });
+                //filewithmatrix.Items.Add(Path.GetFileNameWithoutExtension(info.Name));
+
+
+            }
+            OnPropertyChanged("FUNCTION_load_matrix_files");
+            //filewithmatrix.ItemsSource = Listofmatrixes;
+
+        }
+
 
 
         public void FUNCTION_team_rename(string name, int id_team)
@@ -1280,7 +1331,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void FUNCTION_team_delete(int id_team)
         {
-            SQL_SAVESOUTEZDATA("update users_in_teams set teamid = 0 where teamid= " + id_team + ";");
+            //SQL_SAVESOUTEZDATA("update users_in_teams set teamid = 0 where teamid= " + id_team + ";");
+            SQL_SAVESOUTEZDATA("update users set team = 0 where team= " + id_team + ";");
             SQL_SAVESOUTEZDATA("delete from teams where id='" + id_team  + "';");
             FUNCTION_TEAM_LOAD_TEAMS();
             FUNCTION_TEAM_SHOW_USERS_IN_TEAMS(9999);
@@ -1306,19 +1358,19 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
             Players.Clear();
             SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U where id > 0; ", "get_players");
-            BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users", "");
-            BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users", ""));
+            BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
+            BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
             
         }
 
         public void FUNCTION_USERS_CREATE_NEW(string firstname, string lastname, string country , int agecat, int freq, int chanel1, int chanel2, string failic, string naclic , string club, bool registered, int team, int customagecat )
         {
 
-            SQL_SAVESOUTEZDATA("insert into users values (null,'"+ firstname + "', '" + lastname  + "', '" + country  + "', '" + agecat  + "', '" + freq  + "', '" + chanel1  + "', '" + chanel2 + "' , '" + failic + "', '" + naclic + "', '" + club + "' , '" + registered + "', '" + team + "', '" + customagecat + "' );");
+            SQL_SAVESOUTEZDATA("insert into users values (null,'"+ firstname + "', '" + lastname  + "', '" + country  + "', '" + agecat  + "', '" + freq  + "', '" + chanel1  + "', '" + chanel2 + "' , '" + failic + "', '" + naclic + "', '" + club + "' , '" + registered + "', '" + team + "', '" + customagecat + "' , 0 );");
             Players.Clear();
             SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U where id > 0 ;", "get_players");
-            BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users", "");
-            BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users", ""));
+            BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
+            BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
 
         }
 
@@ -1327,8 +1379,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             SQL_READSOUTEZDATA("delete from users where id="+idsouteziciho +"", "");
             Players.Clear();
             SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat from users U;", "get_players");
-            BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users", "");
-            BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users", ""));
+            BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
+            BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
 
         }
 
@@ -1358,7 +1410,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
-        public void FUNCTION_TEAM_ACTIVEMEMBERS(int rnd, int grp)
+        public void FUNCTION_SELECTED_ROUND_USERS(int rnd, int grp)
         {
             if (rnd==0) { rnd = BIND_SELECTED_ROUND; }
             if (grp== 0) { grp = BIND_SELECTED_GROUP; }

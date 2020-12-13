@@ -83,8 +83,17 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <Button x:Name="btn_create_new_matrix" Content="Create new empty matrix by count of rounds, groups and startpoints without competitors" Click="btn_create_new_matrix_Click"  />
-            <Button x:Name="btn_delete_matrix" Content="smazat rozlosování" Click="btn_delete_matrix_Click" />
+
+
+            <ComboBox
+                x:Name="filewithmatrix"
+                DisplayMemberPath="all"
+                ItemsSource="{Binding Listofmatrixes}"
+                SelectedIndex="0" />
+            <Button
+                x:Name="btn_importusersbymatrixfile"
+                Click="btn_importusersbymatrixfile_Click"
+                Content="Vytvořit nové rozlosování" />
         </StackPanel>
 
         <ItemsControl ItemsSource="{Binding MODEL_CONTEST_ROUNDS}">

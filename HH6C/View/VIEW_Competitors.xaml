@@ -448,9 +448,12 @@
             <mah:Flyout
                 x:Name="firstFlyout"
                 Margin="10,0,0,0"
+                AnimateOpacity="True"
+                IsModal="False"
+                AreAnimationsEnabled="True"
                 Header="Přidání nového soutěžícího"
-                IsOpen="False"
-                Position="Right">
+                IsOpen="True"
+                                Position="Right">
 
 
 
@@ -776,6 +779,8 @@
                             VerticalAlignment="Center"
                             Kind="CommentAltSlash" />
                     </mah:Tile>
+
+                    <Button Content="asdasdas" Margin="10,425,30,-316"></Button>
 
                 </Grid>
 
