@@ -348,11 +348,10 @@
                     AnimateOpacity="True"
                     AreAnimationsEnabled="True"
                     Header="Zádání výsledku"
-                    IsModal="False"
+                    IsModal="True"
                     IsOpen="True"
                     Position="Bottom"
                     Theme="Adapt"
-                    
                     TitleVisibility="Collapsed">
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray10}">
                         <Controls:Tile
@@ -449,8 +448,8 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 HorizontalContentAlignment="Left"
-                                HorizontalTitleAlignment="Right"
                                 Background="{DynamicResource MahApps.Brushes.Accent4}"
+                                HorizontalTitleAlignment="Right"
                                 Style="{StaticResource userbuttonstyle}"
                                 VerticalTitleAlignment="Center">
                                 <iconPacks:PackIconMaterial
@@ -655,7 +654,7 @@
                             Background="{DynamicResource MahApps.Brushes.Accent2}"
                             BorderThickness="1"
                             FontSize="13"
-                            FontWeight="Medium" 
+                            FontWeight="Medium"
                             IsEditable="False"
                             SelectedIndex="-1"
                             Style="{DynamicResource MahApps.Styles.ComboBox}">
@@ -683,10 +682,6 @@
                             Controls:TextBoxHelper.Watermark="Penalizace v kole"
                             Background="{DynamicResource MahApps.Brushes.Gray}"
                             BorderThickness="1"
-                           
-                            
-                            
-                            
                             SelectedIndex="-1"
                             Style="{DynamicResource MahApps.Styles.ComboBox}">
                             <ComboBox.ContextMenu>
@@ -707,12 +702,8 @@
                             Controls:TextBoxHelper.ClearTextButton="True"
                             Controls:TextBoxHelper.UseFloatingWatermark="True"
                             Controls:TextBoxHelper.Watermark="Penalizace globální"
-                            Background="{DynamicResource MahApps.Brushes.Gray }"
+                            Background="{DynamicResource MahApps.Brushes.Gray}"
                             BorderThickness="1"
-                           
-                            
-                            
-                            
                             SelectedIndex="-1"
                             Style="{DynamicResource MahApps.Styles.ComboBox}">
                             <ComboBox.ContextMenu>
@@ -726,8 +717,19 @@
                             <ComboBoxItem Content="24" />
                         </ComboBox>
 
-                        <Button x:Name="scoreentry_save" Content="Uložit výsledek" Margin="217,345,140,16"  Height="58" Click="scoreentry_save_Click" ></Button>
-                        <Button x:Name="scoreentry_back" Content="Zpět" Margin="0,345,10,16" HorizontalAlignment="Right" Width="125" Click="scoreentry_back_Click" ></Button>
+                        <Button
+                            x:Name="scoreentry_save"
+                            Height="58"
+                            Margin="217,345,140,16"
+                            Click="scoreentry_save_Click"
+                            Content="Uložit výsledek" />
+                        <Button
+                            x:Name="scoreentry_back"
+                            Width="125"
+                            Margin="0,345,10,16"
+                            HorizontalAlignment="Right"
+                            Click="scoreentry_back_Click"
+                            Content="Zpět" />
 
                     </Grid>
                 </Controls:Flyout>
