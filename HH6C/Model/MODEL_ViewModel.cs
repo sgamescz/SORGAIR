@@ -905,7 +905,7 @@ namespace WpfApp6.Model
             }
             if (kamulozitvysledek == "popredi")
             {
-                
+
                 pouzitabarva = Int32.Parse(vysledek);
                 FUNCTION_Changeforegroundcolor();
             }
@@ -1428,7 +1428,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         #endregion
 
 
-       
+        private bool _IsFlyoutOpen;
+        public bool IsFlyoutOpen
+        {
+            get { return _IsFlyoutOpen; }
+            set { _IsFlyoutOpen = value; OnPropertyChanged(nameof(IsFlyoutOpen)); }
+        }
+
 
     }
 }
