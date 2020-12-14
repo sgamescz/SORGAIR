@@ -60,9 +60,16 @@ namespace WpfApp6
 
 
 
+        private void scoreentry_back_Click(object sender, RoutedEventArgs e)
+        {
+            VM.IsFlyoutOpen = false;
+        }
 
+        private void scoreentry_save_Click(object sender, RoutedEventArgs e)
+        {
+            VM.IsFlyoutOpen = false;
 
-
+        }
 
 
 

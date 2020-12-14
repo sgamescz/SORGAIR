@@ -686,14 +686,14 @@ namespace WpfApp6.Model
             if (KTERADB == "SORG")
             {
                 DBSORG_Connection = new SQLiteConnection("Data Source=" + directory + "/Data/sorgair.db;");
-                DBSORG_Connection.Open();
+                // DBSORG_Connection.Open();
 
             }
 
             if (KTERADB == "SOUTEZ")
             {
                 DBSOUTEZ_Connection = new SQLiteConnection("Data Source=" + directory + "/Data/soutez.db;");
-                DBSOUTEZ_Connection.Open();
+                // DBSOUTEZ_Connection.Open();
             }
 
             Console.WriteLine("SQL_OPENCONNECTION [OPEN] : " + KTERADB);
@@ -880,13 +880,13 @@ namespace WpfApp6.Model
             SQLiteDataReader sqlite_datareader;
             try
             {
-                sqlite_datareader = command.ExecuteReader();
-                while (sqlite_datareader.Read())
-                {
-                    string myreader = sqlite_datareader.GetString(0);
-                    Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
-                    vysledek = myreader;
-                }
+                //sqlite_datareader = command.ExecuteReader();
+                //while (sqlite_datareader.Read())
+                //{
+                //    string myreader = sqlite_datareader.GetString(0);
+                //    Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                //    vysledek = myreader;
+                //}
             }
             catch (SQLiteException myException)
             {
@@ -900,14 +900,14 @@ namespace WpfApp6.Model
 
             if (kamulozitvysledek == "pozadi")
             {
-                pouzitepozadi = Int32.Parse(vysledek);
-                FUNCTION_Changebackgroundcolor();
+                // pouzitepozadi = Int32.Parse(vysledek);
+                // FUNCTION_Changebackgroundcolor();
             }
             if (kamulozitvysledek == "popredi")
             {
                 
-                pouzitabarva = Int32.Parse(vysledek);
-                FUNCTION_Changeforegroundcolor();
+                // pouzitabarva = Int32.Parse(vysledek);
+                // FUNCTION_Changeforegroundcolor();
             }
 
             if (kamulozitvysledek == "selectedsearch")
@@ -1428,7 +1428,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         #endregion
 
 
-       
+        private bool _IsFlyoutOpen;
+        public bool IsFlyoutOpen
+        {
+            get { return _IsFlyoutOpen; }
+            set { _IsFlyoutOpen = value; OnPropertyChanged(nameof(IsFlyoutOpen)); }
+        }
+
 
     }
 }

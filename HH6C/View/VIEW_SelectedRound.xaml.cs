@@ -101,19 +101,10 @@ namespace WpfApp6.View
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            scoreentry.IsOpen = true;
+            VM.IsFlyoutOpen = true;
+            //scoreentry.IsOpen = true;
             //topfly.IsOpen = true;
         }
 
-        private void scoreentry_back_Click(object sender, RoutedEventArgs e)
-        {
-            scoreentry.IsOpen = false;
-        }
-
-        private void scoreentry_save_Click(object sender, RoutedEventArgs e)
-        {
-            scoreentry.IsOpen = false;
-
-        }
     }
 }
