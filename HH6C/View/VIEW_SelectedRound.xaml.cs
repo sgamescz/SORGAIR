@@ -101,8 +101,9 @@ namespace WpfApp6.View
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            VM.IsFlyoutOpen = true;
-            //scoreentry.IsOpen = true;
+            //VM.IsFlyoutOpen = true;
+            scoreentry.IsOpen = true;
+            
             //topfly.IsOpen = true;
         }
 

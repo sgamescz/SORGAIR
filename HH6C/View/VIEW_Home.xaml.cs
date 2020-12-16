@@ -73,6 +73,9 @@ namespace WpfApp6.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            
+            
+
             VM.FUNCTION_LOADCONTEST();
             VM.FUNCTION_USERS_LOAD_ALLCOMPETITORS();
             VM.FUNCTION_TEAM_LOAD_TEAMS();

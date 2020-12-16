@@ -471,8 +471,8 @@
                         FontSize="12"
                         IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLE}"
                         MouseDoubleClick="landingoptions_IsCheckedChanged"
-                        OffContent="Zadávat přistání v metrech"
-                        OnContent="Zadávat přistání v bodech" />
+                        OffContent="U zadávání výsledku zobrazovat jen čísla"
+                        OnContent="U zadávání výsledku zobrazovat i veličiny" />
 
                     <mah:ToggleSwitch
                         Grid.Row="1"

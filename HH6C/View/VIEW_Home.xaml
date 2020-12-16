@@ -8,21 +8,44 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
+        <Grid Margin="0,0,175,0" Background="Blue">
+            <Border Margin="10,10,75,10" Background="Yellow"
+                BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                BorderThickness="2">
+                <Grid Margin="0,0,53,0" Background="Red">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           FontSize="24"
+                           Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                           Text="you should see google below" />
+                    <WindowsFormsHost Grid.Row="1" Background="Lime">
+                        <winForms:WebBrowser Url="http://www.google.com" />
+                    </WindowsFormsHost>
+                </Grid>
+            </Border>
+            <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="SkyBlue"
+                BorderBrush="DeepSkyBlue"
+                BorderThickness="1"
+                Opacity="0.5">
+                <TextBlock Margin="50"
+                       FontSize="24"
+                       Text="Hello Airspace" />
+            </Border>
+        </Grid>
 
-        <Label
-            x:Name="whatisnew"
-            Height="249"
-            Margin="10,66,10,0"
-            VerticalAlignment="Top"
-            HorizontalContentAlignment="Center"
-            BorderBrush="AliceBlue"
-            BorderThickness="5"
-            Content="{Binding BIND_SORGNEWS}" />
+
         <Button
             Width="155"
             Height="50"

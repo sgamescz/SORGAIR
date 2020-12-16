@@ -329,6 +329,10 @@ namespace WpfApp6.Model
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
 
             FUNCTION_LOAD_MATRIX_FILES();
+            FUNCTION_LOAD_TIMERS_MINUTES();
+            FUNCTION_LOAD_TIMERS_SECONDS();
+            FUNCTION_LOAD_TIMERS_HEIGHT();
+            FUNCTION_LOAD_TIMERS_LANDINGS();
 
         }
 
@@ -586,7 +590,21 @@ namespace WpfApp6.Model
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLE
         {
             get { return BIND_SQL_SOUTEZ_ENTRYSTYLE_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Entrystyle'"); BIND_SQL_SOUTEZ_ENTRYSTYLE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_ENTRYSTYLE"); }
+            set { 
+                
+
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Entrystyle'"); 
+                BIND_SQL_SOUTEZ_ENTRYSTYLE_value = value; 
+                if (value == true) {
+                    ScoreEntryType = "Text";
+                }
+                else
+                {
+                    ScoreEntryType = "Value";
+                }
+                OnPropertyChanged("BIND_SQL_SOUTEZ_ENTRYSTYLE");
+                OnPropertyChanged("ScoreEntryType");
+            }
         }
 
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLENEXT
@@ -1428,11 +1446,78 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         #endregion
 
 
-        private bool _IsFlyoutOpen;
-        public bool IsFlyoutOpen
+        private string _scoreentrytype;
+        public string ScoreEntryType
         {
-            get { return _IsFlyoutOpen; }
-            set { _IsFlyoutOpen = value; OnPropertyChanged(nameof(IsFlyoutOpen)); }
+            get { return _scoreentrytype; }
+            set { _scoreentrytype = value; OnPropertyChanged(nameof(ScoreEntryType)); }
+        }
+
+
+
+
+
+        public List<Timer_minutes_seconds> BINDING_Timer_listofminutes { get; } = new List<Timer_minutes_seconds>();
+        public List<Timer_minutes_seconds> BINDING_Timer_listofseconds { get; } = new List<Timer_minutes_seconds>();
+        public List<Timer_minutes_seconds> BINDING_Timer_listofheights { get; } = new List<Timer_minutes_seconds>();
+        public List<Timer_minutes_seconds> BINDING_Timer_listoflandings { get; } = new List<Timer_minutes_seconds>();
+        public class Timer_minutes_seconds
+        {
+            public int Value { get; set; }
+            public string Text { get; set; }
+
+        }
+
+        public void FUNCTION_LOAD_TIMERS_MINUTES()
+        {
+            Console.WriteLine("MINUTES");
+            BINDING_Timer_listofminutes.Clear();
+
+            for (int i = 0; i < 16; i++)
+            {
+                BINDING_Timer_listofminutes.Add(new Timer_minutes_seconds() { Value = i, Text = i+" Minut" });
+            }
+
+        }
+
+
+        public void FUNCTION_LOAD_TIMERS_SECONDS()
+        {
+            Console.WriteLine("SECONDS");
+            BINDING_Timer_listofseconds.Clear();
+
+            for (int i = 0; i < 60; i++)
+            {
+                BINDING_Timer_listofseconds.Add(new Timer_minutes_seconds() { Value = i, Text = i+" vteřin" });
+            }
+
+        }
+
+
+        public void FUNCTION_LOAD_TIMERS_HEIGHT()
+        {
+            Console.WriteLine("HEIGHT");
+            BINDING_Timer_listofheights.Clear();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                BINDING_Timer_listofheights.Add(new Timer_minutes_seconds() { Value = i, Text = i + " metrů" });
+            }
+
+        }
+
+
+
+        public void FUNCTION_LOAD_TIMERS_LANDINGS()
+        {
+            Console.WriteLine("HEIGHT");
+            BINDING_Timer_listoflandings.Clear();
+
+            for (int i = 0; i < 101; i++)
+            {
+                BINDING_Timer_listoflandings.Add(new Timer_minutes_seconds() { Value = i, Text = i + " bodů" });
+            }
+
         }
 
 
