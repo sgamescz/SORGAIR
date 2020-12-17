@@ -113,6 +113,10 @@ namespace WpfApp6.Model
 
         public int BIND_SELECTED_ROUND_value;
         public int BIND_SELECTED_GROUP_value;
+        public int _BIND_SELECTED_STARTPOINT;
+        public int BIND_SELECTED_ROUND_DESC_value;
+        public int BIND_SELECTED_GROUP_DECS_value;
+
 
         public int BIND_VIEWED_ROUND_value;
         public int BIND_VIEWED_GROUP_value;
@@ -431,6 +435,17 @@ namespace WpfApp6.Model
             get { return "Vybrané kolo:" + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP; }
         }
 
+        public string BIND_SELECTED_ROUND_DESC
+        {
+            get { return  SQL_READSOUTEZDATA("select Name from Rounds where id = "+ BIND_SELECTED_ROUND,""); }
+        }
+
+        public string BIND_SELECTED_GROUP_DESC
+        {
+            get { return SQL_READSOUTEZDATA("select Name from Groups where id = " + BIND_SELECTED_GROUP, ""); }
+        }
+
+
 
         public string BIND_POCETSOUTEZICICHMENU
         {
@@ -468,13 +483,20 @@ namespace WpfApp6.Model
         public int BIND_SELECTED_ROUND
         {
             get { return BIND_SELECTED_ROUND_value; }
-            set { BIND_SELECTED_ROUND_value = value; OnPropertyChanged("BIND_SELECTED_ROUND"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); Console.WriteLine("BIND_SELECTED_ROUND:" + BIND_SELECTED_ROUND); }
+            set { BIND_SELECTED_ROUND_value = value; OnPropertyChanged("BIND_SELECTED_ROUND"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); OnPropertyChanged("BIND_SELECTED_ROUND_DESC"); OnPropertyChanged("BIND_SELECTED_GROUP_DESC"); Console.WriteLine("BIND_SELECTED_ROUND:" + BIND_SELECTED_ROUND); }
         }
+
+        public int BIND_SELECTED_STARTPOINT
+        {
+            get { return _BIND_SELECTED_STARTPOINT; }
+            set { _BIND_SELECTED_STARTPOINT = value; OnPropertyChanged("BIND_SELECTED_STARTPOINT"); Console.WriteLine("BIND_SELECTED_STARTPOINT:" + BIND_SELECTED_STARTPOINT); }
+        }
+
 
         public int BIND_SELECTED_GROUP
         {
             get { return BIND_SELECTED_GROUP_value; }
-            set { BIND_SELECTED_GROUP_value = value; OnPropertyChanged("BIND_SELECTED_GROUP"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); Console.WriteLine("BIND_SELECTED_GROUP" + BIND_SELECTED_GROUP); }
+            set { BIND_SELECTED_GROUP_value = value; OnPropertyChanged("BIND_SELECTED_GROUP"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); OnPropertyChanged("BIND_SELECTED_ROUND_DESC"); OnPropertyChanged("BIND_SELECTED_GROUP_DESC"); Console.WriteLine("BIND_SELECTED_GROUP" + BIND_SELECTED_GROUP); }
         }
 
 
@@ -1028,6 +1050,22 @@ namespace WpfApp6.Model
                     }
 
 
+                    if (kamulozitvysledek == "get_player_selected")
+                    {
+
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
+
+                        var _player_selected = new MODEL_Player_selected()
+                        {
+                            ID = sqlite_datareader.GetInt32(0),
+                             FIRSTNAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
+                             LASTNAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")),
+                        };
+                        Player_Selected.Add(_player_selected);
+                        vysledek = kamulozitvysledek;
+
+                    }
+
 
                     if (kamulozitvysledek == "get_rounds")
                     {
@@ -1255,7 +1293,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Teams.Clear();
             SQL_READSOUTEZDATA("select distinct id, name, (select count(id) from users where team= t.id ) pocet from teams T;", "get_teams");
             UsersNOTinteams.Clear();
-            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where U.team = 0 and U.id > 0;", "get_usersnotinteam");
+            SQL_READSOUTEZDATA("select * from users U where U.team = 0 and U.id > 0;", "get_usersnotinteam");
         }
 
 
@@ -1265,10 +1303,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_TEAM_SHOW_USERS_IN_TEAMS(int idteamu)
         {
             Usersinteams.Clear();
-            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where U.team = "+idteamu+ " and U.id > 0;", "get_usersinteam");
+            SQL_READSOUTEZDATA("select * from users U where U.team = "+idteamu+ " and U.id > 0;", "get_usersinteam");
 
             UsersNOTinteams.Clear();
-            SQL_READSOUTEZDATA("select * from users U left join users_in_teams T on U.id = T.userid where U.team = 0 and U.id > 0;" , "get_usersnotinteam");
+            SQL_READSOUTEZDATA("select * from users U  where U.team = 0 and U.id > 0;" , "get_usersnotinteam");
 
 
         }
@@ -1371,6 +1409,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         #region Players
         public ObservableCollection<MODEL_Player> Players { get; set; } = new ObservableCollection<MODEL_Player>();
         public ObservableCollection<MODEL_Player_actual> Players_Actual { get; set; } = new ObservableCollection<MODEL_Player_actual>();
+        public ObservableCollection<MODEL_Player_selected> Player_Selected { get; set; } = new ObservableCollection<MODEL_Player_selected>();
 
         public void FUNCTION_USERS_LOAD_ALLCOMPETITORS()
         {
@@ -1380,6 +1419,66 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
             
         }
+
+
+        public int _bind_scoreentry_selected_minute;
+        public int bind_scoreentry_selected_minute
+        {
+            get { return _bind_scoreentry_selected_minute; }
+            set { _bind_scoreentry_selected_minute = value; OnPropertyChanged(nameof(bind_scoreentry_selected_minute)); }
+        }
+
+        public int _bind_scoreentry_selected_second;
+        public int bind_scoreentry_selected_second
+        {
+            get { return _bind_scoreentry_selected_second; }
+            set { _bind_scoreentry_selected_second = value; OnPropertyChanged(nameof(bind_scoreentry_selected_second)); }
+        }
+
+
+        public int _bind_scoreentry_selected_landing;
+        public int bind_scoreentry_selected_landing
+        {
+            get { return _bind_scoreentry_selected_landing; }
+            set { _bind_scoreentry_selected_landing = value; OnPropertyChanged(nameof(bind_scoreentry_selected_landing)); }
+        }
+
+        public int _bind_scoreentry_selected_height;
+        public int bind_scoreentry_selected_height
+        {
+            get { return _bind_scoreentry_selected_height; }
+            set { _bind_scoreentry_selected_height = value; OnPropertyChanged(nameof(bind_scoreentry_selected_height)); }
+        }
+        public void FUNCTION_SCOREENTRY_LOAD_USERDATA(int rnd,int grp, int stp)
+        {
+
+            Player_Selected.Clear();
+
+            if (rnd == 0) { rnd = BIND_SELECTED_ROUND; }
+                if (grp == 0) { grp = BIND_SELECTED_GROUP; }
+                if (stp == 0) { stp = BIND_SELECTED_STARTPOINT; }
+    
+                SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_player_selected");
+            bind_scoreentry_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
+            bind_scoreentry_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
+            bind_scoreentry_selected_landing = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
+            bind_scoreentry_selected_height = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(height) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select height from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
+
+        }
+
+
+        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1, int pen2)
+        {
+            Console.WriteLine("saving score");
+            SQL_SAVESOUTEZDATA("delete from score where rnd="+rnd+" and grp="+grp +" and stp="+stp +";");
+            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1, pen2, raw, prep ) VALUES("+rnd+ "," + grp + "," + stp  + "," + usrid  + "," + minutes  + "," + seconds + "," + landing  + "," + height  + ",9,10,11,12);");
+        }
+
+
+
+
+
+
 
         public void FUNCTION_USERS_CREATE_NEW(string firstname, string lastname, string country , int agecat, int freq, int chanel1, int chanel2, string failic, string naclic , string club, bool registered, int team, int customagecat )
         {
@@ -1435,6 +1534,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Players_Actual.Clear();
             SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd  +  " and M.grp = "+ grp +" order by stp asc;", "get_players_actual");
         }
+
+
+
 
 
         public void FUNCTION_COMPETITOR_UPDATE(string what, string value, int competiroid)

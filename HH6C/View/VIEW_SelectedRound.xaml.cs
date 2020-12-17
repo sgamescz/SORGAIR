@@ -89,7 +89,6 @@ namespace WpfApp6.View
         private void maintimer_pause_Click(object sender, RoutedEventArgs e)
         {
             VM.clock_pause ();
-
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -101,11 +100,33 @@ namespace WpfApp6.View
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //VM.IsFlyoutOpen = true;
+
+            Button tagbutton = sender as Button;
+            VM.BIND_SELECTED_STARTPOINT = int.Parse(tagbutton.Tag.ToString());
+            Console.WriteLine(VM.BIND_SELECTED_ROUND + "_" + VM.BIND_SELECTED_GROUP + "_" + VM.BIND_SELECTED_STARTPOINT);
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(0,0,0);
             scoreentry.IsOpen = true;
-            
-            //topfly.IsOpen = true;
+            scoreentry_minutes.Focus();
         }
 
+        private void scoreentry_save_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (scoreentry_minutes.SelectedIndex >= 0 & scoreentry_seconds.SelectedIndex >= 0  & scoreentry_height.SelectedIndex >= 0 & scoreentry_landing.SelectedIndex >= 0)
+
+            {
+                              VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_STARTPOINT, VM.Player_Selected[0].ID , VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value , VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value , VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].Value , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, 1, 1);
+                scoreentry.IsOpen = false;
+
+            }
+
+        }
+
+        private void scoreentry_back_Click(object sender, RoutedEventArgs e)
+        {
+            scoreentry_landing.SelectedIndex = 5;
+            //scoreentry.IsOpen = false;
+
+        }
     }
 }

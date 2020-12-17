@@ -226,13 +226,15 @@
                                     HorizontalAlignment="Stretch"
                                     Content="{Binding STARTPOINT}"
                                     ContentStringFormat="Startoviště: {0}"
-                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" />
+                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                                    Tag="{Binding STARTPOINT}" />
                                 <Button
                                     Height="155"
                                     Margin="5,5,5,0"
                                     Click="Button_Click_2"
                                     Content="{Binding PLAYERDATA}"
-                                    Style="{StaticResource MahApps.Styles.Button.Square}" />
+                                    Style="{StaticResource MahApps.Styles.Button.Square}"
+                                    Tag="{Binding STARTPOINT}" />
                                 <Button
                                     Width="Auto"
                                     Height="30"
@@ -240,7 +242,8 @@
                                     HorizontalAlignment="Stretch"
                                     Content="{Binding RAWSCORE}"
                                     ContentStringFormat="RAW: {0}"
-                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" />
+                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                                    Tag="{Binding STARTPOINT}" />
                                 <Button
                                     Width="Auto"
                                     Height="30"
@@ -248,17 +251,20 @@
                                     HorizontalAlignment="Stretch"
                                     Content="{Binding PREPSCORE}"
                                     ContentStringFormat="REC: {0}"
-                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" />
+                                    Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                                    Tag="{Binding STARTPOINT}" />
                                 <Button
                                     Height="30"
                                     Margin="5,5,5,0"
                                     Content="REFLY"
-                                    Style="{StaticResource MahApps.Styles.Button}" />
+                                    Style="{StaticResource MahApps.Styles.Button}"
+                                    Tag="{Binding STARTPOINT}" />
                                 <Button
                                     Height="30"
                                     Margin="5,5,5,0"
                                     Content="READY CHECK"
-                                    Style="{StaticResource MahApps.Styles.Button}" />
+                                    Style="{StaticResource MahApps.Styles.Button}"
+                                    Tag="{Binding STARTPOINT}" />
 
                             </StackPanel>
                         </DataTemplate>
@@ -272,7 +278,7 @@
                 Height="30"
                 Margin="10,730,10,10"
                 Click="Button_Click_1"
-                Content="READY CHECK"
+                Content="Přejít na další kolo"
                 Style="{StaticResource MahApps.Styles.Button}" />
 
 
@@ -301,51 +307,76 @@
                     Position="Bottom"
                     Theme="Adapt"
                     TitleVisibility="Collapsed">
+
+
+
+
                     <Grid Background="{DynamicResource MahApps.Brushes.Gray10}">
-                        <Controls:Tile
-                            x:Name="userdetail_id"
-                            Title="ID soutěžícího"
-                            Width="200"
-                            Height="89"
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            VerticalContentAlignment="Center"
-                            Background="YellowGreen"
-                            Count="12"
-                            CountFontSize="29"
-                            FontStyle="Italic"
-                            Style="{StaticResource userbuttonstyle}" />
+                        <ItemsControl
+                            Margin="0,0,457,312"
+                            IsTabStop="False"
+                            ItemsSource="{Binding Player_Selected}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
 
-                        <Controls:Tile
-                            x:Name="userdetail_ch2"
-                            Title="Aleš Krátký"
-                            Width="Auto"
-                            Height="42"
-                            Margin="215,10,9,0"
-                            VerticalAlignment="Top"
-                            HorizontalContentAlignment="Left"
-                            Background="{DynamicResource MahApps.Brushes.Accent2}"
-                            FontWeight="Bold"
-                            HorizontalTitleAlignment="Center"
-                            Style="{StaticResource userbuttonstyle}"
-                            TitleFontSize="17"
-                            VerticalTitleAlignment="Center">
-                            <iconPacks:PackIconMaterial
-                                Width="25"
-                                Height="25"
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"
-                                Kind="CommentAccountOutline" />
+                                    <Controls:Tile
+                                        x:Name="userdetail_id"
+                                        Title="ID soutěžícího"
+                                        Width="200"
+                                        Height="89"
+                                        Margin="10,10,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        VerticalContentAlignment="Center"
+                                        Background="YellowGreen"
+                                        Count="{Binding ID}"
+                                        CountFontSize="29"
+                                        FontStyle="Italic"
+                                        IsTabStop="False"
+                                        Style="{StaticResource userbuttonstyle}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                        </Controls:Tile>
+                        <ItemsControl
+                            Margin="215,10,10,372"
+                            IsTabStop="False"
+                            ItemsSource="{Binding Player_Selected}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Controls:Tile
+                                        x:Name="userdetail_ch2"
+                                        Title="{Binding FIRSTNAME}"
+                                        Width="Auto"
+                                        Height="42"
+                                        Margin="0"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                                        FontWeight="Bold"
+                                        HorizontalTitleAlignment="Center"
+                                        IsTabStop="False"
+                                        Style="{StaticResource userbuttonstyle}"
+                                        TitleFontSize="17"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconMaterial
+                                            Width="25"
+                                            Height="25"
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Kind="CommentAccountOutline" />
+                                    </Controls:Tile>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
                         <UniformGrid
                             Margin="215,52,10,312"
                             Columns="3"
                             Rows="1">
 
                             <Controls:Tile
-                                Title="Kolo : 1"
+                                Title="{Binding BIND_SELECTED_ROUND_DESC}"
                                 Width="auto"
                                 Height="42"
                                 Margin="0,5,0,0"
@@ -354,6 +385,7 @@
                                 HorizontalContentAlignment="Left"
                                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                                 HorizontalTitleAlignment="Right"
+                                IsTabStop="False"
                                 Style="{StaticResource userbuttonstyle}"
                                 VerticalTitleAlignment="Center">
                                 <iconPacks:PackIconModern
@@ -367,7 +399,7 @@
 
 
                             <Controls:Tile
-                                Title="Skupina : 3"
+                                Title="{Binding BIND_SELECTED_GROUP_DESC}"
                                 Width="auto"
                                 Height="42"
                                 Margin="5,5,0,0"
@@ -376,6 +408,7 @@
                                 HorizontalContentAlignment="Left"
                                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                                 HorizontalTitleAlignment="Right"
+                                IsTabStop="False"
                                 Style="{StaticResource userbuttonstyle}"
                                 VerticalTitleAlignment="Center">
                                 <iconPacks:PackIconFontAwesome
@@ -389,7 +422,7 @@
 
 
                             <Controls:Tile
-                                Title="Startoviště : 5"
+                                Title="{Binding BIND_SELECTED_STARTPOINT, StringFormat='Startoviště : {0}'}"
                                 Width="auto"
                                 Height="42"
                                 Margin="5,5,0,0"
@@ -398,6 +431,7 @@
                                 HorizontalContentAlignment="Left"
                                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                                 HorizontalTitleAlignment="Right"
+                                IsTabStop="False"
                                 Style="{StaticResource userbuttonstyle}"
                                 VerticalTitleAlignment="Center">
                                 <iconPacks:PackIconMaterial
@@ -512,6 +546,7 @@
 
 
                             <ComboBox
+                                Name="scoreentry_minutes"
                                 Width="Auto"
                                 Height="40"
                                 Margin="0,0,5,0"
@@ -525,10 +560,11 @@
                                 FontSize="13"
                                 FontWeight="Bold"
                                 ItemsSource="{Binding BINDING_Timer_listofminutes}"
-                                SelectedIndex="-1"
+                                SelectedIndex="{Binding bind_scoreentry_selected_minute}"
                                 Style="{DynamicResource MahApps.Styles.ComboBox}" />
 
                             <ComboBox
+                                Name="scoreentry_seconds"
                                 Width="Auto"
                                 Height="40"
                                 HorizontalContentAlignment="Center"
@@ -541,12 +577,13 @@
                                 FontSize="13"
                                 FontWeight="Bold"
                                 ItemsSource="{Binding BINDING_Timer_listofseconds}"
-                                SelectedIndex="-1"
+                                SelectedIndex="{Binding bind_scoreentry_selected_second}"
                                 Style="{DynamicResource MahApps.Styles.ComboBox.Virtualized}" />
 
                         </UniformGrid>
 
                         <ComboBox
+                            Name="scoreentry_landing"
                             Width="Auto"
                             Height="40"
                             Margin="216,175,9,204"
@@ -561,11 +598,12 @@
                             FontSize="13"
                             FontWeight="Bold"
                             ItemsSource="{Binding BINDING_Timer_listoflandings}"
-                            SelectedIndex="-1"
+                            SelectedIndex="{Binding bind_scoreentry_selected_landing}"
                             Style="{DynamicResource MahApps.Styles.ComboBox}" />
 
 
                         <ComboBox
+                            Name="scoreentry_height"
                             Width="Auto"
                             Height="40"
                             Margin="217,220,9,159"
@@ -581,7 +619,7 @@
                             FontWeight="Medium"
                             IsEditable="False"
                             ItemsSource="{Binding BINDING_Timer_listofheights}"
-                            SelectedIndex="-1"
+                            SelectedIndex="{Binding bind_scoreentry_selected_height}"
                             Style="{DynamicResource MahApps.Styles.ComboBox}" />
 
 
@@ -634,12 +672,14 @@
                             x:Name="scoreentry_save"
                             Height="58"
                             Margin="217,345,140,16"
+                            Click="scoreentry_save_Click"
                             Content="Uložit výsledek" />
                         <Button
                             x:Name="scoreentry_back"
                             Width="125"
                             Margin="0,345,10,16"
                             HorizontalAlignment="Right"
+                            Click="scoreentry_back_Click"
                             Content="Zpět" />
 
                     </Grid>

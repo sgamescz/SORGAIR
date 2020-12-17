@@ -452,7 +452,7 @@
                 IsModal="False"
                 AreAnimationsEnabled="True"
                 Header="Přidání nového soutěžícího"
-                IsOpen="True"
+                IsOpen="False"
                                 Position="Right">
 
 

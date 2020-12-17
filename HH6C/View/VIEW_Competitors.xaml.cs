@@ -109,7 +109,7 @@ namespace WpfApp6.View
 
         private void ispaid_Click(object sender, RoutedEventArgs e)
         {
-            if ( competitorlist.SelectedIndex > 0) {
+            if ( competitorlist.SelectedIndex >= 0) {
                 string check = (sender as MahApps.Metro.Controls.ToggleSwitch).IsOn.ToString();
                 VM.Players[competitorlist.SelectedIndex].PAIDSTR = check;
                 VM.Players[competitorlist.SelectedIndex].PAID = @"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\" + check + ".png";
@@ -150,7 +150,7 @@ namespace WpfApp6.View
         private async  void delete_competitor_Click(object sender, RoutedEventArgs e)
         {
             var currentWindow = this.TryFindParent<MetroWindow>();
-            if (competitorlist.SelectedIndex > 0)
+            if (competitorlist.SelectedIndex >= 0)
             {
                 MessageDialogResult result = await currentWindow.ShowMessageAsync("Smazání soutěžícího", "Opravdu smazat soutěžícího s ID: " + VM.Players[competitorlist.SelectedIndex].ID + " : " + VM.Players[competitorlist.SelectedIndex].FIRSTNAME + " " + VM.Players[competitorlist.SelectedIndex].LASTNAME + "?", MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Negative)

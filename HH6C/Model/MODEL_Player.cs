@@ -228,6 +228,187 @@ namespace WpfApp6.Model
 
 
 
+    public class MODEL_Player_selected : MODEL_BaseClass
+    {
+        // Default constructor for Player
+        public MODEL_Player_selected()
+        {
+        }
+
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private string _FIRSTNAME;
+        public string FIRSTNAME
+        {
+            get { return _FIRSTNAME; }
+            set { _FIRSTNAME = value; RaisePropertyChanged(nameof(FIRSTNAME)); }
+        }
+
+        private string _LASTNAME;
+        public string LASTNAME
+        {
+            get { return _LASTNAME; }
+            set { _LASTNAME = value; RaisePropertyChanged(nameof(LASTNAME)); }
+        }
+
+        private string _FLAG;
+        public string FLAG
+        {
+            get { return _FLAG; }
+            set { _FLAG = value; RaisePropertyChanged(nameof(FLAG)); }
+        }
+
+
+        private string _COUNTRY;
+        public string COUNTRY
+        {
+            get { return _COUNTRY; }
+            set { _COUNTRY = value; RaisePropertyChanged(nameof(COUNTRY)); }
+        }
+
+        private string _AGECAT;
+        public string AGECAT
+        {
+            get { return _AGECAT; }
+            set { _AGECAT = value; RaisePropertyChanged(nameof(AGECAT)); }
+        }
+
+        private string _FAILIC;
+        public string FAILIC
+        {
+            get { return _FAILIC; }
+            set { _FAILIC = value; RaisePropertyChanged(nameof(FAILIC)); }
+        }
+
+
+        private string _NACLIC;
+        public string NACLIC
+        {
+            get { return _NACLIC; }
+            set { _NACLIC = value; RaisePropertyChanged(nameof(NACLIC)); }
+        }
+
+
+        private string _FREQ;
+        public string FREQ
+        {
+            get { return _FREQ; }
+            set { _FREQ = value; RaisePropertyChanged(nameof(FREQ)); }
+        }
+
+
+        private int _CH2;
+        public int CH2
+        {
+            get { return _CH2; }
+            set { _CH2 = value; RaisePropertyChanged(nameof(CH2)); }
+        }
+
+
+        private int _CH1;
+        public int CH1
+        {
+            get { return _CH1; }
+            set { _CH1 = value; RaisePropertyChanged(nameof(CH1)); }
+        }
+
+
+        private string _CLUB;
+        public string CLUB
+        {
+            get { return _CLUB; }
+            set { _CLUB = value; RaisePropertyChanged(nameof(CLUB)); }
+        }
+
+
+        private int _CUSTOMAGECAT;
+        public int CUSTOMAGECAT
+        {
+            get { return _CUSTOMAGECAT; }
+            set { _CUSTOMAGECAT = value; RaisePropertyChanged(nameof(CUSTOMAGECAT)); }
+        }
+
+
+        private int _TEAM;
+        public int TEAM
+        {
+            get { return _TEAM; }
+            set { _TEAM = value; RaisePropertyChanged(nameof(TEAM)); }
+        }
+
+
+
+
+        private string _PAID;
+        public string PAID
+        {
+            get { return _PAID; }
+            set { _PAID = value; RaisePropertyChanged(nameof(PAID)); }
+        }
+
+        private string _PAIDSTR;
+        public string PAIDSTR
+        {
+            get { return _PAIDSTR; }
+            set { _PAIDSTR = value; RaisePropertyChanged(nameof(PAIDSTR)); }
+        }
+
+
+        private int _SCORE_MINUTES;
+        public int SCORE_MINUTES
+        {
+            get { return _SCORE_MINUTES; }
+            set { _SCORE_MINUTES = value; RaisePropertyChanged(nameof(SCORE_MINUTES)); }
+        }
+
+        private int _SCORE_SECONDS;
+        public int SCORE_SECONDS
+        {
+            get { return _SCORE_SECONDS; }
+            set { _SCORE_SECONDS = value; RaisePropertyChanged(nameof(SCORE_SECONDS)); }
+        }
+
+
+        private int _SCORE_LANDING;
+        public int SCORE_LANDING
+        {
+            get { return _SCORE_LANDING; }
+            set { _SCORE_LANDING = value; RaisePropertyChanged(nameof(SCORE_LANDING)); }
+        }
+
+
+        private int _SCORE_HEIGHT;
+        public int SCORE_HEIGHT
+        {
+            get { return _SCORE_HEIGHT; }
+            set { _SCORE_HEIGHT = value; RaisePropertyChanged(nameof(SCORE_HEIGHT)); }
+        }
+
+        private int _SCORE_RAW;
+        public int SCORE_RAW
+        {
+            get { return _SCORE_RAW; }
+            set { _SCORE_RAW = value; RaisePropertyChanged(nameof(SCORE_RAW)); }
+        }
+
+
+
+        private int _SCORE_PREP;
+        public int SCORE_PREP
+        {
+            get { return _SCORE_PREP; }
+            set { _SCORE_PREP = value; RaisePropertyChanged(nameof(SCORE_PREP)); }
+        }
+
+
+    }
+
 
 
     public class MODEL_Player_flags : MODEL_BaseClass
