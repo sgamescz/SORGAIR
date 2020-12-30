@@ -34,6 +34,7 @@ namespace WpfApp6.View
             controller.SetTitle("Matrix creator");
             VM.FUNCTION_LOAD_MATRIX_FILES();
             VM.SQL_SAVESOUTEZDATA("delete from matrix");
+            VM.SQL_SAVESOUTEZDATA("delete from score");
 
             ////////////////////////// 
 
@@ -58,6 +59,7 @@ namespace WpfApp6.View
 
                         Console.WriteLine(progg);
                         VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + r + "," + g + "," + s + ",0)");
+                        VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid) values (" + r + "," + g + "," + s + ",0)");
                         controller.SetProgress(progg);
                         controller.SetMessage(string.Format("Generating: {0}%", Math.Round((progg * 100), 2)));
                         await Task.Delay(1);
@@ -72,7 +74,6 @@ namespace WpfApp6.View
 
 
             /////////////////////////////
-
 
             HashSet<string> uniqueStrings = new HashSet<string>();
 
@@ -142,6 +143,7 @@ namespace WpfApp6.View
                             System.Diagnostics.Debug.WriteLine("R:" + Round + "|G:" + Group + "|L:" + x + "|" + poleidnaradku[x-1]);
 
                             VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + poleidnaradku[x-1].Substring(1) + ") where rnd=" + Round + " and grp=" + Group + " and stp=" + x + " ;");
+                            VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + poleidnaradku[x - 1].Substring(1) + ") where rnd=" + Round + " and grp=" + Group + " and stp=" + x + " ;");
                         }
 
                         controller.SetMessage("Placing Round / Group:" + Round + "/" + Group );

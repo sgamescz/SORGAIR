@@ -87,8 +87,8 @@ namespace WpfApp6.Model
         public string BIND_SQL_SOUTEZ_JURY1_value;
         public string BIND_SQL_SOUTEZ_JURY2_value;
         public string BIND_SQL_SOUTEZ_JURY3_value;
-        public int BIND_SQL_SOUTEZ_ROUNDS_value;
-        public int BIND_SQL_SOUTEZ_GROUPS_value;
+        public int BIND_SQL_SOUTEZ_ROUNDS_value = 100;
+        public int BIND_SQL_SOUTEZ_GROUPS_value = 100;
         public int BIND_SQL_SOUTEZ_STARTPOINTS_value;
         public int BIND_SQL_SOUTEZ_DELETES_value;
         public int BIND_SQL_SOUTEZ_ROUNDSFINALE_value;
@@ -442,7 +442,7 @@ namespace WpfApp6.Model
 
         public string BIND_SELECTED_GROUP_DESC
         {
-            get { return SQL_READSOUTEZDATA("select Name from Groups where id = " + BIND_SELECTED_GROUP, ""); }
+            get { return SQL_READSOUTEZDATA("select Name from Groups where masterround = " + BIND_SELECTED_GROUP, ""); }
         }
 
 
@@ -469,15 +469,56 @@ namespace WpfApp6.Model
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rounds'");
                 if (value > BIND_SQL_SOUTEZ_ROUNDS_value)
                 {
-                    SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + value + ",'autopridani','auto',600,0);");
+                    SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + value + ",'kolo:a_"+ value + "','auto',600,0);");
+
+                    for (int i = 1; i < BIND_SQL_SOUTEZ_GROUPS+1 ; i++)
+                    {
+                        SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'autogrp_" + i + "','auto',600,0, " + value + " ," + i + ");");
+                    }
+
                 }
                 SQL_SAVESOUTEZDATA("delete from rounds where id > " + value + ";");
+                SQL_SAVESOUTEZDATA("delete from groups where masterround > " + value + ";");
+
                 BIND_SQL_SOUTEZ_ROUNDS_value = value;
                 OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS");
                 FUNCTION_LOAD_MATRIX_FILES();
 
             }
         }
+
+
+
+
+        public int BIND_SQL_SOUTEZ_GROUPS
+        {
+            get { return BIND_SQL_SOUTEZ_GROUPS_value; }
+
+
+            set
+            {
+
+
+                if (value > BIND_SQL_SOUTEZ_GROUPS_value)
+                {
+
+                    for (int i = 1; i < BIND_SQL_SOUTEZ_ROUNDS + 1; i++)
+                    {
+                        SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'autogrp_" + value + "','auto',600,0, " + i + " ," + value + ");");
+                    }
+
+                }
+                SQL_SAVESOUTEZDATA("delete from groups where groupnumber > " + value + ";");
+
+
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Groups'");
+                BIND_SQL_SOUTEZ_GROUPS_value = value;
+                OnPropertyChanged("BIND_SQL_SOUTEZ_GROUPS");
+                FUNCTION_LOAD_MATRIX_FILES();
+
+            }
+        }
+
 
 
         public int BIND_SELECTED_ROUND
@@ -511,14 +552,6 @@ namespace WpfApp6.Model
         {
             get { return BIND_VIEWED_GROUP_value; }
             set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); }
-        }
-
-
-
-        public int BIND_SQL_SOUTEZ_GROUPS
-        {
-            get { return BIND_SQL_SOUTEZ_GROUPS_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Groups'"); BIND_SQL_SOUTEZ_GROUPS_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_GROUPS"); FUNCTION_LOAD_MATRIX_FILES();            }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTS
@@ -799,11 +832,11 @@ namespace WpfApp6.Model
 
 
 
-            Console.WriteLine("select * from matrix M left join groups G on M.grp = G.id where M.rnd=" + kolo + ";");
+            Console.WriteLine("select rnd,grp,g.* from matrix M left join groups G on M.rnd = G.masterround where M.rnd=" + kolo + " group by groupnumber;");
             List<TodoItem> test = new List<TodoItem>();
             List<TodoItem2> test2 = new List<TodoItem2>();
 
-            SQLiteCommand command = new SQLiteCommand("select rnd,grp,g.* from matrix M left join groups G on M.grp = G.id where M.rnd=" + kolo + " group by grp;", DBSOUTEZ_Connection);
+            SQLiteCommand command = new SQLiteCommand("select rnd,grp,g.* from matrix M left join groups G on M.rnd = G.masterround where M.rnd=" + kolo + " group by groupnumber;", DBSOUTEZ_Connection);
             SQLiteDataReader sqlite_datareader;
 
             try
@@ -1034,15 +1067,17 @@ namespace WpfApp6.Model
                     if (kamulozitvysledek == "get_players_actual")
                     {
 
-                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
+
+
 
                         var player_actual = new MODEL_Player_actual()
                         {
-                            ID = sqlite_datareader.GetInt32(0),
-                            STARTPOINT = sqlite_datareader.GetInt32(1),
-                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")),
-                            RAWSCORE = 145,
-                            PREPSCORE = 988 
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
+                            STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("RAWSCORE")),
+                            ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("maxrow"))
                         };
                         Players_Actual.Add(player_actual);
                         vysledek = kamulozitvysledek;
@@ -1060,6 +1095,7 @@ namespace WpfApp6.Model
                             ID = sqlite_datareader.GetInt32(0),
                              FIRSTNAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
                              LASTNAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")),
+                             WHOLENAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + " " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname"))
                         };
                         Player_Selected.Add(_player_selected);
                         vysledek = kamulozitvysledek;
@@ -1082,7 +1118,7 @@ namespace WpfApp6.Model
                             ROUNDNAME = sqlite_datareader.GetString(1),
                             ROUNDTYPE = sqlite_datareader.GetString(2),
                             ROUNDLENGHT = sqlite_datareader.GetInt32(3),
-                            ROUNDZADANO = sqlite_datareader.GetInt32(4), 
+                            ROUNDZADANO = sqlite_datareader.GetInt32 (4), 
                             items= SQL__SUBQUERY_ADD_GROUPS(sqlite_datareader.GetInt32(0))
 
                         };
@@ -1093,12 +1129,12 @@ namespace WpfApp6.Model
                     if (kamulozitvysledek == "get_groups")
                     {
 
-                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " AA>>>> " + kamulozitvysledek);
 
 
                         var groups = new MODEL_Contest_Groups()
                         {
-                            ID = sqlite_datareader.GetInt32(2),
+                            ID = sqlite_datareader.GetInt32(8),
                             GROUPNAME = sqlite_datareader.GetString(3),
                             GROUPTYPE= sqlite_datareader.GetString(4),
                             GROUPLENGHT= sqlite_datareader.GetInt32(5),
@@ -1171,6 +1207,15 @@ namespace WpfApp6.Model
                                 Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
                                 vysledek = myreader.ToString();
                             }
+
+                            if (sqlite_datareader.GetFieldType(0) == typeof(Double))
+                            {
+                                double myreader = sqlite_datareader.GetDouble(0);
+                                Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                                vysledek = myreader.ToString();
+                            }
+
+
 
                             if (sqlite_datareader.GetFieldType(0)== typeof(string))
                             {
@@ -1459,21 +1504,43 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 if (stp == 0) { stp = BIND_SELECTED_STARTPOINT; }
     
                 SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_player_selected");
-            bind_scoreentry_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
-            bind_scoreentry_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
-            bind_scoreentry_selected_landing = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
-            bind_scoreentry_selected_height = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(height) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select height from score where " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score", ""));
+            bind_scoreentry_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            bind_scoreentry_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            bind_scoreentry_selected_landing = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            bind_scoreentry_selected_height = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(height) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select height from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
 
         }
 
 
-        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1, int pen2)
+        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int heightunder, int heightover, int pen1, int pen2)
         {
             Console.WriteLine("saving score");
             SQL_SAVESOUTEZDATA("delete from score where rnd="+rnd+" and grp="+grp +" and stp="+stp +";");
-            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1, pen2, raw, prep ) VALUES("+rnd+ "," + grp + "," + stp  + "," + usrid  + "," + minutes  + "," + seconds + "," + landing  + "," + height  + ",9,10,11,12);");
+            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, heightunder, heightover, pen1, pen2, raw, prep, entered ) VALUES("+rnd+ "," + grp + "," + stp  + "," + usrid  + "," + minutes  + "," + seconds + "," + landing  + "," + height +  ", " + heightunder  + "," + heightover + ", 9,10,11,12, 'True');");
         }
 
+
+        public void FUNCTION_CHECK_ENTERED(int rnd, int grp)
+        {
+            string tmp_celkem_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + ") celkem", "");
+            string tmp_zadano_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + " and entered = 'True') zadano", "");
+
+            if (Int32.Parse(tmp_zadano_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '0' where masterround=" + rnd + " and groupnumber=" + grp); }
+            if (Int32.Parse(tmp_zadano_vgroupe) < Int32.Parse(tmp_celkem_vgroupe)) {SQL_SAVESOUTEZDATA("update groups set zadano = '1' where masterround=" + rnd + " and groupnumber=" + grp);}
+            if (Int32.Parse(tmp_zadano_vgroupe) == Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + rnd + " and groupnumber=" + grp); }
+
+
+            string tmp_celkem_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + ") celkem", "");
+            string tmp_zadano_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + " and zadano = '2') zadano", "");
+            string tmp_castecne_zadano_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + " and zadano = '1') castecnezadano", "");
+
+            if (Int32.Parse(tmp_zadano_vkole) == 0) { SQL_SAVESOUTEZDATA("update rounds set zadano = '0' where id=" + rnd ); }
+            if (Int32.Parse(tmp_zadano_vkole) < Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '1' where id=" + rnd); }
+            if (Int32.Parse(tmp_zadano_vkole) == Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '2' where id=" + rnd ); }
+
+            FUNCTION_ROUNDS_LOAD_ROUNDS();
+            FUNCTION_ROUNDS_LOAD_GROUPS(BIND_SELECTED_ROUND_value);
+        }
 
 
 
@@ -1523,7 +1590,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_ROUNDS_LOAD_GROUPS(int  kolo)
         {
             MODEL_CONTEST_GROUPS.Clear();
-            SQL_READSOUTEZDATA("select rnd,grp,g.* from matrix M left join groups G on M.grp = G.id where M.rnd=" + kolo + " group by grp;", "get_groups");
+            SQL_READSOUTEZDATA("select rnd,grp,g.* from matrix M left join groups G on M.rnd = G.masterround where M.rnd=" + kolo + " group by groupnumber;", "get_groups");
         }
 
 
@@ -1532,7 +1599,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (rnd==0) { rnd = BIND_SELECTED_ROUND; }
             if (grp== 0) { grp = BIND_SELECTED_GROUP; }
             Players_Actual.Clear();
-            SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd  +  " and M.grp = "+ grp +" order by stp asc;", "get_players_actual");
+            SQL_READSOUTEZDATA("select ifnull(round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2),round(0,2)) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_players_actual");
+            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_players_actual");
+
         }
 
 

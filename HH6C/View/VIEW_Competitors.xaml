@@ -449,11 +449,12 @@
                 x:Name="firstFlyout"
                 Margin="10,0,0,0"
                 AnimateOpacity="True"
-                IsModal="False"
                 AreAnimationsEnabled="True"
                 Header="Přidání nového soutěžícího"
+                IsModal="False"
                 IsOpen="False"
-                                Position="Right">
+                Position="Right"
+                Theme="Adapt">
 
 
 
@@ -468,7 +469,7 @@
                         Margin="205,88,0,57"
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
-                        Background="{DynamicResource MahApps.Brushes.AccentBase }"
+                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
                         DisplayMemberPath="NAME"
                         ItemsSource="{Binding MODEL_Contest_AGECATEGORIES}"
                         SelectedIndex="0"
@@ -512,11 +513,11 @@
                         Width="345"
                         Margin="205,0,0,145"
                         HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         mah:TextBoxHelper.UseFloatingWatermark="True"
                         mah:TextBoxHelper.Watermark="Příjmení"
                         mah:TextBoxHelper.WatermarkAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
                         Background="{DynamicResource MahApps.Brushes.Gray8}"
                         TabIndex="1"
                         Text="" />
@@ -525,10 +526,10 @@
                         Width="405"
                         Margin="555,0,0,145"
                         HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         mah:TextBoxHelper.UseFloatingWatermark="True"
                         mah:TextBoxHelper.Watermark="Jméno"
-                        VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center"
                         Background="{DynamicResource MahApps.Brushes.Gray8}"
                         TabIndex="2"
                         Text="" />
@@ -553,9 +554,9 @@
                         Width="405"
                         Margin="555,44,0,101"
                         HorizontalAlignment="Left"
-                        mah:TextBoxHelper.UseFloatingWatermark="True"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
                         mah:TextBoxHelper.Watermark="FAI Licence"
                         Background="{DynamicResource MahApps.Brushes.Accent2}"
                         TabIndex="4"
@@ -566,11 +567,11 @@
                         Width="345"
                         Margin="205,44,0,101"
                         HorizontalAlignment="Left"
-                        mah:TextBoxHelper.UseFloatingWatermark="True"
-                        VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
                         mah:TextBoxHelper.Watermark="Národní Licence"
-                        Background="{DynamicResource MahApps.Brushes.Accent2 }"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
                         TabIndex="3"
                         Text="" />
 
@@ -592,7 +593,7 @@
                         Width="205"
                         Margin="555,132,0,13"
                         HorizontalAlignment="Left"
-                        HorizontalContentAlignment="Center" 
+                        HorizontalContentAlignment="Center"
                         Background="{DynamicResource MahApps.Brushes.Accent2}"
                         DisplayMemberPath="NAME"
                         ItemsSource="{Binding MODEL_Contest_FREQUENCIES}"
@@ -615,7 +616,7 @@
                         Width="345"
                         Margin="205,132,0,13"
                         HorizontalAlignment="Left"
-                        HorizontalContentAlignment="Center"   
+                        HorizontalContentAlignment="Center"
                         Background="{DynamicResource MahApps.Brushes.Accent2}"
                         DisplayMemberPath="FILENAME"
                         ItemsSource="{Binding MODEL_Contest_FLAGS}"
@@ -639,13 +640,14 @@
                         Width="55"
                         Height="39"
                         Margin="0,-44,30,0"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Left"
-                        Background="{DynamicResource MahApps.Brushes.Gray10 }"
+                        Background="{DynamicResource MahApps.Brushes.Gray10}"
                         HorizontalTitleAlignment="Right"
                         Style="{StaticResource userbuttonstyle}"
                         Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
-                        VerticalTitleAlignment="Center" HorizontalAlignment="Right">
+                        VerticalTitleAlignment="Center">
                         <Image
                             x:Name="L_newuser_flag"
                             Width="55"
@@ -674,12 +676,12 @@
                             x:Name="l_registered"
                             Width="170"
                             Height="35"
+                            Margin="10,0,0,0"
                             HorizontalAlignment="Left"
                             HorizontalContentAlignment="Left"
                             ContentDirection="RightToLeft"
                             FontSize="12"
                             IsOn="False"
-                            Margin="10 0 0 0"
                             OffContent="Neregistrován"
                             OnContent="Registrován"
                             TabIndex="8" />
@@ -697,13 +699,13 @@
                         TabIndex="12">
                         <Grid>
                             <iconPacks:PackIconUnicons
-                            Width="30"
-                            Height="30"
-                            Margin="-89,14,0,6"
-                            VerticalAlignment="Center"
-                            Kind="CommentAltPlus" />
+                                Width="30"
+                                Height="30"
+                                Margin="-89,14,0,6"
+                                VerticalAlignment="Center"
+                                Kind="CommentAltPlus" />
 
-                            <Label Content="Uložit nového soutěžícího" VerticalAlignment="Center" />
+                            <Label VerticalAlignment="Center" Content="Uložit nového soutěžícího" />
                         </Grid>
                     </Button>
 
@@ -717,22 +719,20 @@
                         VerticalContentAlignment="Center"
                         Click="L_savenewuserandagain_Click"
                         TabIndex="13"
-                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
-                        >
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
                         <Grid>
-                            <Label Content="Uložit nového soutěžícího a vrátit se sem" VerticalAlignment="Center"/>
+                            <Label VerticalAlignment="Center" Content="Uložit nového soutěžícího a vrátit se sem" />
                             <iconPacks:PackIconUnicons
-                            Width="30"
-                            Height="30"
-                            Margin="-54,6,0,14"
-                            VerticalAlignment="Center"
-                            Kind="CommentAltRedo" />
+                                Width="30"
+                                Height="30"
+                                Margin="-54,6,0,14"
+                                VerticalAlignment="Center"
+                                Kind="CommentAltRedo" />
                         </Grid>
                     </Button>
 
                     <Button
                         x:Name="L_savenewuser_clearall"
-                       
                         Width="Auto"
                         Height="65"
                         Margin="10,350,30,-231"
@@ -742,14 +742,14 @@
                         TabIndex="14"
                         Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
                         <Grid>
-                            <Label Content="Vymazat data" VerticalAlignment="Center"/>
+                            <Label VerticalAlignment="Center" Content="Vymazat data" />
 
                             <iconPacks:PackIconUnicons
-                            Width="30"
-                            Height="30"
-                            Margin="-113,6,0,14"
-                            VerticalAlignment="Center"
-                            Kind="CommentAltBlock" />
+                                Width="30"
+                                Height="30"
+                                Margin="-113,6,0,14"
+                                VerticalAlignment="Center"
+                                Kind="CommentAltBlock" />
                         </Grid>
                     </Button>
                     <Button
@@ -761,18 +761,17 @@
                         VerticalContentAlignment="Center"
                         Click="L_close_Click"
                         TabIndex="14"
-                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
->
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
                         <Grid>
-                            <Label Content="Zrušit zakládání" VerticalAlignment="Center"/>
+                            <Label VerticalAlignment="Center" Content="Zrušit zakládání" />
 
 
                             <iconPacks:PackIconUnicons
-                            Width="30"
-                            Height="30"
-                            Margin="-103,6,0,14"
-                            VerticalAlignment="Center"
-                            Kind="CommentAltSlash" />
+                                Width="30"
+                                Height="30"
+                                Margin="-103,6,0,14"
+                                VerticalAlignment="Center"
+                                Kind="CommentAltSlash" />
                         </Grid>
                     </Button>
 

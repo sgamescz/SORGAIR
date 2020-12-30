@@ -10,9 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:WpfApp6.Model"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
-    d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Height="520">
 
     <UserControl.Resources>
 
@@ -44,27 +43,31 @@
         </Style>
 
         <Style
-            x:Key="typss"
-            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
+            x:Key="zadano"
+            BasedOn="{StaticResource MahApps.Styles.Button.Flat}"
             TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
-            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Black}" />
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.White}" />
-                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Badged.DisabledBackground}" />
-                </Trigger>
-            </Style.Triggers>
 
-        </Style>
-        <Style x:Key="userbuttonstyle" TargetType="{x:Type Controls:Tile}">
-            <Setter Property="Height" Value="85" />
-            <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
-            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
-            <Setter Property="TitleFontSize" Value="14" />
-            <Setter Property="CountFontSize" Value="18" />
-            <Setter Property="Width" Value="147" />
+            <Setter Property="Height" Value="35" />
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="0">
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}" />
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray}" />
+                    <Setter Property="Content" Value="Nezadáno" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray2}" />
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeWhite}" />
+                    <Setter Property="Content" Value="Částečně zadáno" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="2">
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeWhite}" />
+                    <Setter Property="Content" Value="Zadáno" />
+                </DataTrigger>
+
+
+            </Style.Triggers>
         </Style>
 
     </UserControl.Resources>
@@ -121,7 +124,7 @@
                                     <mah:Tile
                                         Title="{Binding ROUNDNAME}"
                                         Width="Auto"
-                                        Height="35"
+                                        Height="95"
                                         Margin="0,0,0,2"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
@@ -190,28 +193,16 @@
 
 
 
-                                    <mah:Tile
-                                        Title="{Binding ROUNDZADANO}"
+                                    <Button
                                         Width="Auto"
-                                        Height="35"
+                                        MinWidth="1"
                                         Margin="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
-                                        HorizontalContentAlignment="Left"
+                                        HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                                        Background="{DynamicResource MahApps.Brushes.Accent4}"
-                                        Click="Button_Click"
-                                        HorizontalTitleAlignment="center"
-                                        Tag="{Binding ID}"
-                                        VerticalTitleAlignment="Center">
-                                        <iconPacks:PackIconUnicons
-                                            Width="20"
-                                            Height="20"
-                                            Margin="5"
-                                            VerticalAlignment="Center"
-                                            Kind="CheckCircle" />
-                                    </mah:Tile>
+                                        Style="{DynamicResource zadano}"
+                                        Tag="{Binding ROUNDZADANO}" />
 
 
                                 </StackPanel>
@@ -334,28 +325,17 @@
                                             VerticalAlignment="Center"
                                             Kind="Stopwatch" />
                                     </mah:Tile>
-                                    <mah:Tile
-                                        Title="{Binding GROUPZADANO}"
+                                    <Button
                                         Width="Auto"
                                         Height="35"
                                         Margin="0,0,0,2"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
-                                        HorizontalContentAlignment="Left"
+                                        HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                                        Background="{DynamicResource MahApps.Brushes.Accent3}"
                                         Click="Button_Click_1"
-                                        HorizontalTitleAlignment="center"
-                                        Tag="{Binding ID}"
-                                        VerticalTitleAlignment="Center">
-                                        <iconPacks:PackIconUnicons
-                                            Width="20"
-                                            Height="20"
-                                            Margin="5"
-                                            VerticalAlignment="Center"
-                                            Kind="CheckCircle" />
-                                    </mah:Tile>
+                                        Style="{StaticResource zadano}"
+                                        Tag="{Binding GROUPZADANO}" />
 
 
                                 </StackPanel>
@@ -371,10 +351,7 @@
 
 
         <Button
-            Width="150"
-            Margin="95,413,0,-50"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
+            Margin="0,460,0,10"
             Click="Button_Click_2"
             Content="Vybrat toto kolo" />
 

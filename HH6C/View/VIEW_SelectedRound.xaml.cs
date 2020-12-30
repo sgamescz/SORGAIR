@@ -112,13 +112,11 @@ namespace WpfApp6.View
         private void scoreentry_save_Click(object sender, RoutedEventArgs e)
         {
 
-            if (scoreentry_minutes.SelectedIndex >= 0 & scoreentry_seconds.SelectedIndex >= 0  & scoreentry_height.SelectedIndex >= 0 & scoreentry_landing.SelectedIndex >= 0)
+            
 
-            {
-                              VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_STARTPOINT, VM.Player_Selected[0].ID , VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value , VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value , VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].Value , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, 1, 1);
-                scoreentry.IsOpen = false;
+                savescore_event();
 
-            }
+           
 
         }
 
@@ -127,6 +125,52 @@ namespace WpfApp6.View
             scoreentry_landing.SelectedIndex = 5;
             //scoreentry.IsOpen = false;
 
+        }
+
+
+        public void savescore_event()
+        {
+
+            if (scoreentry_minutes.SelectedIndex >= 0 & scoreentry_seconds.SelectedIndex >= 0 & scoreentry_height.SelectedIndex >= 0 & scoreentry_landing.SelectedIndex >= 0)
+
+            {
+
+                int tmpheight = VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value;
+                int tmpunder = 0;
+                int tmpover = 0;
+
+                if (tmpheight < 200)
+                {
+                    tmpunder = tmpheight;
+                    tmpover = 0;
+
+                }
+                else
+                {
+                    tmpunder = 200;
+                    tmpover = (tmpheight - 200);
+
+                }
+
+                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].Value, tmpheight, tmpunder, tmpover, 1, 1);
+                VM.FUNCTION_CHECK_ENTERED(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
+                VM.FUNCTION_SELECTED_ROUND_USERS(0, 0);
+                scoreentry.IsOpen = false;
+                HWbasemodul_Copy4s.Focus(); 
+
+            }
+
+
+          
+
+        }
+        private void scoreentry_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Return)
+            {
+                savescore_event(); 
+
+            }
         }
     }
 }

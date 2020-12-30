@@ -52,8 +52,8 @@ namespace WpfApp6.Model
 
 
 
-        private int _ROUNDZADANO;
-        public int ROUNDZADANO
+        private int  _ROUNDZADANO;
+        public int  ROUNDZADANO
         {
             get { return _ROUNDZADANO; }
             set { _ROUNDZADANO = value; RaisePropertyChanged(nameof(ROUNDZADANO)); }

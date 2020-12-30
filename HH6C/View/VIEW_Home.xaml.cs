@@ -38,39 +38,6 @@ namespace WpfApp6.View
 
 
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-
-            // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
-            var currentWindow = this.TryFindParent<MetroWindow>();
-            var result = await currentWindow.ShowInputAsync("Hi", "What's your name?");
-            await currentWindow.ShowMessageAsync("Hi again", $"You are welcome {result}", MessageDialogStyle.AffirmativeAndNegativeAndDoubleAuxiliary );
-            var controller = await currentWindow.ShowProgressAsync("Please wait...", "Progress message");
-
-            await Task.Delay(3000);
-            controller.SetTitle("Magnetometer Calibration");
-            for (int i = 0; i < 101; i++)
-            {
-                controller.SetProgress(i / 100.0);
-                controller.SetMessage(string.Format("Rotate the controller in all directions: {0}%", i));
-
-                if (controller.IsCanceled) break;
-                await Task.Delay(100);
-            }
-            await controller.CloseAsync();
-
-            if (controller.IsCanceled)
-            {
-                await currentWindow.ShowMessageAsync("Magnetometer Calibration", "Calibration has been cancelled.");
-            }
-            else
-            {
-                await currentWindow.ShowMessageAsync("Magnetometer Calibration", "Calibration finished successfully.");
-            }
-
-        }
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             
@@ -82,20 +49,17 @@ namespace WpfApp6.View
             VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
             //VM.BIND_VYBRANEKOLOMENU = "Vybrané kolo: 1/4";
             VM.clock_create ();
-            VM.BIND_MENU_ENABLED_finale = false;
-            VM.BIND_MENU_ENABLED_detailyastatistiky = false;
-            VM.BIND_MENU_ENABLED_online = false;
             VM.BIND_MENU_ENABLED_nastavenisouteze = true;
             VM.BIND_MENU_ENABLED_audioadalsi = true;
             VM.BIND_MENU_ENABLED_hardware = true;
             VM.BIND_MENU_ENABLED_soutezici = true;
             VM.BIND_MENU_ENABLED_rozlosovani = true;
             VM.BIND_MENU_ENABLED_vybranekolo = true;
-            VM.BIND_MENU_ENABLED_vysledky = true;
             VM.BIND_MENU_ENABLED_seznamkol = true;
-            VM.BIND_MENU_ENABLED_online = true;
-            VM.BIND_MENU_ENABLED_detailyastatistiky = true;
-            VM.BIND_MENU_ENABLED_finale  = true;
+            VM.BIND_MENU_ENABLED_vysledky = false;
+            VM.BIND_MENU_ENABLED_online = false;
+            VM.BIND_MENU_ENABLED_detailyastatistiky = false;
+            VM.BIND_MENU_ENABLED_finale  = false ;
 
 
         }

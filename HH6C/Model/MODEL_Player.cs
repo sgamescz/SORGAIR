@@ -207,18 +207,26 @@ namespace WpfApp6.Model
         }
 
 
-        private int _RAWSCORE;
-        public int RAWSCORE
+        private Double  _RAWSCORE;
+        public Double RAWSCORE
         {
             get { return _RAWSCORE; }
             set { _RAWSCORE = value; RaisePropertyChanged(nameof(RAWSCORE)); }
         }
 
-        private int _PREPSCORE;
-        public int PREPSCORE
+        private Double _PREPSCORE;
+        public Double PREPSCORE
         {
             get { return _PREPSCORE; }
             set { _PREPSCORE = value; RaisePropertyChanged(nameof(PREPSCORE)); }
+        }
+
+
+        private string   _ENTERED;
+        public string  ENTERED
+        {
+            get { return _ENTERED; }
+            set { _ENTERED = value; RaisePropertyChanged(nameof(ENTERED)); }
         }
 
 
@@ -256,6 +264,14 @@ namespace WpfApp6.Model
             get { return _LASTNAME; }
             set { _LASTNAME = value; RaisePropertyChanged(nameof(LASTNAME)); }
         }
+
+        private string _WHOLENAME;
+        public string WHOLENAME
+        {
+            get { return _WHOLENAME; }
+            set { _WHOLENAME = value; RaisePropertyChanged(nameof(WHOLENAME)); }
+        }
+
 
         private string _FLAG;
         public string FLAG
