@@ -10,8 +10,8 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:WpfApp6.Model"
+    Height="836"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
-    d:DesignHeight="750"
     d:DesignWidth="1000"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -39,6 +39,24 @@
 
 
         </Style>
+
+
+        <Style x:Key="badgejeplnostyl" TargetType="{x:Type Controls:Badged}">
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="True">
+                    <Setter Property="Badge" Value="" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="False">
+                    <Setter Property="Badge" Value="Plno" />
+                    <Setter Property="BadgeBackground" Value="Red" />
+                </DataTrigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+
 
         <Style x:Key="typss" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
@@ -68,16 +86,14 @@
 
 
         <mah:MetroHeader
-            Height="325"
+            Height="481"
             Margin="10,235,10,0"
             VerticalAlignment="Top"
             Header="Seznam soutěžících">
             <Grid>
                 <ListBox
                     x:Name="competitorlist"
-                    Height="269"
-                    Margin="10,10,10,0"
-                    VerticalAlignment="Top"
+                    Margin="10"
                     BorderThickness="2"
                     ItemsSource="{Binding Players}"
                     SelectedItem="{Binding SelectedArticle, Mode=TwoWay}"
@@ -387,55 +403,83 @@
             </Grid>
         </mah:MetroHeader>
         <mah:MetroHeader
-            Height="170"
-            Margin="10,560,10,0"
+            Height="95"
+            Margin="20,721,20,0"
             VerticalAlignment="Top"
             Header="Editace">
-            <Grid>
+            <Grid Margin="0,-10,0,0">
+                <UniformGrid Columns="3" Rows="1">
 
-                <mah:Tile
-                    x:Name="delete_competitor"
-                    Title="Smazat soutěžícího"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Width="Auto"
-                    Height="60"
-                    Margin="10,69,10,0"
-                    VerticalAlignment="Top"
-                    Background="{DynamicResource MahApps.Brushes.Accent}"
-                    Click="delete_competitor_Click"
-                    HorizontalTitleAlignment="Center"
-                    IsEnabled="False"
-                    TitleFontSize="12">
+                    <Controls:Badged
+                        Panel.ZIndex="1"
+                        BadgeMargin="10,0,10,0"
+                        BadgePlacementMode="TopLeft"
+                        Style="{StaticResource badgejeplnostyl}"
+                        Tag="{Binding BIND_SOUTEZ_JEPLNO}">
+                        <mah:Tile
+                            x:Name="addnewuser"
+                            Title="Přidat soutěžícího"
+                            Width="Auto"
+                            Height="59"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Top"
+                            Click="addnewuser_Click"
+                            HorizontalTitleAlignment="center"
+                            IsEnabled="{Binding BIND_SOUTEZ_JEPLNO}"
+                            Style="{StaticResource userbuttonstyle}"
+                            Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                            TitleFontSize="12"
+                            VerticalTitleAlignment="Bottom">
+                            <iconPacks:PackIconUnicons
+                                Width="20"
+                                Height="20"
+                                Margin="10"
+                                VerticalAlignment="Center"
+                                Kind="CommentAltPlus" />
+                        </mah:Tile>
+                    </Controls:Badged>
 
-                    <iconPacks:PackIconUnicons Kind="CommentAltBlock" />
-                </mah:Tile>
+                    <mah:Tile
+                        x:Name="edituser"
+                        Title="Editovat soutěžícího"
+                        Width="Auto"
+                        Height="59"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        Click="edituser_Click"
+                        HorizontalTitleAlignment="center"
+                        IsEnabled="False"
+                        Style="{StaticResource userbuttonstyle}"
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                        TitleFontSize="12"
+                        VerticalTitleAlignment="Bottom">
+                        <iconPacks:PackIconUnicons
+                            Width="20"
+                            Height="20"
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            Kind="CommentAltEdit" />
+                    </mah:Tile>
 
 
-                <mah:Tile
-                    x:Name="addnewuser"
-                    Title="Přidat soutěžícího"
-                    Width="Auto"
-                    Height="59"
-                    Margin="10,5,10,0"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Top"
-                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                    Background="{DynamicResource MahApps.Brushes.AccentBase}"
-                    Click="addnewuser_Click"
-                    HorizontalTitleAlignment="center"
-                    IsEnabled="True"
-                    Style="{StaticResource userbuttonstyle}"
-                    Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
-                    TitleFontSize="12"
-                    VerticalTitleAlignment="Bottom">
-                    <iconPacks:PackIconUnicons
-                        Width="20"
-                        Height="20"
-                        Margin="10"
-                        VerticalAlignment="Center"
-                        Kind="CommentAltPlus" />
-                </mah:Tile>
+                    <mah:Tile
+                        x:Name="delete_competitor"
+                        Title="Smazat soutěžícího"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Width="Auto"
+                        Height="60"
+                        VerticalAlignment="Top"
+                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                        Click="delete_competitor_Click"
+                        HorizontalTitleAlignment="Center"
+                        IsEnabled="False"
+                        TitleFontSize="12">
+
+                        <iconPacks:PackIconUnicons Kind="CommentAltBlock" />
+                    </mah:Tile>
+
+                </UniformGrid>
 
 
 
@@ -444,7 +488,7 @@
 
 
         </mah:MetroHeader>
-        <mah:FlyoutsControl>
+        <mah:FlyoutsControl Margin="0,0,0,0">
             <mah:Flyout
                 x:Name="firstFlyout"
                 Margin="10,0,0,0"
@@ -473,7 +517,7 @@
                         DisplayMemberPath="NAME"
                         ItemsSource="{Binding MODEL_Contest_AGECATEGORIES}"
                         SelectedIndex="0"
-                        TabIndex="7"
+                        TabIndex="5"
                         Text="test">
                         <mah:SplitButton.Icon>
                             <iconPacks:PackIconModern
@@ -481,6 +525,7 @@
                                 Height="25"
                                 Margin="10,0,0,0"
                                 VerticalAlignment="Center"
+                                IsTabStop="False"
                                 Kind="FolderPeople" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
@@ -494,7 +539,7 @@
                         Interval="1"
                         Maximum="999"
                         Minimum="0"
-                        TabIndex="10" />
+                        TabIndex="9" />
 
                     <mah:NumericUpDown
                         x:Name="l_chanel2"
@@ -506,7 +551,7 @@
                         Interval="1"
                         Maximum="999"
                         Minimum="0"
-                        TabIndex="11" />
+                        TabIndex="10" />
 
                     <TextBox
                         x:Name="L_lastname"
@@ -547,6 +592,7 @@
                         Count="26"
                         CountFontSize="29"
                         FontStyle="Italic"
+                        IsTabStop="False"
                         Style="{StaticResource userbuttonstyle}" />
 
                     <TextBox
@@ -585,7 +631,7 @@
                         mah:TextBoxHelper.UseFloatingWatermark="True"
                         mah:TextBoxHelper.Watermark="Klub soutěžícího"
                         Background="{DynamicResource MahApps.Brushes.Accent2}"
-                        TabIndex="5"
+                        TabIndex="6"
                         Text="" />
 
                     <mah:SplitButton
@@ -598,7 +644,7 @@
                         DisplayMemberPath="NAME"
                         ItemsSource="{Binding MODEL_Contest_FREQUENCIES}"
                         SelectedIndex="0"
-                        TabIndex="9"
+                        TabIndex="8"
                         Text="test">
                         <mah:SplitButton.Icon>
                             <iconPacks:PackIconModern
@@ -606,6 +652,7 @@
                                 Height="20"
                                 Margin="10,0,0,0"
                                 VerticalAlignment="Center"
+                                IsTabStop="False"
                                 Kind="TvRemote" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
@@ -622,7 +669,7 @@
                         ItemsSource="{Binding MODEL_Contest_FLAGS}"
                         SelectedIndex="58"
                         SelectionChanged="SplitButton_SelectionChanged"
-                        TabIndex="6"
+                        TabIndex="7"
                         Text="test">
                         <mah:SplitButton.Icon>
                             <iconPacks:PackIconFontAwesome
@@ -630,6 +677,7 @@
                                 Height="20"
                                 Margin="10,0,20,0"
                                 VerticalAlignment="Center"
+                                IsTabStop="False"
                                 Kind="GlobeAmericasSolid" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
@@ -669,6 +717,7 @@
                         mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                         Background="{DynamicResource MahApps.Brushes.Accent}"
                         HorizontalTitleAlignment="Right"
+                        IsTabStop="False"
                         Style="{StaticResource userbuttonstyle}"
                         Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
                         VerticalTitleAlignment="Center">
@@ -684,7 +733,7 @@
                             IsOn="False"
                             OffContent="Neregistrován"
                             OnContent="Registrován"
-                            TabIndex="8" />
+                            TabIndex="11" />
 
                     </mah:Tile>
 
@@ -703,7 +752,8 @@
                                 Height="30"
                                 Margin="-89,14,0,6"
                                 VerticalAlignment="Center"
-                                Kind="CommentAltPlus" />
+                                IsTabStop="False"
+                                Kind="CommentAltVerify" />
 
                             <Label VerticalAlignment="Center" Content="Uložit nového soutěžícího" />
                         </Grid>
@@ -727,7 +777,7 @@
                                 Height="30"
                                 Margin="-54,6,0,14"
                                 VerticalAlignment="Center"
-                                Kind="CommentAltRedo" />
+                                Kind="CommentAltPlus" />
                         </Grid>
                     </Button>
 
@@ -749,7 +799,7 @@
                                 Height="30"
                                 Margin="-113,6,0,14"
                                 VerticalAlignment="Center"
-                                Kind="CommentAltBlock" />
+                                Kind="CommentAltQuestion" />
                         </Grid>
                     </Button>
                     <Button
@@ -775,6 +825,314 @@
                         </Grid>
                     </Button>
 
+                </Grid>
+
+
+            </mah:Flyout>
+
+            <mah:Flyout
+                x:Name="firstFlyout_edit"
+                Margin="10,0,0,0"
+                AnimateOpacity="True"
+                AreAnimationsEnabled="True"
+                Header="Editace soutěžícího"
+                IsModal="False"
+                IsOpen="False"
+                Position="Right"
+                Theme="Adapt">
+
+
+
+
+                <Grid Height="184" VerticalAlignment="Top">
+                    <mah:SplitButton
+                        x:Name="l_agecat_edit"
+                        Width="345"
+                        Margin="205,88,0,57"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                        DisplayMemberPath="NAME"
+                        ItemsSource="{Binding MODEL_Contest_AGECATEGORIES}"
+                        TabIndex="5"
+                        Text="test">
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconModern
+                                Width="25"
+                                Height="25"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="FolderPeople" />
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+                    <mah:NumericUpDown
+                        x:Name="l_chanel1_edit"
+                        Width="95"
+                        Margin="765,132,0,13"
+                        HorizontalAlignment="Left"
+                        mah:TextBoxHelper.Watermark="Kanál1"
+                        Background="{DynamicResource MahApps.Brushes.Gray9}"
+                        Interval="1"
+                        Maximum="999"
+                        Minimum="0"
+                        TabIndex="9" />
+
+                    <mah:NumericUpDown
+                        x:Name="l_chanel2_edit"
+                        Width="95"
+                        Margin="865,132,0,13"
+                        HorizontalAlignment="Left"
+                        mah:TextBoxHelper.Watermark="Kanál2"
+                        Background="{DynamicResource MahApps.Brushes.Gray9}"
+                        Interval="1"
+                        Maximum="999"
+                        Minimum="0"
+                        TabIndex="10" />
+
+                    <TextBox
+                        x:Name="L_lastname_edit"
+                        Width="345"
+                        Margin="205,0,0,145"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
+                        mah:TextBoxHelper.Watermark="Příjmení"
+                        mah:TextBoxHelper.WatermarkAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.Gray8}"
+                        TabIndex="1"
+                        Text="" />
+                    <TextBox
+                        x:Name="l_firstname_edit"
+                        Width="405"
+                        Margin="555,0,0,145"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
+                        mah:TextBoxHelper.Watermark="Jméno"
+                        Background="{DynamicResource MahApps.Brushes.Gray8}"
+                        TabIndex="2"
+                        Text="" />
+
+                    <mah:Tile
+                        x:Name="l_nextid_edit"
+                        Title="Vygenerováne ID"
+                        Width="190"
+                        Height="83"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Background="YellowGreen"
+                        Count="26"
+                        CountFontSize="29"
+                        FontStyle="Italic"
+                        IsTabStop="False"
+                        Style="{StaticResource userbuttonstyle}" />
+
+                    <TextBox
+                        x:Name="l_failic_edit"
+                        Width="405"
+                        Margin="555,44,0,101"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
+                        mah:TextBoxHelper.Watermark="FAI Licence"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                        TabIndex="4"
+                        Text="" />
+
+                    <TextBox
+                        x:Name="l_naclic_edit"
+                        Width="345"
+                        Margin="205,44,0,101"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
+                        mah:TextBoxHelper.Watermark="Národní Licence"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                        TabIndex="3"
+                        Text="" />
+
+                    <TextBox
+                        x:Name="l_club_edit"
+                        Width="405"
+                        Margin="555,88,0,57"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.UseFloatingWatermark="True"
+                        mah:TextBoxHelper.Watermark="Klub soutěžícího"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                        TabIndex="6"
+                        Text="" />
+
+                    <mah:SplitButton
+                        x:Name="l_freq_edit"
+                        Width="205"
+                        Margin="555,132,0,13"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                        DisplayMemberPath="NAME"
+                        ItemsSource="{Binding MODEL_Contest_FREQUENCIES}"
+                        TabIndex="8"
+                        Text="test">
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconModern
+                                Width="20"
+                                Height="20"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="TvRemote" />
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+
+
+                    <mah:SplitButton
+                        x:Name="l_country_edit"
+                        Width="345"
+                        Margin="205,132,0,13"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                        DisplayMemberPath="FILENAME"
+                        ItemsSource="{Binding MODEL_Contest_FLAGS}"
+                        SelectionChanged="l_country_edit_SelectionChanged"
+                        TabIndex="7"
+                        Text="test">
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconFontAwesome
+                                Width="20"
+                                Height="20"
+                                Margin="10,0,20,0"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="GlobeAmericasSolid" />
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+
+
+                    <mah:Tile
+                        Title=""
+                        Width="55"
+                        Height="39"
+                        Margin="0,-44,30,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        Background="{DynamicResource MahApps.Brushes.Gray10}"
+                        HorizontalTitleAlignment="Right"
+                        Style="{StaticResource userbuttonstyle}"
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                        VerticalTitleAlignment="Center">
+                        <Image
+                            x:Name="L_newuser_flag_edit"
+                            Width="55"
+                            Height="24"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Stretch="None" />
+                    </mah:Tile>
+
+                    <mah:Tile
+                        Title=""
+                        Width="190"
+                        Height="81"
+                        Margin="10,90,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                        HorizontalTitleAlignment="Right"
+                        IsTabStop="False"
+                        Style="{StaticResource userbuttonstyle}"
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                        VerticalTitleAlignment="Center">
+                        <mah:ToggleSwitch
+                            x:Name="l_registered_edit"
+                            Width="170"
+                            Height="35"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Left"
+                            ContentDirection="RightToLeft"
+                            FontSize="12"
+                            IsOn="False"
+                            OffContent="Neregistrován"
+                            OnContent="Registrován"
+                            TabIndex="11" />
+
+                    </mah:Tile>
+
+
+                    <Button
+                        x:Name="L_savenewuser_edit"
+                        Height="65"
+                        Margin="10,210,30,-91"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Click="L_savenewuser_edit_Click"
+                        TabIndex="12">
+                        <Grid>
+                            <iconPacks:PackIconUnicons
+                                Width="30"
+                                Height="30"
+                                Margin="-89,14,0,6"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="CommentAltVerify" />
+
+                            <Label VerticalAlignment="Center" Content="Uložit nové údaje" />
+                        </Grid>
+                    </Button>
+                    <Button
+                        x:Name="L_savenewuser_edxxit"
+                        Height="65"
+                        Margin="10,280,30,-161"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Click="L_savenewuser_edxxit_Click"
+                        IsEnabled="False"
+                        TabIndex="12">
+                        <Grid>
+                            <iconPacks:PackIconUnicons
+                                Width="30"
+                                Height="30"
+                                Margin="-58,14,0,6"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="CommentAltPlus" />
+
+                            <Label VerticalAlignment="Center" Content="Uložit jako nového soutěžícího" />
+                        </Grid>
+                    </Button>
+                    <Button
+                        x:Name="L_back_edit"
+                        Height="65"
+                        Margin="10,350,30,-231"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Click="L_back_edit_Click"
+                        TabIndex="12">
+                        <Grid>
+                            <iconPacks:PackIconUnicons
+                                Width="30"
+                                Height="30"
+                                Margin="-119,14,0,6"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="CommentAltRedo" />
+
+                            <Label VerticalAlignment="Center" Content="Zpět" />
+                        </Grid>
+                    </Button>
                 </Grid>
 
 

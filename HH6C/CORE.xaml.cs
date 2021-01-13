@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
+
 using MahApps.Metro.Controls;
 using System.Data.SQLite;
 using WpfApp6.View;
@@ -19,6 +21,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
+using System.Globalization;
 
 
 namespace WpfApp6
@@ -32,23 +35,44 @@ namespace WpfApp6
     {
         private static System.Timers.Timer aTimer;
 
-
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
       
         
         public Core()
         {
+            //SORGAIR.Properties.Settings.Default.Languagecode = "en-US";
+            //SORGAIR.Properties.Settings.Default.Save();
             this.DataContext = new MODEL_ViewModel();
+            var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
+            
+        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
+
+
+            Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
+
             InitializeComponent();
             VM.SQL_OPENCONNECTION("SORG");
-            VM.SQL_OPENCONNECTION("SOUTEZ");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
-
+            VM.BIND_VERZE_SORGU = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+            VM.FUNCTION_LOAD_CONTESTS_FILES();
+            Thread test = new Thread(new ThreadStart(thread2));
+            test.Start();
 
         }
 
+        public void thread2()
+        {
+            var result = string.Empty;
+            using (var webClient = new System.Net.WebClient())
+            {
+                webClient.Encoding = System.Text.Encoding.UTF8;
+                result = webClient.DownloadString("http://sorgair.com/api/version.php");
+            }
 
+            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+
+        }
 
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
@@ -86,14 +110,24 @@ namespace WpfApp6
         {
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
-            HamburgerMenuControl.SelectedIndex = 0;
+            HamburgerMenuControl.SelectedIndex = VM.BINDING_selectedmenuindex;
 
 
         }
 
-      
+        public void changeselectedmenu(int id)
+        {
+            HamburgerMenuControl.SelectedIndex = id;
+
+        }
 
 
+        private void CLICK_originalresize(object sender, RoutedEventArgs e)
+        {
+            this.Width = 1268;
+            this.Height =  900;
+            this.WindowState = WindowState.Normal;
 
+        }
     }
 }

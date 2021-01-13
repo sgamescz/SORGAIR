@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,7 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TEST" xml:space="preserve">
-    <value>test resources</value>
+  <data name="menu_audioandothers" xml:space="preserve">
+    <value>Zvuk a ďalšie</value>
+  </data>
+  <data name="menu_competitors" xml:space="preserve">
+    <value>Súťažiaci</value>
+  </data>
+  <data name="menu_contest_settings" xml:space="preserve">
+    <value>Nastavenia súťaže</value>
+  </data>
+  <data name="menu_detailstatistics" xml:space="preserve">
+    <value>Podrobnosti a štatistika</value>
+  </data>
+  <data name="menu_finals" xml:space="preserve">
+    <value>Finále</value>
+  </data>
+  <data name="menu_hardware" xml:space="preserve">
+    <value>Hardware</value>
+  </data>
+  <data name="menu_homepage" xml:space="preserve">
+    <value>Domovská stránka</value>
+  </data>
+  <data name="menu_listofrounds" xml:space="preserve">
+    <value>Zoznam kôl</value>
+  </data>
+  <data name="menu_matrix" xml:space="preserve">
+    <value>Matrix</value>
+  </data>
+  <data name="menu_online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="menu_results" xml:space="preserve">
+    <value>Výsledky</value>
+  </data>
+  <data name="menu_selectedround" xml:space="preserve">
+    <value>Vybrané kolo</value>
+  </data>
+  <data name="menu_teams" xml:space="preserve">
+    <value>Tímy</value>
   </data>
 </root>

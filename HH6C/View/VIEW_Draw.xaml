@@ -87,13 +87,23 @@
 
             <ComboBox
                 x:Name="filewithmatrix"
+                Margin="10,0"
                 DisplayMemberPath="all"
                 ItemsSource="{Binding Listofmatrixes}"
-                SelectedIndex="0" />
-            <Button
+                SelectedIndex="{Binding Listofmatrixes_selectedindex}" />
+            <Controls:Tile
                 x:Name="btn_importusersbymatrixfile"
-                Click="btn_importusersbymatrixfile_Click"
-                Content="Vytvořit nové rozlosování" />
+                Title="Vytvořit nové rozlosování"
+                Width="Auto"
+                Height="65"
+                Margin="10,3"
+                Click="btn_importusersbymatrixfile_Click">
+                <iconPacks:PackIconModern
+                    Width="30"
+                    Height="30"
+                    Kind="DrawPixelFillGrid" />
+            </Controls:Tile>
+
         </StackPanel>
 
         <ItemsControl ItemsSource="{Binding MODEL_CONTEST_ROUNDS}">
@@ -145,7 +155,6 @@
                                                                 HorizontalAlignment="Stretch"
                                                                 Background="{DynamicResource MahApps.Brushes.Accent}"
                                                                 Content="{Binding name}"
-                                                                ContentStringFormat="Soutěžící: {0}"
                                                                 Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" />
 
                                                         </StackPanel>

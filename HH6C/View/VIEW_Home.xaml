@@ -6,40 +6,104 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:language="clr-namespace:SORGAIR.Properties.Lang"
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    Height="575"
     Dialog:DialogParticipation.Register="{Binding}"
-    d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <Grid Margin="0,61,0,120"/>
         <TextBlock
-            x:Name="sorgnadpis"
-            Height="61"
-            HorizontalAlignment="Center"
+            Height="35"
+            Margin="10,140,-10,0"
             VerticalAlignment="Top"
-            FontFamily="Calibri"
-            FontSize="45"
-            Foreground="{DynamicResource MahApps.Brushes.Accent}"
-            Text="SORG AIR 2020 v.1.0" />
-        <Button
-            Width="295"
-            Height="50"
-            Margin="95,350,410,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Click="Button_Click_1"
-            Content="nacti data souteze" />
-        <Button
-            Width="315"
-            Height="50"
-            Margin="395,350,90,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Click="download_news"
-            Content="stahni novinky z webu" />
+            FontSize="14"
+            Text="Testovací verze SORG AIR 2021 určena pouze pro testování a další vývoj"
+            TextAlignment="Center" />
+        <Grid Margin="0,180,0,135">
+
+            <ListBox
+                x:Name="competitionlist"
+                Margin="10"
+                BorderThickness="2"
+                ItemsSource="{Binding MODEL_CONTESTS_FILES}"
+                SelectedIndex="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+
+
+
+                            <TextBlock Grid.Column="0" Text="{Binding FILENAME}" />
+                            <TextBlock Grid.Column="1" Text="{Binding CATEGORY}" />
+                            <TextBlock Grid.Column="2" Text="{Binding NAME}" />
+                            <TextBlock Grid.Column="3" Text="{Binding LOCATION}" />
+                            <TextBlock Grid.Column="4" Text="{Binding DATE}" />
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+
+
+
+        <UniformGrid
+            Margin="10,445,10,10"
+            Columns="2"
+            Rows="2">
+            <Controls:Badged
+                Margin="0,0,5,15"
+                Badge="{Binding BIND_VERZE_SORGU_LAST}"
+                BadgePlacementMode="Top">
+                <Button Click="download_news" Content="{Binding BIND_VERZE_SORGU}" />
+            </Controls:Badged>
+            <Controls:Badged
+                Margin="5,0,0,15"
+                Badge="4 noviky"
+                BadgePlacementMode="Top">
+                <Button Click="Button_Click" Content="Ukaž novinky" />
+            </Controls:Badged>
+            <Button
+                Margin="0,0,5,15"
+                Click="Button_Click_1"
+                Content="Načíst soutěž"
+                Style="{StaticResource MahApps.Styles.Button}" />
+            <Button
+                Margin="5,0,0,15"
+                Content="Vytvořit novou soutež"
+                Style="{StaticResource MahApps.Styles.Button}" />
+
+
+
+        </UniformGrid>
+
+
+
+
+        <Grid
+            Height="135"
+            Margin="10,0"
+            VerticalAlignment="Top">
+
+            <Image
+                Width="300"
+                Height="93"
+                Source="/SORGAIR;component/sorgairlogotransparent.png"
+                Stretch="Fill" />
+        </Grid>
 
     </Grid>
 </UserControl>

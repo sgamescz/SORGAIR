@@ -65,12 +65,14 @@ namespace WpfApp6.View
                 VM.BIND_FLAG = VM.Players[competitorlist.SelectedIndex].COUNTRY.ToString();
                 VM.BIND_PAID = VM.Players[competitorlist.SelectedIndex].PAIDSTR  .ToString();
                 ispaid.IsEnabled = true;
+                edituser.IsEnabled = true;
                 delete_competitor.IsEnabled = true;
 
 
             }
             else
             {
+                edituser.IsEnabled = false;
                 ispaid.IsEnabled = false ;
                 delete_competitor.IsEnabled = false ;
             }
@@ -110,9 +112,15 @@ namespace WpfApp6.View
         private void ispaid_Click(object sender, RoutedEventArgs e)
         {
             if ( competitorlist.SelectedIndex >= 0) {
+
+                string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
                 string check = (sender as MahApps.Metro.Controls.ToggleSwitch).IsOn.ToString();
                 VM.Players[competitorlist.SelectedIndex].PAIDSTR = check;
-                VM.Players[competitorlist.SelectedIndex].PAID = @"E:\SORGAIR\SORGAIR\HH6C\bin\Debug\flags\" + check + ".png";
+                VM.Players[competitorlist.SelectedIndex].PAID = directory+ "/flags/" + check + ".png";
                 VM.FUNCTION_COMPETITOR_UPDATE("Paid", check, VM.Players[competitorlist.SelectedIndex].ID);
             }
         }
@@ -124,7 +132,10 @@ namespace WpfApp6.View
             if (Int32.Parse(L_flag) >= 0 )
             {
                 Console.WriteLine(L_flag);
-                L_newuser_flag.Source = new BitmapImage(new Uri("E:/SORGAIR/SORGAIR/HH6C/bin/Debug/flags/" + VM.MODEL_Contest_FLAGS[Int32.Parse(L_flag)].FILENAME + ".png"));
+                string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                var directory = System.IO.Path.GetDirectoryName(path);
+
+                L_newuser_flag.Source = new BitmapImage(new Uri(directory+ "/flags/" + VM.MODEL_Contest_FLAGS[Int32.Parse(L_flag)].FILENAME + ".png"));
             }
 
         }
@@ -161,6 +172,8 @@ namespace WpfApp6.View
                 {
                     Console.WriteLine("yes");
                     VM.FUNCTION_USERS_DELETE_COMPETITOR(VM.Players[competitorlist.SelectedIndex].ID);
+                    competitorlist.SelectedIndex = competitorlist.Items.Count - 1;
+                    competitorlist.ScrollIntoView(competitorlist.Items[competitorlist.SelectedIndex]);
 
                 }
             }
@@ -182,20 +195,95 @@ namespace WpfApp6.View
         private bool  __SAVE_NEW_USER()
         {
             bool results = true ;
+            string _failictmp = "";
+            if (VM.BIND_SQL_SOUTEZ_REQUIREFAILICENCE == false)
+            {
+                _failictmp = "---";
+            }
+            else
+            {
+                _failictmp = l_failic.Text;
+            }
 
-            if (l_firstname.Text == "" || L_lastname.Text == "" || l_agecat.SelectedIndex ==-1 || l_chanel1.Value is null || l_chanel2.Value is null || l_club.Text == "" || l_country.SelectedIndex == -1 || l_failic.Text == "" || l_freq.SelectedIndex == -1 || l_naclic.Text ==""         )
+
+            if (l_firstname.Text == "" || L_lastname.Text == "" || l_agecat.SelectedIndex == -1 || l_club.Text == "" || l_country.SelectedIndex == -1 || _failictmp == "" || l_freq.SelectedIndex == -1 || l_naclic.Text == "")
             {
                 results = false;
                 var currentWindow = this.TryFindParent<MetroWindow>();
-                currentWindow.ShowMessageAsync("Nelze uložit", "Nejsou vyplněné všechny údaje soutěžícího. Nelze uložit"   );
+                currentWindow.ShowMessageAsync("Nelze uložit", "Nejsou vyplněné všechny údaje soutěžícího. Nelze uložit");
 
             }
             else
             {
-                VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), l_failic.Text, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 1, 1);
+                if (l_freq.SelectedIndex == 0) 
+                {
+                    l_chanel1.Value = 0;
+                    l_chanel2.Value = 0;
+                }
+
+                if (l_freq.SelectedIndex != 0 || l_chanel1.Value is null || l_chanel2.Value is null )
+                {
+                    results = false;
+                    var currentWindow = this.TryFindParent<MetroWindow>();
+                    currentWindow.ShowMessageAsync("Nelze uložit", "Nejsou vyplněné kanály u  zvolené frekvence");
+                }
+                else
+                {
+                    VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), _failictmp, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 0, 1);
+                }
+
+
+
             }
             return results;
         }
+
+        private bool __EDIT_NEW_USER()
+        {
+            bool results = true;
+            string _failictmp = "";
+            if (VM.BIND_SQL_SOUTEZ_REQUIREFAILICENCE == false)
+            {
+                _failictmp = "---";
+            }
+            else
+            {
+                _failictmp = l_failic_edit.Text;
+            }
+
+            if (l_firstname_edit.Text == "" || L_lastname_edit.Text == "" || l_agecat_edit.SelectedIndex == -1 || l_club_edit.Text == "" || l_country_edit.SelectedIndex == -1 || _failictmp == "" || l_freq_edit.SelectedIndex == -1 || l_naclic_edit.Text == "")
+            {
+                results = false;
+                var currentWindow = this.TryFindParent<MetroWindow>();
+                currentWindow.ShowMessageAsync("Nelze uložit", "Nejsou vyplněné všechny údaje soutěžícího. Nelze uložit");
+
+            }
+            else
+            {
+                if (l_freq_edit.SelectedIndex == 0)
+                {
+                    l_chanel1_edit.Value = 0;
+                    l_chanel2_edit.Value = 0;
+                }
+
+                if (l_freq_edit.SelectedIndex != 0 || l_chanel1_edit.Value is null || l_chanel2_edit.Value is null)
+                {
+                    results = false;
+                    var currentWindow = this.TryFindParent<MetroWindow>();
+                    currentWindow.ShowMessageAsync("Nelze uložit", "Nejsou vyplněné kanály u  zvolené frekvence");
+                }
+                else
+                {
+                    VM.FUNCTION_USERS_CREATE_EDIT(int.Parse( l_nextid_edit.Count), l_firstname_edit.Text, L_lastname_edit.Text, VM.MODEL_Contest_FLAGS[l_country_edit.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat_edit.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq_edit.SelectedIndex].ID, Convert.ToInt32(l_chanel1_edit.Value), Convert.ToInt32(l_chanel2_edit.Value), _failictmp, l_naclic_edit.Text, l_club_edit.Text, Convert.ToBoolean(l_registered_edit.IsOn), 1);
+                }
+
+
+
+            }
+            return results;
+        }
+
+
         private void L_savenewuserandagain_Click(object sender, RoutedEventArgs e)
         {
 
@@ -217,6 +305,74 @@ namespace WpfApp6.View
         {
             l_FUNCTION_clear_all_newuser_fields();
             firstFlyout.IsOpen = false;
+        }
+
+        private void edituser_Click(object sender, RoutedEventArgs e)
+        {
+
+            l_nextid_edit.Count = VM.Players[competitorlist.SelectedIndex].ID.ToString();
+            L_lastname_edit.Text = VM.Players[competitorlist.SelectedIndex].LASTNAME.ToString();
+            l_firstname_edit.Text = VM.Players[competitorlist.SelectedIndex].FIRSTNAME.ToString();
+            l_naclic_edit.Text = VM.Players[competitorlist.SelectedIndex].NACLIC.ToString();
+            l_failic_edit.Text = VM.Players[competitorlist.SelectedIndex].FAILIC.ToString();
+            l_club_edit.Text = VM.Players[competitorlist.SelectedIndex].CLUB.ToString();
+            l_chanel1_edit.Value = VM.Players[competitorlist.SelectedIndex].CH1;
+            l_chanel2_edit.Value = VM.Players[competitorlist.SelectedIndex].CH2;
+            l_freq_edit.SelectedIndex= VM.Players[competitorlist.SelectedIndex].FREQID;
+
+            foreach (var stat in VM.MODEL_Contest_FLAGS)
+            {
+                if (stat.FILENAME == VM.Players[competitorlist.SelectedIndex].COUNTRY.ToString()) { l_country_edit.SelectedIndex = stat.ID; }
+            }
+
+            l_agecat_edit.SelectedIndex = VM.Players[competitorlist.SelectedIndex].AGECATID;
+            l_registered_edit.IsOn = bool.Parse(VM.Players[competitorlist.SelectedIndex].PAIDSTR);
+
+            firstFlyout_edit.IsOpen = true;
+
+            //VM.BIND_FLAG = VM.Players[competitorlist.SelectedIndex].COUNTRY.ToString();
+            //VM.BIND_PAID = VM.Players[competitorlist.SelectedIndex].PAIDSTR.ToString();
+            //ispaid.IsEnabled = true;
+
+
+
+        }
+
+        private void L_back_edit_Click(object sender, RoutedEventArgs e)
+        {
+            firstFlyout_edit.IsOpen = false;
+        }
+
+        private void L_savenewuser_edit_Click(object sender, RoutedEventArgs e)
+        {
+
+            int _selectedusr = competitorlist.SelectedIndex;
+            if (__EDIT_NEW_USER() == true)
+            {
+                firstFlyout_edit.IsOpen = false;
+                competitorlist.SelectedIndex = _selectedusr;
+                competitorlist.ScrollIntoView(competitorlist.Items[competitorlist.SelectedIndex]);
+            }
+
+        }
+
+        private void l_country_edit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string L_flag = (sender as MahApps.Metro.Controls.SplitButton).SelectedIndex.ToString();
+
+            if (Int32.Parse(L_flag) >= 0)
+            {
+                Console.WriteLine(L_flag);
+                string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                var directory = System.IO.Path.GetDirectoryName(path);
+
+                L_newuser_flag_edit.Source = new BitmapImage(new Uri(directory + "/flags/" + VM.MODEL_Contest_FLAGS[Int32.Parse(L_flag)].FILENAME + ".png"));
+            }
+
+        }
+
+        private void L_savenewuser_edxxit_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 

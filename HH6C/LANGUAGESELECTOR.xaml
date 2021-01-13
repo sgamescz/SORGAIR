@@ -1,0 +1,50 @@
+﻿<Controls:MetroWindow
+    x:Class="SORGAIR.languageselector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    Title="SORG AIR 2021 - Language selector"
+    Width="619"
+    Height="267"
+    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+    BorderThickness="1"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen">
+
+
+    <Grid>
+        <TextBlock
+            Margin="10,111,10,10"
+            Text="!! Only for beta testing. Do not share this application please !! All what u want / or bug found,  please tell us via ales@sgames.cz, or on our FB site "
+            TextAlignment="Center"
+            TextWrapping="Wrap" />
+
+        <Button
+            Width="110"
+            Height="40"
+            Margin="120,160,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Button_Click"
+            Content="Czech" />
+        <Button
+            Width="115"
+            Height="40"
+            Margin="235,160,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Button_Click_1"
+            Content="English" />
+
+        <Button
+            Width="130"
+            Height="40"
+            Margin="355,160,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Button_Click_2"
+            Content="Slovak" />
+        <Image HorizontalAlignment="Left"  VerticalAlignment="Top" Source="sorgairlogotransparent.png" Margin="190,28,0,0" Height="67" Width="230" />
+    </Grid>
+
+</Controls:MetroWindow>

@@ -136,6 +136,26 @@ namespace WpfApp6.View
             VM.FUNCTION_LOADCONTEST();
 
         }
+
+        private async void NUM_BASEGROUPS_ValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+        {
+            if (( (NUM_BASEGROUPS.Value-1) * VM.BIND_SQL_SOUTEZ_STARTPOINTS)< VM.BIND_POCETSOUTEZICICH)
+            {
+                var currentWindow = this.TryFindParent<MetroWindow>();
+                await currentWindow.ShowMessageAsync("Změnu nelze provést", "Nelze již ubrat skupina, protože by bylo více soutěžících než je startovních pozic", MessageDialogStyle.Affirmative);
+
+            }
+        }
+
+        private async void NUM_BASESTARTPOINTS_ValueDecremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+        {
+            if (((NUM_BASESTARTPOINTS.Value - 1) * VM.BIND_SQL_SOUTEZ_GROUPS) < VM.BIND_POCETSOUTEZICICH)
+            {
+                var currentWindow = this.TryFindParent<MetroWindow>();
+                await currentWindow.ShowMessageAsync("Změnu nelze provést", "Nelze již ubrat startoviště, protože by bylo více soutěžících než je startovních pozic", MessageDialogStyle.Affirmative);
+
+            }
+        }
     }
 
 

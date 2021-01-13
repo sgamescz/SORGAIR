@@ -9,7 +9,7 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="1000"
-    d:DesignHeight="750"
+    Height="795"
     d:DesignWidth="1000"
     Loaded="UserControl_Loaded"
     mc:Ignorable="d">
@@ -265,7 +265,7 @@
 
 
             <mah:MetroHeader
-                Height="202"
+                Height="192"
                 Margin="0,0,0,0"
                 Header="Nastavení letových kol">
                 <Grid Margin="30,0,0,0">
@@ -309,7 +309,6 @@
                         InterceptManualEnter="False"
                         Maximum="40"
                         Minimum="1"
-                        
                         TextAlignment="Center"
                         Value="{Binding BIND_SQL_SOUTEZ_ROUNDS}" />
 
@@ -327,6 +326,7 @@
                         Maximum="10"
                         Minimum="0"
                         TextAlignment="Center"
+                        ValueDecremented="NUM_BASEGROUPS_ValueDecremented"
                         Value="{Binding BIND_SQL_SOUTEZ_GROUPS}" />
                     <Label
                         Grid.Row="2"
@@ -347,6 +347,7 @@
                         Maximum="99"
                         Minimum="1"
                         TextAlignment="Center"
+                        ValueDecremented="NUM_BASESTARTPOINTS_ValueDecremented"
                         Value="{Binding BIND_SQL_SOUTEZ_STARTPOINTS}" />
                     <Label
                         Grid.Row="3"
@@ -435,7 +436,7 @@
                         VerticalAlignment="Top"
                         ButtonsAlignment="Opposite"
                         Maximum="99"
-                        Minimum="1"
+                        Minimum="0"
                         TextAlignment="Center"
                         Value="{Binding BIND_SQL_SOUTEZ_DELETESFINALE}" />
                     <Label
@@ -446,8 +447,11 @@
                 </Grid>
 
             </mah:MetroHeader>
-            <mah:MetroHeader Margin="0,20,0,0" Header="Další nastavení">
-                <Grid Margin="30,0,0,0">
+            <mah:MetroHeader
+                Height="105"
+                Margin="0,20,0,0"
+                Header="Další nastavení">
+                <Grid Margin="30,0,0,-56">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="100" />
@@ -524,6 +528,17 @@
                     </Grid>
 
 
+                    <mah:ToggleSwitch
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"
+                        ContentDirection="RightToLeft"
+                        FontSize="12"
+                        IsOn="{Binding BIND_SQL_SOUTEZ_REQUIREFAILICENCE}"
+                        OffContent="FAI licence není povinná"
+                        OnContent="Vyžadovat FAI licenci" />
 
 
                 </Grid>

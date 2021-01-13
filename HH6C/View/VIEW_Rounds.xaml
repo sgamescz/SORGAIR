@@ -9,9 +9,10 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:WpfApp6.Model"
+    Height="660"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
     d:DesignWidth="800"
-    mc:Ignorable="d" Height="520">
+    mc:Ignorable="d">
 
     <UserControl.Resources>
 
@@ -41,6 +42,22 @@
 
 
         </Style>
+
+        <Style x:Key="selectedstyl" TargetType="{x:Type StackPanel}">
+            <Style.Triggers>
+                <Trigger Property="Tag" Value="selected">
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Button.Border}" />
+                </Trigger>
+
+
+
+            </Style.Triggers>
+
+
+
+        </Style>
+
+
 
         <Style
             x:Key="zadano"
@@ -76,9 +93,12 @@
 
 
 
-        <StackPanel Orientation="Vertical">
+        <StackPanel Margin="0,0,0,10" Orientation="Vertical">
 
-            <mah:MetroHeader VerticalAlignment="Top" Header="Vyber kolo">
+            <mah:MetroHeader
+                x:Name="listofrounds"
+                VerticalAlignment="Top"
+                Header="Vyber kolo">
 
 
                 <ItemsControl ItemsSource="{Binding MODEL_CONTEST_ROUNDS}">
@@ -96,7 +116,10 @@
                                 Margin="2"
                                 BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
                                 BorderThickness="2">
-                                <StackPanel>
+                                <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
+
+
+
                                     <mah:Tile
                                         Title="{Binding ID, StringFormat={} Počet startpointů je :{0}}"
                                         Width="Auto"
@@ -205,6 +228,7 @@
                                         Tag="{Binding ROUNDZADANO}" />
 
 
+
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -233,7 +257,7 @@
                                 Margin="2"
                                 BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
                                 BorderThickness="2">
-                                <StackPanel>
+                                <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
 
                                     <mah:Tile
                                         Title="{Binding ID}"
@@ -261,7 +285,7 @@
                                     <mah:Tile
                                         Title="{Binding GROUPNAME}"
                                         Width="Auto"
-                                        Height="35"
+                                        Height="95"
                                         Margin="0,0,0,2"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"
@@ -345,15 +369,33 @@
 
                 </ItemsControl>
             </mah:MetroHeader>
+
+
+            <Button
+                Height="46"
+                Margin="0,20,0,0"
+                VerticalAlignment="Top"
+                Click="Button_Click_2"
+                Content="Vybrat toto kolo" />
+
+            <UniformGrid Margin="0,10,0,0" Rows="1" Height="52">
+                <Button
+                Margin="0,0,5,0"
+                Click="Button_PREW_ROUND"
+                Content="{Binding BIND_PREWROUND_TEXT}"
+                Style="{StaticResource MahApps.Styles.Button}" />
+                <Button
+                Margin="0,0,0,0"
+                Click="Button_NEXT_ROUND"
+                Content="{Binding BIND_NEXTROUND_TEXT}"
+                Style="{StaticResource MahApps.Styles.Button}" />
+            </UniformGrid>
+
         </StackPanel>
 
 
 
 
-        <Button
-            Margin="0,460,0,10"
-            Click="Button_Click_2"
-            Content="Vybrat toto kolo" />
 
     </Grid>
 </UserControl>

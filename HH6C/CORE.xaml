@@ -6,13 +6,15 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:language="clr-namespace:SORGAIR.Properties.Lang"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="clr-namespace:WpfApp6.View"
-    Title="SORGAIR 2020"
+    Title="SORG AIR 2021"
     Width="1270"
     Height="900"
     Dialog:DialogParticipation.Register="{Binding}"
-    BorderThickness="1"
+    Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+    BorderThickness="3"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     Loaded="MetroWindow_Loaded"
     ResizeMode="CanResizeWithGrip"
@@ -87,6 +89,17 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+
+            <Label>Original size</Label>
+            <Button Click="CLICK_originalresize">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconPicolIcons
+                        Width="24"
+                        Height="24"
+                        Kind="SizeBothAccept" />
+                </StackPanel>
+            </Button>
+
             <Label>Change color</Label>
             <Button Click="CLICK_changeforeground">
                 <StackPanel Orientation="Horizontal">
@@ -104,225 +117,242 @@
                         Kind="Paintcan" />
                 </StackPanel>
             </Button>
+
+
+
         </Controls:WindowCommands>
 
     </Controls:MetroWindow.RightWindowCommands>
 
-
-    
-    <Grid>
-
-        <Grid.Resources>
-            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/HamburgerMenuTemplate.xaml" />
-        </Grid.Resources>
+    <Viewbox
+        HorizontalAlignment="Center"
+        VerticalAlignment="top"
+        Stretch= "Fill">
 
 
+        <Grid
+            Width="1270"
+            Height="900"
+            Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
 
-
-        <Controls:HamburgerMenu
-            x:Name="HamburgerMenuControl"
-            CompactPaneLength="64"
-            DisplayMode="CompactInline"
-            HamburgerWidth="64"
-            IsPaneOpen="True"
-            ItemInvoked="HamburgerMenuControl_OnItemInvoked"
-            ItemTemplate="{StaticResource MenuItemTemplateIC}"
-            Style="{StaticResource HamburgerMenuCreatorsStyle}"
-            VerticalScrollBarOnLeftSide="True">
-
-            <Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="DemiBold"
-                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="SORGAIR 2020" />
-                </DataTemplate>
-            </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
-
-
-            <Controls:HamburgerMenu.ItemsSource>
-                <Controls:HamburgerMenuItemCollection>
-
-
-
-                    <Controls:HamburgerMenuIconItem Label="Úvod">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconUnicons Kind="Favorite" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Uvod />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_nastavenisouteze}" Label="Nastavení soutěže">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconFontAwesome Kind="AvianexBrands" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:nastavenisouteze />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_audioadalsi}" Label="Audio a další">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconOcticons Kind="Unmute" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Audio />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_hardware}" Label="Hardware">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="Monitor" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Hardware />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_soutezici}" Label="{Binding BIND_POCETSOUTEZICICHMENU}">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="PeopleCheckbox" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Soutezici />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_soutezici}" Label="Týmy">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconPicolIcons Kind="GroupFull" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Teams />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_rozlosovani}" Label="Rozlosování">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="DrawPixelFillGrid" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Draw />
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_seznamkol}" Label="Seznam kol">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="List" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Rounds />
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_vybranekolo}" Label="{Binding BIND_VYBRANEKOLOMENU}">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconModern Kind="ListOne" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:selectedround />
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_vysledky}" Label="Výsledky">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconFontAwesome Kind="TrophySolid" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:UserControl1 />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_finale}" Label="Finálové lety">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconFontAwesome Kind="GemRegular" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:FirstView />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_detailyastatistiky}" Label="Detaily a statistiky">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:RozvrhView />
-                        </Controls:HamburgerMenuIconItem.Tag>
-
-                    </Controls:HamburgerMenuIconItem>
-
-                    <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_online}" Label="Online">
-                        <Controls:HamburgerMenuIconItem.Icon>
-                            <iconPacks:PackIconMaterial Kind="LanConnect" />
-                        </Controls:HamburgerMenuIconItem.Icon>
-                        <Controls:HamburgerMenuIconItem.Tag>
-                            <v:Draw />
-                        </Controls:HamburgerMenuIconItem.Tag>
-                    </Controls:HamburgerMenuIconItem>
-
-
-                </Controls:HamburgerMenuItemCollection>
-            </Controls:HamburgerMenu.ItemsSource>
+            <Grid.Resources>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/HamburgerMenuTemplate.xaml" />
+            </Grid.Resources>
 
 
 
 
-            <!--  Content  -->
-            <Controls:HamburgerMenu.Content>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Controls:HamburgerMenu
+                x:Name="HamburgerMenuControl"
+                Margin="0,0,0,0"
+                CompactPaneLength="64"
+                DisplayMode="CompactInline"
+                HamburgerWidth="64"
+                IsPaneOpen="True"
+                ItemInvoked="HamburgerMenuControl_OnItemInvoked"
+                ItemTemplate="{StaticResource MenuItemTemplateIC}"
+                SelectedIndex="{Binding BINDING_selectedmenuindex}"
+                Style="{StaticResource HamburgerMenuCreatorsStyle}"
+                VerticalScrollBarOnLeftSide="True">
 
-                    <Grid x:Name="ContentGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="48" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-
-                        <Controls:TransitioningContentControl
-                            Grid.Row="0"
-                            Margin="20,5,-1,0"
-                            Background="{DynamicResource MahApps.Brushes.WhiteColor}"
-                            Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
-                            FontSize="24"
+                <Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="DemiBold"
                             Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                            Transition="RightReplace" />
+                            Text="MENU" />
+                    </DataTemplate>
+                </Controls:HamburgerMenu.HamburgerMenuHeaderTemplate>
 
 
-                        <Controls:TransitioningContentControl
-                            Grid.Row="1"
-                            Margin="20,10,0,0"
-                            VerticalAlignment="Top"
-                            Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Tag}"
-                            RestartTransitionOnContentChange="True"
-                            Transition="Down" />
+                <Controls:HamburgerMenu.ItemsSource>
+                    <Controls:HamburgerMenuItemCollection>
 
 
-                    </Grid>
-                </ScrollViewer>
-            </Controls:HamburgerMenu.Content>
 
-        </Controls:HamburgerMenu>
-    </Grid>
+                        <Controls:HamburgerMenuIconItem Label="{x:Static language:Lang.menu_homepage}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconUnicons Kind="Favorite" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Uvod />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
 
 
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_nastavenisouteze}" Label="{x:Static language:Lang.menu_contest_settings}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconFontAwesome Kind="AvianexBrands" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:nastavenisouteze />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_audioadalsi}" Label="{x:Static language:Lang.menu_audioandothers}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconOcticons Kind="Unmute" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Audio />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_hardware}" Label="{x:Static language:Lang.menu_hardware}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconModern Kind="Monitor" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Hardware />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_soutezici}" Label="{Binding BIND_POCETSOUTEZICICHMENU}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconModern Kind="PeopleCheckbox" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Soutezici />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_soutezici}" Label="{x:Static language:Lang.menu_teams}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconPicolIcons Kind="GroupFull" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Teams />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_rozlosovani}" Label="{x:Static language:Lang.menu_matrix}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconModern Kind="DrawPixelFillGrid" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Draw />
+                            </Controls:HamburgerMenuIconItem.Tag>
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_seznamkol}" Label="{x:Static language:Lang.menu_listofrounds}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconModern Kind="List" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Rounds />
+                            </Controls:HamburgerMenuIconItem.Tag>
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_vybranekolo}" Label="{Binding BIND_VYBRANEKOLOMENU}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconModern Kind="ListOne" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:selectedround />
+                            </Controls:HamburgerMenuIconItem.Tag>
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_vysledky}" Label="{x:Static language:Lang.menu_results}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconFontAwesome Kind="TrophySolid" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Results />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_finale}" Label="{x:Static language:Lang.menu_finals}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconFontAwesome Kind="GemRegular" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:FirstView />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_detailyastatistiky}" Label="{x:Static language:Lang.menu_detailstatistics}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Results />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_online}" Label="{x:Static language:Lang.menu_online}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconMaterial Kind="LanConnect" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Draw />
+                            </Controls:HamburgerMenuIconItem.Tag>
+                        </Controls:HamburgerMenuIconItem>
+
+
+                    </Controls:HamburgerMenuItemCollection>
+                </Controls:HamburgerMenu.ItemsSource>
+
+
+
+
+                <!--  Content  -->
+                <Controls:HamburgerMenu.Content>
+                    <ScrollViewer
+                        Margin="0,0,0,0"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto">
+
+                        <Grid x:Name="ContentGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Controls:TransitioningContentControl
+                                Grid.Row="0"
+                                Margin="20,5,-1,0"
+                                Background="{DynamicResource MahApps.Brushes.WhiteColor}"
+                                Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
+                                FontSize="24"
+                                Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                Transition="RightReplace" />
+
+
+                            <Controls:TransitioningContentControl
+                                Grid.Row="1"
+                                Margin="20,10,0,0"
+                                VerticalAlignment="Top"
+                                Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Tag}"
+                                RestartTransitionOnContentChange="True"
+                                Transition="Down" />
+
+
+                        </Grid>
+                    </ScrollViewer>
+                </Controls:HamburgerMenu.Content>
+
+            </Controls:HamburgerMenu>
+
+
+        </Grid>
+
+    </Viewbox>
 </Controls:MetroWindow>
 

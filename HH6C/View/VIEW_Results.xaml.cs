@@ -20,12 +20,23 @@ namespace WpfApp6.View
     /// <summary>
     /// Interakční logika pro RozvrhView.xaml
     /// </summary>
-    public partial class RozvrhView : UserControl
+    public partial class Results : UserControl
     {
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
-        public RozvrhView()
+        public Results()
         {
             InitializeComponent();
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_RESULTS_LOADBASERESULTS();
+        }
+
+        private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+           
         }
     }
 }

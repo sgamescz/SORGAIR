@@ -59,5 +59,14 @@ namespace SORGAIR.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný test resources.
+        /// </summary>
+        internal static string TEST {
+            get {
+                return ResourceManager.GetString("TEST", resourceCulture);
+            }
+        }
     }
 }

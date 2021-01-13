@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
+using System.Threading;
+
+
 
 namespace WpfApp6
 {
@@ -13,5 +11,12 @@ namespace WpfApp6
     /// </summary>
     public partial class App : Application
     {
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
+            base.OnStartup(e);
+        }
     }
 }

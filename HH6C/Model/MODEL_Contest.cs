@@ -62,6 +62,13 @@ namespace WpfApp6.Model
 
         public List<TodoItem> items { get; set; } = new List<TodoItem>();
 
+        private string _ISSELECTED;
+        public string ISSELECTED
+        {
+            get { return _ISSELECTED; }
+            set { _ISSELECTED = value; RaisePropertyChanged(nameof(ISSELECTED)); }
+        }
+
 
 
 
@@ -120,8 +127,84 @@ namespace WpfApp6.Model
         }
 
 
+        private string _ISSELECTED;
+        public string ISSELECTED
+        {
+            get { return _ISSELECTED; }
+            set { _ISSELECTED = value; RaisePropertyChanged(nameof(ISSELECTED)); }
+        }
 
 
 
     }
+
+
+
+
+    public class MODEL_Contests_files : MODEL_BaseClass
+    {
+
+
+
+
+
+
+        // Default constructor for Player
+        public MODEL_Contests_files()
+        {
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private string _FILENAME;
+        public string FILENAME
+        {
+            get { return _FILENAME; }
+            set { _FILENAME = value; RaisePropertyChanged(nameof(FILENAME)); }
+        }
+
+
+        private string _CATEGORY;
+        public string CATEGORY
+        {
+            get { return _CATEGORY; }
+            set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
+        }
+
+
+        private string _NAME;
+        public string NAME
+        {
+            get { return _NAME; }
+            set { _NAME = value; RaisePropertyChanged(nameof(NAME)); }
+        }
+
+        private string _LOCATION;
+        public string LOCATION
+        {
+            get { return _LOCATION; }
+            set { _LOCATION = value; RaisePropertyChanged(nameof(LOCATION)); }
+        }
+
+        private string _DATE;
+        public string DATE
+        {
+            get { return _DATE; }
+            set { _DATE = value; RaisePropertyChanged(nameof(DATE)); }
+        }
+
+
+
+
+    }
+
+
+
+
 }
