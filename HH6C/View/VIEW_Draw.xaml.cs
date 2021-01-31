@@ -38,7 +38,8 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("delete from groups");
             VM.SQL_SAVESOUTEZDATA("delete from rounds");
             VM.SQL_SAVESOUTEZDATA("update users set Matrixid=0");
-
+            VM.BIND_JETREBAROZLOSOVAT_SCORE = VM.BIND_SQL_SOUTEZ_ROUNDS * VM.BIND_SQL_SOUTEZ_GROUPS * VM.BIND_SQL_SOUTEZ_STARTPOINTS;
+            VM.FUNCTION_JETREBAROZLOSOVAT_OVER();
             ////////////////////////// 
 
 
@@ -239,7 +240,13 @@ namespace WpfApp6.View
 
 
          VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+            VM.BIND_SELECTED_GROUP = 1;
+            VM.BIND_SELECTED_ROUND = 1;
+            VM.BIND_VIEWED_ROUND = 1;
+            VM.BIND_VIEWED_GROUP = 1;
 
+            VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+            VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
             controller.SetProgress(1);
             controller.SetMessage("New matrix created");
             await Task.Delay(1000);

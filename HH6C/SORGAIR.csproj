@@ -218,6 +218,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Categoryeditor.xaml.cs">
+      <DependentUpon>Categoryeditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LANGUAGESELECTOR.xaml.cs">
       <DependentUpon>LANGUAGESELECTOR.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,10 @@
     <Compile Include="View\VIEW_Competitors.xaml.cs">
       <DependentUpon>VIEW_Competitors.xaml</DependentUpon>
     </Compile>
+    <Page Include="Categoryeditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LANGUAGESELECTOR.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

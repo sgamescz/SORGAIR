@@ -301,6 +301,7 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Width="70"
+                        SwitchUpDownButtons="True"
                         Height="26"
                         Margin="0,0,0,0"
                         HorizontalAlignment="Left"
@@ -310,12 +311,14 @@
                         Maximum="40"
                         Minimum="1"
                         TextAlignment="Center"
+                        ValueChanged="NUM_BASEROUNDS_ValueChanged"
                         Value="{Binding BIND_SQL_SOUTEZ_ROUNDS}" />
 
                     <mah:NumericUpDown
                         x:Name="NUM_BASEGROUPS"
                         Grid.Row="2"
                         Grid.Column="0"
+                        SwitchUpDownButtons="True"
                         Width="70"
                         Height="26"
                         Margin="00,0,0,0"
@@ -326,6 +329,7 @@
                         Maximum="10"
                         Minimum="0"
                         TextAlignment="Center"
+                        ValueChanged="NUM_BASEGROUPS_ValueChanged"
                         ValueDecremented="NUM_BASEGROUPS_ValueDecremented"
                         Value="{Binding BIND_SQL_SOUTEZ_GROUPS}" />
                     <Label
@@ -338,6 +342,7 @@
                         Grid.Row="3"
                         Grid.Column="0"
                         Width="70"
+                        SwitchUpDownButtons="True"
                         Height="26"
                         Margin="0,0,0,0"
                         HorizontalAlignment="Left"
@@ -359,6 +364,7 @@
                         Grid.Row="4"
                         Grid.Column="0"
                         Width="70"
+                        SwitchUpDownButtons="True"
                         Height="26"
                         Margin="00,0,0,0"
                         HorizontalAlignment="Left"
@@ -367,6 +373,7 @@
                         ButtonsAlignment="Opposite"
                         Maximum="3"
                         Minimum="0"
+                        ValueChanged="NUM_BASEDELETEDROUNDS_ValueChanged"
                         TextAlignment="Center"
                         Value="{Binding BIND_SQL_SOUTEZ_DELETES}" />
                     <Label
@@ -391,6 +398,7 @@
                         Grid.Column="2"
                         Width="70"
                         Height="26"
+                        SwitchUpDownButtons="True"
                         Margin="0,0,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -410,6 +418,7 @@
                         Grid.Row="2"
                         Grid.Column="2"
                         Width="70"
+                        SwitchUpDownButtons="True"
                         Height="26"
                         Margin="0,0,0,0"
                         HorizontalAlignment="Left"
@@ -429,6 +438,7 @@
                         x:Name="NUM_FINDELETEDROUNDS"
                         Grid.Row="3"
                         Grid.Column="2"
+                        SwitchUpDownButtons="True"
                         Width="70"
                         Height="26"
                         Margin="00,0,0,0"
@@ -479,6 +489,19 @@
                         OnContent="U zadávání výsledku zobrazovat i veličiny" />
 
                     <mah:ToggleSwitch
+                        x:Name="landingoptionspointsorlenght"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"
+                        ContentDirection="RightToLeft"
+                        FontSize="12"
+                        IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT}"
+                        MouseDoubleClick="landingoptions_IsCheckedChanged"
+                        OffContent="Přistání zadávat ve vzdálenosti"
+                        OnContent="Přistání zadávat v bodech" />
+                    <mah:ToggleSwitch
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,0,0,0"
@@ -492,7 +515,7 @@
 
 
                     <Grid
-                        Grid.Row="0"
+                        Grid.Row="2"
                         Grid.Column="2"
                         Margin="2,5,0,0">
 

@@ -81,7 +81,6 @@ namespace WpfApp6.Model
     public class MODEL_Contest_Groups : MODEL_BaseClass
     {
 
-
         // Default constructor for Player
         public MODEL_Contest_Groups()
         {
@@ -139,6 +138,399 @@ namespace WpfApp6.Model
     }
 
 
+
+
+
+
+
+
+    public class MODEL_Contest_Rules : MODEL_BaseClass
+    {
+
+
+        // Default constructor for Player
+        public MODEL_Contest_Rules()
+        {
+            
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private string _CATEGORY;
+        public string CATEGORY
+        {
+            get { return _CATEGORY; }
+            set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
+        }
+
+        private int _HEIGHTLIMIT;
+        public int HEIGHTLIMIT
+        {
+            get { return _HEIGHTLIMIT; }
+            set { _HEIGHTLIMIT = value;   RaisePropertyChanged(nameof(HEIGHTLIMIT)); }
+        }
+
+        private Decimal _HEIGHTOVER;
+        public Decimal HEIGHTOVER
+        {
+            get { return _HEIGHTOVER; }
+            set { _HEIGHTOVER = value; RaisePropertyChanged(nameof(HEIGHTOVER)); }
+        }
+
+
+        private Decimal _HEIGHTUNDER;
+        public Decimal HEIGHTUNDER
+        {
+            get { return _HEIGHTUNDER; }
+            set { _HEIGHTUNDER = value; RaisePropertyChanged(nameof(HEIGHTUNDER)); }
+        }
+
+
+
+
+        private int _TIME1LIMIT;
+        public int TIME1LIMIT
+        {
+            get { return _TIME1LIMIT; }
+            set { _TIME1LIMIT = value; RaisePropertyChanged(nameof(TIME1LIMIT)); }
+        }
+
+        private Decimal _TIME1OVER;
+        public Decimal TIME1OVER
+        {
+            get { return _TIME1OVER; }
+            set { _TIME1OVER = value; RaisePropertyChanged(nameof(TIME1OVER)); }
+        }
+
+
+        private Decimal _TIME1UNDER;
+        public Decimal TIME1UNDER
+        {
+            get { return _TIME1UNDER; }
+            set { _TIME1UNDER = value; RaisePropertyChanged(nameof(TIME1UNDER)); }
+        }
+
+
+
+        private int _TIME2LIMIT;
+        public int TIME2LIMIT
+        {
+            get { return _TIME2LIMIT; }
+            set { _TIME2LIMIT = value; RaisePropertyChanged(nameof(TIME2LIMIT)); }
+        }
+
+        private Decimal _TIME2OVER;
+        public Decimal TIME2OVER
+        {
+            get { return _TIME2OVER; }
+            set { _TIME2OVER = value; RaisePropertyChanged(nameof(TIME2OVER)); }
+        }
+
+
+        private Decimal _TIME2UNDER;
+        public Decimal TIME2UNDER
+        {
+            get { return _TIME2UNDER; }
+            set { _TIME2UNDER = value; RaisePropertyChanged(nameof(TIME2UNDER)); }
+        }
+
+
+
+
+        private bool _ENTRYHEIGHT;
+        public bool ENTRYHEIGHT
+        {
+            get { return _ENTRYHEIGHT; }
+            set { _ENTRYHEIGHT = value; RaisePropertyChanged(nameof(ENTRYHEIGHT)); }
+        }
+
+
+
+        private Decimal _SUBFROMLANDING1;
+        public Decimal SUBFROMLANDING1
+        {
+            get { return _SUBFROMLANDING1; }
+            set { _SUBFROMLANDING1 = value; RaisePropertyChanged(nameof(SUBFROMLANDING1)); }
+        }
+
+
+        private Decimal _SUBFROMLANDING2;
+        public Decimal SUBFROMLANDING2
+        {
+            get { return _SUBFROMLANDING2; }
+            set { _SUBFROMLANDING2 = value; RaisePropertyChanged(nameof(SUBFROMLANDING2)); }
+        }
+
+
+
+        private Decimal _SUBFROMTIME1;
+        public Decimal SUBFROMTIME1
+        {
+            get { return _SUBFROMTIME1; }
+            set { _SUBFROMTIME1 = value; RaisePropertyChanged(nameof(SUBFROMTIME1)); }
+        }
+
+
+        private Decimal _SUBFROMTIME2;
+        public Decimal SUBFROMTIME2
+        {
+            get { return _SUBFROMTIME2; }
+            set { _SUBFROMTIME2 = value; RaisePropertyChanged(nameof(SUBFROMTIME2)); }
+        }
+
+
+        private bool _DELETELANDING1;
+        public bool DELETELANDING1
+        {
+            get { return _DELETELANDING1; }
+            set { _DELETELANDING1 = value; RaisePropertyChanged(nameof(DELETELANDING1)); }
+        }
+
+
+        private bool _DELETELANDING2;
+        public bool DELETELANDING2
+        {
+            get { return _DELETELANDING2; }
+            set { _DELETELANDING2 = value; RaisePropertyChanged(nameof(DELETELANDING2)); }
+        }
+
+
+        private bool _DELETETIME1;
+        public bool DELETETIME1
+        {
+            get { return _DELETETIME1; }
+            set { _DELETETIME1 = value; RaisePropertyChanged(nameof(DELETETIME1)); }
+        }
+
+
+        private bool _DELETETIME2;
+        public bool DELETETIME2
+        {
+            get { return _DELETETIME2; }
+            set { _DELETETIME2 = value; RaisePropertyChanged(nameof(DELETETIME2)); }
+        }
+
+
+        private bool _DELETEALL1;
+        public bool DELETEALL1
+        {
+            get { return _DELETEALL1; }
+            set { _DELETEALL1 = value; RaisePropertyChanged(nameof(DELETEALL1)); }
+        }
+
+
+        private bool _DELETEALL2;
+        public bool DELETEALL2
+        {
+            get { return _DELETEALL2; }
+            set { _DELETEALL2 = value; RaisePropertyChanged(nameof(DELETEALL2)); }
+        }
+
+
+
+
+    }
+
+
+
+    public class MODEL_category_Rules : MODEL_BaseClass
+    {
+
+
+        // Default constructor for Player
+        public MODEL_category_Rules()
+        {
+
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private string _CATEGORY;
+        public string CATEGORY
+        {
+            get { return _CATEGORY; }
+            set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
+        }
+
+        private int _HEIGHTLIMIT;
+        public int HEIGHTLIMIT
+        {
+            get { return _HEIGHTLIMIT; }
+            set { _HEIGHTLIMIT = value; RaisePropertyChanged(nameof(HEIGHTLIMIT)); }
+        }
+
+        private Decimal _HEIGHTOVER;
+        public Decimal HEIGHTOVER
+        {
+            get { return _HEIGHTOVER; }
+            set { _HEIGHTOVER = value; RaisePropertyChanged(nameof(HEIGHTOVER)); }
+        }
+
+
+        private Decimal _HEIGHTUNDER;
+        public Decimal HEIGHTUNDER
+        {
+            get { return _HEIGHTUNDER; }
+            set { _HEIGHTUNDER = value; RaisePropertyChanged(nameof(HEIGHTUNDER)); }
+        }
+
+
+
+
+        private int _TIME1LIMIT;
+        public int TIME1LIMIT
+        {
+            get { return _TIME1LIMIT; }
+            set { _TIME1LIMIT = value; RaisePropertyChanged(nameof(TIME1LIMIT)); }
+        }
+
+        private Decimal _TIME1OVER;
+        public Decimal TIME1OVER
+        {
+            get { return _TIME1OVER; }
+            set { _TIME1OVER = value; RaisePropertyChanged(nameof(TIME1OVER)); }
+        }
+
+
+        private Decimal _TIME1UNDER;
+        public Decimal TIME1UNDER
+        {
+            get { return _TIME1UNDER; }
+            set { _TIME1UNDER = value; RaisePropertyChanged(nameof(TIME1UNDER)); }
+        }
+
+
+
+        private int _TIME2LIMIT;
+        public int TIME2LIMIT
+        {
+            get { return _TIME2LIMIT; }
+            set { _TIME2LIMIT = value; RaisePropertyChanged(nameof(TIME2LIMIT)); }
+        }
+
+        private Decimal _TIME2OVER;
+        public Decimal TIME2OVER
+        {
+            get { return _TIME2OVER; }
+            set { _TIME2OVER = value; RaisePropertyChanged(nameof(TIME2OVER)); }
+        }
+
+
+        private Decimal _TIME2UNDER;
+        public Decimal TIME2UNDER
+        {
+            get { return _TIME2UNDER; }
+            set { _TIME2UNDER = value; RaisePropertyChanged(nameof(TIME2UNDER)); }
+        }
+
+
+
+
+        private bool _ENTRYHEIGHT;
+        public bool ENTRYHEIGHT
+        {
+            get { return _ENTRYHEIGHT; }
+            set { _ENTRYHEIGHT = value; RaisePropertyChanged(nameof(ENTRYHEIGHT)); }
+        }
+
+
+
+        private Decimal _SUBFROMLANDING1;
+        public Decimal SUBFROMLANDING1
+        {
+            get { return _SUBFROMLANDING1; }
+            set { _SUBFROMLANDING1 = value; RaisePropertyChanged(nameof(SUBFROMLANDING1)); }
+        }
+
+
+        private Decimal _SUBFROMLANDING2;
+        public Decimal SUBFROMLANDING2
+        {
+            get { return _SUBFROMLANDING2; }
+            set { _SUBFROMLANDING2 = value; RaisePropertyChanged(nameof(SUBFROMLANDING2)); }
+        }
+
+
+
+        private Decimal _SUBFROMTIME1;
+        public Decimal SUBFROMTIME1
+        {
+            get { return _SUBFROMTIME1; }
+            set { _SUBFROMTIME1 = value; RaisePropertyChanged(nameof(SUBFROMTIME1)); }
+        }
+
+
+        private Decimal _SUBFROMTIME2;
+        public Decimal SUBFROMTIME2
+        {
+            get { return _SUBFROMTIME2; }
+            set { _SUBFROMTIME2 = value; RaisePropertyChanged(nameof(SUBFROMTIME2)); }
+        }
+
+
+        private bool _DELETELANDING1;
+        public bool DELETELANDING1
+        {
+            get { return _DELETELANDING1; }
+            set { _DELETELANDING1 = value; RaisePropertyChanged(nameof(DELETELANDING1)); }
+        }
+
+
+        private bool _DELETELANDING2;
+        public bool DELETELANDING2
+        {
+            get { return _DELETELANDING2; }
+            set { _DELETELANDING2 = value; RaisePropertyChanged(nameof(DELETELANDING2)); }
+        }
+
+
+        private bool _DELETETIME1;
+        public bool DELETETIME1
+        {
+            get { return _DELETETIME1; }
+            set { _DELETETIME1 = value; RaisePropertyChanged(nameof(DELETETIME1)); }
+        }
+
+
+        private bool _DELETETIME2;
+        public bool DELETETIME2
+        {
+            get { return _DELETETIME2; }
+            set { _DELETETIME2 = value; RaisePropertyChanged(nameof(DELETETIME2)); }
+        }
+
+
+        private bool _DELETEALL1;
+        public bool DELETEALL1
+        {
+            get { return _DELETEALL1; }
+            set { _DELETEALL1 = value; RaisePropertyChanged(nameof(DELETEALL1)); }
+        }
+
+
+        private bool _DELETEALL2;
+        public bool DELETEALL2
+        {
+            get { return _DELETEALL2; }
+            set { _DELETEALL2 = value; RaisePropertyChanged(nameof(DELETEALL2)); }
+        }
+
+
+
+
+    }
 
 
     public class MODEL_Contests_files : MODEL_BaseClass
@@ -207,4 +599,194 @@ namespace WpfApp6.Model
 
 
 
+
+
+
+    public class MODEL_Contests_categories : MODEL_BaseClass
+    {
+
+
+
+
+
+
+        // Default constructor for Player
+        public MODEL_Contests_categories()
+        {
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private string _CATEGORY;
+        public string CATEGORY
+        {
+            get { return _CATEGORY; }
+            set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
+        }
+
+
+
+    }
+
+
+
+
+
+    public class MODEL_CATEGORY_LANDING : MODEL_BaseClass
+    {
+
+
+
+
+
+
+        // Default constructor for Player
+        public MODEL_CATEGORY_LANDING()
+        {
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private int _CATEGORY;
+        public int CATEGORY
+        {
+            get { return _CATEGORY; }
+            set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
+        }
+
+
+
+        private int _VALUE;
+        public int VALUE
+        {
+            get { return _VALUE; }
+            set { _VALUE = value; RaisePropertyChanged(nameof(VALUE)); }
+        }
+
+
+
+        private string _TEXTVALUE;
+        public string TEXTVALUE
+        {
+            get { return _TEXTVALUE; }
+            set { _TEXTVALUE = value; RaisePropertyChanged(nameof(TEXTVALUE)); }
+        }
+
+
+        private string _LENGHT;
+        public string LENGHT
+        {
+            get { return _LENGHT; }
+            set { _LENGHT = value; RaisePropertyChanged(nameof(LENGHT)); }
+        }
+
+
+        private int _TODEL;
+        public int TODEL
+        {
+            get { return _TODEL; }
+            set { _TODEL = value; RaisePropertyChanged(nameof(TODEL)); }
+        }
+
+    }
+
+
+
+
+
+    public class MODEL_CATEGORY_PENALISATIONS : MODEL_BaseClass
+    {
+
+
+
+
+
+
+        // Default constructor for Player
+        public MODEL_CATEGORY_PENALISATIONS()
+        {
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private int _CATEGORY;
+        public int CATEGORY
+        {
+            get { return _CATEGORY; }
+            set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
+        }
+
+
+
+        private int _VALUE;
+        public int VALUE
+        {
+            get { return _VALUE; }
+            set { _VALUE = value; RaisePropertyChanged(nameof(VALUE)); }
+        }
+
+
+
+        private string _TEXTVALUE;
+        public string TEXTVALUE
+        {
+            get { return _TEXTVALUE; }
+            set { _TEXTVALUE = value; RaisePropertyChanged(nameof(TEXTVALUE)); }
+        }
+
+
+        private string _DELETE_LANDING;
+        public string DELETE_LANDING
+        {
+            get { return _DELETE_LANDING; }
+            set { _DELETE_LANDING = value; RaisePropertyChanged(nameof(DELETE_LANDING)); }
+        }
+
+        private string _DELETE_TIME;
+        public string DELETE_TIME
+        {
+            get { return _DELETE_TIME; }
+            set { _DELETE_TIME = value; RaisePropertyChanged(nameof(DELETE_TIME)); }
+        }
+
+        private string _DELETE_ALL;
+        public string DELETE_ALL
+        {
+            get { return _DELETE_ALL; }
+            set { _DELETE_ALL = value; RaisePropertyChanged(nameof(DELETE_ALL)); }
+        }
+
+
+        private int _TODEL;
+        public int TODEL
+        {
+            get { return _TODEL; }
+            set { _TODEL = value; RaisePropertyChanged(nameof(TODEL)); }
+        }
+
+    }
+
+
+
+
 }
+
+

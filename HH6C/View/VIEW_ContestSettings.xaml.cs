@@ -156,6 +156,18 @@ namespace WpfApp6.View
 
             }
         }
+
+        private void NUM_BASEROUNDS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+        }
+
+        private void NUM_BASEGROUPS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+        }
+
+        private void NUM_BASEDELETEDROUNDS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+        }
     }
 
 

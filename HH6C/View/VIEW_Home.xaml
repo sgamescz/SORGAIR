@@ -9,27 +9,135 @@
     xmlns:language="clr-namespace:SORGAIR.Properties.Lang"
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:WpfApp6.Model"
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-    Height="575"
+    Width="885"
+    Height="660"
     Dialog:DialogParticipation.Register="{Binding}"
-    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
     mc:Ignorable="d">
+
+
+    <UserControl.Resources>
+        <Style x:Key="badgeversionstyl" TargetType="{x:Type Controls:Badged}">
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="0">
+                    <Setter Property="BadgeBackground" Value="Green" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
+                    <Setter Property="BadgeBackground" Value="Red" />
+                </DataTrigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+
+
+
+
+        <Style x:Key="LargeTileStyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="300" />
+        </Style>
+
+        <Style x:Key="ExtraLargeTileStyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="347" />
+        </Style>
+
+        <Style x:Key="SmallTileStyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+        <Style x:Key="extraSmallTileStyle" TargetType="{x:Type Controls:Tile}">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+
+
+    </UserControl.Resources>
+
     <Grid>
+
+
+
+        <Button
+            Name="cateditoropen"
+            Width="80"
+            Height="45"
+            Margin="0,0,10,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="cateditoropen_Click"
+            IsEnabled="True"
+            Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
+            <iconPacks:PackIconMaterial
+                Width="15"
+                Height="15"
+                Kind="ProgressWrench" />
+        </Button>
+
+        <Controls:Badged
+            Width="110"
+            Height="45"
+            Margin="0,0,95,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Badge="4 noviky"
+            BadgePlacementMode="Top">
+            <Button>
+                <iconPacks:PackIconModern
+                    Width="20"
+                    Height="20"
+                    Kind="NewspaperCreate" />
+
+            </Button>
+        </Controls:Badged>
+
+
+        <Controls:Badged
+            Margin="490,605,210,10"
+            Badge="{Binding BIND_VERZE_SORGU_LAST}"
+            BadgePlacementMode="Top"
+            Style="{StaticResource badgeversionstyl}"
+            Tag="{Binding BIND_VERZE_SORGU_NEEDUPDATE}">
+            <Button Click="download_news" Content="{Binding BIND_VERZE_SORGU}" />
+        </Controls:Badged>
+
+
         <TextBlock
             Height="35"
-            Margin="10,140,-10,0"
+            Margin="10,126,-10,0"
             VerticalAlignment="Top"
             FontSize="14"
             Text="Testovací verze SORG AIR 2021 určena pouze pro testování a další vývoj"
             TextAlignment="Center" />
-        <Grid Margin="0,180,0,135">
+        <Grid Margin="0,180,0,260">
 
             <ListBox
                 x:Name="competitionlist"
                 Margin="10"
                 BorderThickness="2"
                 ItemsSource="{Binding MODEL_CONTESTS_FILES}"
-                SelectedIndex="0">
+                SelectedIndex="0"
+                SelectionChanged="competitionlist_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,2">
@@ -61,30 +169,37 @@
 
 
         <UniformGrid
-            Margin="10,445,10,10"
-            Columns="2"
-            Rows="2">
-            <Controls:Badged
-                Margin="0,0,5,15"
-                Badge="{Binding BIND_VERZE_SORGU_LAST}"
-                BadgePlacementMode="Top">
-                <Button Click="download_news" Content="{Binding BIND_VERZE_SORGU}" />
-            </Controls:Badged>
-            <Controls:Badged
-                Margin="5,0,0,15"
-                Badge="4 noviky"
-                BadgePlacementMode="Top">
-                <Button Click="Button_Click" Content="Ukaž novinky" />
-            </Controls:Badged>
+            Margin="10,405,10,205"
+            Columns="3"
+            Rows="1">
+
             <Button
-                Margin="0,0,5,15"
+                Name="newcontestload"
+                Height="40"
+                Margin="0,0,5,0"
+                VerticalAlignment="Top"
                 Click="Button_Click_1"
                 Content="Načíst soutěž"
+                IsEnabled="False"
                 Style="{StaticResource MahApps.Styles.Button}" />
             <Button
-                Margin="5,0,0,15"
+                x:Name="newcontestcreate"
+                Height="40"
+                Margin="0"
+                VerticalAlignment="Top"
+                Click="newcontestcreate_Click"
                 Content="Vytvořit novou soutež"
                 Style="{StaticResource MahApps.Styles.Button}" />
+            <Button
+                x:Name="newcontestdelete"
+                Height="40"
+                Margin="5,0,0,-15"
+                VerticalAlignment="Top"
+                Click="newcontestdelete_Click"
+                Content="Smazat vybranou soutěž"
+                IsEnabled="False"
+                Style="{StaticResource MahApps.Styles.Button}" />
+
 
 
 
@@ -104,6 +219,126 @@
                 Source="/SORGAIR;component/sorgairlogotransparent.png"
                 Stretch="Fill" />
         </Grid>
+
+
+
+
+
+        <Controls:FlyoutsControl Margin="10,180,0,0">
+            <Controls:Flyout
+                x:Name="newcontest"
+                Height="480"
+                Margin="0,0,0,0"
+                Controls:HeaderedControlHelper.HeaderFontSize="13"
+                Controls:HeaderedControlHelper.HeaderMargin="20 0 50 0"
+                AnimateOpacity="True"
+                AreAnimationsEnabled="True"
+                Header="Vytvoření nové soutěže"
+                IsModal="False"
+                IsOpen="False"
+                Position="Bottom"
+                Theme="Adapt"
+                TitleVisibility="Collapsed">
+
+
+
+
+                <Grid Background="{DynamicResource MahApps.Brushes.Gray10}">
+
+
+                    <ListBox
+                        Name="categorylist"
+                        Width="197"
+                        Height="385"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        ItemsSource="{Binding MODEL_CONTESTS_CATEGORIES}"
+                        SelectionChanged="categorylist_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+
+
+
+
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        Text="{Binding CATEGORY}" />
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                    <WrapPanel
+                        Width="460"
+                        Height="265"
+                        Margin="0,10,10,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <Controls:Tile
+                            Title="Kateogire"
+                            Width="100"
+                            Count="{Binding BIND_NEWCONTEST_CATEGORY}"
+                            CountFontSize="25"
+                            HorizontalTitleAlignment="Center"
+                            IsEnabled="False"
+                            Style="{StaticResource SmallTileStyle}" />
+                        <Controls:Tile
+                            Name="nastaveni_soutez"
+                            Title="{Binding BIND_NEWCONTEST_NAME}"
+                            Margin="3"
+                            Click="nastaveni_soutez_Click"
+                            HorizontalTitleAlignment="Left"
+                            Style="{StaticResource ExtraLargeTileStyle}"
+                            Tag="Název Soutěže|Zadej název soutěže|BIND_NEWCONTEST_NAME">
+                            <iconPacks:PackIconUnicons
+                                Width="40"
+                                Height="40"
+                                Kind="Trophy" />
+                        </Controls:Tile>
+                        <Controls:Tile
+                            Name="nastaveni_lokace"
+                            Title="{Binding BIND_NEWCONTEST_LOCATION}"
+                            Margin="3"
+                            Click="nastaveni_soutez_Click"
+                            Style="{StaticResource LargeTileStyle}"
+                            Tag="Lokace|Zadej místo soutěže|BIND_NEWCONTEST_LOCATION">
+                            <iconPacks:PackIconFontAwesome
+                                Width="40"
+                                Height="40"
+                                Kind="MapMarkedAltSolid" />
+                        </Controls:Tile>
+                        <Controls:Tile
+                            Title="{Binding BIND_NEWCONTEST_DATE}"
+                            Click="nastaveni_soutez_Click"
+                            Style="{StaticResource SmallTileStyle}"
+                            Tag="Datum|Datum konání soutěže|BIND_NEWCONTEST_DATE">
+                            <iconPacks:PackIconModern
+                                Width="40"
+                                Height="40"
+                                Kind="CalendarDay" />
+                        </Controls:Tile>
+                    </WrapPanel>
+
+
+                    <Button
+                        Margin="10,400,10,10"
+                        Click="Button_Click_4"
+                        Content="Založit" />
+                </Grid>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+
 
     </Grid>
 </UserControl>

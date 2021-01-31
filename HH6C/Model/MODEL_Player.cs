@@ -307,6 +307,15 @@ namespace WpfApp6.Model
             set { _PREPSCORE = value; RaisePropertyChanged(nameof(PREPSCORE)); }
         }
 
+
+        private Double _GPEN;
+        public Double GPEN
+        {
+            get { return _GPEN; }
+            set { _GPEN = value; RaisePropertyChanged(nameof(GPEN)); }
+        }
+
+
         private string  _PREPSCOREDIFF;
         public string  PREPSCOREDIFF
         {

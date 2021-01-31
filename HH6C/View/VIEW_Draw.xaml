@@ -106,7 +106,13 @@
 
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding MODEL_CONTEST_ROUNDS}">
+
+
+
+        <ItemsControl
+            Margin="10,0,10,10"
+            ItemsSource="{Binding MODEL_CONTEST_ROUNDS}"
+            Visibility="{Binding BIND_ROZLOSOVANIODPOVIDAPOCTUM}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid
@@ -174,6 +180,9 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+
+
 
     </StackPanel>
 </UserControl>

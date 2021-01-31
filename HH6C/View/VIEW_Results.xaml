@@ -179,6 +179,10 @@
                         Header="Celkové score"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
+                        Binding="{Binding GPEN}"
+                        Header="G.PEN"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
                         Binding="{Binding PREPSCOREDIFF}"
                         Header="Ztráta"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
@@ -212,6 +216,7 @@
                         CellTemplate="{StaticResource DateTemplateR5}"
                         Header="Kolo 5"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
 
 
                 </DataGrid.Columns>

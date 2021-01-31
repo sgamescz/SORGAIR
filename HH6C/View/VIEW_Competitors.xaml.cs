@@ -221,7 +221,10 @@ namespace WpfApp6.View
                     l_chanel2.Value = 0;
                 }
 
-                if (l_freq.SelectedIndex != 0 || l_chanel1.Value is null || l_chanel2.Value is null )
+                Console.WriteLine("l_freq.SelectedIndex" + l_freq.SelectedIndex);
+                Console.WriteLine("l_chanel1.Value" + l_chanel1.Value);
+                Console.WriteLine("l_chanel2.Value" + l_chanel2.Value);
+                if (l_freq.SelectedIndex != 0 && (l_chanel1.Value is null || l_chanel2.Value is null))
                 {
                     results = false;
                     var currentWindow = this.TryFindParent<MetroWindow>();
@@ -242,9 +245,18 @@ namespace WpfApp6.View
         {
             bool results = true;
             string _failictmp = "";
+
             if (VM.BIND_SQL_SOUTEZ_REQUIREFAILICENCE == false)
             {
-                _failictmp = "---";
+                if (l_failic_edit.Text == "")
+                {
+                    _failictmp = "---";
+                }
+                else
+                {
+                    _failictmp = l_failic_edit.Text;
+                }
+
             }
             else
             {
@@ -266,15 +278,22 @@ namespace WpfApp6.View
                     l_chanel2_edit.Value = 0;
                 }
 
-                if (l_freq_edit.SelectedIndex != 0 || l_chanel1_edit.Value is null || l_chanel2_edit.Value is null)
+
+
+                if (l_freq_edit.SelectedIndex != 0)
                 {
-                    results = false;
-                    var currentWindow = this.TryFindParent<MetroWindow>();
-                    currentWindow.ShowMessageAsync("Nelze uložit", "Nejsou vyplněné kanály u  zvolené frekvence");
+                    if (l_chanel1_edit.Value is null || l_chanel2_edit.Value is null)
+                    {
+                        results = false;
+                        var currentWindow = this.TryFindParent<MetroWindow>();
+                        currentWindow.ShowMessageAsync("Nelze uložit", "EDIT Nejsou vyplněné kanály u  zvolené frekvence");
+
+                    }
                 }
-                else
+
+                if (results != false)
                 {
-                    VM.FUNCTION_USERS_CREATE_EDIT(int.Parse( l_nextid_edit.Count), l_firstname_edit.Text, L_lastname_edit.Text, VM.MODEL_Contest_FLAGS[l_country_edit.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat_edit.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq_edit.SelectedIndex].ID, Convert.ToInt32(l_chanel1_edit.Value), Convert.ToInt32(l_chanel2_edit.Value), _failictmp, l_naclic_edit.Text, l_club_edit.Text, Convert.ToBoolean(l_registered_edit.IsOn), 1);
+                VM.FUNCTION_USERS_CREATE_EDIT(int.Parse(l_nextid_edit.Count), l_firstname_edit.Text, L_lastname_edit.Text, VM.MODEL_Contest_FLAGS[l_country_edit.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat_edit.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq_edit.SelectedIndex].ID, Convert.ToInt32(l_chanel1_edit.Value), Convert.ToInt32(l_chanel2_edit.Value), _failictmp, l_naclic_edit.Text, l_club_edit.Text, Convert.ToBoolean(l_registered_edit.IsOn), 1);
                 }
 
 
@@ -318,8 +337,7 @@ namespace WpfApp6.View
             l_club_edit.Text = VM.Players[competitorlist.SelectedIndex].CLUB.ToString();
             l_chanel1_edit.Value = VM.Players[competitorlist.SelectedIndex].CH1;
             l_chanel2_edit.Value = VM.Players[competitorlist.SelectedIndex].CH2;
-            l_freq_edit.SelectedIndex= VM.Players[competitorlist.SelectedIndex].FREQID;
-
+            l_freq_edit.SelectedIndex = VM.Players[competitorlist.SelectedIndex].FREQID;
             foreach (var stat in VM.MODEL_Contest_FLAGS)
             {
                 if (stat.FILENAME == VM.Players[competitorlist.SelectedIndex].COUNTRY.ToString()) { l_country_edit.SelectedIndex = stat.ID; }

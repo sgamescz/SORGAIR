@@ -32,13 +32,19 @@
 
 
         <Style x:Key="entered" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
-            <Setter Property="Content" Value="Zadáno" />
+
             <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                    <Setter Property="Content" Value="Nezadáno" />
-                </Trigger>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="False">
+                    <Setter Property="Background" Value="Red" />
+
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="True">
+                    <Setter Property="Background" Value="Green" />
+
+                </DataTrigger>
+
+
             </Style.Triggers>
 
         </Style>
@@ -214,7 +220,7 @@
             Margin="0,310,0,0"
             VerticalAlignment="Top"
             Header="Seznam soutěžících a výsledků">
-            <ItemsControl Margin="10,0,10,9" ItemsSource="{Binding Players_Actual}">
+            <ItemsControl Margin="10,0,10,9" ItemsSource="{Binding Players_Actual_Flying}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1" />
@@ -285,11 +291,18 @@
                                 Tag="{Binding STARTPOINT}" />
 
                             <Button
-                                Height="30"
+                                Width="Auto"
+                                Height="10"
                                 Margin="5,5,5,0"
-                                IsEnabled="{Binding ENTERED}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                IsEnabled="True"
                                 Style="{StaticResource entered}"
-                                Tag="{Binding STARTPOINT}" />
+                                Tag="{Binding ENTERED}" />
+
+
 
                         </StackPanel>
                     </DataTemplate>
@@ -346,7 +359,6 @@
                         ItemsSource="{Binding Player_Selected}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-
                                 <Controls:Tile
                                     x:Name="userdetail_id"
                                     Title="ID soutěžícího"
@@ -533,7 +545,7 @@
                     </Controls:MetroHeader>
 
                     <Controls:MetroHeader
-                        Margin="80,257,0,149"
+                        Margin="80,268,0,138"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Header="Penalizace v kole">
@@ -551,7 +563,7 @@
                     </Controls:MetroHeader>
 
                     <Controls:MetroHeader
-                        Margin="67,287,0,119"
+                        Margin="67,311,0,95"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Header="Penalizace globální">
@@ -568,8 +580,23 @@
                         </Controls:MetroHeader.HeaderTemplate>
                     </Controls:MetroHeader>
 
+
+                    <Controls:ToggleSwitch
+                        Grid.Column="0"
+                        Width="202"
+                        Margin="10,383,0,12"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"
+                        ContentDirection="LeftToRight"
+                        FontSize="12"
+                        IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLENEXT}"
+                        IsTabStop="False"
+                        OffContent="Po uložení zavřít"
+                        OnContent="Po uložení přejít na další" />
+
+
                     <Controls:MetroHeader
-                        Margin="148,317,0,89"
+                        Margin="148,352,0,54"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Header="Score">
@@ -596,10 +623,10 @@
                             Height="40"
                             Margin="0,4,5,4"
                             HorizontalContentAlignment="Center"
-                            Controls:TextBoxHelper.ClearTextButton="True"
+                            Controls:TextBoxHelper.ClearTextButton="False"
                             Controls:TextBoxHelper.UseFloatingWatermark="True"
                             Controls:TextBoxHelper.Watermark="Minuty"
-                            Background="{DynamicResource MahApps.Brushes.Accent3}"
+                            Background="{DynamicResource MahApps.Brushes.Accent}"
                             DisplayMemberPath="{Binding ScoreEntryType}"
                             FontSize="13"
                             FontWeight="Bold"
@@ -614,10 +641,10 @@
                             Width="Auto"
                             Height="40"
                             HorizontalContentAlignment="Center"
-                            Controls:TextBoxHelper.ClearTextButton="True"
+                            Controls:TextBoxHelper.ClearTextButton="False                             "
                             Controls:TextBoxHelper.UseFloatingWatermark="True"
                             Controls:TextBoxHelper.Watermark="Vteřiny"
-                            Background="{DynamicResource MahApps.Brushes.Accent3}"
+                            Background="{DynamicResource MahApps.Brushes.Accent}"
                             DisplayMemberPath="{Binding ScoreEntryType}"
                             FontSize="13"
                             FontWeight="Bold"
@@ -635,12 +662,12 @@
                         Height="40"
                         Margin="216,164,9,223"
                         HorizontalContentAlignment="Center"
-                        Controls:TextBoxHelper.ClearTextButton="True"
+                        Controls:TextBoxHelper.ClearTextButton="False"
                         Controls:TextBoxHelper.SelectAllOnFocus="True"
                         Controls:TextBoxHelper.UseFloatingWatermark="True"
                         Controls:TextBoxHelper.Watermark="Přistání"
                         Background="{DynamicResource MahApps.Brushes.Accent2}"
-                        DisplayMemberPath="{Binding ScoreEntryType}"
+                        DisplayMemberPath="{Binding ScoreEntryType2}"
                         FontSize="13"
                         FontWeight="Bold"
                         ItemsSource="{Binding BINDING_Timer_listoflandings}"
@@ -654,9 +681,9 @@
                         Name="scoreentry_height"
                         Width="Auto"
                         Height="40"
-                        Margin="217,208,9,179"
+                        Margin="217,207,9,180"
                         HorizontalContentAlignment="Center"
-                        Controls:TextBoxHelper.ClearTextButton="True"
+                        Controls:TextBoxHelper.ClearTextButton="False"
                         Controls:TextBoxHelper.SelectAllOnFocus="True"
                         Controls:TextBoxHelper.UseFloatingWatermark="True"
                         Controls:TextBoxHelper.Watermark="Výška"
@@ -671,61 +698,58 @@
                         SelectionChanged="scoreentry_minutes_SelectionChanged"
                         Style="{StaticResource withfocus}" />
 
+                    <ComboBox
+                        Name="scoreentry_penlocal"
+                        Width="Auto"
+                        Height="40"
+                        Margin="217,257,9,130"
+                        HorizontalContentAlignment="Center"
+                        Controls:TextBoxHelper.ClearTextButton="False"
+                        Controls:TextBoxHelper.SelectAllOnFocus="True"
+                        Controls:TextBoxHelper.UseFloatingWatermark="True"
+                        Controls:TextBoxHelper.Watermark="Penalizace lokální"
+                        Background="{DynamicResource MahApps.Brushes.Accent3}"
+                        DisplayMemberPath="TEXTVALUE"
+                        FontSize="13"
+                        FontWeight="Medium"
+                        IsEditable="False"
+                        ItemsSource="{Binding BINDING_Timer_listofpenalisationlocal}"
+                        KeyDown="scoreentry_KeyDown"
+                        SelectedIndex="{Binding bind_scoreentry_selected_penalisationlocal}"
+                        SelectionChanged="scoreentry_minutes_SelectionChanged"
+                        Style="{StaticResource withfocus}" />
+
 
                     <ComboBox
+                        Name="scoreentry_penglobal"
                         Width="Auto"
-                        Height="20"
-                        Margin="217,252,9,149"
+                        Height="40"
+                        Margin="217,300,9,87"
                         HorizontalContentAlignment="Center"
-                        Controls:TextBoxHelper.ClearTextButton="True"
-                        Controls:TextBoxHelper.UseFloatingWatermark="True"
-                        Controls:TextBoxHelper.Watermark="Penalizace v kole"
-                        Background="{DynamicResource MahApps.Brushes.Gray}"
-                        KeyDown="scoreentry_KeyDown"
-                        SelectedIndex="-1"
-                        Style="{StaticResource withfocus}">
-                        <ComboBox.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Test" />
-                            </ContextMenu>
-                        </ComboBox.ContextMenu>
-                        <ComboBoxItem Content="21" />
-                        <ComboBoxItem Content="22" />
-                        <ComboBoxItem Content="23" />
-                        <ComboBoxItem Content="24" />
-                    </ComboBox>
-                    <ComboBox
-                        Width="Auto"
-                        Height="20"
-                        Margin="217,283,9,118"
-                        HorizontalContentAlignment="Center"
-                        Controls:TextBoxHelper.ClearTextButton="True"
+                        Controls:TextBoxHelper.ClearTextButton="False"
+                        Controls:TextBoxHelper.SelectAllOnFocus="True"
                         Controls:TextBoxHelper.UseFloatingWatermark="True"
                         Controls:TextBoxHelper.Watermark="Penalizace globální"
-                        Background="{DynamicResource MahApps.Brushes.Gray}"
+                        Background="{DynamicResource MahApps.Brushes.Accent3}"
+                        DisplayMemberPath="TEXTVALUE"
+                        FontSize="13"
+                        FontWeight="Medium"
+                        IsEditable="False"
+                        ItemsSource="{Binding BINDING_Timer_listofpenalisationglobal}"
                         KeyDown="scoreentry_KeyDown"
-                        SelectedIndex="-1"
-                        Style="{StaticResource withfocus}">
-                        <ComboBox.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Test" />
-                            </ContextMenu>
-                        </ComboBox.ContextMenu>
-                        <ComboBoxItem Content="21" />
-                        <ComboBoxItem Content="22" />
-                        <ComboBoxItem Content="23" />
-                        <ComboBoxItem Content="24" />
-                    </ComboBox>
+                        SelectedIndex="{Binding bind_scoreentry_selected_penalisationglobal}"
+                        SelectionChanged="scoreentry_minutes_SelectionChanged"
+                        Style="{StaticResource withfocus}" />
 
                     <Label
                         x:Name="aktualscore"
-                        Margin="217,318,10,83"
+                        Margin="218,349,9,52"
                         HorizontalContentAlignment="Center"
                         Content="---" />
 
                     <Button
                         x:Name="scoreentry_save"
-                        Margin="217,365,10,20"
+                        Margin="217,378,10,7"
                         Click="scoreentry_save_Click"
                         Content="Hotovo" />
 

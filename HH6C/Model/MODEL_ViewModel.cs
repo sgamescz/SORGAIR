@@ -102,6 +102,7 @@ namespace WpfApp6.Model
         public string BIND_CONTESTBEGIN_value;
         public bool BIND_USEAUDIO_value;
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLE_value;
+        public bool BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT_value;
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLENEXT_value;
         public bool BIND_SQL_AUDIO_COMPNUMBERS_value;
         public bool BIND_SQL_AUDIO_RNDGRPFLIGHT_value;
@@ -170,11 +171,18 @@ namespace WpfApp6.Model
         }
 
 
-        int _BINDING_selectedmenuindex = 0;
+        public int _BINDING_selectedmenuindex = 0;
         public int BINDING_selectedmenuindex
         {
-            get { return _BINDING_selectedmenuindex; }
-            set { _BINDING_selectedmenuindex = value; OnPropertyChanged("BINDING_selectedmenuindex"); }
+            get {
+                Console.WriteLine("GETBINDING_selectedmenuindex" + _BINDING_selectedmenuindex);
+                return _BINDING_selectedmenuindex; 
+            }
+            set {
+                _BINDING_selectedmenuindex = value;
+                Console.WriteLine("SETBINDING_selectedmenuindex" + value);
+                OnPropertyChanged("BINDING_selectedmenuindex"); 
+            }
 
         }
 
@@ -187,6 +195,16 @@ namespace WpfApp6.Model
             get { return _BIND_PREWROUND_TEXT; }
             set { _BIND_PREWROUND_TEXT = value; OnPropertyChanged("BIND_PREWROUND_TEXT"); }
 
+        }
+
+
+
+
+        private bool _BIND_CATEGORYEDITOR_ENABLED = false;
+        public bool BIND_CATEGORYEDITOR_ENABLED
+        {
+            get { return _BIND_CATEGORYEDITOR_ENABLED; }
+            set { _BIND_CATEGORYEDITOR_ENABLED = value; OnPropertyChanged("BIND_CATEGORYEDITOR_ENABLED"); }
         }
 
 
@@ -215,6 +233,53 @@ namespace WpfApp6.Model
             get { return BIND_MENU_ENABLED_nastavenisouteze_value; }
             set { BIND_MENU_ENABLED_nastavenisouteze_value = value; OnPropertyChanged("BIND_MENU_ENABLED_nastavenisouteze"); }
         }
+
+        private string _BIND_ROZLOSOVANIODPOVIDAPOCTUM = "Visible";
+        public string BIND_ROZLOSOVANIODPOVIDAPOCTUM
+        {
+            get { return _BIND_ROZLOSOVANIODPOVIDAPOCTUM; }
+            set { _BIND_ROZLOSOVANIODPOVIDAPOCTUM = value; OnPropertyChanged("BIND_ROZLOSOVANIODPOVIDAPOCTUM"); }
+        }
+
+        private int _BIND_JETREBAROZLOSOVAT_SCORE = 0;
+        public int BIND_JETREBAROZLOSOVAT_SCORE
+        {
+            get {
+                return _BIND_JETREBAROZLOSOVAT_SCORE; 
+            }
+            set {
+
+                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Matrix_score'");
+                _BIND_JETREBAROZLOSOVAT_SCORE = value;
+                OnPropertyChanged("BIND_JETREBAROZLOSOVAT_SCORE");
+            }
+        }
+
+
+        public void FUNCTION_JETREBAROZLOSOVAT_OVER()
+        {
+            Console.WriteLine("_BIND_JETREBAROZLOSOVAT_SCORE" + _BIND_JETREBAROZLOSOVAT_SCORE);
+            Console.WriteLine("SUM"+ (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS));
+                if (_BIND_JETREBAROZLOSOVAT_SCORE != (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS))
+                {
+                BIND_ROZLOSOVANIODPOVIDAPOCTUM = "Collapsed";
+                Console.WriteLine("BIND_ROZLOSOVANIODPOVIDAPOCTUM" + BIND_ROZLOSOVANIODPOVIDAPOCTUM);
+                BIND_MENU_ENABLED_seznamkol = false;
+                BIND_MENU_ENABLED_vybranekolo = false;
+                BIND_MENU_ENABLED_vysledky = false;
+
+                }
+                else
+                {
+                BIND_ROZLOSOVANIODPOVIDAPOCTUM = "Visible";
+                Console.WriteLine("BIND_ROZLOSOVANIODPOVIDAPOCTUM" + BIND_ROZLOSOVANIODPOVIDAPOCTUM);
+                BIND_MENU_ENABLED_seznamkol = true;
+                BIND_MENU_ENABLED_vybranekolo = true;
+                BIND_MENU_ENABLED_vysledky = true;
+            }
+
+        }
+
 
         public bool BIND_MENU_ENABLED_audioadalsi
         {
@@ -283,25 +348,26 @@ namespace WpfApp6.Model
 
 
 
-
+            MODEL_Contest_FLAGS.Clear();
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 
             mArrayOfflags = Directory.GetFiles(directory + "/flags/", "*.*", SearchOption.TopDirectoryOnly);
-            
+
             int _tmpi = -1;
 
             foreach (var file in mArrayOfflags)
             {
-                _tmpi +=1;
+                _tmpi += 1;
                 FileInfo info = new FileInfo(file);
                 var players_flags = new MODEL_Player_flags()
 
 
-                { ID = _tmpi, FILENAME = Path.GetFileNameWithoutExtension(info.Name)};
+                { ID = _tmpi, FILENAME = Path.GetFileNameWithoutExtension(info.Name) };
                 MODEL_Contest_FLAGS.Add(players_flags);
             }
 
+            MODEL_Contest_FREQUENCIES.Clear();
 
             var tmp_frequencies = new MODEL_Player_frequencies()
             { ID = 0, NAME = "2,4 GHz" };
@@ -314,6 +380,7 @@ namespace WpfApp6.Model
             MODEL_Contest_FREQUENCIES.Add(tmp_frequencies);
 
 
+            MODEL_Contest_AGECATEGORIES.Clear();
             var tmp_agecategories = new MODEL_Player_agecategories()
             { ID = 0, NAME = "Senior" };
             MODEL_Contest_AGECATEGORIES.Add(tmp_agecategories);
@@ -356,6 +423,7 @@ namespace WpfApp6.Model
             BIND_CONTESTBEGIN = SQL_READSOUTEZDATA("select value from contest where item='contestbegin'", "");
             BIND_USEAUDIO = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='useaudio'", ""));
             BIND_SQL_SOUTEZ_ENTRYSTYLE = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystyle'", ""));
+            BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystylepointsorlenght'", ""));
             BIND_SQL_SOUTEZ_ENTRYSTYLENEXT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystylenext'", ""));
             BIND_SQL_SOUTEZ_REQUIREFAILICENCE = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='RequireFAILicence'", ""));
             BIND_SQL_AUDIO_COMPNUMBERS = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumber'", ""));
@@ -367,12 +435,32 @@ namespace WpfApp6.Model
             BIND_SQL_AUTO_PREPTIMELENGHT = SQL_READSOUTEZDATA("select value from contest where item='Preptimelenght'", "");
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
 
+            BIND_MENU_ENABLED_nastavenisouteze = true;
+            BIND_MENU_ENABLED_audioadalsi = true;
+            BIND_MENU_ENABLED_hardware = true;
+            BIND_MENU_ENABLED_soutezici = true;
+            BIND_MENU_ENABLED_rozlosovani = true;
+            BIND_MENU_ENABLED_vybranekolo = true;
+            BIND_MENU_ENABLED_seznamkol = true;
+            BIND_MENU_ENABLED_vysledky = true;
+            BIND_MENU_ENABLED_online = false;
+            BIND_MENU_ENABLED_detailyastatistiky = false;
+            BIND_MENU_ENABLED_finale = false;
+            
             FUNCTION_LOAD_MATRIX_FILES();
             FUNCTION_LOAD_TIMERS_MINUTES();
             FUNCTION_LOAD_TIMERS_SECONDS();
             FUNCTION_LOAD_TIMERS_HEIGHT();
             FUNCTION_LOAD_TIMERS_LANDINGS();
+            FUNCTION_LOAD_TIMERS_PENALISATIOGLOBAL();
+            FUNCTION_LOAD_TIMERS_PENALISATIONLOCAL();
 
+
+
+
+            Console.WriteLine(SQL_READSOUTEZDATA("select value from contest where item='Matrix_score'", ""));
+            BIND_JETREBAROZLOSOVAT_SCORE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Matrix_score'", ""));
+            FUNCTION_JETREBAROZLOSOVAT_OVER();
         }
 
 
@@ -411,12 +499,14 @@ namespace WpfApp6.Model
 
         }
 
-        private string _BIND_VERZE_SORGU_LAST;
+
+        private string _BIND_VERZE_SORGU_LAST = "Aktuální verze je : 0.0.2.3";
         public string BIND_VERZE_SORGU_LAST
         {
             get
             {
-                return "Aktuální verze je : "+_BIND_VERZE_SORGU_LAST;
+                OnPropertyChanged("BIND_VERZE_SORGU_NEEDUPDATE");
+                return "Aktuální verze je : " +_BIND_VERZE_SORGU_LAST;
             }
 
             set
@@ -425,6 +515,32 @@ namespace WpfApp6.Model
             }
 
         }
+
+
+        private string _BIND_VERZE_SORGU_NEEDUPDATE = "0";
+        public string BIND_VERZE_SORGU_NEEDUPDATE
+        {
+            get
+            {
+                if (_BIND_VERZE_SORGU_LAST == _BIND_VERZE_SORGU)
+                {
+                    _BIND_VERZE_SORGU_NEEDUPDATE = "0";
+                }
+                else
+                {
+                    _BIND_VERZE_SORGU_NEEDUPDATE = "1";
+                }
+
+                return _BIND_VERZE_SORGU_NEEDUPDATE;
+            }
+
+            set
+            {
+                _BIND_VERZE_SORGU_NEEDUPDATE = value; OnPropertyChanged("BIND_VERZE_SORGU_NEEDUPDATE");
+            }
+
+        }
+
 
 
 
@@ -538,7 +654,11 @@ namespace WpfApp6.Model
         public int BIND_POCETSOUTEZICICH
         {
             get { return BIND_POCETSOUTEZICICH_value; }
-            set { BIND_POCETSOUTEZICICH_value = value; OnPropertyChanged("BIND_POCETSOUTEZICICH"); }
+            set {
+                BIND_POCETSOUTEZICICH_value = value; 
+                OnPropertyChanged("BIND_POCETSOUTEZICICH");
+                
+            }
         }
 
 
@@ -566,7 +686,7 @@ namespace WpfApp6.Model
                 BIND_SQL_SOUTEZ_ROUNDS_value = value;
                 OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS");
                 FUNCTION_LOAD_MATRIX_FILES();
-
+                FUNCTION_JETREBAROZLOSOVAT_OVER();
             }
         }
 
@@ -614,6 +734,7 @@ namespace WpfApp6.Model
 
                 }
 
+                FUNCTION_JETREBAROZLOSOVAT_OVER();
                 //
 
 
@@ -636,6 +757,13 @@ namespace WpfApp6.Model
             set { _BIND_SELECTED_STARTPOINT = value; OnPropertyChanged("BIND_SELECTED_STARTPOINT"); Console.WriteLine("BIND_SELECTED_STARTPOINT:" + BIND_SELECTED_STARTPOINT); }
         }
 
+        private int _BIND_VIEWED_STARTPOINT;
+        public int BIND_VIEWED_STARTPOINT
+        {
+            get { return _BIND_VIEWED_STARTPOINT; }
+            set { _BIND_VIEWED_STARTPOINT = value; OnPropertyChanged("BIND_VIEWED_STARTPOINT"); Console.WriteLine("BIND_VIEWED_STARTPOINT:" + BIND_VIEWED_STARTPOINT); }
+        }
+
 
         public int BIND_SELECTED_GROUP
         {
@@ -648,7 +776,7 @@ namespace WpfApp6.Model
         public int BIND_VIEWED_ROUND
         {
             get { return BIND_VIEWED_ROUND_value; }
-            set { BIND_VIEWED_ROUND_value = value; OnPropertyChanged("BIND_VIEWED_ROUND"); Console.WriteLine("BIND_VIEWED_ROUND:" + BIND_VIEWED_ROUND); }
+            set { BIND_VIEWED_ROUND_value = value; OnPropertyChanged("BIND_VIEWED_ROUND"); Console.WriteLine("BIND_VIEWED_ROUND:" + BIND_VIEWED_ROUND); FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); }
         }
 
 
@@ -662,7 +790,7 @@ namespace WpfApp6.Model
         public int BIND_VIEWED_GROUP
         {
             get { return BIND_VIEWED_GROUP_value; }
-            set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); }
+            set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTS
@@ -693,7 +821,7 @@ namespace WpfApp6.Model
 
                 //
 
-
+                FUNCTION_JETREBAROZLOSOVAT_OVER();
 
             }
         }
@@ -766,6 +894,12 @@ namespace WpfApp6.Model
             get { return "Název soutěže : " + BIND_SQL_SOUTEZ_NAZEV_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Name'"); BIND_SQL_SOUTEZ_NAZEV_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_NAZEV"); }
         }
+        private string _BIND_SQL_SOUTEZ_DBFILE;
+        public string BIND_SQL_SOUTEZ_DBFILE
+        {
+            get { return _BIND_SQL_SOUTEZ_DBFILE; }
+            set { _BIND_SQL_SOUTEZ_DBFILE = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DBFILE"); }
+        }
         public string BIND_SQL_SOUTEZ_LOKACE
         {
             get { return "Lokace : " + BIND_SQL_SOUTEZ_LOKACE_value; }
@@ -774,11 +908,43 @@ namespace WpfApp6.Model
 
 
 
+        private string _BIND_NEWCONTEST_CATEGORY = "F5J";
+        public string BIND_NEWCONTEST_CATEGORY
+        {
+            get { return _BIND_NEWCONTEST_CATEGORY; }
+            set {  _BIND_NEWCONTEST_CATEGORY = value; OnPropertyChanged("BIND_NEWCONTEST_CATEGORY"); }
+        }
+
+        private string _BIND_NEWCONTEST_NAME = "Nová soutěž";
+        public string BIND_NEWCONTEST_NAME
+        {
+            get { return _BIND_NEWCONTEST_NAME; }
+            set { _BIND_NEWCONTEST_NAME = value; OnPropertyChanged("BIND_NEWCONTEST_NAME"); }
+        }
+
+        private string _BIND_NEWCONTEST_LOCATION = "Kde soutěž bude";
+        public string BIND_NEWCONTEST_LOCATION
+        {
+            get { return _BIND_NEWCONTEST_LOCATION; }
+            set { _BIND_NEWCONTEST_LOCATION = value; OnPropertyChanged("BIND_NEWCONTEST_LOCATION"); }
+        }
+
+
+        private string _BIND_NEWCONTEST_DATE = DateTime.Now.ToString("dd.MM.yyyy"); // case sensitive;
+        public string BIND_NEWCONTEST_DATE
+        {
+            get { return _BIND_NEWCONTEST_DATE; }
+            set { _BIND_NEWCONTEST_DATE = value; OnPropertyChanged("BIND_NEWCONTEST_DATE"); }
+        }
+
+
         public string BIND_SQL_SOUTEZ_DATUM
         {
             get { return BIND_SQL_SOUTEZ_DATUM_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Date'"); BIND_SQL_SOUTEZ_DATUM_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DATUM"); }
         }
+
+        
 
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLE
         {
@@ -799,6 +965,30 @@ namespace WpfApp6.Model
                 OnPropertyChanged("ScoreEntryType");
             }
         }
+
+
+        public bool BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT
+        {
+            get { return BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT_value; }
+            set
+            {
+
+
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Entrystylepointsorlenght'");
+                BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT_value = value;
+                if (value == true)
+                {
+                    ScoreEntryType2 = "TEXTVALUE";
+                }
+                else
+                {
+                    ScoreEntryType2 = "LENGHT";
+                }
+                OnPropertyChanged("BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT");
+                OnPropertyChanged("ScoreEntryType2");
+            }
+        }
+
 
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLENEXT
         {
@@ -851,12 +1041,6 @@ namespace WpfApp6.Model
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Club'"); BIND_SQL_SOUTEZ_CLUB_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_CLUB"); }
         }
 
-
-
-
-
-
-
         public bool BIND_SQL_AUTO_USEPREPTIME
         {
             get { return BIND_SQL_AUTO_USEPREPTIME_value; }
@@ -880,8 +1064,6 @@ namespace WpfApp6.Model
             get { return BIND_SQL_AUTO_PREPTIMELENGHT_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Preptimelenght'"); BIND_SQL_AUTO_PREPTIMELENGHT_value = value; OnPropertyChanged("BIND_SQL_AUTO_PREPTIMELENGHT"); }
         }
-
-
         public string BIND_SQL_AUTO_PREPTIMESTART
         {
             get { return BIND_SQL_AUTO_PREPTIMESTART_value; }
@@ -907,11 +1089,22 @@ namespace WpfApp6.Model
                 DBSORG_Connection.Open();
 
             }
-            else{
+
+
+            else if (KTERADB == "RULES")
+            {
+                DBSORG_Connection = new SQLiteConnection("Data Source=" + directory + "/Data/config/rules.db;");
+                DBSORG_Connection.Open();
+
+            }
+
+            else
+            {
                 try
                 {
                     DBSOUTEZ_Connection = new SQLiteConnection("Data Source=" + directory + "/Data/"+ KTERADB + ".db;");
                     DBSOUTEZ_Connection.Open();
+                    BIND_SQL_SOUTEZ_DBFILE = KTERADB;
                 }
                 catch (Exception e)
                 {
@@ -1077,6 +1270,12 @@ namespace WpfApp6.Model
                 DBSORG_Connection.Close();
             }
 
+            if (KTERADB == "RULES")
+            {
+                DBSORG_Connection.Close();
+            }
+
+
             if (KTERADB == "SOUTEZ")
             {
                 DBSOUTEZ_Connection.Close();
@@ -1093,6 +1292,7 @@ namespace WpfApp6.Model
 
             string vysledek = "";
 
+            int _results_autoincrement = 0;
 
 
 
@@ -1107,9 +1307,217 @@ namespace WpfApp6.Model
                 sqlite_datareader = command.ExecuteReader();
                 while (sqlite_datareader.Read())
                 {
-                    string myreader = sqlite_datareader.GetString(0);
-                    Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
-                    vysledek = myreader;
+                    _results_autoincrement = _results_autoincrement + 1;
+
+
+
+
+
+
+
+                    if (kamulozitvysledek == "pozadi")
+                    {
+                        string myreader = sqlite_datareader.GetString(0);
+                        Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                        vysledek = myreader;
+
+                        pouzitepozadi = Int32.Parse(vysledek);
+                        FUNCTION_Changebackgroundcolor();
+                    }
+                    if (kamulozitvysledek == "popredi")
+                    {
+                        string myreader = sqlite_datareader.GetString(0);
+                        Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                        vysledek = myreader;
+
+                        pouzitabarva = Int32.Parse(vysledek);
+                        FUNCTION_Changeforegroundcolor();
+                    }
+
+                    if (kamulozitvysledek == "selectedsearch")
+                    {
+                        string myreader = sqlite_datareader.GetString(0);
+                        Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                        vysledek = myreader;
+
+                        Console.WriteLine("selectedsearch");
+                    }
+
+                    if (kamulozitvysledek == "get_categories")
+                    {
+
+
+                        var _categories = new MODEL_Contests_categories()
+                        {
+
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            CATEGORY = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("category"))
+                        };
+                        MODEL_CONTESTS_CATEGORIES.Add(_categories);
+
+                    }
+
+
+                    if (kamulozitvysledek == "get_landing")
+                    {
+
+
+
+
+
+                        var landing = new MODEL_CATEGORY_LANDING()
+                        {
+
+                            CATEGORY = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("category")),
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")),
+                            LENGHT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("lenght")),
+                            TODEL = 0
+
+                        };
+                        MODEL_CATEGORY_LANDING.Add(landing);
+                        vysledek = kamulozitvysledek;
+                    }
+
+
+                    if (kamulozitvysledek == "get_penalisation")
+                    {
+
+
+
+
+
+                        var landing = new MODEL_CATEGORY_PENALISATIONS()
+                        {
+
+                            CATEGORY = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("category")),
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")),
+                            DELETE_LANDING = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing")),
+                            DELETE_TIME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time")),
+                            DELETE_ALL = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all")),
+                            TODEL = 0
+
+                        };
+                        MODEL_CATEGORY_PENALISATION.Add(landing);
+                        vysledek = kamulozitvysledek;
+                    }
+
+
+                    if (kamulozitvysledek == "get_penalisationglobal")
+                    {
+
+
+
+
+
+                        var landing = new MODEL_CATEGORY_PENALISATIONS()
+                        {
+
+                            CATEGORY = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("category")),
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")),
+                            DELETE_LANDING = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing")),
+                            DELETE_TIME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time")),
+                            DELETE_ALL = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all")),
+                            TODEL = 0
+
+                        };
+                        MODEL_CATEGORY_PENALISATIONGLOBAL.Add(landing);
+                        vysledek = kamulozitvysledek;
+                    }
+
+                    if (kamulozitvysledek == "get_rules")
+                    {
+
+
+
+
+
+                        var rules = new MODEL_category_Rules()
+                        {
+
+                            ID = 0,
+                            CATEGORY = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("category")),
+                            TIME1UNDER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_under_limit1")),
+                            TIME1OVER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_over_limit1")),
+                            TIME1LIMIT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("limit1")),
+                            TIME2UNDER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_under_limit2")),
+                            TIME2OVER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_over_limit2")),
+                            TIME2LIMIT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("limit2")),
+                            HEIGHTUNDER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("heightunder")),
+                            HEIGHTOVER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("heightover")),
+                            HEIGHTLIMIT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("heightlimit")),
+                            ENTRYHEIGHT = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entryheight"))),
+                            DELETEALL1 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all1"))),
+                            DELETEALL2 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all2"))),
+                            DELETETIME1 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time1"))),
+                            DELETETIME2 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time2"))),
+                            DELETELANDING1 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing1"))),
+                            DELETELANDING2 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing2"))),
+                            SUBFROMLANDING1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing1")),
+                            SUBFROMLANDING2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing2")),
+                            SUBFROMTIME1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time1")),
+                            SUBFROMTIME2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time2"))
+
+
+                        };
+                        MODEL_CATEGORY_RULES.Add(rules);
+                        vysledek = kamulozitvysledek;
+                    }
+
+
+                    if (kamulozitvysledek == "")
+                    {
+                        try
+                        {
+                            Console.WriteLine("SQL RETURN TYPE:" + sqlite_datareader.GetFieldType(0));
+
+
+                            if (sqlite_datareader.GetFieldType(0) == typeof(Int64))
+                            {
+                                Int64 myreader = sqlite_datareader.GetInt64(0);
+                                Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                                vysledek = myreader.ToString();
+                            }
+
+                            if (sqlite_datareader.GetFieldType(0) == typeof(Decimal))
+                            {
+                                Decimal myreader = sqlite_datareader.GetDecimal(0);
+                                Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                                vysledek = myreader.ToString();
+                            }
+
+
+                            if (sqlite_datareader.GetFieldType(0) == typeof(Double))
+                            {
+                                double myreader = sqlite_datareader.GetDouble(0);
+                                Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                                vysledek = myreader.ToString();
+                            }
+
+
+
+                            if (sqlite_datareader.GetFieldType(0) == typeof(string))
+                            {
+                                string myreader = sqlite_datareader.GetString(0);
+                                Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                                vysledek = myreader;
+                            }
+
+
+
+                        }
+                        catch (Exception)
+                        {
+                            Console.Write("Invalid data type.");
+                        }
+                    }
+
+
                 }
             }
             catch (SQLiteException myException)
@@ -1120,24 +1528,6 @@ namespace WpfApp6.Model
 
 
 
-
-
-            if (kamulozitvysledek == "pozadi")
-            {
-                pouzitepozadi = Int32.Parse(vysledek);
-                FUNCTION_Changebackgroundcolor();
-            }
-            if (kamulozitvysledek == "popredi")
-            {
-
-                pouzitabarva = Int32.Parse(vysledek);
-                FUNCTION_Changeforegroundcolor();
-            }
-
-            if (kamulozitvysledek == "selectedsearch")
-            {
-                Console.WriteLine("selectedsearch");
-            }
 
 
             return vysledek;
@@ -1213,7 +1603,7 @@ namespace WpfApp6.Model
                             PAIDSTR = paid,
                             TEAM = team,
                             CUSTOMAGECAT = customagecat,
-                            FREQID = int.Parse(sqlite_datareader.GetString(14))-1,
+                            FREQID = int.Parse(sqlite_datareader.GetString(14)),
                             AGECATID = int.Parse(sqlite_datareader.GetString(15))
 
                         };
@@ -1239,7 +1629,8 @@ namespace WpfApp6.Model
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
-                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
+                        GPEN= sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
+                        PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
                         PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare,2).ToString("0.00"),
                         RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""),
                         RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""),
@@ -1273,7 +1664,60 @@ namespace WpfApp6.Model
                     }
 
 
-                    if (kamulozitvysledek == "get_players_actual")
+                    if (kamulozitvysledek == "get_landings")
+                    {
+
+                        var _landings = new Timer_landings()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")),
+                            LENGHT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("lenght")),
+                        };
+                        BINDING_Timer_listoflandings.Add(_landings);
+
+
+
+
+
+                    }
+
+                    if (kamulozitvysledek == "get_penalisationlocal")
+                    {
+                        Console.WriteLine("PENLOCPENLOC");
+
+                        var _penalisation = new Timer_penalisation()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")) + " ["+ sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value"))+ "]",
+                            DELETE_TIME= sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time")),
+                            DELETE_LANDING = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing")),
+                            DELETE_ALL = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all")),
+
+                        };
+                        Console.WriteLine("PENLOC" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")));
+                        BINDING_Timer_listofpenalisationlocal.Add(_penalisation);
+                    }
+
+                    if (kamulozitvysledek == "get_penalisationglobal")
+                    {
+
+                        var _penalisationglobal = new Timer_penalisation()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("textvalue")) + " - [" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("value")) + "]",
+                            DELETE_TIME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time")),
+                            DELETE_LANDING = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing")),
+                            DELETE_ALL = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all")),
+                        };
+                        BINDING_Timer_listofpenalisationglobal.Add(_penalisationglobal);
+
+                    }
+
+
+                    if (kamulozitvysledek == "get_Players_Actual_Flying")
                     {
 
 
@@ -1288,19 +1732,42 @@ namespace WpfApp6.Model
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
                             STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine  + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID"))  + "]"+  Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
-                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("RAWSCORE")),
+                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
                             ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
-                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("maxrow")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
                             REALPLAYER = _REALPLAYER
 
                         };
-                        Players_Actual.Add(player_actual);
+                        Players_Actual_Flying.Add(player_actual);
 
-                        float _prep = sqlite_datareader.GetFloat(sqlite_datareader.GetOrdinal("maxrow"));
-                        float _raw = sqlite_datareader.GetFloat(sqlite_datareader.GetOrdinal("RAWSCORE"));
+                        vysledek = kamulozitvysledek;
+
+                    }
 
 
-                        SQL_SAVESOUTEZDATA("update score set raw=" + _raw .ToString(new CultureInfo("en-US")) + ", prep=" + _prep.ToString(new CultureInfo("en-US")) + " where userid="+ sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + " and rnd="+BIND_SELECTED_ROUND+" and grp="+BIND_SELECTED_GROUP+"  ");
+                    if (kamulozitvysledek == "get_Players_Actual_SelectedRound")
+                    {
+
+
+                        bool _REALPLAYER = true;
+                        if (sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) == 0)
+                        {
+                            _REALPLAYER = false;
+                        }
+
+                        var player_actual = new MODEL_Player_actual()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
+                            STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
+                            ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
+                            REALPLAYER = _REALPLAYER
+
+                        };
+                        Players_Actual_SelectedRound.Add(player_actual);
+
                         vysledek = kamulozitvysledek;
 
                     }
@@ -1323,6 +1790,63 @@ namespace WpfApp6.Model
 
                     }
 
+
+                    if (kamulozitvysledek == "get_Player_Selected_Roundlist")
+                    {
+
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
+
+                        var _player_selected = new MODEL_Player_selected()
+                        {
+                            ID = sqlite_datareader.GetInt32(0),
+                            FIRSTNAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
+                            LASTNAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")),
+                            WHOLENAME = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + " " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname"))
+                        };
+                        Player_Selected_Roundlist.Add(_player_selected);
+                        vysledek = kamulozitvysledek;
+
+                    }
+
+                    if (kamulozitvysledek == "get_rules")
+                    {
+
+
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
+
+
+
+                        var rules = new MODEL_Contest_Rules()
+                        {
+
+                            ID = 0,
+                            CATEGORY = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("category")),
+                            TIME1UNDER= sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_under_limit1")),
+                            TIME1OVER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_over_limit1")),
+                            TIME1LIMIT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("limit1")),
+                            TIME2UNDER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_under_limit2")),
+                            TIME2OVER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("points_over_limit2")),
+                            TIME2LIMIT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("limit2")),
+                            HEIGHTUNDER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("heightunder")),
+                            HEIGHTOVER = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("heightover")),
+                            HEIGHTLIMIT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("heightlimit")),
+                            ENTRYHEIGHT = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entryheight"))),
+                            DELETEALL1 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all1"))),
+                            DELETEALL2 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_all2"))),
+                            DELETETIME1 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time1"))),
+                            DELETETIME2 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_time2"))),
+                            DELETELANDING1 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing1"))),
+                            DELETELANDING2 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("delete_landing2"))),
+                            SUBFROMLANDING1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing1")),
+                            SUBFROMLANDING2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing2")),
+                            SUBFROMTIME1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time1")),
+                            SUBFROMTIME2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time2"))
+
+
+                        };
+                        MODEL_CONTEST_RULES.Add(rules);
+                        vysledek = kamulozitvysledek;
+                    }
 
                     if (kamulozitvysledek == "get_rounds")
                     {
@@ -1427,10 +1951,18 @@ namespace WpfApp6.Model
 
                             if (sqlite_datareader.GetFieldType(0)==typeof(Int64))
                             {
-                                long myreader = sqlite_datareader.GetInt64(0);
+                                Int64 myreader = sqlite_datareader.GetInt64(0);
                                 Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
                                 vysledek = myreader.ToString();
                             }
+
+                            if (sqlite_datareader.GetFieldType(0) == typeof(Decimal))
+                            {
+                                Decimal myreader = sqlite_datareader.GetDecimal(0);
+                                Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + myreader + " >>>> " + kamulozitvysledek);
+                                vysledek = myreader.ToString();
+                            }
+
 
                             if (sqlite_datareader.GetFieldType(0) == typeof(Double))
                             {
@@ -1802,8 +2334,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         #region Players
         public ObservableCollection<MODEL_Player> Players { get; set; } = new ObservableCollection<MODEL_Player>();
-        public ObservableCollection<MODEL_Player_actual> Players_Actual { get; set; } = new ObservableCollection<MODEL_Player_actual>();
+        public ObservableCollection<MODEL_Player_actual> Players_Actual_Flying { get; set; } = new ObservableCollection<MODEL_Player_actual>();
+        public ObservableCollection<MODEL_Player_actual> Players_Actual_SelectedRound { get; set; } = new ObservableCollection<MODEL_Player_actual>();
         public ObservableCollection<MODEL_Player_selected> Player_Selected { get; set; } = new ObservableCollection<MODEL_Player_selected>();
+        public ObservableCollection<MODEL_Player_selected> Player_Selected_Roundlist { get; set; } = new ObservableCollection<MODEL_Player_selected>();
         public ObservableCollection<MODEL_Player_baseresults> Players_Baseresults { get; set; } = new ObservableCollection<MODEL_Player_baseresults>();
 
         public void FUNCTION_USERS_LOAD_ALLCOMPETITORS()
@@ -1857,12 +2391,76 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             set { _bind_scoreentry_selected_landing = value; OnPropertyChanged(nameof(bind_scoreentry_selected_landing)); }
         }
 
+
+        public int _bind_scoreentry_selected_penalisationlocal=0;
+        public int bind_scoreentry_selected_penalisationlocal
+        {
+            get { return _bind_scoreentry_selected_penalisationlocal; }
+            set { _bind_scoreentry_selected_penalisationlocal = value; OnPropertyChanged(nameof(bind_scoreentry_selected_penalisationlocal)); }
+        }
+
+        public int _bind_scoreentry_selected_penalisationglobal=0;
+        public int bind_scoreentry_selected_penalisationglobal
+        {
+            get { return _bind_scoreentry_selected_penalisationglobal; }
+            set { _bind_scoreentry_selected_penalisationglobal = value; OnPropertyChanged(nameof(bind_scoreentry_selected_penalisationglobal)); }
+        }
+
         public int _bind_scoreentry_selected_height;
         public int bind_scoreentry_selected_height
         {
             get { return _bind_scoreentry_selected_height; }
             set { _bind_scoreentry_selected_height = value; OnPropertyChanged(nameof(bind_scoreentry_selected_height)); }
         }
+
+
+
+
+
+        public int _bind_scoreentry_fromroundlist_selected_minute;
+        public int bind_scoreentry_fromroundlist_selected_minute
+        {
+            get { return _bind_scoreentry_fromroundlist_selected_minute; }
+            set { _bind_scoreentry_fromroundlist_selected_minute = value; OnPropertyChanged(nameof(bind_scoreentry_fromroundlist_selected_minute)); }
+        }
+
+        public int _bind_scoreentry_fromroundlist_selected_second;
+        public int bind_scoreentry_fromroundlist_selected_second
+        {
+            get { return _bind_scoreentry_fromroundlist_selected_second; }
+            set { _bind_scoreentry_fromroundlist_selected_second = value; OnPropertyChanged(nameof(bind_scoreentry_fromroundlist_selected_second)); }
+        }
+
+
+        public int _bind_scoreentry_fromroundlist_selected_landing;
+        public int bind_scoreentry_fromroundlist_selected_landing
+        {
+            get { return _bind_scoreentry_fromroundlist_selected_landing; }
+            set { _bind_scoreentry_fromroundlist_selected_landing = value; OnPropertyChanged(nameof(bind_scoreentry_fromroundlist_selected_landing)); }
+        }
+
+
+        public int _bind_scoreentry_fromroundlist_selected_penalisationlocal;
+        public int bind_scoreentry_fromroundlist_selected_penalisationlocal
+        {
+            get { return _bind_scoreentry_fromroundlist_selected_penalisationlocal; }
+            set { _bind_scoreentry_fromroundlist_selected_penalisationlocal = value; OnPropertyChanged(nameof(bind_scoreentry_fromroundlist_selected_penalisationlocal)); }
+        }
+
+        public int _bind_scoreentry_fromroundlist_selected_penalisationglobal;
+        public int bind_scoreentry_fromroundlist_selected_penalisationglobal
+        {
+            get { return _bind_scoreentry_fromroundlist_selected_penalisationglobal; }
+            set { _bind_scoreentry_fromroundlist_selected_penalisationglobal = value; OnPropertyChanged(nameof(bind_scoreentry_fromroundlist_selected_penalisationglobal)); }
+        }
+
+        public int _bind_scoreentry_fromroundlist_selected_height;
+        public int bind_scoreentry_fromroundlist_selected_height
+        {
+            get { return _bind_scoreentry_fromroundlist_selected_height; }
+            set { _bind_scoreentry_fromroundlist_selected_height = value; OnPropertyChanged(nameof(bind_scoreentry_fromroundlist_selected_height)); }
+        }
+
         public void FUNCTION_SCOREENTRY_LOAD_USERDATA(int rnd,int grp, int stp)
         {
 
@@ -1875,17 +2473,130 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_player_selected");
             bind_scoreentry_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
             bind_scoreentry_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
-            bind_scoreentry_selected_landing = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+
+            int _tmplandingid = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+           
+            int _tmppenlocid = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(pen1id) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select pen1id from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            int _tmppengloid = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(pen2id) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select pen2id from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+
+            Console.WriteLine("bind_scoreentry_selected_second" + bind_scoreentry_selected_second);
+            Console.WriteLine("bind_scoreentry_selected_minute" + bind_scoreentry_selected_minute);
+
+            for (int i = 0; i < BINDING_Timer_listoflandings.Count; i++)
+            {
+                Console.WriteLine(BINDING_Timer_listoflandings[i].VALUE.ToString());
+                if (BINDING_Timer_listoflandings[i].VALUE == _tmplandingid)
+                {
+
+                    bind_scoreentry_selected_landing = i;
+                }
+            }
+
+
+            for (int i = 0; i < BINDING_Timer_listofpenalisationlocal.Count; i++)
+            {
+                Console.WriteLine(BINDING_Timer_listofpenalisationlocal[i].VALUE.ToString());
+                if (BINDING_Timer_listofpenalisationlocal[i].ID == _tmppenlocid)
+                {
+
+                    bind_scoreentry_selected_penalisationlocal = i;
+                }
+            }
+
+            for (int i = 0; i < BINDING_Timer_listofpenalisationglobal.Count; i++)
+            {
+                Console.WriteLine(BINDING_Timer_listofpenalisationglobal[i].VALUE.ToString());
+                if (BINDING_Timer_listofpenalisationglobal[i].ID == _tmppengloid)
+                {
+
+                    bind_scoreentry_selected_penalisationglobal = i;
+                }
+            }
+
+
             bind_scoreentry_selected_height = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(height) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select height from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
 
         }
 
 
-        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int heightunder, int heightover, int pen1, int pen2,string  rawscore, string prepscore )
+
+        public void FUNCTION_SCOREENTRY_FROMROUNDSLIST_LOAD_USERDATA(int rnd, int grp, int stp)
+        {
+
+            Player_Selected_Roundlist.Clear();
+
+            if (rnd == 0) { rnd = BIND_VIEWED_ROUND; }
+            if (grp == 0) { grp = BIND_VIEWED_GROUP; }
+            if (stp == 0) { stp = BIND_VIEWED_STARTPOINT; }
+
+            SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_Player_Selected_Roundlist");
+            bind_scoreentry_fromroundlist_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            bind_scoreentry_fromroundlist_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+
+            int _tmplandingid_fromroundlist = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+
+            int _tmppenlocid_fromroundlist = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(pen1id) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select pen1id from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            int _tmppengloid_fromroundlist = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(pen2id) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select pen2id from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+
+            for (int i = 0; i < BINDING_Timer_listoflandings.Count; i++)
+            {
+                Console.WriteLine(BINDING_Timer_listoflandings[i].VALUE.ToString());
+                if (BINDING_Timer_listoflandings[i].VALUE == _tmplandingid_fromroundlist)
+                {
+
+                    bind_scoreentry_fromroundlist_selected_landing = i;
+                }
+            }
+
+
+            for (int i = 0; i < BINDING_Timer_listofpenalisationlocal.Count; i++)
+            {
+                Console.WriteLine(BINDING_Timer_listofpenalisationlocal[i].VALUE.ToString());
+                if (BINDING_Timer_listofpenalisationlocal[i].ID == _tmppenlocid_fromroundlist)
+                {
+
+                    bind_scoreentry_fromroundlist_selected_penalisationlocal = i;
+                }
+            }
+
+            for (int i = 0; i < BINDING_Timer_listofpenalisationglobal.Count; i++)
+            {
+                Console.WriteLine(BINDING_Timer_listofpenalisationglobal[i].VALUE.ToString());
+                if (BINDING_Timer_listofpenalisationglobal[i].ID == _tmppengloid_fromroundlist)
+                {
+
+                    bind_scoreentry_fromroundlist_selected_penalisationglobal = i;
+                }
+            }
+
+
+            bind_scoreentry_fromroundlist_selected_height = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(height) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select height from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+
+        }
+
+        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string  rawscore, string prepscore )
         {
             Console.WriteLine("saving score");
             SQL_SAVESOUTEZDATA("delete from score where rnd="+rnd+" and grp="+grp +" and stp="+stp +";");
-            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, heightunder, heightover, pen1, pen2, raw, prep, entered) VALUES("+rnd+ "," + grp + "," + stp  + "," + usrid  + "," + minutes  + "," + seconds + "," + landing  + "," + height +  ", " + heightunder  + "," + heightover + ", " + pen1  + "," + pen2 + ",'" + rawscore + "','" + prepscore  + "', 'True');");
+            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered) VALUES("+rnd+ "," + grp + "," + stp  + "," + usrid  + "," + minutes  + "," + seconds + "," + landing  + "," + height +  ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore  + "', 'True');");
+
+            Decimal _MAXRAW = Decimal.Parse(SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp, ""));
+
+            for (int i = 1; i < BIND_SQL_SOUTEZ_STARTPOINTS + 1; i++)
+            {
+                Console.WriteLine(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+
+                decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+                Decimal _PREPSCORE = 0;
+                if (_MAXRAW != 0)
+                {
+                    _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                }
+                string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
+                SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
+            }
+
+
         }
 
 
@@ -1907,8 +2618,6 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (Int32.Parse(tmp_zadano_vkole) < Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '1' where id=" + rnd); }
             if (Int32.Parse(tmp_zadano_vkole) == Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '2' where id=" + rnd ); }
 
-            FUNCTION_ROUNDS_LOAD_ROUNDS();
-            FUNCTION_ROUNDS_LOAD_GROUPS(BIND_SELECTED_ROUND_value);
         }
 
 
@@ -1952,9 +2661,20 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
+        public ObservableCollection<MODEL_Contests_categories> MODEL_CONTESTS_CATEGORIES { get; set; } = new ObservableCollection<MODEL_Contests_categories>();
+
+        public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CATEGORY_LANDING { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
+        public ObservableCollection<MODEL_CATEGORY_PENALISATIONS> MODEL_CATEGORY_PENALISATION { get; set; } = new ObservableCollection<MODEL_CATEGORY_PENALISATIONS>();
+        public ObservableCollection<MODEL_CATEGORY_PENALISATIONS> MODEL_CATEGORY_PENALISATIONGLOBAL { get; set; } = new ObservableCollection<MODEL_CATEGORY_PENALISATIONS>();
+
         public ObservableCollection<MODEL_Contests_files> MODEL_CONTESTS_FILES { get; set; } = new ObservableCollection<MODEL_Contests_files>();
 
         public ObservableCollection<MODEL_Contest_Rounds> MODEL_CONTEST_ROUNDS { get; set; } = new ObservableCollection<MODEL_Contest_Rounds>();
+
+        public ObservableCollection<MODEL_Contest_Rules> MODEL_CONTEST_RULES { get; set; } = new ObservableCollection<MODEL_Contest_Rules>();
+        public ObservableCollection<MODEL_category_Rules> MODEL_CATEGORY_RULES { get; set; } = new ObservableCollection<MODEL_category_Rules>();
+
+
         public ObservableCollection<MODEL_Contest_Groups> MODEL_CONTEST_GROUPS { get; set; } = new ObservableCollection<MODEL_Contest_Groups>();
 
         public ObservableCollection<MODEL_Player_flags> MODEL_Contest_FLAGS { get; set; } = new ObservableCollection<MODEL_Player_flags>();
@@ -1966,7 +2686,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
             BIND_SELECTED_ROUND = 1;
             BIND_SELECTED_GROUP = 1;
-            FUNCTION_SELECTED_ROUND_USERS(0, 0);
+            FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
 
             BIND_VIEWED_ROUND = 1;
             BIND_VIEWED_GROUP = 1;
@@ -1990,6 +2710,43 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
+        public void FUNCTION_LOAD_RULES()
+        {
+            MODEL_CONTEST_RULES.Clear();
+            SQL_READSOUTEZDATA("select * from rules where category='"+ BIND_SQL_SOUTEZ_KATEGORIE + "';", "get_rules");
+        }
+
+        public void FUNCTION_LOAD_CATEGORY_RULES(string categoryname)
+        {
+            MODEL_CATEGORY_RULES.Clear();
+            SQL_READSORGDATA("select * from rules where category='" + categoryname + "';", "get_rules");
+        }
+
+        public void FUNCTION_LOAD_CATEGORY_LANDING(int categoryid)
+        {
+            MODEL_CATEGORY_LANDING.Clear();
+            SQL_READSORGDATA("select * from landings where category='" + categoryid + "' order by id asc;", "get_landing");
+        }
+
+        public void FUNCTION_LOAD_CATEGORY_PENALISATION(int categoryid)
+        {
+            MODEL_CATEGORY_PENALISATION.Clear();
+            SQL_READSORGDATA("select * from penalisations where category='" + categoryid + "' order by id asc;", "get_penalisation");
+        }
+
+        public void FUNCTION_LOAD_CATEGORY_PENALISATIONGLOBAL(int categoryid)
+        {
+            MODEL_CATEGORY_PENALISATIONGLOBAL.Clear();
+            SQL_READSORGDATA("select * from penalisationsglobal where category='" + categoryid + "' order by id asc;", "get_penalisationglobal");
+        }
+
+
+        public void FUNCTION_LOAD_CATEGORIES()
+        {
+            MODEL_CONTESTS_CATEGORIES.Clear();
+            SQL_READSORGDATA("select * from rules;", "get_categories");
+        }
+
         public void FUNCTION_ROUNDS_LOAD_GROUPS(int  kolo)
         {
             MODEL_CONTEST_GROUPS.Clear();
@@ -1997,13 +2754,23 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
-        public void FUNCTION_SELECTED_ROUND_USERS(int rnd, int grp)
+        public void FUNCTION_SELECTED_ROUND_FLYING_USERS(int rnd, int grp)
         {
             if (rnd==0) { rnd = BIND_SELECTED_ROUND; }
             if (grp== 0) { grp = BIND_SELECTED_GROUP; }
-            Players_Actual.Clear();
-            SQL_READSOUTEZDATA("select ifnull(round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2),round(0,2)) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_players_actual");
-            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_players_actual");
+            Players_Actual_Flying.Clear();
+            SQL_READSOUTEZDATA("select U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_Flying");
+            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
+
+        }
+
+        public void FUNCTION_SELECTED_ROUND_USERS(int rnd, int grp)
+        {
+            if (rnd == 0) { rnd = BIND_SELECTED_ROUND; }
+            if (grp == 0) { grp = BIND_SELECTED_GROUP; }
+            Players_Actual_SelectedRound.Clear();
+            SQL_READSOUTEZDATA("select U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_SelectedRound");
+            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
 
         }
 
@@ -2011,8 +2778,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_RESULTS_LOADBASERESULTS()
         {
             Players_Baseresults.Clear();
-            SQL_READSOUTEZDATA("select (select sum(prep) from score s2 where s2.userid = s1.userid ) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid ) overalrawscore , s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc", "get_baseresults");
-            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_players_actual");
+            SQL_READSOUTEZDATA("select ((select sum(prep) from score s2 where s2.userid = s1.userid ) + (select sum(pen2value) from score s2 where s2.userid = s1.userid )) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid ) overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc", "get_baseresults");
+            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
 
         }
 
@@ -2034,6 +2801,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             set { _scoreentrytype = value; OnPropertyChanged(nameof(ScoreEntryType)); }
         }
 
+        private string _ScoreEntryType2;
+        public string ScoreEntryType2
+        {
+            get { return _ScoreEntryType2; }
+            set { _ScoreEntryType2 = value; OnPropertyChanged(nameof(ScoreEntryType2)); }
+        }
 
 
 
@@ -2041,11 +2814,33 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public List<Timer_minutes_seconds> BINDING_Timer_listofminutes { get; } = new List<Timer_minutes_seconds>();
         public List<Timer_minutes_seconds> BINDING_Timer_listofseconds { get; } = new List<Timer_minutes_seconds>();
         public List<Timer_minutes_seconds> BINDING_Timer_listofheights { get; } = new List<Timer_minutes_seconds>();
-        public List<Timer_minutes_seconds> BINDING_Timer_listoflandings { get; } = new List<Timer_minutes_seconds>();
+        public List<Timer_landings> BINDING_Timer_listoflandings { get; } = new List<Timer_landings>();
+        public List<Timer_penalisation> BINDING_Timer_listofpenalisationlocal { get; } = new List<Timer_penalisation>();
+        public List<Timer_penalisation> BINDING_Timer_listofpenalisationglobal { get; } = new List<Timer_penalisation>();
         public class Timer_minutes_seconds
         {
             public int Value { get; set; }
             public string Text { get; set; }
+
+        }
+
+        public class Timer_landings
+        {
+            public int ID { get; set; }
+            public int VALUE { get; set; }
+            public string TEXTVALUE { get; set; }
+            public string LENGHT { get; set; }
+
+        }
+
+        public class Timer_penalisation
+        {
+            public int ID { get; set; }
+            public int VALUE { get; set; }
+            public string TEXTVALUE { get; set; }
+            public string DELETE_TIME { get; set; }
+            public string DELETE_LANDING { get; set; }
+            public string DELETE_ALL { get; set; }
 
         }
 
@@ -2094,10 +2889,26 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Console.WriteLine("HEIGHT");
             BINDING_Timer_listoflandings.Clear();
 
-            for (int i = 0; i < 101; i++)
-            {
-                BINDING_Timer_listoflandings.Add(new Timer_minutes_seconds() { Value = i, Text = i + " bodů" });
-            }
+            SQL_READSOUTEZDATA("select * from Landings order by id asc", "get_landings");
+
+        }
+
+        public void FUNCTION_LOAD_TIMERS_PENALISATIONLOCAL()
+        {
+            Console.WriteLine("PENALISATIONLOCAL");
+            BINDING_Timer_listofpenalisationlocal.Clear();
+
+            SQL_READSOUTEZDATA("select * from Penalisations order by id asc", "get_penalisationlocal");
+            Console.WriteLine(BINDING_Timer_listofpenalisationlocal.Count);
+        }
+
+        public void FUNCTION_LOAD_TIMERS_PENALISATIOGLOBAL()
+        {
+            Console.WriteLine("PENALISATIONGLOBAL");
+            BINDING_Timer_listofpenalisationglobal.Clear();
+
+            SQL_READSOUTEZDATA("select * from Penalisationsglobal order by id asc", "get_penalisationglobal");
+            Console.WriteLine(BINDING_Timer_listofpenalisationglobal.Count);
 
         }
 
@@ -2139,7 +2950,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 BIND_SELECTED_GROUP = _tmp_newgroup;
                 BIND_SELECTED_ROUND = _tmp_newround;
 
-                FUNCTION_SELECTED_ROUND_USERS(0, 0);
+                FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
                 FUNCTION_ROUNDS_LOAD_GROUPS(BIND_SELECTED_ROUND);
             }
 

@@ -539,6 +539,7 @@
                         Interval="1"
                         Maximum="999"
                         Minimum="0"
+                        SwitchUpDownButtons="True"
                         TabIndex="9" />
 
                     <mah:NumericUpDown
@@ -551,6 +552,7 @@
                         Interval="1"
                         Maximum="999"
                         Minimum="0"
+                        SwitchUpDownButtons="True"
                         TabIndex="10" />
 
                     <TextBox
@@ -876,6 +878,7 @@
                         Interval="1"
                         Maximum="999"
                         Minimum="0"
+                        SwitchUpDownButtons="True"
                         TabIndex="9" />
 
                     <mah:NumericUpDown
@@ -888,6 +891,7 @@
                         Interval="1"
                         Maximum="999"
                         Minimum="0"
+                        SwitchUpDownButtons="True"
                         TabIndex="10" />
 
                     <TextBox

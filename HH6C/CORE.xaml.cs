@@ -22,7 +22,9 @@ using System.Runtime.CompilerServices;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using System.Globalization;
-
+using System.IO;
+using System.Net.Cache;
+using System.Net;
 
 namespace WpfApp6
 {
@@ -36,8 +38,8 @@ namespace WpfApp6
         private static System.Timers.Timer aTimer;
 
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
-      
-        
+
+
         public Core()
         {
             //SORGAIR.Properties.Settings.Default.Languagecode = "en-US";
@@ -63,12 +65,17 @@ namespace WpfApp6
 
         public void thread2()
         {
-            var result = string.Empty;
-            using (var webClient = new System.Net.WebClient())
-            {
-                webClient.Encoding = System.Text.Encoding.UTF8;
-                result = webClient.DownloadString("http://sorgair.com/api/version.php");
-            }
+            string remoteUrl = "http://sorgair.com/api/version.php";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+            Console.WriteLine(result);
+
 
             this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
 
