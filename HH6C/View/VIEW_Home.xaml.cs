@@ -57,11 +57,14 @@ namespace WpfApp6.View
             VM.FUNCTION_USERS_LOAD_ALLCOMPETITORS();
             VM.FUNCTION_TEAM_LOAD_TEAMS();
             VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+            VM.FUNCTION_SOUND_LOADSOUNDLIST();
             VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
             //VM.BIND_VYBRANEKOLOMENU = "Vybrané kolo: 1/4";
-            VM.clock_create ();
+            VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
+            VM.clock_MAIN_create ();
             VM.BINDING_selectedmenuindex = 1;
 
+           
 
 
 
@@ -234,6 +237,8 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisations(id, value, textvalue, delete_landing, delete_time, delete_all) SELECT P.id, P.value, P.textvalue, P.delete_landing, P.delete_time, P.delete_all FROM rulesdb.penalisations P where P.category = '"+ catidindb +"';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisationsglobal(id, value, textvalue, delete_landing, delete_time, delete_all) SELECT P.id, P.value, P.textvalue, P.delete_landing, P.delete_time, P.delete_all FROM rulesdb.penalisationsglobal P where P.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO landings(id, value, textvalue, lenght) SELECT L.id, L.value, L.textvalue, L.lenght FROM rulesdb.landings L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO Sounds(id, second, filename, filedesc) SELECT L.id, L.second, L.filename, L.filedesc FROM rulesdb.sounds L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO Soundlist(category, id, soundname) SELECT L.category, L.id , L.soundname FROM rulesdb.soundlist L where L.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO rules SELECT * FROM rulesdb.rules where id = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_CATEGORY + "' where item='Category';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION + "' where item='Location';");

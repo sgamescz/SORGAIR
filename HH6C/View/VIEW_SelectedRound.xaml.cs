@@ -59,9 +59,10 @@ namespace WpfApp6.View
             else
             {
                 Console.WriteLine("yes");
-                VM.clock_stop();
-                maintimer_play.IsEnabled = true;
-                maintimer_stop.IsEnabled = false;
+                VM.clock_MAIN_stop();
+                VM.BIND_MAINTIME_ISRUNNING = false;
+                VM.BIND_MAINTIME_ISSTOPED = true;
+
             }
 
 
@@ -72,16 +73,22 @@ namespace WpfApp6.View
 
         private void HWbasemodul_Copy2_Click(object sender, RoutedEventArgs e)
         {
-            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var directory = System.IO.Path.GetDirectoryName(path);
 
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(directory + "/Audio/petiminutoveho.wav");
-            player.Play();
+            //Console.WriteLine(VM.MODEL_CONTEST_SOUNDS.Count);
+
+            //for (int i = 0; i < VM.MODEL_CONTEST_SOUNDS.Count; i++)
+            //{
+            //   Console.WriteLine(VM.MODEL_CONTEST_SOUNDS[i].VALUE.ToString() + " --- " + VM.MODEL_CONTEST_SOUNDS[i].TEXTVALUE.ToString());
+            //}
+
+
+
+            VM.BIND_MAINTIME_ISRUNNING = true;
+            VM.BIND_MAINTIME_ISSTOPED = false;
+
             VM.BIND_LETOVYCAS = 0;
-            VM.BIND_LETOVYCAS_MAX = 600;
-            maintimer_play.IsEnabled = false;
-            maintimer_stop.IsEnabled = true;
-            VM.clock_start();
+            VM.BIND_LETOVYCAS_MAX = 20;
+            VM.clock_MAIN_start();
 
 
 

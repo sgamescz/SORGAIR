@@ -672,6 +672,146 @@
 
             </TabItem>
 
+            <TabItem Header="Zvuky">
+                <Grid>
+                    <ListBox
+                        Name="soundlist_seznam"
+                        Width="245"
+                        Height="293"
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        ItemsSource="{Binding MODEL_CONTESTS_SOUNDLISTS}"
+                        SelectionChanged="soundlist_seznam_SelectionChanged">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+
+
+
+
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        Text="{Binding TEXTVALUE}" />
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+                    <ListView
+                        Name="soundlist"
+                        Height="334"
+                        Margin="257,10,10,0"
+                        Padding="10"
+                        VerticalAlignment="Top"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                        BorderThickness="1"
+                        ItemsSource="{Binding MODEL_CATEGORY_SOUNDS}"
+                        SelectionChanged="landinglist_SelectionChanged"
+                        SelectionMode="Single">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+
+
+
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding TODEL}" />
+
+                                    <TextBox
+                                        Grid.Column="1"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding VALUE}" />
+                                    <TextBox
+                                        Grid.Column="2"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding TEXTVALUE}" />
+                                    <TextBox
+                                        Grid.Column="3"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding LENGHT}" />
+
+
+
+
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                    <Button
+                        x:Name="addsound"
+                        Width="205"
+                        Height="40"
+                        Margin="257,349,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="addsound_Click"
+                        Content="Přidat nový záznam"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="savesoundbtn"
+                        Width="406"
+                        Height="85"
+                        Margin="467,349,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="savesound_Click"
+                        Content="Uložit zvuk"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="deletesound"
+                        Width="205"
+                        Height="40"
+                        Margin="257,394,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="deletesound_Click"
+                        Content="Odebrat označené"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="addsoundlist"
+                        Width="242"
+                        Height="40"
+                        Margin="10,349,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="addsoundlist_Click"
+                        Content="Přidat zvuk"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="deletesoundlist"
+                        Width="242"
+                        Height="40"
+                        Margin="10,394,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="deletesoundlist_Click"
+                        Content="smazat zvuk"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+
+                </Grid>
+
+
+            </TabItem>
         </TabControl>
         <Label
             Width="245"

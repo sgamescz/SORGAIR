@@ -513,7 +513,8 @@
                     Margin="0,20,0,0"
                     VerticalAlignment="Top"
                     Click="Button_Click_2"
-                    Content="Vybrat toto kolo" />
+                    Content="Vybrat toto kolo"
+                    IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}" />
 
                 <UniformGrid
                     Height="52"
@@ -523,11 +524,13 @@
                         Margin="0,0,5,0"
                         Click="Button_PREW_ROUND"
                         Content="{Binding BIND_PREWROUND_TEXT}"
+                        IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}"
                         Style="{StaticResource MahApps.Styles.Button}" />
                     <Button
                         Margin="0,0,0,0"
                         Click="Button_NEXT_ROUND"
                         Content="{Binding BIND_NEXTROUND_TEXT}"
+                        IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}"
                         Style="{StaticResource MahApps.Styles.Button}" />
                 </UniformGrid>
 

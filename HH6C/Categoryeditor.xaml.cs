@@ -76,6 +76,7 @@ namespace SORGAIR
                 Console.WriteLine(VM.BIND_MENU_ENABLED_nastavenisouteze);
                 VM.FUNCTION_LOAD_CATEGORY_RULES(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].CATEGORY);
                 VM.FUNCTION_LOAD_CATEGORY_LANDING(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+                VM.FUNCTION_LOAD_CATEGORY_SOUNDLISTS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
                 VM.FUNCTION_LOAD_CATEGORY_PENALISATION(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
                 VM.FUNCTION_LOAD_CATEGORY_PENALISATIONGLOBAL(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
                 VM.BIND_CATEGORYEDITOR_ENABLED = true;
@@ -178,7 +179,30 @@ namespace SORGAIR
 
         }
 
+        private void savesound(int categoryid)
+        {
 
+            VM.SQL_SAVESORGDATA("delete from Sounds where category = " + categoryid + " and id='"+ VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID  + "';");
+
+            for (int i = 0; i < VM.MODEL_CATEGORY_SOUNDS.Count; i++)
+            {
+
+                if (VM.MODEL_CATEGORY_SOUNDS[i].TODEL == 0)
+                {
+                    VM.SQL_SAVESORGDATA("insert into Sounds (category,id, second,filename,filedesc) " +
+                    "values('" + categoryid + "'," + "'" + VM.MODEL_CATEGORY_SOUNDS[i].ID + "','" + VM.MODEL_CATEGORY_SOUNDS[i].VALUE + "', '" + VM.MODEL_CATEGORY_SOUNDS[i].TEXTVALUE + "', " +
+                "'" + VM.MODEL_CATEGORY_SOUNDS[i].LENGHT + "');");
+                }
+
+
+
+            }
+
+
+
+            VM.FUNCTION_LOAD_CATEGORY_SOUNDS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID, VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID);
+
+        }
 
         private void savepenalisation(int categoryid)
         {
@@ -325,6 +349,70 @@ namespace SORGAIR
         private void savepenalisationglobal_Click(object sender, RoutedEventArgs e)
         {
             savepenalisationglobal(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+        }
+
+
+
+        private  void savesound_Click(object sender, RoutedEventArgs e)
+        {
+            savesound(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+        }
+
+        private async void addsound_Click(object sender, RoutedEventArgs e)
+        {
+            var currentWindow = this;
+
+            
+            var _value = await currentWindow.ShowInputAsync("Vteřina", "Zadej vteřinu, ve které se zvuk spustí", new MetroDialogSettings() { DefaultText = "60" });
+            var _textvalue = await currentWindow.ShowInputAsync("Název souboru", "Zadej název mp3 souboru bez koncovky (např 5cz)", new MetroDialogSettings() { DefaultText = "5cz" });
+            var _lenght = await currentWindow.ShowInputAsync("Slovní popis", "Zadej slovní popis zvuku", new MetroDialogSettings() { DefaultText = "---" });
+
+            if ( _value == null | _textvalue == null | _lenght == null)
+                return;
+
+
+            var sound = new MODEL_CATEGORY_LANDING()
+            {
+
+
+
+                CATEGORY = 1,
+                ID = VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID,
+                VALUE = int.Parse(_value),
+                TEXTVALUE = _textvalue,
+                LENGHT = _lenght,
+                TODEL = 0
+
+            };
+            VM.MODEL_CATEGORY_SOUNDS.Add(sound);
+
+            savesound(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+        }
+
+        private void deletesound_Click(object sender, RoutedEventArgs e)
+        {
+            savesound(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+        }
+
+        private void soundlist_seznam_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (soundlist_seznam.SelectedIndex >= 0)
+            {
+                VM.FUNCTION_LOAD_CATEGORY_SOUNDS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID, VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID);
+            }
+        }
+
+        private void addsoundlist_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void deletesoundlist_Click(object sender, RoutedEventArgs e)
+        {
+            VM.SQL_SAVESORGDATA("delete from sounds where category=" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + " and id='" + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + "';");
+            VM.SQL_SAVESORGDATA("delete from soundlist where id=" + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + ";");
+            VM.FUNCTION_LOAD_CATEGORY_SOUNDLISTS(VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID);
+            categorylist.SelectedIndex = 0;
         }
     }
 }

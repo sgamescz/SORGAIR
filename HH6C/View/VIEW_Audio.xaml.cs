@@ -21,6 +21,8 @@ namespace WpfApp6.View
     /// </summary>
     public partial class Audio : UserControl
     {
+        private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+
         public Audio()
         {
             InitializeComponent();
@@ -29,6 +31,14 @@ namespace WpfApp6.View
         private void test(object sender, RoutedEventArgs e)
         {
            // MainWindow.hledejvsql("blabla");
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (soundfile_basicround.SelectedIndex >= 0)
+            {
+                VM.FUNCTION_SOUND_LOADSELECTEDSOUND(VM.BINDING_SoundList[soundfile_basicround.SelectedIndex].Id);
+            }
         }
     }
 }

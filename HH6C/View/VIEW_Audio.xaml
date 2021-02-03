@@ -257,12 +257,12 @@
                             Grid.Row="5"
                             Grid.Column="1"
                             Margin="0,0,0,10"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}">
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                        </ComboBox>
+                            DisplayMemberPath="SoundName"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                            ItemsSource="{Binding BINDING_SoundList}" />
+
 
                         <Label
                             Grid.Row="2"
@@ -270,16 +270,18 @@
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
                             Content="Zvuk pro základní kola:" />
-                        <ComboBox
+
+
+                        <ComboBox x:Name="soundfile_basicround"
                             Grid.Row="2"
                             Grid.Column="1"
                             Margin="0,0,0,10"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}">
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                        </ComboBox>
+                            DisplayMemberPath="SoundName"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                            ItemsSource="{Binding BINDING_SoundList}" SelectionChanged="ComboBox_SelectionChanged" />
+
 
                         <Label
                             Grid.Row="3"
@@ -291,12 +293,12 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Margin="0,0,0,10"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}">
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                        </ComboBox>
+                            DisplayMemberPath="SoundName"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                            ItemsSource="{Binding BINDING_SoundList}" />
+
 
                         <Label
                             Grid.Row="4"
@@ -308,36 +310,16 @@
                             Grid.Row="4"
                             Grid.Column="1"
                             Margin="0,0,0,10"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}">
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                            <ComboBoxItem Content="xxxx" />
-                        </ComboBox>
+                            DisplayMemberPath="SoundName"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                            ItemsSource="{Binding BINDING_SoundList}" />
+
 
 
 
                     </Grid>
-
-                    <mah:Tile
-                        Title="Editor zvuků"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Width="158"
-                        Height="Auto"
-                        Margin="20,0,0,10"
-                        HorizontalAlignment="Left"
-                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                        HorizontalTitleAlignment="Left"
-                        TextOptions.TextFormattingMode="Display"
-                        TextOptions.TextRenderingMode="ClearType"
-                        TitleFontSize="14">
-                        <iconPacks:PackIconEntypo
-                            Width="40"
-                            Height="40"
-                            Margin="0,0,10,0"
-                            Kind="SoundMix" />
-                    </mah:Tile>
 
 
                 </Grid>

@@ -161,7 +161,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Click="HWbasemodul_Copy2_Click"
-                    IsEnabled="True"
+                    IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}"
                     TitleFontSize="12">
                     <Rectangle
                         Width="20"
@@ -183,7 +183,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Click="HWbasemodul_Copy1_Click"
-                    IsEnabled="False"
+                    IsEnabled="{Binding BIND_MAINTIME_ISRUNNING}"
                     TitleFontSize="12">
                     <Rectangle
                         Width="20"
@@ -318,11 +318,13 @@
                 Margin="10,0,5,0"
                 Click="Button_PREW_ROUND"
                 Content="{Binding BIND_PREWROUND_TEXT}"
+                IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}"
                 Style="{StaticResource MahApps.Styles.Button}" />
             <Button
                 Margin="0,0,10,0"
                 Click="Button_NEXT_ROUND"
                 Content="{Binding BIND_NEXTROUND_TEXT}"
+                IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}"
                 Style="{StaticResource MahApps.Styles.Button}" />
         </UniformGrid>
 
