@@ -35,9 +35,16 @@ namespace WpfApp6.View
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+          
+        }
+
+        private void soundfile_basicround2_Click(object sender, RoutedEventArgs e)
+        {
             if (soundfile_basicround.SelectedIndex >= 0)
             {
-                VM.FUNCTION_SOUND_LOADSELECTEDSOUND(VM.BINDING_SoundList[soundfile_basicround.SelectedIndex].Id);
+                Console.WriteLine("LOADZVUKU");
+                VM.FUNCTION_SOUND_LOADSELECTEDSOUND(VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
+                VM.BIND_AUDIO_INFO = VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDBASESOUND_INDEX].SoundName;
             }
         }
     }

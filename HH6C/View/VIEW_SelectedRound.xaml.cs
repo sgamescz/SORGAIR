@@ -32,6 +32,10 @@ namespace WpfApp6.View
         {
 
             InitializeComponent();
+
+
+
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -81,13 +85,43 @@ namespace WpfApp6.View
             //   Console.WriteLine(VM.MODEL_CONTEST_SOUNDS[i].VALUE.ToString() + " --- " + VM.MODEL_CONTEST_SOUNDS[i].TEXTVALUE.ToString());
             //}
 
+            if (VM.MODEL_CONTEST_SOUNDS.Count > 0)
+            {
+
+                if (VM.MODEL_CONTEST_SOUNDS[0].VALUE < 0)
+                {
+                    VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
+                    VM.BIND_LETOVYCAS_MAX = Math.Abs(VM.MODEL_CONTEST_SOUNDS[0].VALUE);
+                }
+                else
+                {
+                    VM.BIND_TYPEOFCLOCK = "MAIN";
+                    VM.BIND_LETOVYCAS_MAX = VM.MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
+                }
+
+
+            }
+            else
+            {
+                VM.BIND_TYPEOFCLOCK = "MAIN";
+                VM.BIND_LETOVYCAS_MAX = VM.MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
+            }
+
+
+
+          
 
 
             VM.BIND_MAINTIME_ISRUNNING = true;
             VM.BIND_MAINTIME_ISSTOPED = false;
 
+
             VM.BIND_LETOVYCAS = 0;
-            VM.BIND_LETOVYCAS_MAX = 20;
+
+        
+
+
+
             VM.clock_MAIN_start();
 
 

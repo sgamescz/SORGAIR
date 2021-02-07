@@ -1,26 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System;
 using System.Threading;
 
 using MahApps.Metro.Controls;
-using System.Data.SQLite;
-using WpfApp6.View;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+
 using WpfApp6.Model;
-using MahApps.Metro.Controls.Dialogs;
+using System.IO;
+using NAudio;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+
 
 
 
@@ -82,5 +72,7 @@ namespace SORGAIR
             f2.Show();
             this.Close();
         }
+
+       
     }
 }

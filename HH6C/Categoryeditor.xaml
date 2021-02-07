@@ -13,7 +13,7 @@
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     Title="Category editor"
     Width="1161"
-    Height="534"
+    Height="619"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
     BorderThickness="3"
@@ -55,7 +55,7 @@
                     </ItemsControl>
 
                     <ItemsControl
-                        Height="389"
+                        Height="474"
                         Margin="10,45,10,0"
                         Padding="10"
                         VerticalAlignment="Top"
@@ -66,9 +66,12 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <Grid Height="360" Margin="0,0,-5,0">
+                                <Grid Height="453" Margin="0,0,-5,0">
 
-                                    <UniformGrid Columns="4" Rows="10">
+                                    <UniformGrid
+                                        Margin="0,0,0,66"
+                                        Columns="4"
+                                        Rows="10">
 
                                         <Label
                                             Width="175"
@@ -358,12 +361,82 @@
                                             TextAlignment="Center"
                                             Value="{Binding HEIGHTUNDER}" />
 
+                                        <Label Content="xx" Visibility="Hidden" />
+                                        <Label Content="xx" Visibility="Hidden" />
+                                        <Label
+                                            Width="175"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Content="Letový čas v základních kolech" />
+                                        <Controls:NumericUpDown
+                                            Width="120"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            ButtonsAlignment="Opposite"
+                                            InterceptManualEnter="True"
+                                            Maximum="999"
+                                            Minimum="-999"
+                                            SwitchUpDownButtons="True"
+                                            TextAlignment="Center"
+                                            Value="{Binding BASEROUNDLENGHT}" />
 
+                                        <Label
+                                            Width="175"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Content="Letový čas ve fináloých kolech" />
+                                        <Controls:NumericUpDown
+                                            Width="120"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            ButtonsAlignment="Opposite"
+                                            InterceptManualEnter="True"
+                                            Maximum="999"
+                                            Minimum="-999"
+                                            SwitchUpDownButtons="True"
+                                            TextAlignment="Center"
+                                            Value="{Binding FINALROUNDLENGHT}" />
+                                        <Label
+                                            Width="175"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Content="Max čas zapsaný v z.kolech" />
+                                        <Controls:NumericUpDown
+                                            Width="120"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            ButtonsAlignment="Opposite"
+                                            InterceptManualEnter="True"
+                                            Maximum="999"
+                                            Minimum="-999"
+                                            SwitchUpDownButtons="True"
+                                            TextAlignment="Center"
+                                            Value="{Binding BASEROUNDMAXTIME}" />
 
-
-
-
-
+                                        <Label
+                                            Width="175"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Content="Maximální čas zapsaný ve finále" />
+                                        <Controls:NumericUpDown
+                                            Width="120"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            ButtonsAlignment="Opposite"
+                                            InterceptManualEnter="True"
+                                            Maximum="999"
+                                            Minimum="-999"
+                                            SwitchUpDownButtons="True"
+                                            TextAlignment="Center"
+                                            Value="{Binding FINALROUNDMAXTIME}" />
 
 
 
@@ -388,7 +461,7 @@
 
                     <ListView
                         Name="landinglist"
-                        Height="334"
+                        Height="419"
                         Margin="10,10,10,0"
                         Padding="10"
                         VerticalAlignment="Top"
@@ -445,7 +518,7 @@
                         x:Name="addlanding"
                         Width="199"
                         Height="40"
-                        Margin="10,349,0,0"
+                        Margin="10,434,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addlanding_Click"
@@ -455,7 +528,7 @@
                         x:Name="savelandingall"
                         Width="659"
                         Height="85"
-                        Margin="214,349,0,0"
+                        Margin="214,434,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="savelanding_Click"
@@ -465,7 +538,7 @@
                         x:Name="deletelanding"
                         Width="199"
                         Height="40"
-                        Margin="10,394,0,0"
+                        Margin="10,479,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="deletelanding_Click"
@@ -482,7 +555,7 @@
 
                     <ListView
                         Name="penalisationlist"
-                        Height="334"
+                        Height="419"
                         Margin="10,10,10,0"
                         Padding="10"
                         VerticalAlignment="Top"
@@ -552,7 +625,7 @@
                         x:Name="addpenalisation"
                         Width="199"
                         Height="40"
-                        Margin="10,349,0,0"
+                        Margin="10,434,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addpenalisation_Click"
@@ -562,7 +635,7 @@
                         x:Name="savepenalisation2"
                         Width="659"
                         Height="85"
-                        Margin="214,349,0,0"
+                        Margin="214,434,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="savepenalisation_Click"
@@ -572,7 +645,7 @@
                         x:Name="deletepenalisation"
                         Width="199"
                         Height="40"
-                        Margin="10,394,0,0"
+                        Margin="10,479,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="deletepenalisation_Click"
@@ -589,7 +662,7 @@
 
                     <ListView
                         Name="penalisationglovallist"
-                        Height="334"
+                        Height="419"
                         Margin="10,10,10,0"
                         Padding="10"
                         VerticalAlignment="Top"
@@ -641,7 +714,7 @@
                         x:Name="addpenalisationglobal"
                         Width="199"
                         Height="40"
-                        Margin="10,349,0,0"
+                        Margin="10,434,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addpenalisationglobal_Click"
@@ -651,7 +724,7 @@
                         x:Name="savepenalisationglobalbutton"
                         Width="659"
                         Height="85"
-                        Margin="214,349,0,0"
+                        Margin="214,434,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="savepenalisationglobal_Click"
@@ -661,7 +734,7 @@
                         x:Name="deletepenalisationglobal"
                         Width="199"
                         Height="40"
-                        Margin="10,394,0,0"
+                        Margin="10,479,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="deletepenalisationglobal_Click"
@@ -673,11 +746,11 @@
             </TabItem>
 
             <TabItem Header="Zvuky">
-                <Grid>
+                <Grid Margin="0,0,0,-11">
                     <ListBox
                         Name="soundlist_seznam"
-                        Width="245"
-                        Height="293"
+                        Width="242"
+                        Height="385"
                         Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -709,7 +782,7 @@
                     </ListBox>
                     <ListView
                         Name="soundlist"
-                        Height="334"
+                        Height="419"
                         Margin="257,10,10,0"
                         Padding="10"
                         VerticalAlignment="Top"
@@ -761,7 +834,7 @@
                         x:Name="addsound"
                         Width="205"
                         Height="40"
-                        Margin="257,349,0,0"
+                        Margin="257,445,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addsound_Click"
@@ -771,7 +844,7 @@
                         x:Name="savesoundbtn"
                         Width="406"
                         Height="85"
-                        Margin="467,349,0,0"
+                        Margin="467,445,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="savesound_Click"
@@ -781,17 +854,27 @@
                         x:Name="deletesound"
                         Width="205"
                         Height="40"
-                        Margin="257,394,0,0"
+                        Margin="257,490,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="deletesound_Click"
                         Content="Odebrat označené"
                         IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
                     <Button
+                        x:Name="renamesoundlist"
+                        Width="242"
+                        Height="40"
+                        Margin="10,445,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="renamesoundlist_Click"
+                        Content="Přejmenovat zvuk"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
                         x:Name="addsoundlist"
                         Width="242"
                         Height="40"
-                        Margin="10,349,0,0"
+                        Margin="10,400,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addsoundlist_Click"
@@ -801,7 +884,7 @@
                         x:Name="deletesoundlist"
                         Width="242"
                         Height="40"
-                        Margin="10,394,0,0"
+                        Margin="10,490,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="deletesoundlist_Click"
@@ -825,7 +908,7 @@
         <ListBox
             Name="categorylist"
             Width="245"
-            Height="303"
+            Height="402"
             Margin="10,47,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -860,7 +943,7 @@
             Name="saverules"
             Width="245"
             Height="40"
-            Margin="10,355,0,0"
+            Margin="10,454,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Click="saverules_Click"
@@ -874,7 +957,7 @@
             x:Name="saverules_new"
             Width="245"
             Height="35"
-            Margin="10,400,0,0"
+            Margin="10,499,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Click="saverules_new_Click"
@@ -884,7 +967,7 @@
             x:Name="deleterules"
             Width="245"
             Height="35"
-            Margin="10,440,0,0"
+            Margin="10,539,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Click="deleterules_Click"

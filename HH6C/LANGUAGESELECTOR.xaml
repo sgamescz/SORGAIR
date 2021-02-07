@@ -15,9 +15,8 @@
     <Grid>
         <TextBlock
             Margin="10,111,10,10"
-            Text="!! Only for beta testing. Do not share this application please !! All what u want / or bug found,  please tell us via ales@sgames.cz, or on our FB site "
             TextAlignment="Center"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" ><Run Text="!! Only for beta testing. Do not share this application please !! All what u want / or bug found,  please tell us via ales@sgames.cz, or on our FB site "/></TextBlock>
 
         <Button
             Width="110"

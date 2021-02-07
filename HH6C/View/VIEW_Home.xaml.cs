@@ -58,13 +58,12 @@ namespace WpfApp6.View
             VM.FUNCTION_TEAM_LOAD_TEAMS();
             VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
             VM.FUNCTION_SOUND_LOADSOUNDLIST();
+            VM.FUNCTION_SOUND_LOADAUDIO_LANGUAGE();
             VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
             //VM.BIND_VYBRANEKOLOMENU = "Vybrané kolo: 1/4";
             VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
             VM.clock_MAIN_create ();
             VM.BINDING_selectedmenuindex = 1;
-
-           
 
 
 

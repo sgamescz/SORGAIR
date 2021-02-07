@@ -63,6 +63,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
 
                             </Grid.RowDefinitions>
 
@@ -79,7 +80,6 @@
                                 IsOn="{Binding BIND_USEAUDIO}"
                                 OffContent="Audio systém vypnut (bez zvuků)"
                                 OnContent="Používat SORG AIR Audio systém" />
-
 
                             <Grid
                                 Grid.Row="1"
@@ -237,6 +237,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
 
@@ -252,7 +254,7 @@
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
-                            Content="Přípravný čas v základních kolech:" />
+                            Content="Zvuk pro přípravný čas ve finálových kolech:" />
                         <ComboBox
                             Grid.Row="5"
                             Grid.Column="1"
@@ -265,30 +267,72 @@
 
 
                         <Label
-                            Grid.Row="2"
+                            Grid.Row="6"
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
-                            Content="Zvuk pro základní kola:" />
-
-
-                        <ComboBox x:Name="soundfile_basicround"
-                            Grid.Row="2"
+                            Content="Jazyk audio souborů" />
+                        <ComboBox
+                            Grid.Row="6"
                             Grid.Column="1"
                             Margin="0,0,0,10"
                             DisplayMemberPath="SoundName"
                             FontSize="13"
                             FontWeight="Bold"
                             IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                            ItemsSource="{Binding BINDING_SoundList}" SelectionChanged="ComboBox_SelectionChanged" />
+                            ItemsSource="{Binding BINDING_SoundList_languages}" />
+
+                        <mah:ToggleSwitch
+                            x:Name="audio_menorwoman"
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Margin="0,0,0,20"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Left"
+                            ContentDirection="RightToLeft"
+                            FontSize="12"
+                            IsOn="True"
+                            OffContent="Můžský hlas"
+                            OnContent="Ženský hlas" />
 
 
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            HorizontalContentAlignment="Right"
+                            Content="Zvuk pro základní kola:" />
+
+
+                        <ComboBox
+                            x:Name="soundfile_basicround"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="0,0,198,10"
+                            DisplayMemberPath="SoundName"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                            ItemsSource="{Binding BINDING_SoundList}"
+                            SelectedIndex="{Binding BIND_AUDIO_SELECTEDBASESOUND_INDEX}"
+                            SelectionChanged="ComboBox_SelectionChanged" />
+
+                        <Button
+                            x:Name="soundfile_basicround2"
+                            Grid.Row="2"
+                            Content="Načíst vybraný zvuk"
+                            Grid.Column="1"
+                            Margin="407,0,0,10"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" Click="soundfile_basicround2_Click"/>
+                        
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
-                            Content="Zvuk pro základní kola:" />
+                            Content="Zvuk pro Přípravný časzákladní kola:" />
                         <ComboBox
                             Grid.Row="3"
                             Grid.Column="1"
@@ -305,7 +349,7 @@
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
-                            Content="Zvuk pro základní kola:" />
+                            Content="Zvuk pro finálová kola:" />
                         <ComboBox
                             Grid.Row="4"
                             Grid.Column="1"

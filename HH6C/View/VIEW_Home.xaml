@@ -142,22 +142,30 @@
                     <DataTemplate>
                         <Grid Margin="0,2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="178" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="185" />
+                                <ColumnDefinition Width="127" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
 
 
 
 
-                            <TextBlock Grid.Column="0" Text="{Binding FILENAME}" />
-                            <TextBlock Grid.Column="1" Text="{Binding CATEGORY}" />
-                            <TextBlock Grid.Column="2" Text="{Binding NAME}" />
-                            <TextBlock Grid.Column="3" Text="{Binding LOCATION}" />
-                            <TextBlock Grid.Column="4" Text="{Binding DATE}" />
+                            <TextBlock Grid.Column="0" Text="{Binding NAME}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding CATEGORY}"  />
+                            <TextBlock
+                                Grid.Column="2"
+                                Text="{Binding LOCATION}" />
+                            <TextBlock
+                                Grid.Column="3"
+                                Text="{Binding DATE}" />
+                            <TextBlock
+                                Grid.Column="4"
+                                Text="{Binding FILENAME}" />
 
                         </Grid>
                     </DataTemplate>

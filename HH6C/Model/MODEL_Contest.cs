@@ -335,6 +335,37 @@ namespace WpfApp6.Model
 
 
 
+        private int _BASEROUNDLENGHT;
+        public int BASEROUNDLENGHT
+        {
+            get { return _BASEROUNDLENGHT; }
+            set { _BASEROUNDLENGHT = value; RaisePropertyChanged(nameof(BASEROUNDLENGHT)); }
+        }
+
+        private int _BASEROUNDMAXTIME;
+        public int BASEROUNDMAXTIME
+        {
+            get { return _BASEROUNDMAXTIME; }
+            set { _BASEROUNDMAXTIME = value; RaisePropertyChanged(nameof(BASEROUNDMAXTIME)); }
+        }
+
+
+        private int _FINALROUNDLENGHT;
+        public int FINALROUNDLENGHT
+        {
+            get { return _FINALROUNDLENGHT; }
+            set { _FINALROUNDLENGHT = value; RaisePropertyChanged(nameof(FINALROUNDLENGHT)); }
+        }
+
+        private int _FINALROUNDMAXTIME;
+        public int FINALROUNDMAXTIME
+        {
+            get { return _FINALROUNDMAXTIME; }
+            set { _FINALROUNDMAXTIME = value; RaisePropertyChanged(nameof(FINALROUNDMAXTIME)); }
+        }
+
+
+
     }
 
 
@@ -528,6 +559,35 @@ namespace WpfApp6.Model
         }
 
 
+
+        private int _BASEROUNDLENGHT;
+        public int BASEROUNDLENGHT
+        {
+            get { return _BASEROUNDLENGHT; }
+            set { _BASEROUNDLENGHT = value; RaisePropertyChanged(nameof(BASEROUNDLENGHT)); }
+        }
+
+        private int _BASEROUNDMAXTIME;
+        public int BASEROUNDMAXTIME
+        {
+            get { return _BASEROUNDMAXTIME; }
+            set { _BASEROUNDMAXTIME = value; RaisePropertyChanged(nameof(BASEROUNDMAXTIME)); }
+        }
+
+
+        private int _FINALROUNDLENGHT;
+        public int FINALROUNDLENGHT
+        {
+            get { return _FINALROUNDLENGHT; }
+            set { _FINALROUNDLENGHT = value; RaisePropertyChanged(nameof(FINALROUNDLENGHT)); }
+        }
+
+        private int _FINALROUNDMAXTIME;
+        public int FINALROUNDMAXTIME
+        {
+            get { return _FINALROUNDMAXTIME; }
+            set { _FINALROUNDMAXTIME = value; RaisePropertyChanged(nameof(FINALROUNDMAXTIME)); }
+        }
 
 
     }

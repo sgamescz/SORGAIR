@@ -11,6 +11,11 @@ using WpfApp6.View;
 using System.IO;
 using ControlzEx.Theming;
 using System.Globalization;
+using NAudio;
+using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+
+
 
 
 namespace WpfApp6.Model
@@ -53,7 +58,10 @@ namespace WpfApp6.Model
 
 
 
-        System.Windows.Media.MediaPlayer[] SoundDB = new System.Windows.Media.MediaPlayer[100];
+        //System.Windows.Media.MediaPlayer[] SoundDB = new System.Windows.Media.MediaPlayer[100];
+        WaveOutEvent[] output = new WaveOutEvent[100];
+        NAudio.Wave.WaveFileReader[] wav = new NAudio.Wave.WaveFileReader[100];
+
 
 
         SQLiteConnection DBSORG_Connection;
@@ -116,7 +124,8 @@ namespace WpfApp6.Model
         public bool BIND_SQL_AUDIO_RNDGRPPREP_value;
         public string BIND_SORGNEWS_value = "Vítejte v nové verzi SORG AIR pro rok 2020. Aktuální novinky jsou blabla a tak dále a tak dale nějaký text z netu";
         public float BIND_LETOVYCAS_value = 0;
-        public float BIND_LETOVYCAS_MAX_value = 600;
+        public int BIND_LETOVYCAS_MAX_value = 600;
+        public int BIND_PRE_LETOVYCAS_MAX_value = 20;
         public string BIND_LETOVYCAS_STRING_value = "xxx";
         public float BIND_PROGRESS_1_value = 0;
 
@@ -222,6 +231,24 @@ namespace WpfApp6.Model
             set { BIND_MENU_ENABLED_finale_value = value; OnPropertyChanged("BIND_MENU_ENABLED_finale"); }
         }
 
+
+        int _BIND_AUDIO_SELECTEDBASESOUND_INDEX = -1;
+        public int BIND_AUDIO_SELECTEDBASESOUND_INDEX
+        {
+            get { return _BIND_AUDIO_SELECTEDBASESOUND_INDEX; }
+            set { _BIND_AUDIO_SELECTEDBASESOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDBASESOUND_INDEX");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedsound1'");
+                //FUNCTION_SOUND_LOADSELECTEDSOUND(BINDING_SoundList[value].Id);
+                //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
+
+            }
+        }
+
+
+
+
+
+
         public bool BIND_MENU_ENABLED_detailyastatistiky
         {
             get { return BIND_MENU_ENABLED_detailyastatistiky_value; }
@@ -267,7 +294,7 @@ namespace WpfApp6.Model
         public string BIND_TYPEOFCLOCK
         {
             get { return _BIND_TYPEOFCLOCK; }
-            set { _BIND_TYPEOFCLOCK = value; OnPropertyChanged("BIND_TYPEOFCLOCK"); }
+            set { _BIND_TYPEOFCLOCK = value; OnPropertyChanged("BIND_TYPEOFCLOCK");Console.WriteLine("BIND_TYPEOFCLOCK" + value); }
         }
 
 
@@ -295,6 +322,32 @@ namespace WpfApp6.Model
 
         }
 
+
+        string _BIND_AUDIO_INFO;
+        public string BIND_AUDIO_INFO
+        {
+            get {
+
+
+                string casod = "00:00";
+
+                if (MODEL_CONTEST_SOUNDS.Count > 0)
+                {
+
+                    if (MODEL_CONTEST_SOUNDS[0].VALUE < 0)
+                    {
+                        casod = ("-" + Math.Abs(MODEL_CONTEST_SOUNDS[0].VALUE) / 60).ToString() + ":" + (Math.Abs(MODEL_CONTEST_SOUNDS[0].VALUE) % 60).ToString("00");
+                    }
+
+                }
+
+
+                string time = (MODEL_CONTEST_RULES[0].BASEROUNDLENGHT / 60).ToString() + ":" + (MODEL_CONTEST_RULES[0].BASEROUNDLENGHT % 60).ToString("00");
+                return _BIND_AUDIO_INFO + " [" + casod + " - " + time + "]";
+
+            }
+            set { _BIND_AUDIO_INFO = value; OnPropertyChanged("BIND_AUDIO_INFO"); }
+        }
 
         public bool BIND_MENU_ENABLED_audioadalsi
         {
@@ -449,6 +502,7 @@ namespace WpfApp6.Model
             BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runpreptime'", ""));
             BIND_SQL_AUTO_PREPTIMELENGHT = SQL_READSOUTEZDATA("select value from contest where item='Preptimelenght'", "");
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
+            BIND_AUDIO_SELECTEDBASESOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedsound1'", ""));
 
             BIND_MENU_ENABLED_nastavenisouteze = true;
             BIND_MENU_ENABLED_audioadalsi = true;
@@ -476,6 +530,7 @@ namespace WpfApp6.Model
             Console.WriteLine(SQL_READSOUTEZDATA("select value from contest where item='Matrix_score'", ""));
             BIND_JETREBAROZLOSOVAT_SCORE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Matrix_score'", ""));
             FUNCTION_JETREBAROZLOSOVAT_OVER();
+            
         }
 
 
@@ -490,17 +545,21 @@ namespace WpfApp6.Model
 
                 if (BIND_TYPEOFCLOCK == "PRE_MAIN")
                 {
-                    TimeSpan time_remaining = TimeSpan.FromSeconds(20);
+                    TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_MAX);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                     TimeSpan rozdil = time_remaining.Subtract(totalsec);
                     letovycas = "Letový čas začne za: " + rozdil.ToString("mm':'ss':'ff");
                 }
                 else
                 {
-                    TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_MAX);
+                    TimeSpan time_remaining = TimeSpan.FromSeconds(MODEL_CONTEST_RULES[0].BASEROUNDLENGHT);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
-                    TimeSpan rozdil = time_remaining.Subtract(totalsec);
-                    letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil.ToString("mm':'ss':'ff") + ")";
+                    Console.WriteLine("time_remaining"+time_remaining);
+                    Console.WriteLine("totalsec" + totalsec);
+                    TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
+                    Console.WriteLine("rozdil2 " + rozdil2);
+
+                    letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
                 }
 
                 //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
@@ -509,8 +568,8 @@ namespace WpfApp6.Model
 
         }
 
-        private  int lastsecond = 0;
-        private int _lastsecond = 0;
+        private  int lastsecond = -100;
+        private int _lastsecond = -100;
 
         private string directory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
@@ -528,34 +587,37 @@ namespace WpfApp6.Model
                 BIND_LETOVYCAS_value = value; OnPropertyChanged("BIND_LETOVYCAS"); OnPropertyChanged("BIND_LETOVYCAS_STRING");
 
 
-                if (timer.Elapsed.Seconds != lastsecond)
+                if (timer.Elapsed.Seconds != lastsecond & BIND_MAINTIME_ISRUNNING == true)
                 {
+                    Console.WriteLine("ROZDIL - timer.Elapsed.Seconds:" + timer.Elapsed.Seconds);
+                    Console.WriteLine("ROZDIL - lastsecond:" + lastsecond);
                     lastsecond = timer.Elapsed.Seconds;
 
                     if (BIND_TYPEOFCLOCK == "PRE_MAIN")
                     {
-                        _lastsecond = -(20-timer.Elapsed.Seconds);
+                        _lastsecond = -(Math.Abs(MODEL_CONTEST_SOUNDS[0].VALUE) - timer.Elapsed.Seconds);
 
-                        if (lastsecond == 20)
+                        if (lastsecond == BIND_LETOVYCAS_MAX)
                         {
-                            BIND_LETOVYCAS_MAX = 600;
+                            BIND_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
                             BIND_PROGRESS_1 = 0;
-                            timer.Restart();
                             BIND_TYPEOFCLOCK = "MAIN";
+                            timer.Restart();
 
+                        }
+                        else{
+                            playsound_by_time();
                         }
                     }
                     else
                     {
-                        _lastsecond = timer.Elapsed.Seconds;
+                        _lastsecond = (timer.Elapsed.Minutes*60) + timer.Elapsed.Seconds;
+                        playsound_by_time();
                     }
                     Console.WriteLine("cas:" + _lastsecond);
 
-                    var listItem = MODEL_CONTEST_SOUNDS.SingleOrDefault(i => i.VALUE == _lastsecond);
-                    if (listItem != null)
-                    {
-                        SoundDB[listItem.CATEGORY].Play();
-                    }
+
+
 
 
                 }
@@ -564,6 +626,41 @@ namespace WpfApp6.Model
 
             }
 
+
+        }
+
+        void playsound_by_time()
+        {
+
+
+            if (BIND_USEAUDIO == true)
+            {
+                var listItem = MODEL_CONTEST_SOUNDS.SingleOrDefault(i => i.VALUE == _lastsecond);
+                if (listItem != null)
+                {
+                    wav[listItem.CATEGORY].Position = 0;
+                    Console.WriteLine("Playing:" + listItem.CATEGORY);
+                    //output[listItem.CATEGORY].Init(wav[listItem.CATEGORY]);
+
+                    output[listItem.CATEGORY].Play();
+
+                    output[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+
+                    //SoundDB[listItem.CATEGORY].MediaEnded += new EventHandler(Media_Ended);
+                }
+
+            }
+
+        }
+
+        void player_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+
+            WaveOutEvent button;
+
+            button = sender as WaveOutEvent;
+            button.Stop();
+            //Console.WriteLine("zvuk zastaven" + button.GetPosition());
 
         }
 
@@ -627,7 +724,7 @@ namespace WpfApp6.Model
 
         }
 
-        public float BIND_LETOVYCAS_MAX
+        public int BIND_LETOVYCAS_MAX
         {
             get
             {
@@ -636,7 +733,21 @@ namespace WpfApp6.Model
 
             set
             {
-                BIND_LETOVYCAS_MAX_value = value; OnPropertyChanged("BIND_LETOVYCAS_MAX"); OnPropertyChanged("BIND_LETOVYCAS_STRING");
+                BIND_LETOVYCAS_MAX_value = value; OnPropertyChanged("BIND_LETOVYCAS_MAX"); OnPropertyChanged("BIND_LETOVYCAS_STRING"); Console.WriteLine("BIND_LETOVYCAS_MAX" + BIND_LETOVYCAS_MAX) ;
+            }
+
+        }
+
+        public int BIND_PRE_LETOVYCAS_MAX
+        {
+            get
+            {
+                return BIND_PRE_LETOVYCAS_MAX_value;
+            }
+
+            set
+            {
+                BIND_PRE_LETOVYCAS_MAX_value = value; OnPropertyChanged("BIND_PRE_LETOVYCAS_MAX"); OnPropertyChanged("BIND_LETOVYCAS_STRING"); 
             }
 
         }
@@ -1574,7 +1685,11 @@ namespace WpfApp6.Model
                             SUBFROMLANDING1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing1")),
                             SUBFROMLANDING2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing2")),
                             SUBFROMTIME1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time1")),
-                            SUBFROMTIME2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time2"))
+                            SUBFROMTIME2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time2")),
+                            BASEROUNDLENGHT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("BASEROUNDLENGHT")),
+                            BASEROUNDMAXTIME = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("BASEROUNDMAXTIME")),
+                            FINALROUNDLENGHT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("FINALROUNDLENGHT")),
+                            FINALROUNDMAXTIME = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("FINALROUNDMAXTIME"))
 
 
                         };
@@ -1827,16 +1942,26 @@ namespace WpfApp6.Model
                     {
                         Console.WriteLine("get_contest_sound");
 
-                        int i = MODEL_CONTEST_SOUNDS.Count; 
-                        //SoundDB[i] = new System.Media.SoundPlayer(directory + "/Audio/CZE/" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
-                        //SoundDB[i].Load();
-                        SoundDB[i] = new System.Windows.Media.MediaPlayer();
-                        //Console.WriteLine("Sound loaded ASYNC into soundDB:" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")));
+                        int i = MODEL_CONTEST_SOUNDS.Count;
 
-                        var iconPath = Path.Combine(directory, "Audio\\CZE\\"+ sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
-                        string icon_path = new Uri(iconPath).LocalPath;
-                        SoundDB[i].Open(new System.Uri(iconPath));
+                        byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
+                        wav[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));  
+
+                        output[i] = new WaveOutEvent();
+                        output[i].Init(wav[i]);
+                        Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        //output[0].Play();
+
+
+
+
+                        //SoundDB[i] = new System.Windows.Media.MediaPlayer();
+                        //var iconPath = Path.Combine(directory, "Audio\\CZE\\"+ sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        //Console.WriteLine(iconPath);
+                        //string icon_path = new Uri(iconPath).LocalPath;
+                        //SoundDB[i].Open (new System.Uri(iconPath));
+                        //SoundDB[i].Stop();
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
@@ -1849,9 +1974,6 @@ namespace WpfApp6.Model
 
                       
                         MODEL_CONTEST_SOUNDS.Add(_sound);
-
-
-
                     }
 
 
@@ -1996,7 +2118,11 @@ namespace WpfApp6.Model
                             SUBFROMLANDING1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing1")),
                             SUBFROMLANDING2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_landing2")),
                             SUBFROMTIME1 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time1")),
-                            SUBFROMTIME2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time2"))
+                            SUBFROMTIME2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sub_from_time2")),
+                            BASEROUNDLENGHT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("BASEROUNDLENGHT")),
+                            BASEROUNDMAXTIME = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("BASEROUNDMAXTIME")),
+                            FINALROUNDLENGHT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("FINALROUNDLENGHT")),
+                            FINALROUNDMAXTIME = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("FINALROUNDMAXTIME"))
 
 
                         };
@@ -2987,6 +3113,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
         public List<SoundList> BINDING_SoundList { get; } = new List<SoundList>();
+        public List<SoundList> BINDING_SoundList_languages { get; } = new List<SoundList>();
 
         public List<Timer_minutes_seconds> BINDING_Timer_listofminutes { get; } = new List<Timer_minutes_seconds>();
         public List<Timer_minutes_seconds> BINDING_Timer_listofseconds { get; } = new List<Timer_minutes_seconds>();
@@ -3077,6 +3204,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BINDING_SoundList.Clear();
             SQL_READSOUTEZDATA("select * from soundlist order by id asc", "get_contest_soundlist");
 
+
+       
+            FUNCTION_SOUND_LOADSELECTEDSOUND(BINDING_SoundList[BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
+
+        }
+
+
+        public void FUNCTION_SOUND_LOADAUDIO_LANGUAGE()
+        {
+            Console.WriteLine("FUNCTION_SOUND_LOADAUDIO_LANGUAGE");
+            BINDING_SoundList_languages.Clear();
+            //SQL_READSOUTEZDATA("select * from soundlist order by id asc", "get_contest_soundlist");
+            var _sndlst = new SoundList()
+            {
+                Id = 1,
+                SoundName = "CZE"
+            };
+            BINDING_SoundList_languages.Add(_sndlst);
+
         }
 
 
@@ -3086,6 +3232,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Console.WriteLine("FUNCTION_SOUND_LOADSELECTEDSOUND");
             MODEL_CONTEST_SOUNDS.Clear();
             SQL_READSOUTEZDATA("select * from sounds where id = '"+ soundlistid + "' order by id asc", "get_contest_sound");
+            BIND_AUDIO_INFO = BINDING_SoundList[BIND_AUDIO_SELECTEDBASESOUND_INDEX].SoundName;
 
         }
 
