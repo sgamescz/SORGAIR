@@ -7,6 +7,7 @@ using MahApps.Metro.Controls;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 
 namespace WpfApp6.View
@@ -18,6 +19,9 @@ namespace WpfApp6.View
     {
 
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+
+        string matrix_switch_user1 = "";
+        string matrix_switch_user2 = "";
 
 
         public Draw()
@@ -50,12 +54,12 @@ namespace WpfApp6.View
 
             for (int r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
             {
-                VM.SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + r + ",'kolo:a_" + r + "','auto',600,0);");
+                VM.SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + r + ",'kolo:" + r + "','auto',600,0);");
 
 
                 for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
                 {
-                    VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'autogrp_" + g + "','auto',600,0, " + r + " ," + g + ");");
+                    VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'Skupina:" + g + "','auto',600,0, " + r + " ," + g + ");");
 
                     for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
                     {
@@ -255,5 +259,84 @@ namespace WpfApp6.View
 
         }
 
+        private void matrix_user_Click(object sender, RoutedEventArgs e)
+        {
+            Button selectedbutton = (sender as Button);
+
+            if (matrix_switch_user1 == "")
+            {
+                matrix_switch_user1 = selectedbutton.Tag.ToString();
+                selectedbutton.Background = new SolidColorBrush(Colors.Red);
+            }
+            else{
+
+                if (matrix_switch_user2 == "")
+                {
+                    matrix_switch_user2 = selectedbutton.Tag.ToString();
+                    selectedbutton.Background = new SolidColorBrush(Colors.Red);
+
+
+                    string[] udaje = matrix_switch_user1.Split('_');
+                    foreach (var udaj in udaje)
+                    {
+                        System.Console.WriteLine($"<{udaj}>");
+                    }
+
+
+                    string[] udaje2 = matrix_switch_user2.Split('_');
+                    foreach (var udaj in udaje2)
+                    {
+                        System.Console.WriteLine($"<{udaj}>");
+                    }
+
+
+                    VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje2[3] + " where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
+                    VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje[3] + " where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
+                    VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje2[3] + " where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
+                    VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje[3] + " where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
+                    VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                    matrix_switch_user2 = "";
+                    matrix_switch_user1 = "";
+
+
+                    if ((VM.BIND_SELECTED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_SELECTED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje2[1].ToString())))
+                    {
+                        Console.WriteLine("je treba překreslit LETENOU skupinu");
+                        VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                    }
+                    else
+                    {
+                        Console.WriteLine("nepřekreslovat LETENOU");
+                    }
+
+
+
+                    if ((VM.BIND_VIEWED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_VIEWED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_VIEWED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_VIEWED_GROUP == int.Parse(udaje2[1].ToString())))
+                    {
+                        Console.WriteLine("je treba překreslit zobrazenou skupinu");
+
+
+                        VM.BIND_VIEWED_GROUP = VM.BIND_VIEWED_GROUP;
+
+                        for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                        {
+                            VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                        }
+                        VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
+
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("nepřekreslovat");
+                    }
+                }
+            }
+
+
+            Console.WriteLine("matrix_switch {0}  / {1} ", matrix_switch_user1, matrix_switch_user2);
+
+
+        }
     }
 }

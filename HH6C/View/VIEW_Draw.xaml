@@ -155,13 +155,16 @@
                                                                 Style="{StaticResource MahApps.Styles.Button.Flat}" />
 
                                                             <Button
+                                                                x:Name="matrix_user"
                                                                 Width="Auto"
                                                                 Height="35"
                                                                 Margin="5,0,5,10"
                                                                 HorizontalAlignment="Stretch"
                                                                 Background="{DynamicResource MahApps.Brushes.Accent}"
+                                                                Click="matrix_user_Click"
                                                                 Content="{Binding name}"
-                                                                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}" />
+                                                                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
+                                                                Tag="{Binding startpoint}" />
 
                                                         </StackPanel>
                                                         <!--  You Are missing this!  -->

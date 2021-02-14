@@ -16,6 +16,15 @@ using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using System.Windows.Documents;
+using ControlzEx.Theming;
+
+
+using System.Windows.Documents.Serialization;
+
+using System.Windows.Xps;
+
+using System.Windows.Xps.Packaging;
 
 
 namespace WpfApp6.View
@@ -196,7 +205,9 @@ namespace WpfApp6.View
         {
             bool results = true ;
             string _failictmp = "";
-            if (VM.BIND_SQL_SOUTEZ_REQUIREFAILICENCE == false)
+
+
+            if (VM.BIND_SQL_SOUTEZ_REQUIREFAILICENCE == false & l_failic.Text == "")
             {
                 _failictmp = "---";
             }
@@ -204,6 +215,7 @@ namespace WpfApp6.View
             {
                 _failictmp = l_failic.Text;
             }
+
 
 
             if (l_firstname.Text == "" || L_lastname.Text == "" || l_agecat.SelectedIndex == -1 || l_club.Text == "" || l_country.SelectedIndex == -1 || _failictmp == "" || l_freq.SelectedIndex == -1 || l_naclic.Text == "")
@@ -391,6 +403,76 @@ namespace WpfApp6.View
 
         private void L_savenewuser_edxxit_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void printuserlist_Click(object sender, RoutedEventArgs e)
+        {
+            firstFlyout_print_list.IsOpen = true;
+        }
+
+
+
+        public void Print_WPF_Preview(FrameworkElement wpf_Element)
+
+        {
+
+            //------------< WPF_Print_current_Window >------------
+
+            //--< create xps document >--
+
+            if (System.IO.File.Exists("print_previw.xps")) { System.IO.File.Delete("print_previw.xps"); }
+            XpsDocument doc = new XpsDocument("print_previw.xps", System.IO.FileAccess.ReadWrite);
+
+            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
+
+            SerializerWriterCollator preview_Document = writer.CreateVisualsCollator();
+
+            preview_Document.BeginBatchWrite();
+
+            preview_Document.Write(wpf_Element);  //*this or wpf xaml control
+
+            preview_Document.EndBatchWrite();
+
+            //--</ create xps document >--
+
+
+
+            //var doc2 = new XpsDocument("Druckausgabe.xps", FileAccess.Read);
+
+
+
+            FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
+
+
+
+            var window = new Window();
+
+            window.Content = new DocumentViewer { Document = preview };
+
+            window.ShowDialog();
+
+
+
+            doc.Close();
+
+            //------------</ WPF_Print_current_Window >------------
+
+
+
+
+
+        }
+
+
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            ThemeManager.Current.ChangeTheme(competitorlist_print, "Light.Blue");
+
+            Print_WPF_Preview(competitorlist_print);
         }
     }
 

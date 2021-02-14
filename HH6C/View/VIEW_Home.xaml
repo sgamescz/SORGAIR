@@ -100,7 +100,7 @@
             Margin="0,0,95,10"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Badge="4 noviky"
+            Badge="{Binding BIND_NEWS_COUNT}"
             BadgePlacementMode="Top">
             <Button>
                 <iconPacks:PackIconModern
@@ -154,18 +154,10 @@
 
 
                             <TextBlock Grid.Column="0" Text="{Binding NAME}" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Text="{Binding CATEGORY}"  />
-                            <TextBlock
-                                Grid.Column="2"
-                                Text="{Binding LOCATION}" />
-                            <TextBlock
-                                Grid.Column="3"
-                                Text="{Binding DATE}" />
-                            <TextBlock
-                                Grid.Column="4"
-                                Text="{Binding FILENAME}" />
+                            <TextBlock Grid.Column="1" Text="{Binding CATEGORY}" />
+                            <TextBlock Grid.Column="2" Text="{Binding LOCATION}" />
+                            <TextBlock Grid.Column="3" Text="{Binding DATE}" />
+                            <TextBlock Grid.Column="4" Text="{Binding FILENAME}" />
 
                         </Grid>
                     </DataTemplate>
@@ -187,7 +179,7 @@
                 Margin="0,0,5,0"
                 VerticalAlignment="Top"
                 Click="Button_Click_1"
-                Content="Načíst soutěž"
+                Content="{x:Static language:Lang.home_loadselectedcontest}"
                 IsEnabled="False"
                 Style="{StaticResource MahApps.Styles.Button}" />
             <Button
@@ -196,7 +188,7 @@
                 Margin="0"
                 VerticalAlignment="Top"
                 Click="newcontestcreate_Click"
-                Content="Vytvořit novou soutež"
+                Content="{x:Static language:Lang.home_createnewcontest}"
                 Style="{StaticResource MahApps.Styles.Button}" />
             <Button
                 x:Name="newcontestdelete"
@@ -204,7 +196,7 @@
                 Margin="5,0,0,-15"
                 VerticalAlignment="Top"
                 Click="newcontestdelete_Click"
-                Content="Smazat vybranou soutěž"
+                Content="{x:Static language:Lang.home_deleteselectedcontest}"
                 IsEnabled="False"
                 Style="{StaticResource MahApps.Styles.Button}" />
 

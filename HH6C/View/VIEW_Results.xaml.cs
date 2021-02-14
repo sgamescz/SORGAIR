@@ -38,5 +38,15 @@ namespace WpfApp6.View
 
            
         }
+
+        private void printresults_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog printdialog = new PrintDialog();
+            if (printdialog.ShowDialog() == true)
+            {
+                printdialog.PrintVisual(dataGrid1, "test");
+
+            }
+        }
     }
 }

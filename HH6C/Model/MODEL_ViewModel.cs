@@ -47,7 +47,7 @@ namespace WpfApp6.Model
     {
         public string name { get; set; }
         public int userid { get; set; }
-        public int startpoint { get; set; }
+        public string startpoint { get; set; }
     }
 
 
@@ -59,16 +59,22 @@ namespace WpfApp6.Model
 
 
         //System.Windows.Media.MediaPlayer[] SoundDB = new System.Windows.Media.MediaPlayer[100];
-        WaveOutEvent[] output = new WaveOutEvent[100];
-        NAudio.Wave.WaveFileReader[] wav = new NAudio.Wave.WaveFileReader[100];
+        WaveOutEvent[] maintimewaveout = new WaveOutEvent[100];
+        WaveOutEvent[] roundgroupwav = new WaveOutEvent[5];
+
+        NAudio.Wave.WaveFileReader[] wav_maintime = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_roundgroup = new NAudio.Wave.WaveFileReader[100];
 
 
 
         SQLiteConnection DBSORG_Connection;
         SQLiteConnection DBSOUTEZ_Connection;
         SQLiteConnection TMP_Connection;
-        System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer MAIN_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer MAIN_PRE_ROUNDGROUP_TIMER = new System.Windows.Threading.DispatcherTimer();
+
         System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_roundgroup = new System.Diagnostics.Stopwatch();
 
 
         string[] barva = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
@@ -246,6 +252,19 @@ namespace WpfApp6.Model
 
 
 
+        int _BINDING_SoundList_languages_index = -1;
+        public int BINDING_SoundList_languages_index
+        {
+            get { return _BINDING_SoundList_languages_index; }
+            set
+            {
+                _BINDING_SoundList_languages_index = value; OnPropertyChanged("BINDING_SoundList_languages_index");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedaudiolanguageindex'");
+                //FUNCTION_SOUND_LOADSELECTEDSOUND(BINDING_SoundList[value].Id);
+                //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
+
+            }
+        }
 
 
 
@@ -497,12 +516,14 @@ namespace WpfApp6.Model
             BIND_SQL_AUDIO_COMPNUMBERS = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumber'", ""));
             BIND_SQL_AUDIO_RNDGRPFLIGHT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpflight'", ""));
             BIND_SQL_AUDIO_RNDGRPPREP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpprep'", ""));
+            BIND_SQL_AUDIO_FUNKYMOD = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='funkymod'", ""));
             BIND_SQL_AUTO_USEPREPTIME = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Usepreptime'", ""));
             BIND_SQL_AUTO_RUNPREPTIMENEXTROUND = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runnextroundafterpreptime'", ""));
             BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runpreptime'", ""));
             BIND_SQL_AUTO_PREPTIMELENGHT = SQL_READSOUTEZDATA("select value from contest where item='Preptimelenght'", "");
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
             BIND_AUDIO_SELECTEDBASESOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedsound1'", ""));
+            BINDING_SoundList_languages_index = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedaudiolanguageindex'", ""));
 
             BIND_MENU_ENABLED_nastavenisouteze = true;
             BIND_MENU_ENABLED_audioadalsi = true;
@@ -606,13 +627,13 @@ namespace WpfApp6.Model
 
                         }
                         else{
-                            playsound_by_time();
+                            playsound_by_time("main", _lastsecond);
                         }
                     }
                     else
                     {
                         _lastsecond = (timer.Elapsed.Minutes*60) + timer.Elapsed.Seconds;
-                        playsound_by_time();
+                        playsound_by_time("main", _lastsecond);
                     }
                     Console.WriteLine("cas:" + _lastsecond);
 
@@ -629,25 +650,49 @@ namespace WpfApp6.Model
 
         }
 
-        void playsound_by_time()
+        void playsound_by_time(string what, int second)
         {
 
 
             if (BIND_USEAUDIO == true)
             {
-                var listItem = MODEL_CONTEST_SOUNDS.SingleOrDefault(i => i.VALUE == _lastsecond);
-                if (listItem != null)
+                if (what == "main")
                 {
-                    wav[listItem.CATEGORY].Position = 0;
-                    Console.WriteLine("Playing:" + listItem.CATEGORY);
-                    //output[listItem.CATEGORY].Init(wav[listItem.CATEGORY]);
+                    var listItem = MODEL_CONTEST_SOUNDS.SingleOrDefault(i => i.VALUE == second);
+                    if (listItem != null)
+                    {
+                        wav_maintime[listItem.CATEGORY].Position = 0;
+                        Console.WriteLine("Playing:" + listItem.CATEGORY);
+                        //maintimewaveout[listItem.CATEGORY].Init(wav_maintime[listItem.CATEGORY]);
 
-                    output[listItem.CATEGORY].Play();
+                        maintimewaveout[listItem.CATEGORY].Play();
 
-                    output[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                        maintimewaveout[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
 
-                    //SoundDB[listItem.CATEGORY].MediaEnded += new EventHandler(Media_Ended);
+                        //SoundDB[listItem.CATEGORY].MediaEnded += new EventHandler(Media_Ended);
+                    }
+
+
                 }
+
+
+                if (what == "roundgroup")
+                {
+                    //wav_maintime[listItem.CATEGORY].Position = 0;
+                    //Console.WriteLine("Playing:" + listItem.CATEGORY);
+                    //maintimewaveout[listItem.CATEGORY].Init(wav_maintime[listItem.CATEGORY]);
+
+                    roundgroupwav[second].Play();
+
+                    roundgroupwav[second].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+
+                        //SoundDB[listItem.CATEGORY].MediaEnded += new EventHandler(Media_Ended);
+                 
+
+
+                }
+
+
 
             }
 
@@ -664,14 +709,30 @@ namespace WpfApp6.Model
 
         }
 
+        
+        private string _BIND_NEWS_COUNT = SORGAIR.Properties.Lang.Lang.home_newscount + " : 4";
+        public string BIND_NEWS_COUNT
+        {
+            get
+            {
+                return SORGAIR.Properties.Lang.Lang.home_newscount + " : 4";
+            }
 
-        private string _BIND_VERZE_SORGU_LAST = "Aktuální verze je : 0.0.2.3";
+            set
+            {
+                _BIND_NEWS_COUNT = value; OnPropertyChanged("BIND_NEWS_COUNT");
+            }
+
+        }
+
+
+        private string _BIND_VERZE_SORGU_LAST = SORGAIR.Properties.Lang.Lang.home_actualversionis + " : 0.0.2.3";
         public string BIND_VERZE_SORGU_LAST
         {
             get
             {
                 OnPropertyChanged("BIND_VERZE_SORGU_NEEDUPDATE");
-                return "Aktuální verze je : " +_BIND_VERZE_SORGU_LAST;
+                return SORGAIR.Properties.Lang.Lang.home_actualversionis +  " : " +_BIND_VERZE_SORGU_LAST;
             }
 
             set
@@ -714,7 +775,7 @@ namespace WpfApp6.Model
         {
             get
             {
-                return "Tvá verze je : "+ _BIND_VERZE_SORGU;
+                return SORGAIR.Properties.Lang.Lang.home_yourversionis + " : " + _BIND_VERZE_SORGU;
             }
 
             set
@@ -794,6 +855,15 @@ namespace WpfApp6.Model
             get { return BIND_USEAUDIO_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='useaudio'"); BIND_USEAUDIO_value = value; OnPropertyChanged("BIND_USEAUDIO"); }
         }
+
+
+        bool _BIND_MEN_WOMAN = false;
+        public bool BIND_MEN_WOMAN
+        {
+            get { return _BIND_MEN_WOMAN; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='man_woman'"); _BIND_MEN_WOMAN = value; OnPropertyChanged("BIND_USEAUDIO"); }
+        }
+
 
         public string BIND_VYBRANEKOLOMENU
         {
@@ -1194,6 +1264,13 @@ namespace WpfApp6.Model
             get { return BIND_SQL_AUDIO_RNDGRPFLIGHT_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Rndgrpflight'"); BIND_SQL_AUDIO_RNDGRPFLIGHT_value = value; OnPropertyChanged("BIND_SQL_AUDIO_RNDGRPFLIGHT"); }
         }
+        private bool _BIND_SQL_AUDIO_FUNKYMOD = false;
+        public bool BIND_SQL_AUDIO_FUNKYMOD
+        {
+            get { return _BIND_SQL_AUDIO_FUNKYMOD; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='funkymod'"); _BIND_SQL_AUDIO_FUNKYMOD = value; OnPropertyChanged("BIND_SQL_AUDIO_FUNKYMOD"); }
+        }
+
 
         public bool BIND_SQL_AUDIO_RNDGRPPREP
         {
@@ -1416,7 +1493,7 @@ namespace WpfApp6.Model
                     string tmpname = sqlite_datareader.GetString(6) + " " + sqlite_datareader.GetString(5);
                     int tmpid = sqlite_datareader.GetInt32(3);
                     int tmpstp = sqlite_datareader.GetInt32(2);
-                    test2.Add(new TodoItem2() { name = tmpname, userid = tmpid, startpoint = tmpstp });
+                    test2.Add(new TodoItem2() { name = tmpname, userid = tmpid, startpoint = kolo + "_" + group + "_" + tmpstp + "_" + tmpid });
 
                     Console.WriteLine("SQL_READSORGDATA [READ DATA] : " + tmpname + " >>>> " + "kamulozitvysledek");
                 }
@@ -1946,12 +2023,12 @@ namespace WpfApp6.Model
 
                         byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
-                        wav[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));  
+                        wav_maintime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));  
 
-                        output[i] = new WaveOutEvent();
-                        output[i].Init(wav[i]);
+                        maintimewaveout[i] = new WaveOutEvent();
+                        maintimewaveout[i].Init(wav_maintime[i]);
                         Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
-                        //output[0].Play();
+                        //maintimewaveout[0].Play();
 
 
 
@@ -1999,10 +2076,10 @@ namespace WpfApp6.Model
                     {
 
 
-                        bool _REALPLAYER = true;
+                        bool _ISENABLED = true;
                         if (sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) == 0)
                         {
-                            _REALPLAYER = false;
+                            _ISENABLED = false;
                         }
 
                         var player_actual = new MODEL_Player_actual()
@@ -2013,7 +2090,7 @@ namespace WpfApp6.Model
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
                             ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
-                            REALPLAYER = _REALPLAYER
+                            ISENABLED = _ISENABLED
 
                         };
                         Players_Actual_Flying.Add(player_actual);
@@ -2027,10 +2104,10 @@ namespace WpfApp6.Model
                     {
 
 
-                        bool _REALPLAYER = true;
+                        bool _ISENABLED = true;
                         if (sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) == 0)
                         {
-                            _REALPLAYER = false;
+                            _ISENABLED = false;
                         }
 
                         var player_actual = new MODEL_Player_actual()
@@ -2041,7 +2118,7 @@ namespace WpfApp6.Model
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
                             ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
-                            REALPLAYER = _REALPLAYER
+                            ISENABLED = _ISENABLED
 
                         };
                         Players_Actual_SelectedRound.Add(player_actual);
@@ -2382,30 +2459,116 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_MAIN_create()
         {
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            MAIN_TIME_TIMER.Tick += MAIN_TIME_TIMER_Tick;
+            MAIN_TIME_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
         }
 
 
         public void clock_MAIN_start()
         {
+            BIND_MAINTIME_ISRUNNING = true;
+            BIND_MAINTIME_ISSTOPED = false;
+            BIND_LETOVYCAS = 0;
             timer.Reset();
-            dispatcherTimer.Start();
+            MAIN_TIME_TIMER.Start();
             timer.Start();
         }
 
         public void clock_MAIN_stop()
         {
-            dispatcherTimer.Stop ();
+            MAIN_TIME_TIMER.Stop ();
             timer.Stop ();
         }
 
 
 
-        public void dispatcherTimer_Tick(object sender, EventArgs e)
+
+        public void clock_PRE_ROUNDGROUP_create()
         {
-                BIND_LETOVYCAS = Convert.ToSingle(timer.Elapsed.TotalSeconds);
+
+
+            int i = 0;
+            byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\round.wav");
+            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup[i].Position = 0;
+            roundgroupwav[i] = new WaveOutEvent();
+            roundgroupwav[i].Init(wav_roundgroup[i]);
+
+            i = 1;
+            fileContent = File.ReadAllBytes("Audio\\CZE\\"+ BIND_SELECTED_ROUND +".wav");
+            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup[i].Position = 0;
+            roundgroupwav[i] = new WaveOutEvent();
+            roundgroupwav[i].Init(wav_roundgroup[i]);
+
+            i = 2;
+            fileContent = File.ReadAllBytes("Audio\\CZE\\group.wav");
+            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup[i].Position = 0;
+            roundgroupwav[i] = new WaveOutEvent();
+            roundgroupwav[i].Init(wav_roundgroup[i]);
+
+            i = 3;
+            fileContent = File.ReadAllBytes("Audio\\CZE\\"+ BIND_SELECTED_GROUP +".wav");
+            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup[i].Position = 0;
+            roundgroupwav[i] = new WaveOutEvent();
+            roundgroupwav[i].Init(wav_roundgroup[i]);
+
+
+            MAIN_PRE_ROUNDGROUP_TIMER.Tick += MAIN_PRE_ROUNDGROUP_TIMER_Tick;
+            MAIN_PRE_ROUNDGROUP_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
         }
+
+
+        public void clock_PRE_ROUNDGROUP_start()
+        {
+            timer_roundgroup.Reset();
+            MAIN_PRE_ROUNDGROUP_TIMER.Start();
+            timer_roundgroup.Start();
+        }
+
+        public void clock_PRE_ROUNDGROUP_stop()
+        {
+            MAIN_PRE_ROUNDGROUP_TIMER.Stop();
+            timer_roundgroup.Stop();
+        }
+
+
+
+
+        public void MAIN_TIME_TIMER_Tick(object sender, EventArgs e)
+        {
+                BIND_LETOVYCAS = Convert.ToSingle(timer_roundgroup.Elapsed.TotalSeconds);
+        }
+
+
+        public void MAIN_PRE_ROUNDGROUP_TIMER_Tick(object sender, EventArgs e)
+        {
+
+
+            if (timer_roundgroup.Elapsed.Seconds != lastsecond)
+            {
+                if (timer_roundgroup.Elapsed.Seconds == 4)
+                {
+                    clock_PRE_ROUNDGROUP_stop();
+                    clock_MAIN_start();
+                }
+                else
+                {
+                    lastsecond = timer_roundgroup.Elapsed.Seconds;
+                    playsound_by_time("roundgroup", timer_roundgroup.Elapsed.Seconds);
+                }
+                Console.WriteLine(timer_roundgroup.Elapsed.Seconds);
+            }
+            //BIND_LETOVYCAS = Convert.ToSingle(timer.Elapsed.TotalSeconds);
+            //_lastsecond = (timer.Elapsed.Minutes * 60) + timer.Elapsed.Seconds;
+
+            //Console.WriteLine(Convert.ToSingle(timer.Elapsed.TotalSeconds));
+        }
+
+
+        
 
 
 
@@ -3216,12 +3379,40 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Console.WriteLine("FUNCTION_SOUND_LOADAUDIO_LANGUAGE");
             BINDING_SoundList_languages.Clear();
             //SQL_READSOUTEZDATA("select * from soundlist order by id asc", "get_contest_soundlist");
-            var _sndlst = new SoundList()
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
+            try
             {
-                Id = 1,
-                SoundName = "CZE"
-            };
-            BINDING_SoundList_languages.Add(_sndlst);
+                string[] dirs = Directory.GetDirectories(directory + "/Audio/", "*", SearchOption.TopDirectoryOnly);
+                Console.WriteLine("The number of directories starting with p is {0}.", dirs.Length);
+                int i = 0;
+                foreach (string dir in dirs)
+                {
+
+                    var dirx = new DirectoryInfo(dir);
+                    var dirName = dirx.Name;
+
+                    i += 1;
+                    var _sndlst = new SoundList()
+                    {
+                        Id = i,
+                        SoundName = dirName
+                    };
+                    BINDING_SoundList_languages.Add(_sndlst);
+
+                    Console.WriteLine(dir);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+
+
 
         }
 

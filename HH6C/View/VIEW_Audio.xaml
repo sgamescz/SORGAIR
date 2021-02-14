@@ -90,6 +90,8 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -97,67 +99,6 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Left"
-                                    Content="Hlásit kolo a skupinu na začátku letu"
-                                    FontSize="12"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
-
-                                <ToggleButton
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Width="50"
-                                    Height="50"
-                                    Margin="5"
-                                    IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPFLIGHT}"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
-                                    <Rectangle
-                                        Width="20"
-                                        Height="20"
-                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=SocialUservoice}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </ToggleButton>
-
-
-                                <ToggleButton
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    Width="50"
-                                    Height="50"
-                                    Margin="5"
-                                    IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPPREP}"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
-                                    <Rectangle
-                                        Width="20"
-                                        Height="20"
-                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=SocialUservoice}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </ToggleButton>
-
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="3"
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Left"
-                                    Content="Hlásit kolo a skupinu na začátku přípravného času"
-                                    FontSize="12"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
 
                                 <Label
                                     Grid.Row="0"
@@ -190,6 +131,100 @@
                                 </ToggleButton>
 
 
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Left"
+                                    Content="Hlásit kolo a skupinu na začátku letu"
+                                    FontSize="12"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+
+                                <ToggleButton
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Width="50"
+                                    Height="50"
+                                    Margin="5"
+                                    IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPFLIGHT}"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                                    <Rectangle
+                                        Width="20"
+                                        Height="20"
+                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=SocialUservoice}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
+
+
+                                <ToggleButton
+                                    Grid.Row="0"
+                                    Grid.Column="4"
+                                    Width="50"
+                                    Height="50"
+                                    Margin="5"
+                                    IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPPREP}"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                                    <Rectangle
+                                        Width="20"
+                                        Height="20"
+                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=SocialUservoice}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="5"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Left"
+                                    Content="Hlásit kolo a skupinu na začátku přípravného času"
+                                    FontSize="12"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+
+
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Left"
+                                    Content="Funky mód (náhodné úryvky písniček před začátkem kola)"
+                                    FontSize="12"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+
+                                <ToggleButton
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Width="50"
+                                    Height="50"
+                                    Margin="5"
+                                    IsChecked="{Binding BIND_SQL_AUDIO_FUNKYMOD}"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                                    <Rectangle
+                                        Width="20"
+                                        Height="20"
+                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Ionicons Kind=HappyMD}" />
+
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
 
                             </Grid>
 
@@ -280,7 +315,8 @@
                             FontSize="13"
                             FontWeight="Bold"
                             IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                            ItemsSource="{Binding BINDING_SoundList_languages}" />
+                            ItemsSource="{Binding BINDING_SoundList_languages}"
+                            SelectedIndex="{Binding BINDING_SoundList_languages_index}" />
 
                         <mah:ToggleSwitch
                             x:Name="audio_menorwoman"
@@ -291,7 +327,8 @@
                             HorizontalContentAlignment="Left"
                             ContentDirection="RightToLeft"
                             FontSize="12"
-                            IsOn="True"
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                            IsOn="{Binding BIND_MEN_WOMAN}"
                             OffContent="Můžský hlas"
                             OnContent="Ženský hlas" />
 
@@ -320,13 +357,14 @@
                         <Button
                             x:Name="soundfile_basicround2"
                             Grid.Row="2"
-                            Content="Načíst vybraný zvuk"
                             Grid.Column="1"
                             Margin="407,0,0,10"
+                            Click="soundfile_basicround2_Click"
+                            Content="Načíst vybraný zvuk"
                             FontSize="13"
                             FontWeight="Bold"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" Click="soundfile_basicround2_Click"/>
-                        
+                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"

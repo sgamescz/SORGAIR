@@ -43,26 +43,62 @@ namespace WpfApp6.View
 
 
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync(SORGAIR.Properties.Lang.Lang.home_load_caption, SORGAIR.Properties.Lang.Lang.home_load_caption);
 
+            controller.SetProgress(0.1);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_database));
+            await Task.Delay(500);
 
             Console.WriteLine(VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].FILENAME);
             VM.SQL_OPENCONNECTION(VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].FILENAME);
 
-           
+
+            controller.SetProgress(0.2);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_rules));
+            await Task.Delay(10);
 
             VM.FUNCTION_LOADCONTEST();
             VM.FUNCTION_LOAD_RULES();
+
+            controller.SetProgress(0.3);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_users));
+            await Task.Delay(10);
+
+
             VM.FUNCTION_USERS_LOAD_ALLCOMPETITORS();
             VM.FUNCTION_TEAM_LOAD_TEAMS();
+
+            controller.SetProgress(0.5);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_rounds));
+            await Task.Delay(10);
+
             VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+
+            controller.SetProgress(0.6);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_sounds));
+            await Task.Delay(10);
+
             VM.FUNCTION_SOUND_LOADSOUNDLIST();
             VM.FUNCTION_SOUND_LOADAUDIO_LANGUAGE();
+
+
+            controller.SetProgress(0.8);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_details));
+            await Task.Delay(10);
+
             VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
             //VM.BIND_VYBRANEKOLOMENU = "Vybrané kolo: 1/4";
             VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
             VM.clock_MAIN_create ();
+            controller.SetProgress(1);
+            controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_complete));
+            await Task.Delay(500);
+            await controller.CloseAsync();
+            await Task.Delay(100);
+
             VM.BINDING_selectedmenuindex = 1;
 
 
@@ -199,7 +235,7 @@ namespace WpfApp6.View
 
             if (VM.BIND_NEWCONTEST_NAME == "Zadej název" || VM.BIND_NEWCONTEST_LOCATION == "Zadej lokaci" || VM.BIND_NEWCONTEST_CATEGORY == "---")
             {
-                await currentWindow.ShowMessageAsync("Není vše vyplněno", "Vyplň všechny požadované položky");
+                await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_noteverythinkfilled, SORGAIR.Properties.Lang.Lang.home_pleasefillallfields);
                 return;
             }
             
@@ -215,7 +251,7 @@ namespace WpfApp6.View
                 Console.WriteLine("VM.MODEL_CONTESTS_FILES[x].FILENAME:" + VM.MODEL_CONTESTS_FILES[x].FILENAME);
                 if (newdbname == VM.MODEL_CONTESTS_FILES[x].FILENAME)
                 {
-                    await currentWindow.ShowMessageAsync("Nesprávný název", "Tento název již existuje");
+                    await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_wrongname, SORGAIR.Properties.Lang.Lang.home_thisnamealreadyexist);
                     return;
                 }
             }
@@ -305,11 +341,11 @@ namespace WpfApp6.View
 
                 if (VM.BIND_SQL_SOUTEZ_DBFILE== VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].FILENAME)
                 {
-                    await currentWindow.ShowMessageAsync("Nelze smazat", "Nelze smazat soutěž, která je právě načtena");
+                    await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_cannotbedeleted, SORGAIR.Properties.Lang.Lang.home_cannotbedeletedbecauseisloaded);
                 }
                 else
                 {
-                    MessageDialogResult result = await currentWindow.ShowMessageAsync("Smazání soutěže", "Opravdu smazat soutěž : " + VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].NAME + "?", MessageDialogStyle.AffirmativeAndNegative);
+                    MessageDialogResult result = await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_contest_deleting_title, SORGAIR.Properties.Lang.Lang.home_contest_deleting_question + " : " + VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].NAME + "?", MessageDialogStyle.AffirmativeAndNegative);
                     if (result == MessageDialogResult.Negative)
                     {
                         Console.WriteLine("No");
@@ -338,7 +374,7 @@ namespace WpfApp6.View
             }
             else
             {
-                await currentWindow.ShowMessageAsync("Není nic vybráno", "Vyber prosím, co chceš smazat");
+                await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_nothing_selected_title, SORGAIR.Properties.Lang.Lang.home_nothing_selected_info);
             }
         }
 

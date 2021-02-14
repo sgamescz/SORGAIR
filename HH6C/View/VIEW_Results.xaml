@@ -136,7 +136,13 @@
                 Margin="0,3,665,3"
                 Click="Tile_Click" />
 
-
+            <mah:Tile
+                x:Name="printresults"
+                Title="print"
+                Width="Auto"
+                Height="72"
+                Margin="0,3,665,3"
+                Click="printresults_Click" />
 
             <DataGrid
                 Name="dataGrid1"

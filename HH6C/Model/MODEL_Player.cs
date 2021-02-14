@@ -246,11 +246,18 @@ namespace WpfApp6.Model
         }
 
 
-        private bool _REALPLAYER;
-        public bool REALPLAYER
+        private bool _ISENABLED;
+        public bool ISENABLED
         {
-            get { return _REALPLAYER; }
-            set { _REALPLAYER = value; RaisePropertyChanged(nameof(REALPLAYER)); }
+            get { return _ISENABLED; }
+            set { _ISENABLED = value; RaisePropertyChanged(nameof(ISENABLED)); }
+        }
+
+        private bool _ISFOCUSED;
+        public bool ISFOCUSED
+        {
+            get { return _ISFOCUSED; }
+            set { _ISFOCUSED = value; RaisePropertyChanged(nameof(ISFOCUSED)); }
         }
 
 

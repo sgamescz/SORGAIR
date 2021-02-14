@@ -57,7 +57,10 @@
 
     <Grid Margin="0,0,0,0">
 
-        <Controls:MetroHeader Margin="0,10,0,465" Header="Ovládaní soutěžního kola">
+        <Controls:MetroHeader
+            Margin="0,10,0,465"
+            Header="Ovládaní soutěžního kola"
+            IsTabStop="False">
             <Grid Margin="0,0,0,9">
                 <Controls:MetroProgressBar
                     Height="40"
@@ -162,6 +165,7 @@
                     VerticalAlignment="Top"
                     Click="HWbasemodul_Copy2_Click"
                     IsEnabled="{Binding BIND_MAINTIME_ISSTOPED}"
+                    IsTabStop="False"
                     TitleFontSize="12">
                     <Rectangle
                         Width="20"
@@ -184,6 +188,7 @@
                     VerticalAlignment="Top"
                     Click="HWbasemodul_Copy1_Click"
                     IsEnabled="{Binding BIND_MAINTIME_ISRUNNING}"
+                    IsTabStop="False"
                     TitleFontSize="12">
                     <Rectangle
                         Width="20"
@@ -219,8 +224,9 @@
             Height="398"
             Margin="0,310,0,0"
             VerticalAlignment="Top"
-            Header="Seznam soutěžících a výsledků">
-            <ItemsControl Margin="10,0,10,9" ItemsSource="{Binding Players_Actual_Flying}">
+            Header="Seznam soutěžících a výsledků"
+            IsTabStop="False">
+            <ItemsControl Margin="10,0,10,9" IsTabStop="False" ItemsSource="{Binding Players_Actual_Flying}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1" />
@@ -236,6 +242,7 @@
                                 Width="Auto"
                                 Height="35"
                                 Margin="5,5,5,0"
+                                IsTabStop="False"
                                 HorizontalAlignment="Stretch"
                                 Content="{Binding STARTPOINT}"
                                 ContentStringFormat="Startoviště: {0}"
@@ -249,11 +256,13 @@
                                 Content="{Binding PLAYERDATA}"
                                 IsEnabled="{Binding REALPLAYER}"
                                 Style="{StaticResource MahApps.Styles.Button.Square}"
+                                
                                 Tag="{Binding STARTPOINT}"
                                 TextBlock.TextAlignment="Center" />
                             <Button
                                 Width="Auto"
                                 Height="30"
+                                IsTabStop="False"
                                 Margin="5,5,5,0"
                                 HorizontalAlignment="Stretch"
                                 Background="{DynamicResource MahApps.Brushes.Gray10}"
@@ -268,6 +277,7 @@
                                 Width="Auto"
                                 Height="30"
                                 Margin="5,5,5,0"
+                                IsTabStop="False"
                                 HorizontalAlignment="Stretch"
                                 Background="{DynamicResource MahApps.Brushes.Accent2}"
                                 Content="{Binding PREPSCORE}"
@@ -279,12 +289,14 @@
                                 Height="25"
                                 Margin="5,5,5,0"
                                 Content="REFLY"
+                                IsTabStop="False"
                                 IsEnabled="{Binding REALPLAYER}"
                                 Style="{StaticResource MahApps.Styles.Button}"
                                 Tag="{Binding STARTPOINT}" />
                             <Button
                                 Height="25"
                                 Margin="5,5,5,0"
+                                IsTabStop="False"
                                 Content="READY CHECK"
                                 IsEnabled="{Binding REALPLAYER}"
                                 Style="{StaticResource MahApps.Styles.Button}"
@@ -292,7 +304,8 @@
 
                             <Button
                                 Width="Auto"
-                                Height="10"
+                                Height="20"
+                                IsTabStop="False"
                                 Margin="5,5,5,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
@@ -328,7 +341,10 @@
                 Style="{StaticResource MahApps.Styles.Button}" />
         </UniformGrid>
 
-        <Controls:FlyoutsControl Height="427" VerticalAlignment="Bottom">
+        <Controls:FlyoutsControl
+            Height="427"
+            VerticalAlignment="Bottom"
+            IsTabStop="False">
 
 
 

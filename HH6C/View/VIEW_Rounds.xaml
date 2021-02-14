@@ -477,7 +477,7 @@
 
                                     <Button
                                         Width="Auto"
-                                        Height="10"
+                                        Height="20"
                                         Margin="2,2,2,0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Top"

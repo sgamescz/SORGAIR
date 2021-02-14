@@ -112,17 +112,20 @@ namespace WpfApp6.View
           
 
 
-            VM.BIND_MAINTIME_ISRUNNING = true;
-            VM.BIND_MAINTIME_ISSTOPED = false;
-
-
-            VM.BIND_LETOVYCAS = 0;
+        
 
         
 
 
-
-            VM.clock_MAIN_start();
+            if (VM.BIND_SQL_AUDIO_RNDGRPFLIGHT == true)
+            {
+                VM.clock_PRE_ROUNDGROUP_create();
+                VM.clock_PRE_ROUNDGROUP_start();
+            }
+            else
+            {
+                VM.clock_MAIN_start();
+            }
 
 
 
@@ -532,7 +535,7 @@ namespace WpfApp6.View
 
 
 
-
+          
 
         }
         private void scoreentry_KeyDown(object sender, KeyEventArgs e)

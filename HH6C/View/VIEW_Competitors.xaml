@@ -86,14 +86,14 @@
 
 
         <mah:MetroHeader
-            Height="481"
+            Height="415"
             Margin="10,235,10,0"
             VerticalAlignment="Top"
             Header="Seznam soutěžících">
             <Grid>
                 <ListBox
                     x:Name="competitorlist"
-                    Margin="10"
+                    Margin="10,10,10,0"
                     BorderThickness="2"
                     ItemsSource="{Binding Players}"
                     SelectedItem="{Binding SelectedArticle, Mode=TwoWay}"
@@ -403,11 +403,11 @@
             </Grid>
         </mah:MetroHeader>
         <mah:MetroHeader
-            Height="95"
-            Margin="20,721,20,0"
+            Height="80"
+            Margin="10,650,10,0"
             VerticalAlignment="Top"
             Header="Editace">
-            <Grid Margin="0,-10,0,0">
+            <Grid Margin="0,-10,0,-1">
                 <UniformGrid Columns="3" Rows="1">
 
                     <Controls:Badged
@@ -420,7 +420,8 @@
                             x:Name="addnewuser"
                             Title="Přidat soutěžícího"
                             Width="Auto"
-                            Height="59"
+                            Height="52"
+                            Margin="3,3,3,0"
                             VerticalAlignment="Top"
                             VerticalContentAlignment="Top"
                             Click="addnewuser_Click"
@@ -443,7 +444,8 @@
                         x:Name="edituser"
                         Title="Editovat soutěžícího"
                         Width="Auto"
-                        Height="59"
+                        Height="52"
+                        Margin="3,3,3,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Top"
                         Click="edituser_Click"
@@ -468,7 +470,8 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Width="Auto"
-                        Height="60"
+                        Height="52"
+                        Margin="3,3,3,0"
                         VerticalAlignment="Top"
                         Background="{DynamicResource MahApps.Brushes.Accent}"
                         Click="delete_competitor_Click"
@@ -488,7 +491,69 @@
 
 
         </mah:MetroHeader>
-        <mah:FlyoutsControl Margin="0,0,0,0">
+        <mah:MetroHeader
+            Height="91"
+            Margin="10,735,10,0"
+            VerticalAlignment="Top"
+            Header="Tisk">
+            <Grid Margin="0,-10,0,0">
+                <UniformGrid Columns="2" Rows="1">
+
+
+                    <mah:Tile
+                        x:Name="printuserlist"
+                        Title="Vytisknout seznam soutěžících"
+                        Width="Auto"
+                        Height="59"
+                        Margin="3,3,2,0"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        Click="printuserlist_Click"
+                        HorizontalTitleAlignment="center"
+                        IsEnabled="True"
+                        Style="{StaticResource userbuttonstyle}"
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
+                        TitleFontSize="12"
+                        VerticalTitleAlignment="Bottom">
+                        <iconPacks:PackIconFeatherIcons
+                            Width="20"
+                            Height="20"
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            Kind="Printer" />
+                    </mah:Tile>
+                    <mah:Tile
+                        x:Name="deletxe_competitor"
+                        Title="Vytisknout karty soutěžících"
+                        Width="Auto"
+                        Height="60"
+                        Margin="3,3,3,0"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                        Click="delete_competitor_Click"
+                        HorizontalTitleAlignment="Center"
+                        IsEnabled="True"
+                        TitleFontSize="12">
+
+                        <iconPacks:PackIconFeatherIcons
+                            Width="20"
+                            Height="20"
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            Kind="Printer" />
+                    </mah:Tile>
+
+                </UniformGrid>
+
+
+
+
+            </Grid>
+
+
+        </mah:MetroHeader>
+        <mah:FlyoutsControl>
             <mah:Flyout
                 x:Name="firstFlyout"
                 Margin="10,0,0,0"
@@ -1137,6 +1202,110 @@
                             <Label VerticalAlignment="Center" Content="Zpět" />
                         </Grid>
                     </Button>
+                </Grid>
+
+
+            </mah:Flyout>
+
+
+            <mah:Flyout
+                x:Name="firstFlyout_print_list"
+                Margin="10,0,0,0"
+                AnimateOpacity="True"
+                AreAnimationsEnabled="True"
+                Header="Tisk seznamu soutěžících"
+                IsModal="False"
+                IsOpen="True"
+                Position="Right"
+                Theme="Adapt">
+
+
+
+                <Grid Height="735" VerticalAlignment="Top" >
+
+                    <ListBox
+                    x:Name="competitorlist_print"
+                    Margin="10,10,10,55"
+                        IsEnabled="True"
+                        
+                    BorderThickness="2"
+                    ItemsSource="{Binding Players}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="80" />
+                                    </Grid.ColumnDefinitions>
+
+
+
+
+
+                                    <Image
+                                    Grid.Column="0"
+                                    Width="20"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Source="{Binding PAID}"
+                                    Stretch="Fill" />
+                                    <TextBlock
+                                    x:Name="XXX"
+                                    Grid.Column="1"
+                                    Text="{Binding ID}" />
+                                    <Image
+                                    Grid.Column="2"
+                                    Width="20"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Source="{Binding FLAG}"
+                                    Stretch="Fill" />
+                                    <TextBlock Grid.Column="3" Text="{Binding COUNTRY}" />
+                                    <TextBlock
+                                    Grid.Column="4"
+                                    HorizontalAlignment="left"
+                                    Text="{Binding FIRSTNAME}" />
+                                    <TextBlock Grid.Column="5" Text="{Binding LASTNAME}" />
+                                    <TextBlock Grid.Column="6" Text="{Binding FAILIC}" />
+                                    <TextBlock Grid.Column="7" Text="{Binding NACLIC}" />
+                                    <TextBlock Grid.Column="8" Text="{Binding AGECAT}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <mah:Tile
+                        x:Name="showprintpreview"
+                        Title="Vytisknout seznam soutěžících"
+                        Width="Auto"
+                        Height="59"
+                        Margin="10,687,10,-11"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        Click="Button_Click"
+                        HorizontalTitleAlignment="center"
+                        IsEnabled="True"
+                        Style="{StaticResource userbuttonstyle}"
+                      
+                        TitleFontSize="12"
+                        VerticalTitleAlignment="Bottom">
+                        <iconPacks:PackIconFeatherIcons
+                            Width="20"
+                            Height="20"
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            Kind="Printer" />
+                    </mah:Tile>
+
                 </Grid>
 
 

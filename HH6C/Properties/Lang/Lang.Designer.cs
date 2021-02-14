@@ -61,6 +61,222 @@ namespace SORGAIR.Properties.Lang {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Actual version is.
+        /// </summary>
+        public static string home_actualversionis {
+            get {
+                return ResourceManager.GetString("home_actualversionis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Cannot be deleted.
+        /// </summary>
+        public static string home_cannotbedeleted {
+            get {
+                return ResourceManager.GetString("home_cannotbedeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný This contest cannot be deleted, because it is loaded actually.
+        /// </summary>
+        public static string home_cannotbedeletedbecauseisloaded {
+            get {
+                return ResourceManager.GetString("home_cannotbedeletedbecauseisloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Really delete contest.
+        /// </summary>
+        public static string home_contest_deleting_question {
+            get {
+                return ResourceManager.GetString("home_contest_deleting_question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Contest deleting.
+        /// </summary>
+        public static string home_contest_deleting_title {
+            get {
+                return ResourceManager.GetString("home_contest_deleting_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Create new contest.
+        /// </summary>
+        public static string home_createnewcontest {
+            get {
+                return ResourceManager.GetString("home_createnewcontest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Delete selected contest.
+        /// </summary>
+        public static string home_deleteselectedcontest {
+            get {
+                return ResourceManager.GetString("home_deleteselectedcontest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading, please wait....
+        /// </summary>
+        public static string home_load_caption {
+            get {
+                return ResourceManager.GetString("home_load_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Its Done :).
+        /// </summary>
+        public static string home_load_complete {
+            get {
+                return ResourceManager.GetString("home_load_complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading database.
+        /// </summary>
+        public static string home_load_database {
+            get {
+                return ResourceManager.GetString("home_load_database", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading some details.....
+        /// </summary>
+        public static string home_load_details {
+            get {
+                return ResourceManager.GetString("home_load_details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading rounds ....
+        /// </summary>
+        public static string home_load_rounds {
+            get {
+                return ResourceManager.GetString("home_load_rounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading rules....
+        /// </summary>
+        public static string home_load_rules {
+            get {
+                return ResourceManager.GetString("home_load_rules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading sounds....
+        /// </summary>
+        public static string home_load_sounds {
+            get {
+                return ResourceManager.GetString("home_load_sounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Loading users....
+        /// </summary>
+        public static string home_load_users {
+            get {
+                return ResourceManager.GetString("home_load_users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Load selected contest.
+        /// </summary>
+        public static string home_loadselectedcontest {
+            get {
+                return ResourceManager.GetString("home_loadselectedcontest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný News.
+        /// </summary>
+        public static string home_newscount {
+            get {
+                return ResourceManager.GetString("home_newscount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Not everything is filled.
+        /// </summary>
+        public static string home_noteverythinkfilled {
+            get {
+                return ResourceManager.GetString("home_noteverythinkfilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Please select what u want delete.
+        /// </summary>
+        public static string home_nothing_selected_info {
+            get {
+                return ResourceManager.GetString("home_nothing_selected_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Nothing selected.
+        /// </summary>
+        public static string home_nothing_selected_title {
+            get {
+                return ResourceManager.GetString("home_nothing_selected_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Please fill all fields.
+        /// </summary>
+        public static string home_pleasefillallfields {
+            get {
+                return ResourceManager.GetString("home_pleasefillallfields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný This name already exists.
+        /// </summary>
+        public static string home_thisnamealreadyexist {
+            get {
+                return ResourceManager.GetString("home_thisnamealreadyexist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Wrong name.
+        /// </summary>
+        public static string home_wrongname {
+            get {
+                return ResourceManager.GetString("home_wrongname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Your version is.
+        /// </summary>
+        public static string home_yourversionis {
+            get {
+                return ResourceManager.GetString("home_yourversionis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Audio and others.
         /// </summary>
         public static string menu_audioandothers {

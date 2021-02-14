@@ -127,7 +127,7 @@
     <value>Nastavenia súťaže</value>
   </data>
   <data name="menu_detailstatistics" xml:space="preserve">
-    <value>Podrobnosti a štatistika</value>
+    <value>Podrobnosti a štatistiky</value>
   </data>
   <data name="menu_finals" xml:space="preserve">
     <value>Finále</value>
@@ -136,13 +136,13 @@
     <value>Hardware</value>
   </data>
   <data name="menu_homepage" xml:space="preserve">
-    <value>Domovská stránka</value>
+    <value>Úvod</value>
   </data>
   <data name="menu_listofrounds" xml:space="preserve">
     <value>Zoznam kôl</value>
   </data>
   <data name="menu_matrix" xml:space="preserve">
-    <value>Matrix</value>
+    <value>Rozlosovanie</value>
   </data>
   <data name="menu_online" xml:space="preserve">
     <value>Online</value>
@@ -155,5 +155,47 @@
   </data>
   <data name="menu_teams" xml:space="preserve">
     <value>Tímy</value>
+  </data>
+  <data name="home_actualversionis" xml:space="preserve">
+    <value>Aktuálna verzia je</value>
+  </data>
+  <data name="home_createnewcontest" xml:space="preserve">
+    <value>Vytvorte novú súťaž</value>
+  </data>
+  <data name="home_deleteselectedcontest" xml:space="preserve">
+    <value>Odstrániť označenú súťaž</value>
+  </data>
+  <data name="home_loadselectedcontest" xml:space="preserve">
+    <value>Načítať označenú súťaž</value>
+  </data>
+  <data name="home_load_caption" xml:space="preserve">
+    <value>Načítavam, počkajte prosím...</value>
+  </data>
+  <data name="home_load_complete" xml:space="preserve">
+    <value>Hotovo :)</value>
+  </data>
+  <data name="home_load_database" xml:space="preserve">
+    <value>Načítava sa databáza</value>
+  </data>
+  <data name="home_load_details" xml:space="preserve">
+    <value>Načítavajú sa niektoré podrobnosti ....</value>
+  </data>
+  <data name="home_load_rounds" xml:space="preserve">
+    <value>Načítavajú sa kolá ...</value>
+  </data>
+  <data name="home_load_rules" xml:space="preserve">
+    <value>Načítavajú sa pravidlá ...</value>
+  </data>
+  <data name="home_load_sounds" xml:space="preserve">
+    <value>Načítavajú sa zvuky ...</value>
+  </data>
+  <data name="home_load_users" xml:space="preserve">
+    <value>Načítavajú sa používatelia ...</value>
+  </data>
+  <data name="home_newscount" xml:space="preserve">
+    <value>Novinky</value>
+  </data>
+  <data name="home_yourversionis" xml:space="preserve">
+    <value>Vaša verzia je</value>
   </data>
 </root>
