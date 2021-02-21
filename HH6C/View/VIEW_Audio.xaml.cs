@@ -43,8 +43,18 @@ namespace WpfApp6.View
             if (soundfile_basicround.SelectedIndex >= 0)
             {
                 Console.WriteLine("LOADZVUKU");
-                VM.FUNCTION_SOUND_LOADSELECTEDSOUND(VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
+                VM.FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
                 VM.BIND_AUDIO_INFO = VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDBASESOUND_INDEX].SoundName;
+            }
+        }
+
+        private void soundfile_basicroundprep2_Click(object sender, RoutedEventArgs e)
+        {
+            if (soundfile_basicround_prep.SelectedIndex >= 0)
+            {
+                Console.WriteLine("LOADZVUKU_PREP");
+                VM.FUNCTION_SOUND_LOADSELECTEDSOUND_PREP(VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDPREPSOUND_INDEX].Id);
+                VM.BIND_AUDIO_PREP_INFO = VM.BINDING_SoundList[VM.BIND_AUDIO_SELECTEDPREPSOUND_INDEX].SoundName;
             }
         }
     }

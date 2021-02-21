@@ -750,7 +750,7 @@
                     <ListBox
                         Name="soundlist_seznam"
                         Width="242"
-                        Height="385"
+                        Height="328"
                         Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
@@ -838,7 +838,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addsound_Click"
-                        Content="Přidat nový záznam"
+                        Content="Přidat položku"
                         IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
                     <Button
                         x:Name="savesoundbtn"
@@ -868,17 +868,27 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="renamesoundlist_Click"
-                        Content="Přejmenovat zvuk"
+                        Content="Přejmenovat zvukovou stopu"
                         IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
                     <Button
                         x:Name="addsoundlist"
                         Width="242"
-                        Height="40"
-                        Margin="10,400,0,0"
+                        Height="42"
+                        Margin="10,355,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="addsoundlist_Click"
-                        Content="Přidat zvuk"
+                        Content="Přidat zvukovou stopu"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="copysoundlist"
+                        Width="242"
+                        Height="40"
+                        Margin="10,402,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="copysoundlist_Click"
+                        Content="Kopírovat zvukovou stopu"
                         IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
                     <Button
                         x:Name="deletesoundlist"
@@ -888,7 +898,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Click="deletesoundlist_Click"
-                        Content="smazat zvuk"
+                        Content="smazat zvukovou stopu"
                         IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
 
                 </Grid>

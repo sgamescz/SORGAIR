@@ -51,7 +51,7 @@ namespace WpfApp6.View
 
         }
 
-        private async void HWbasemodul_Copy1_Click(object sender, RoutedEventArgs e)
+        private async void maintimer_stop_Click(object sender, RoutedEventArgs e)
         {
 
             var currentWindow = this.TryFindParent<MetroWindow>();
@@ -64,6 +64,8 @@ namespace WpfApp6.View
             {
                 Console.WriteLine("yes");
                 VM.clock_MAIN_stop();
+                VM.clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+                VM.clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
                 VM.BIND_MAINTIME_ISRUNNING = false;
                 VM.BIND_MAINTIME_ISSTOPED = true;
 
@@ -75,23 +77,25 @@ namespace WpfApp6.View
 
         }
 
-        private void HWbasemodul_Copy2_Click(object sender, RoutedEventArgs e)
+        private void maintimer_play_Click(object sender, RoutedEventArgs e)
         {
 
-            //Console.WriteLine(VM.MODEL_CONTEST_SOUNDS.Count);
+            //Console.WriteLine(VM.MODEL_CONTEST_SOUNDS_MAIN.Count);
 
-            //for (int i = 0; i < VM.MODEL_CONTEST_SOUNDS.Count; i++)
+            //for (int i = 0; i < VM.MODEL_CONTEST_SOUNDS_MAIN.Count; i++)
             //{
-            //   Console.WriteLine(VM.MODEL_CONTEST_SOUNDS[i].VALUE.ToString() + " --- " + VM.MODEL_CONTEST_SOUNDS[i].TEXTVALUE.ToString());
+            //   Console.WriteLine(VM.MODEL_CONTEST_SOUNDS_MAIN[i].VALUE.ToString() + " --- " + VM.MODEL_CONTEST_SOUNDS_MAIN[i].TEXTVALUE.ToString());
             //}
 
-            if (VM.MODEL_CONTEST_SOUNDS.Count > 0)
+            if (VM.MODEL_CONTEST_SOUNDS_MAIN.Count > 0)
             {
 
-                if (VM.MODEL_CONTEST_SOUNDS[0].VALUE < 0)
+                if (VM.MODEL_CONTEST_SOUNDS_MAIN[0].VALUE < 0)
                 {
                     VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
-                    VM.BIND_LETOVYCAS_MAX = Math.Abs(VM.MODEL_CONTEST_SOUNDS[0].VALUE);
+                    VM.BIND_LETOVYCAS_MAX = Math.Abs(VM.MODEL_CONTEST_SOUNDS_MAIN[0].VALUE);
+                    
+
                 }
                 else
                 {
@@ -107,27 +111,11 @@ namespace WpfApp6.View
                 VM.BIND_LETOVYCAS_MAX = VM.MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
             }
 
-
-
-          
-
-
-        
-
-        
-
-
-            if (VM.BIND_SQL_AUDIO_RNDGRPFLIGHT == true)
-            {
-                VM.clock_PRE_ROUNDGROUP_create();
-                VM.clock_PRE_ROUNDGROUP_start();
-            }
-            else
-            {
-                VM.clock_MAIN_start();
-            }
-
-
+            VM.clock_DYNAMIC_ROUNDGROUP_ACTUAL_create();
+            VM.clock_DYNAMIC_ROUNDGROUP_NEXT_create();
+            VM.clock_DYNAMIC_COMPETITORS_ACTUAL_create();
+            VM.clock_DYNAMIC_COMPETITORS_NEXT_create();
+            VM.clock_MAIN_start();
 
         }
 
@@ -512,7 +500,7 @@ namespace WpfApp6.View
                     VM.MODEL_CONTEST_ROUNDS[VM.BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
                     scoreentry.IsOpen = false;
                     _isscoreentryopen = false;
-                    HWbasemodul_Copy4s.Focus();
+                    //HWbasemodul_Copy4s.Focus();
 
                 }
 
@@ -576,9 +564,24 @@ namespace WpfApp6.View
 
         }
 
-        private void scoreentry_minutes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void preptimer_play_Click(object sender, RoutedEventArgs e)
         {
+            VM.clock_DYNAMIC_COMPETITORS_NEXT_create();
+            VM.clock_DYNAMIC_ROUNDGROUP_NEXT_create();
+            VM.clock_DYNAMIC_COMPETITORS_ACTUAL_create();
+            VM.clock_DYNAMIC_ROUNDGROUP_ACTUAL_create();
+            VM.clock_PREP_start();
+        }
 
+        private void preptimer_stop_Click(object sender, RoutedEventArgs e)
+        {
+            VM.clock_PREP_stop();
+            VM.BIND_PREPTIME_ISRUNNING = false;
+            VM.BIND_PREPTIME_ISSTOPED = true;
+            VM.clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+            VM.clock_DYNAMIC_COMPETITORS_NEXT_stop();
+            VM.clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+            VM.clock_DYNAMIC_ROUNDGROUP_NEXT_stop();
         }
     }
 }

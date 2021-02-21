@@ -83,22 +83,46 @@ namespace SORGAIR
             }
         }
 
-        private void saverules_new_Click(object sender, RoutedEventArgs e)
+        private async void saverules_new_Click(object sender, RoutedEventArgs e)
         {
+
+            var currentWindow = this;
+            var _textvalue = await currentWindow.ShowInputAsync("Název kategorie", "Zadej název kategorie", new MetroDialogSettings() { DefaultText = "Nová kategorie" });
+
+            if (_textvalue == null)
+                return;
+
+
             VM.SQL_SAVESORGDATA("insert into rules (category,points_under_limit1, limit1,points_over_limit1,heightunder,heightlimit,heightover,entryheight,limit2,points_under_limit2,points_over_limit2," +
                 "sub_from_landing1,sub_from_landing2,sub_from_time1,sub_from_time2,delete_landing1,delete_landing2,delete_time1,delete_time2,delete_all1,delete_all2,BASEROUNDLENGHT,BASEROUNDMAXTIME,FINALROUNDLENGHT,FINALROUNDMAXTIME) " +
-                "values('" + VM.MODEL_CATEGORY_RULES[0].CATEGORY + "'," + "'" + VM.MODEL_CATEGORY_RULES[0].TIME1UNDER.ToString(new CultureInfo("en-US")) + "','" + VM.MODEL_CATEGORY_RULES[0].TIME1LIMIT.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].TIME1OVER.ToString(new CultureInfo("en-US")) + "', " +
+                "values('" + _textvalue + "'," + "'" + VM.MODEL_CATEGORY_RULES[0].TIME1UNDER.ToString(new CultureInfo("en-US")) + "','" + VM.MODEL_CATEGORY_RULES[0].TIME1LIMIT.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].TIME1OVER.ToString(new CultureInfo("en-US")) + "', " +
             "'" + VM.MODEL_CATEGORY_RULES[0].HEIGHTUNDER.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].HEIGHTLIMIT.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].HEIGHTOVER.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].ENTRYHEIGHT + "'" +
             ", '" + VM.MODEL_CATEGORY_RULES[0].TIME2LIMIT.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].TIME2UNDER.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].TIME2OVER.ToString(new CultureInfo("en-US")) + "', " +
             "'" + VM.MODEL_CATEGORY_RULES[0].SUBFROMLANDING1.ToString(new CultureInfo("en-US")) + "' , '" + VM.MODEL_CATEGORY_RULES[0].SUBFROMLANDING2.ToString(new CultureInfo("en-US")) + "', '" + VM.MODEL_CATEGORY_RULES[0].SUBFROMTIME1.ToString(new CultureInfo("en-US")) + "', " +
             "'" + VM.MODEL_CATEGORY_RULES[0].SUBFROMTIME2.ToString(new CultureInfo("en-US")) + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETELANDING1 + "', '" + VM.MODEL_CATEGORY_RULES[0].DELETELANDING2 + "' " +
-            ", '" + VM.MODEL_CATEGORY_RULES[0].DELETETIME1 + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETETIME2 + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETEALL1 + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETEALL2 + "')" +
-            ", '" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDLENGHT + "'), '" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDMAXTIME + "'), '" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDLENGHT + "'), '" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDMAXTIME + "');");
+            ", '" + VM.MODEL_CATEGORY_RULES[0].DELETETIME1 + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETETIME2 + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETEALL1 + "' , '" + VM.MODEL_CATEGORY_RULES[0].DELETEALL2 + "'" +
+            ", '" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDLENGHT + "', '" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDMAXTIME + "', '" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDLENGHT + "', '" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDMAXTIME + "');");
 
             int newid = Int32.Parse(VM.SQL_READSORGDATA("select id from rules where category = '" + VM.MODEL_CATEGORY_RULES[0].CATEGORY + "'", ""));
             savepenalisation(newid);
             savepenalisationglobal(newid);
             savelanding(newid);
+
+            //int newsoundid = Int32.Parse(VM.SQL_READSORGDATA("select max(id) from Soundlist","")) ;
+            for (int i = 0; i < soundlist_seznam.Items.Count; i++)
+            {
+                VM.SQL_SAVESORGDATA("insert into soundlist (category,soundname) select "+newid+",soundname from soundlist where id = "+ VM.MODEL_CONTESTS_SOUNDLISTS[i].ID + " order by soundname;");
+                int newiddd = Int32.Parse(VM.SQL_READSORGDATA("select id from soundlist where category=" + newid + " and soundname ='" + VM.MODEL_CONTESTS_SOUNDLISTS[i].TEXTVALUE + "' ; ", ""));
+                VM.SQL_SAVESORGDATA("insert into sounds (category,id,second,filename,filedesc,todel) select " + newid + ","+newiddd+",second,filename,filedesc,todel from sounds where id = " + VM.MODEL_CONTESTS_SOUNDLISTS[i].ID + ";");
+            }
+
+
+            //VM.SQL_SAVESORGDATA("insert into soundlist (category,soundname) select "+newid+",soundname from soundlist where category = "+ VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + " order by soundname;");
+
+            //VM.SQL_READSORGDATA("select * from soundlist where category=" + newid +"; ","copysounds");
+
+
+
             VM.FUNCTION_LOAD_CATEGORIES();
 
             categorylist.SelectedIndex = 0;
@@ -111,6 +135,8 @@ namespace SORGAIR
             VM.SQL_SAVESORGDATA("delete from Landing where id=" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + ";");
             VM.SQL_SAVESORGDATA("delete from Penalisations where id=" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + ";");
             VM.SQL_SAVESORGDATA("delete from Penalisationsglobal where id=" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + ";");
+            VM.SQL_SAVESORGDATA("delete from soundlist where category=" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + ";");
+            VM.SQL_SAVESORGDATA("delete from sounds where category=" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + ";");
             VM.FUNCTION_LOAD_CATEGORIES();
             categorylist.SelectedIndex = 0;
 
@@ -431,6 +457,37 @@ namespace SORGAIR
                 return;
 
             VM.SQL_SAVESORGDATA("update soundlist set soundname = '"+ _textvalue +"' where id=" + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + ";");
+            VM.FUNCTION_LOAD_CATEGORY_SOUNDLISTS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+
+        }
+
+        private async void  copysoundlist_Click(object sender, RoutedEventArgs e)
+        {
+            var currentWindow = this;
+            var _textvalue = await currentWindow.ShowInputAsync("Název zvuku", "Zadej název audio stopy", new MetroDialogSettings() { DefaultText = "Nový zvuk" });
+
+            if (_textvalue == null)
+                return;
+
+            var _category = await currentWindow.ShowInputAsync("Do jiné kategorie?", "Zadej PŘESNÝ NÁZEV KATEGORIE do které chceš zvuk nakopírovat. Pokud chceš mít zvuk v této, tak tam nechej mínusku", new MetroDialogSettings() { DefaultText = "-" });
+
+            if (_category == null)
+                return;
+
+
+            int destinationid = VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID;
+            if (_category != "-")
+            {
+                destinationid = Int32.Parse( VM.SQL_READSORGDATA("select id from rules where category='" + _category + "' ; ", ""));
+            }
+
+
+
+            VM.SQL_SAVESORGDATA("insert into soundlist (category,soundname) select "+ destinationid + ",'"+ _textvalue+"' from soundlist where id = " + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + " order by soundname;");
+            int newiddd = Int32.Parse(VM.SQL_READSORGDATA("select id from soundlist where category=" + destinationid + " and soundname ='" + _textvalue + "' ; ", ""));
+            VM.SQL_SAVESORGDATA("insert into sounds (category,id,second,filename,filedesc,todel) select "+ destinationid + "," + newiddd + ",second,filename,filedesc,todel from sounds where id = " + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + ";");
+
+            //VM.SQL_SAVESORGDATA("update soundlist set soundname = '" + _textvalue + "' where id=" + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + ";");
             VM.FUNCTION_LOAD_CATEGORY_SOUNDLISTS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
 
         }

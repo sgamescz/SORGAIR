@@ -60,21 +60,47 @@ namespace WpfApp6.Model
 
         //System.Windows.Media.MediaPlayer[] SoundDB = new System.Windows.Media.MediaPlayer[100];
         WaveOutEvent[] maintimewaveout = new WaveOutEvent[100];
-        WaveOutEvent[] roundgroupwav = new WaveOutEvent[5];
+        WaveOutEvent[] preptimewaveout = new WaveOutEvent[100];
+
+        WaveOutEvent[] roundgroupwav_actual = new WaveOutEvent[5];
+        WaveOutEvent[] roundgroupwav_next = new WaveOutEvent[5];
+
+        WaveOutEvent[] competitorswav_actual = new WaveOutEvent[5];
+        WaveOutEvent[] competitorswav_next = new WaveOutEvent[5];
+
 
         NAudio.Wave.WaveFileReader[] wav_maintime = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_roundgroup = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_preptime = new NAudio.Wave.WaveFileReader[100];
+
+        NAudio.Wave.WaveFileReader[] wav_competitors_actual = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_competitors_next = new NAudio.Wave.WaveFileReader[100];
+
+        NAudio.Wave.WaveFileReader[] wav_roundgroup_actual = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_roundgroup_next = new NAudio.Wave.WaveFileReader[100];
 
 
 
         SQLiteConnection DBSORG_Connection;
         SQLiteConnection DBSOUTEZ_Connection;
         SQLiteConnection TMP_Connection;
-        System.Windows.Threading.DispatcherTimer MAIN_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
-        System.Windows.Threading.DispatcherTimer MAIN_PRE_ROUNDGROUP_TIMER = new System.Windows.Threading.DispatcherTimer();
 
-        System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
-        System.Diagnostics.Stopwatch timer_roundgroup = new System.Diagnostics.Stopwatch();
+        System.Windows.Threading.DispatcherTimer MAIN_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer PREP_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
+
+        System.Windows.Threading.DispatcherTimer MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER = new System.Windows.Threading.DispatcherTimer();
+
+        System.Windows.Threading.DispatcherTimer MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER = new System.Windows.Threading.DispatcherTimer();
+
+
+        System.Diagnostics.Stopwatch timer_main = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_prep = new System.Diagnostics.Stopwatch();
+
+        System.Diagnostics.Stopwatch timer_dynamic_roundgroup_actual = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_DYNAMIC_COMPETITORS_ACTUAL = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_dynamic_roundgroup_next = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_DYNAMIC_COMPETITORS_NEXT = new System.Diagnostics.Stopwatch();
 
 
         string[] barva = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
@@ -126,14 +152,22 @@ namespace WpfApp6.Model
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT_value;
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLENEXT_value;
         public bool BIND_SQL_AUDIO_COMPNUMBERS_value;
+        public bool _BIND_AUDIOFROMNEXTRNDGRP;
+        public bool BIND_SQL_AUDIO_COMPNUMBERS_PREP_value;
         public bool BIND_SQL_AUDIO_RNDGRPFLIGHT_value;
         public bool BIND_SQL_AUDIO_RNDGRPPREP_value;
         public string BIND_SORGNEWS_value = "Vítejte v nové verzi SORG AIR pro rok 2020. Aktuální novinky jsou blabla a tak dále a tak dale nějaký text z netu";
         public float BIND_LETOVYCAS_value = 0;
+        public float BIND_LETOVYCAS_PREP_value = 0;
+
         public int BIND_LETOVYCAS_MAX_value = 600;
         public int BIND_PRE_LETOVYCAS_MAX_value = 20;
+        public int BIND_LETOVYCAS_PREP_MAX_value = 20;
         public string BIND_LETOVYCAS_STRING_value = "xxx";
+        public string BIND_LETOVYCAS_PREP_STRING_value = "xxx";
+
         public float BIND_PROGRESS_1_value = 0;
+        public float BIND_PROGRESS_PREP_1_value = 0;
 
 
         public int BIND_SELECTED_ROUND_value = 1;
@@ -244,12 +278,26 @@ namespace WpfApp6.Model
             get { return _BIND_AUDIO_SELECTEDBASESOUND_INDEX; }
             set { _BIND_AUDIO_SELECTEDBASESOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDBASESOUND_INDEX");
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedsound1'");
-                //FUNCTION_SOUND_LOADSELECTEDSOUND(BINDING_SoundList[value].Id);
+                //FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[value].Id);
                 //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
 
             }
         }
 
+
+        int _BIND_AUDIO_SELECTEDPREPSOUND_INDEX = -1;
+        public int BIND_AUDIO_SELECTEDPREPSOUND_INDEX
+        {
+            get { return _BIND_AUDIO_SELECTEDPREPSOUND_INDEX; }
+            set
+            {
+                _BIND_AUDIO_SELECTEDPREPSOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDPREPSOUND_INDEX");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedsound1prep'");
+                //FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[value].Id);
+                //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
+
+            }
+        }
 
 
         int _BINDING_SoundList_languages_index = -1;
@@ -260,7 +308,7 @@ namespace WpfApp6.Model
             {
                 _BINDING_SoundList_languages_index = value; OnPropertyChanged("BINDING_SoundList_languages_index");
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedaudiolanguageindex'");
-                //FUNCTION_SOUND_LOADSELECTEDSOUND(BINDING_SoundList[value].Id);
+                //FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[value].Id);
                 //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
 
             }
@@ -350,12 +398,12 @@ namespace WpfApp6.Model
 
                 string casod = "00:00";
 
-                if (MODEL_CONTEST_SOUNDS.Count > 0)
+                if (MODEL_CONTEST_SOUNDS_MAIN.Count > 0)
                 {
 
-                    if (MODEL_CONTEST_SOUNDS[0].VALUE < 0)
+                    if (MODEL_CONTEST_SOUNDS_MAIN[0].VALUE < 0)
                     {
-                        casod = ("-" + Math.Abs(MODEL_CONTEST_SOUNDS[0].VALUE) / 60).ToString() + ":" + (Math.Abs(MODEL_CONTEST_SOUNDS[0].VALUE) % 60).ToString("00");
+                        casod = ("-" + Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE) / 60).ToString() + ":" + (Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE) % 60).ToString("00");
                     }
 
                 }
@@ -367,6 +415,43 @@ namespace WpfApp6.Model
             }
             set { _BIND_AUDIO_INFO = value; OnPropertyChanged("BIND_AUDIO_INFO"); }
         }
+
+
+
+
+
+        string _BIND_AUDIO_PREP_INFO;
+        public string BIND_AUDIO_PREP_INFO
+        {
+            get
+            {
+
+
+                string casod = "00:00";
+
+                if (MODEL_CONTEST_SOUNDS_PREP.Count > 0)
+                {
+
+                    if (MODEL_CONTEST_SOUNDS_PREP[0].VALUE < 0)
+                    {
+                        casod = ("-" + Math.Abs(MODEL_CONTEST_SOUNDS_PREP[0].VALUE) / 60).ToString() + ":" + (Math.Abs(MODEL_CONTEST_SOUNDS_PREP[0].VALUE) % 60).ToString("00");
+                    }
+
+                }
+
+
+                
+                string time = (MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count-1].VALUE / 60).ToString() + ":" + (MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count-1].VALUE % 60).ToString("00");
+                return _BIND_AUDIO_PREP_INFO + " [" + casod + " - " + time + "]";
+
+            }
+            set { _BIND_AUDIO_PREP_INFO = value; OnPropertyChanged("BIND_AUDIO_PREP_INFO"); }
+        }
+
+
+
+
+
 
         public bool BIND_MENU_ENABLED_audioadalsi
         {
@@ -514,6 +599,8 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_ENTRYSTYLENEXT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystylenext'", ""));
             BIND_SQL_SOUTEZ_REQUIREFAILICENCE = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='RequireFAILicence'", ""));
             BIND_SQL_AUDIO_COMPNUMBERS = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumber'", ""));
+            BIND_AUDIOFROMNEXTRNDGRP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiofromnextrndgrp'", ""));
+            BIND_SQL_AUDIO_COMPNUMBERS_PREP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumberprep'", ""));
             BIND_SQL_AUDIO_RNDGRPFLIGHT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpflight'", ""));
             BIND_SQL_AUDIO_RNDGRPPREP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpprep'", ""));
             BIND_SQL_AUDIO_FUNKYMOD = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='funkymod'", ""));
@@ -523,6 +610,7 @@ namespace WpfApp6.Model
             BIND_SQL_AUTO_PREPTIMELENGHT = SQL_READSOUTEZDATA("select value from contest where item='Preptimelenght'", "");
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
             BIND_AUDIO_SELECTEDBASESOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedsound1'", ""));
+            BIND_AUDIO_SELECTEDPREPSOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedsound1prep'", ""));
             BINDING_SoundList_languages_index = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedaudiolanguageindex'", ""));
 
             BIND_MENU_ENABLED_nastavenisouteze = true;
@@ -561,7 +649,7 @@ namespace WpfApp6.Model
             get
             {
                 //                TimeSpan time_elapsed = TimeSpan.FromSeconds(BIND_LETOVYCAS_value);
-                var elapsed = timer.Elapsed;
+                var elapsed = timer_main.Elapsed;
                 string letovycas = "";
 
                 if (BIND_TYPEOFCLOCK == "PRE_MAIN")
@@ -575,10 +663,10 @@ namespace WpfApp6.Model
                 {
                     TimeSpan time_remaining = TimeSpan.FromSeconds(MODEL_CONTEST_RULES[0].BASEROUNDLENGHT);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
-                    Console.WriteLine("time_remaining"+time_remaining);
-                    Console.WriteLine("totalsec" + totalsec);
+                    //Console.WriteLine("time_remaining"+time_remaining);
+                    //Console.WriteLine("totalsec" + totalsec);
                     TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
-                    Console.WriteLine("rozdil2 " + rozdil2);
+                    //Console.WriteLine("rozdil2 " + rozdil2);
 
                     letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
                 }
@@ -589,8 +677,44 @@ namespace WpfApp6.Model
 
         }
 
+
+        public string BIND_LETOVYCAS_PREP_STRING
+        {
+            get
+            {
+                //                TimeSpan time_elapsed = TimeSpan.FromSeconds(BIND_LETOVYCAS_value);
+                var elapsed = timer_prep.Elapsed;
+                string letovycas = "";
+
+            
+                    TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_PREP_MAX);
+                    TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
+                    Console.WriteLine("time_remaining" + time_remaining);
+                    Console.WriteLine("totalsec" + totalsec);
+                    TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
+                    Console.WriteLine("rozdil2 " + rozdil2);
+
+                    letovycas = "Přípravný čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+              
+
+                //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
+                return letovycas;
+            }
+
+        }
+
         private  int lastsecond = -100;
+        private int lastsecond_preroundgroup_actual = -100;
+        private int lastsecond_precompetitors_actual = -100;
+
+
+        private int lastsecond_preroundgroup_next = -100;
+        private int lastsecond_precompetitors_next = -100;
+
         private int _lastsecond = -100;
+
+        private int lastsecond_prep = -100;
+        private int _lastsecond_prep = -100;
 
         private string directory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
@@ -608,22 +732,26 @@ namespace WpfApp6.Model
                 BIND_LETOVYCAS_value = value; OnPropertyChanged("BIND_LETOVYCAS"); OnPropertyChanged("BIND_LETOVYCAS_STRING");
 
 
-                if (timer.Elapsed.Seconds != lastsecond & BIND_MAINTIME_ISRUNNING == true)
+                if (timer_main.Elapsed.Seconds != lastsecond & BIND_MAINTIME_ISRUNNING == true)
                 {
-                    Console.WriteLine("ROZDIL - timer.Elapsed.Seconds:" + timer.Elapsed.Seconds);
-                    Console.WriteLine("ROZDIL - lastsecond:" + lastsecond);
-                    lastsecond = timer.Elapsed.Seconds;
+                    //Console.WriteLine("ROZDIL - timer_main.Elapsed.Seconds:" + timer_main.Elapsed.Seconds);
+                    //Console.WriteLine("ROZDIL - lastsecond:" + lastsecond);
+                    lastsecond = timer_main.Elapsed.Seconds;
 
                     if (BIND_TYPEOFCLOCK == "PRE_MAIN")
                     {
-                        _lastsecond = -(Math.Abs(MODEL_CONTEST_SOUNDS[0].VALUE) - timer.Elapsed.Seconds);
+                        _lastsecond = -(Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE) - timer_main.Elapsed.Seconds);
+
+
+
+
 
                         if (lastsecond == BIND_LETOVYCAS_MAX)
                         {
                             BIND_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
                             BIND_PROGRESS_1 = 0;
                             BIND_TYPEOFCLOCK = "MAIN";
-                            timer.Restart();
+                            timer_main.Restart();
 
                         }
                         else{
@@ -632,7 +760,7 @@ namespace WpfApp6.Model
                     }
                     else
                     {
-                        _lastsecond = (timer.Elapsed.Minutes*60) + timer.Elapsed.Seconds;
+                        _lastsecond = (timer_main.Elapsed.Minutes*60) + timer_main.Elapsed.Seconds;
                         playsound_by_time("main", _lastsecond);
                     }
                     Console.WriteLine("cas:" + _lastsecond);
@@ -643,12 +771,48 @@ namespace WpfApp6.Model
 
                 }
 
-                //BIND_LETOVYCAS = Convert.ToSingle(timer.Elapsed.TotalSeconds);
+                //BIND_LETOVYCAS = Convert.ToSingle(timer_main.Elapsed.TotalSeconds);
 
             }
 
 
         }
+
+
+
+
+        public float BIND_LETOVYCAS_PREP
+        {
+            get
+            {
+                return BIND_LETOVYCAS_PREP_value;
+            }
+
+            set
+            {
+
+                BIND_PROGRESS_PREP_1 = value;
+                Console.WriteLine("BIND_PROGRESS_PREP_1" + BIND_PROGRESS_PREP_1);
+                BIND_LETOVYCAS_PREP_value = value; OnPropertyChanged("BIND_LETOVYCAS_PREP"); OnPropertyChanged("BIND_LETOVYCAS_PREP_STRING");
+
+
+                if (timer_prep.Elapsed.Seconds != lastsecond_prep & BIND_PREPTIME_ISRUNNING == true)
+                {
+                    lastsecond_prep = timer_prep.Elapsed.Seconds;
+
+             
+                   _lastsecond_prep = (timer_prep.Elapsed.Minutes * 60) + timer_prep.Elapsed.Seconds;
+                   playsound_by_time("prep", _lastsecond_prep);
+                  
+                    Console.WriteLine("prep_cas:" + _lastsecond_prep);
+
+                }
+
+            }
+
+
+        }
+
 
         void playsound_by_time(string what, int second)
         {
@@ -658,16 +822,40 @@ namespace WpfApp6.Model
             {
                 if (what == "main")
                 {
-                    var listItem = MODEL_CONTEST_SOUNDS.SingleOrDefault(i => i.VALUE == second);
+                    var listItem = MODEL_CONTEST_SOUNDS_MAIN.SingleOrDefault(i => i.VALUE == second);
                     if (listItem != null)
                     {
+
+                        //listItem.CATEGORY
                         wav_maintime[listItem.CATEGORY].Position = 0;
-                        Console.WriteLine("Playing:" + listItem.CATEGORY);
+                        Console.WriteLine("Playing:" + listItem.TEXTVALUE);
                         //maintimewaveout[listItem.CATEGORY].Init(wav_maintime[listItem.CATEGORY]);
+                        if (listItem.TEXTVALUE.Contains("---") is true)
+                        {
+                            if (BIND_SQL_AUDIO_RNDGRPFLIGHT == true & listItem.TEXTVALUE== "---SAY-RND-GRP---" )
+                            {
+                                clock_DYNAMIC_ROUNDGROUP_ACTUAL_start();
+                            }
 
-                        maintimewaveout[listItem.CATEGORY].Play();
+                            if (BIND_SQL_AUDIO_COMPNUMBERS == true & listItem.TEXTVALUE == "---SAY-COMPETITORS---")
+                            {
+                                clock_DYNAMIC_COMPETITORS_ACTUAL_start();
+                            }
 
-                        maintimewaveout[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                            if (BIND_SQL_AUDIO_FUNKYMOD == true & listItem.TEXTVALUE == "---FUNKY---")
+                            {
+                                maintimewaveout[listItem.CATEGORY].Play();
+                                maintimewaveout[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                            }
+
+                        }
+
+                        else
+                        {
+                            maintimewaveout[listItem.CATEGORY].Play();
+                            maintimewaveout[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                        }
+
 
                         //SoundDB[listItem.CATEGORY].MediaEnded += new EventHandler(Media_Ended);
                     }
@@ -676,22 +864,74 @@ namespace WpfApp6.Model
                 }
 
 
-                if (what == "roundgroup")
+
+
+                if (what == "prep")
                 {
-                    //wav_maintime[listItem.CATEGORY].Position = 0;
-                    //Console.WriteLine("Playing:" + listItem.CATEGORY);
-                    //maintimewaveout[listItem.CATEGORY].Init(wav_maintime[listItem.CATEGORY]);
+                    var listItem = MODEL_CONTEST_SOUNDS_PREP.SingleOrDefault(i => i.VALUE == second);
+                    if (listItem != null)
+                    {
+                        wav_preptime[listItem.CATEGORY].Position = 0;
+                        Console.WriteLine("Playing:" + listItem.CATEGORY);
+                        //maintimewaveout[listItem.CATEGORY].Init(wav_maintime[listItem.CATEGORY]);
 
-                    roundgroupwav[second].Play();
 
-                    roundgroupwav[second].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                        if (listItem.TEXTVALUE.Contains("---") is true)
+                        {
+                            if (BIND_SQL_AUDIO_RNDGRPPREP == true & listItem.TEXTVALUE == "---SAY-RND-GRP---")
+                            {
+                                if (BIND_AUDIOFROMNEXTRNDGRP == true) { clock_DYNAMIC_ROUNDGROUP_NEXT_start(); } else { clock_DYNAMIC_ROUNDGROUP_ACTUAL_start(); }
+                                
+                            }
+
+                            if (BIND_SQL_AUDIO_COMPNUMBERS_PREP == true & listItem.TEXTVALUE == "---SAY-COMPETITORS---")
+                            {
+                                if (BIND_AUDIOFROMNEXTRNDGRP == true) { clock_DYNAMIC_COMPETITORS_NEXT_start(); } else { clock_DYNAMIC_COMPETITORS_ACTUAL_start();  }
+                                
+                            }
+
+
+                        }
+
+                        else
+                        {
+                            preptimewaveout[listItem.CATEGORY].Play();
+                            preptimewaveout[listItem.CATEGORY].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                        }
+
+
 
                         //SoundDB[listItem.CATEGORY].MediaEnded += new EventHandler(Media_Ended);
-                 
+                    }
 
 
                 }
 
+
+                if (what == "roundgroup_actual")
+                {
+                    roundgroupwav_actual[second].Play();
+                    roundgroupwav_actual[second].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                }
+                
+                if (what == "roundgroup_next")
+                {
+                    roundgroupwav_next[second].Play();
+                    roundgroupwav_next[second].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                }
+
+
+                if (what == "competitors_actual")
+                {
+                    competitorswav_actual[second].Play();
+                    competitorswav_actual[second].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                }
+
+                if (what == "competitors_next")
+                {
+                    competitorswav_next[second].Play();
+                    competitorswav_next[second].PlaybackStopped += new EventHandler<StoppedEventArgs>(player_PlaybackStopped);
+                }
 
 
             }
@@ -808,10 +1048,25 @@ namespace WpfApp6.Model
 
             set
             {
-                BIND_PRE_LETOVYCAS_MAX_value = value; OnPropertyChanged("BIND_PRE_LETOVYCAS_MAX"); OnPropertyChanged("BIND_LETOVYCAS_STRING"); 
+                BIND_PRE_LETOVYCAS_MAX_value = value; OnPropertyChanged("BIND_PRE_LETOVYCAS_MAX"); OnPropertyChanged("BIND_PRE_LETOVYCAS_STRING"); 
             }
 
         }
+
+        public int BIND_LETOVYCAS_PREP_MAX
+        {
+            get
+            {
+                return BIND_LETOVYCAS_PREP_MAX_value;
+            }
+
+            set
+            {
+                BIND_LETOVYCAS_PREP_MAX_value = value; OnPropertyChanged("BIND_LETOVYCAS_PREP_MAX"); OnPropertyChanged("BIND_LETOVYCAS_PREP_STRING");
+            }
+
+        }
+
 
 
         public float BIND_PROGRESS_1
@@ -820,6 +1075,11 @@ namespace WpfApp6.Model
             set { BIND_PROGRESS_1_value = value; OnPropertyChanged("BIND_PROGRESS_1"); }
         }
 
+        public float BIND_PROGRESS_PREP_1
+        {
+            get { return BIND_PROGRESS_PREP_1_value; }
+            set { BIND_PROGRESS_PREP_1_value = value; OnPropertyChanged("BIND_PROGRESS_PREP_1"); }
+        }
 
 
         public string BIND_SORGNEWS
@@ -1258,6 +1518,19 @@ namespace WpfApp6.Model
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audiocumpetitornumber'"); BIND_SQL_AUDIO_COMPNUMBERS_value = value; OnPropertyChanged("BIND_SQL_AUDIO_COMPNUMBERS"); }
         }
 
+        public bool BIND_AUDIOFROMNEXTRNDGRP
+        {
+            get { return _BIND_AUDIOFROMNEXTRNDGRP; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audiofromnextrndgrp'"); _BIND_AUDIOFROMNEXTRNDGRP = value; OnPropertyChanged("BIND_AUDIOFROMNEXTRNDGRP"); }
+        }
+
+
+        public bool BIND_SQL_AUDIO_COMPNUMBERS_PREP
+        {
+            get { return BIND_SQL_AUDIO_COMPNUMBERS_PREP_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audiocumpetitornumberprep'"); BIND_SQL_AUDIO_COMPNUMBERS_PREP_value = value; OnPropertyChanged("BIND_SQL_AUDIO_COMPNUMBERS_PREP"); }
+        }
+
 
         public bool BIND_SQL_AUDIO_RNDGRPFLIGHT
         {
@@ -1581,6 +1854,17 @@ namespace WpfApp6.Model
                         pouzitepozadi = Int32.Parse(vysledek);
                         FUNCTION_Changebackgroundcolor();
                     }
+
+
+                    if (kamulozitvysledek == "copysounds")
+                    {
+                      
+                        SQL_SAVESORGDATA("insert into Sounds(category, id, second, filename, filedesc) select "+ sqlite_datareader.GetInt32(0) + ", " + sqlite_datareader.GetInt32(1) + ", second, filename, filedesc from Sounds where id = 7; ");
+                    }
+
+
+
+
                     if (kamulozitvysledek == "popredi")
                     {
                         string myreader = sqlite_datareader.GetString(0);
@@ -2015,30 +2299,34 @@ namespace WpfApp6.Model
                     }
 
 
-                    if (kamulozitvysledek == "get_contest_sound")
+                    if (kamulozitvysledek == "get_contest_sound_main")
                     {
-                        Console.WriteLine("get_contest_sound");
+                        Console.WriteLine("get_contest_sound_main");
 
-                        int i = MODEL_CONTEST_SOUNDS.Count;
+                        int i = MODEL_CONTEST_SOUNDS_MAIN.Count;
 
-                        byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        byte[] fileContent;
+
+                        if (sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) == "---FUNKY---")
+                        {
+
+                            var rand = new Random();
+                            var files = Directory.GetFiles("Audio\\FUNKYMODE\\", "*.wav");
+                            var rndname = files[rand.Next(files.Length)];
+                            fileContent = File.ReadAllBytes(rndname);
+                            Console.WriteLine("Random loaded FUNKY audio is:" + rndname);
+                        }
+                        else
+                        {
+                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        }
 
                         wav_maintime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));  
 
                         maintimewaveout[i] = new WaveOutEvent();
                         maintimewaveout[i].Init(wav_maintime[i]);
                         Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
-                        //maintimewaveout[0].Play();
-
-
-
-
-                        //SoundDB[i] = new System.Windows.Media.MediaPlayer();
-                        //var iconPath = Path.Combine(directory, "Audio\\CZE\\"+ sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
-                        //Console.WriteLine(iconPath);
-                        //string icon_path = new Uri(iconPath).LocalPath;
-                        //SoundDB[i].Open (new System.Uri(iconPath));
-                        //SoundDB[i].Stop();
+                        
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
@@ -2050,8 +2338,49 @@ namespace WpfApp6.Model
                         };
 
                       
-                        MODEL_CONTEST_SOUNDS.Add(_sound);
+                        MODEL_CONTEST_SOUNDS_MAIN.Add(_sound);
                     }
+
+
+
+                    if (kamulozitvysledek == "get_contest_sound_prep")
+                    {
+                        Console.WriteLine("get_contest_sound_prep");
+
+                        int i = MODEL_CONTEST_SOUNDS_PREP.Count;
+
+                        byte[] fileContent;
+
+                        if (sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) == "---FUNKY---")
+                        {
+                            fileContent = File.ReadAllBytes("Audio\\FUNKYMODE\\western.wav");
+                        }
+                        else
+                        {
+                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        }
+
+
+                        wav_preptime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+
+                        preptimewaveout[i] = new WaveOutEvent();
+                        preptimewaveout[i].Init(wav_preptime[i]);
+                        Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+
+                        var _sound = new MODEL_CATEGORY_LANDING()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("second")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")),
+                            CATEGORY = i,
+                            LENGHT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filedesc")),
+                            TODEL = 0
+                        };
+
+
+                        MODEL_CONTEST_SOUNDS_PREP.Add(_sound);
+                    }
+
 
 
 
@@ -2082,6 +2411,8 @@ namespace WpfApp6.Model
                             _ISENABLED = false;
                         }
 
+                        
+
                         var player_actual = new MODEL_Player_actual()
                         {
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
@@ -2094,10 +2425,23 @@ namespace WpfApp6.Model
 
                         };
                         Players_Actual_Flying.Add(player_actual);
-
                         vysledek = kamulozitvysledek;
 
                     }
+
+
+
+                    if (kamulozitvysledek == "get_Players_Actual_Flying_nextforsound")
+                    {
+
+                        testdata.Add(sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")));
+                        Console.WriteLine("testdatatestdatatestdatatestdatatestdatatestdatatestdatatestdatatestdata:" + testdata.Count);
+                        vysledek = kamulozitvysledek;
+
+                    }
+
+                    
+
 
 
                     if (kamulozitvysledek == "get_Players_Actual_SelectedRound")
@@ -2469,106 +2813,369 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BIND_MAINTIME_ISRUNNING = true;
             BIND_MAINTIME_ISSTOPED = false;
             BIND_LETOVYCAS = 0;
-            timer.Reset();
+            timer_main.Reset();
             MAIN_TIME_TIMER.Start();
-            timer.Start();
+            timer_main.Start();
         }
 
         public void clock_MAIN_stop()
         {
             MAIN_TIME_TIMER.Stop ();
-            timer.Stop ();
+            timer_main.Stop ();
         }
 
 
 
 
-        public void clock_PRE_ROUNDGROUP_create()
+        public void clock_DYNAMIC_ROUNDGROUP_ACTUAL_create()
         {
 
 
             int i = 0;
             byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\round.wav");
-            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
-            wav_roundgroup[i].Position = 0;
-            roundgroupwav[i] = new WaveOutEvent();
-            roundgroupwav[i].Init(wav_roundgroup[i]);
+            wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_actual[i].Position = 0;
+            roundgroupwav_actual[i] = new WaveOutEvent();
+            roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
             i = 1;
             fileContent = File.ReadAllBytes("Audio\\CZE\\"+ BIND_SELECTED_ROUND +".wav");
-            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
-            wav_roundgroup[i].Position = 0;
-            roundgroupwav[i] = new WaveOutEvent();
-            roundgroupwav[i].Init(wav_roundgroup[i]);
+            wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_actual[i].Position = 0;
+            roundgroupwav_actual[i] = new WaveOutEvent();
+            roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
             i = 2;
             fileContent = File.ReadAllBytes("Audio\\CZE\\group.wav");
-            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
-            wav_roundgroup[i].Position = 0;
-            roundgroupwav[i] = new WaveOutEvent();
-            roundgroupwav[i].Init(wav_roundgroup[i]);
+            wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_actual[i].Position = 0;
+            roundgroupwav_actual[i] = new WaveOutEvent();
+            roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
             i = 3;
             fileContent = File.ReadAllBytes("Audio\\CZE\\"+ BIND_SELECTED_GROUP +".wav");
-            wav_roundgroup[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
-            wav_roundgroup[i].Position = 0;
-            roundgroupwav[i] = new WaveOutEvent();
-            roundgroupwav[i].Init(wav_roundgroup[i]);
+            wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_actual[i].Position = 0;
+            roundgroupwav_actual[i] = new WaveOutEvent();
+            roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
 
-            MAIN_PRE_ROUNDGROUP_TIMER.Tick += MAIN_PRE_ROUNDGROUP_TIMER_Tick;
-            MAIN_PRE_ROUNDGROUP_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER.Tick += MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER_Tick;
+            MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+           
         }
 
 
-        public void clock_PRE_ROUNDGROUP_start()
+        public void clock_DYNAMIC_ROUNDGROUP_ACTUAL_start()
         {
-            timer_roundgroup.Reset();
-            MAIN_PRE_ROUNDGROUP_TIMER.Start();
-            timer_roundgroup.Start();
+            timer_dynamic_roundgroup_actual.Reset();
+            MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER.Start();
+            timer_dynamic_roundgroup_actual.Start();
         }
 
-        public void clock_PRE_ROUNDGROUP_stop()
+        public void clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop()
         {
-            MAIN_PRE_ROUNDGROUP_TIMER.Stop();
-            timer_roundgroup.Stop();
+            MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER.Stop();
+            timer_dynamic_roundgroup_actual.Stop();
         }
+
+
+
+
+        public void clock_DYNAMIC_ROUNDGROUP_NEXT_create()
+        {
+
+
+
+
+            int _tmp_newgroup = BIND_SELECTED_GROUP + 1;
+            int _tmp_newround = BIND_SELECTED_ROUND;
+
+            if (_tmp_newgroup > BIND_SQL_SOUTEZ_GROUPS) { _tmp_newgroup = 1; _tmp_newround += 1; }
+
+
+           
+
+
+
+            int i = 0;
+            byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\round.wav");
+            wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_next[i].Position = 0;
+            roundgroupwav_next[i] = new WaveOutEvent();
+            roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
+            i = 1;
+            fileContent = File.ReadAllBytes("Audio\\CZE\\" + _tmp_newround + ".wav");
+            wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_next[i].Position = 0;
+            roundgroupwav_next[i] = new WaveOutEvent();
+            roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
+
+            i = 2;
+            fileContent = File.ReadAllBytes("Audio\\CZE\\group.wav");
+            wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_next[i].Position = 0;
+            roundgroupwav_next[i] = new WaveOutEvent();
+            roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
+
+            i = 3;
+            fileContent = File.ReadAllBytes("Audio\\CZE\\" + _tmp_newgroup + ".wav");
+            wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_roundgroup_next[i].Position = 0;
+            roundgroupwav_next[i] = new WaveOutEvent();
+            roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
+
+
+            MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Tick += MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER_Tick;
+            MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+
+        }
+
+
+        public void clock_DYNAMIC_ROUNDGROUP_NEXT_start()
+        {
+            timer_dynamic_roundgroup_next.Reset();
+            MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Start();
+            timer_dynamic_roundgroup_next.Start();
+        }
+
+        public void clock_DYNAMIC_ROUNDGROUP_NEXT_stop()
+        {
+            MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Stop();
+            timer_dynamic_roundgroup_next.Stop();
+        }
+
+
+
+
+
+        public void clock_PREP_create()
+        {
+            PREP_TIME_TIMER.Tick += PREP_TIME_TIMER_Tick;
+            PREP_TIME_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+        }
+
+
+        public void clock_PREP_start()
+        {
+            BIND_PREPTIME_ISRUNNING = true;
+            BIND_PREPTIME_ISSTOPED = false;
+            BIND_LETOVYCAS_PREP = 0;
+            timer_prep.Reset();
+            PREP_TIME_TIMER.Start();
+            timer_prep.Start();
+        }
+
+        public void clock_PREP_stop()
+        {
+            PREP_TIME_TIMER.Stop();
+            timer_prep.Stop();
+        }
+
+
+
+
+        public void clock_DYNAMIC_COMPETITORS_ACTUAL_create()
+        {
+
+            byte[] fileContent;
+
+            fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
+            wav_competitors_actual[0] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_competitors_actual[0].Position = 0;
+            competitorswav_actual[0] = new WaveOutEvent();
+            competitorswav_actual[0].Init(wav_competitors_actual[0]);
+
+
+            for (int x = 0; x < Players_Actual_Flying.Count; x++)
+            {
+                int i = x + 1;
+                fileContent = File.ReadAllBytes("Audio\\CZE\\"+ Players_Actual_Flying[x].ID + ".wav");
+                wav_competitors_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+                wav_competitors_actual[i].Position = 0;
+                competitorswav_actual[i] = new WaveOutEvent();
+                competitorswav_actual[i].Init(wav_competitors_actual[i]);
+
+            }
+
+
+
+            MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER.Tick += MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER_Tick;
+            MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+        }
+
+
+        public void clock_DYNAMIC_COMPETITORS_ACTUAL_start()
+        {
+            
+            timer_DYNAMIC_COMPETITORS_ACTUAL.Reset();
+            MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER.Start();
+            timer_DYNAMIC_COMPETITORS_ACTUAL.Start();
+        }
+
+        public void clock_DYNAMIC_COMPETITORS_ACTUAL_stop()
+        {
+            MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER.Stop();
+            timer_DYNAMIC_COMPETITORS_ACTUAL.Stop();
+        }
+
+
+
+
+
+        public void clock_DYNAMIC_COMPETITORS_NEXT_create()
+        {
+
+            byte[] fileContent;
+
+            fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
+            wav_competitors_next[0] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+            wav_competitors_next[0].Position = 0;
+            competitorswav_next[0] = new WaveOutEvent();
+            competitorswav_next[0].Init(wav_competitors_next[0]);
+
+
+            for (int x = 0; x < Players_Actual_Flying.Count; x++)
+            {
+                int i = x + 1;
+                fileContent = File.ReadAllBytes("Audio\\CZE\\" + testdata[x] + ".wav");
+                wav_competitors_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+                wav_competitors_next[i].Position = 0;
+                competitorswav_next[i] = new WaveOutEvent();
+                competitorswav_next[i].Init(wav_competitors_next[i]);
+
+            }
+
+
+
+            MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.Tick += MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER_Tick;
+            MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+        }
+
+
+        public void clock_DYNAMIC_COMPETITORS_NEXT_start()
+        {
+
+            timer_DYNAMIC_COMPETITORS_NEXT.Reset();
+            MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.Start();
+            timer_DYNAMIC_COMPETITORS_NEXT.Start();
+        }
+
+        public void clock_DYNAMIC_COMPETITORS_NEXT_stop()
+        {
+            MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.Stop();
+            timer_DYNAMIC_COMPETITORS_NEXT.Stop();
+        }
+
 
 
 
 
         public void MAIN_TIME_TIMER_Tick(object sender, EventArgs e)
         {
-                BIND_LETOVYCAS = Convert.ToSingle(timer_roundgroup.Elapsed.TotalSeconds);
+                BIND_LETOVYCAS = Convert.ToSingle(timer_main.Elapsed.TotalSeconds);
+        }
+
+        public void PREP_TIME_TIMER_Tick(object sender, EventArgs e)
+        {
+            BIND_LETOVYCAS_PREP = Convert.ToSingle(timer_prep.Elapsed.TotalSeconds);
         }
 
 
-        public void MAIN_PRE_ROUNDGROUP_TIMER_Tick(object sender, EventArgs e)
+
+
+
+        public void MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER_Tick(object sender, EventArgs e)
         {
 
-
-            if (timer_roundgroup.Elapsed.Seconds != lastsecond)
+            if (timer_dynamic_roundgroup_actual.Elapsed.Seconds != lastsecond_preroundgroup_actual)
             {
-                if (timer_roundgroup.Elapsed.Seconds == 4)
+                if (timer_dynamic_roundgroup_actual.Elapsed.Seconds == 4)
                 {
-                    clock_PRE_ROUNDGROUP_stop();
-                    clock_MAIN_start();
+                    clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+                    //clock_MAIN_start();
                 }
                 else
                 {
-                    lastsecond = timer_roundgroup.Elapsed.Seconds;
-                    playsound_by_time("roundgroup", timer_roundgroup.Elapsed.Seconds);
-                }
-                Console.WriteLine(timer_roundgroup.Elapsed.Seconds);
-            }
-            //BIND_LETOVYCAS = Convert.ToSingle(timer.Elapsed.TotalSeconds);
-            //_lastsecond = (timer.Elapsed.Minutes * 60) + timer.Elapsed.Seconds;
 
-            //Console.WriteLine(Convert.ToSingle(timer.Elapsed.TotalSeconds));
+                    lastsecond_preroundgroup_actual = timer_dynamic_roundgroup_actual.Elapsed.Seconds;
+                    playsound_by_time("roundgroup_actual", timer_dynamic_roundgroup_actual.Elapsed.Seconds);
+                }
+                Console.WriteLine(timer_dynamic_roundgroup_actual.Elapsed.Seconds);
+            }
         }
 
 
-        
+
+
+        public void MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER_Tick(object sender, EventArgs e)
+        {
+
+            if (timer_dynamic_roundgroup_next.Elapsed.Seconds != lastsecond_preroundgroup_next)
+            {
+                if (timer_dynamic_roundgroup_next.Elapsed.Seconds == 4)
+                {
+                    clock_DYNAMIC_ROUNDGROUP_NEXT_stop();
+                    //clock_MAIN_start();
+                }
+                else
+                {
+
+                    lastsecond_preroundgroup_next = timer_dynamic_roundgroup_next.Elapsed.Seconds;
+                    playsound_by_time("roundgroup_next", timer_dynamic_roundgroup_next.Elapsed.Seconds);
+                }
+                Console.WriteLine(timer_dynamic_roundgroup_next.Elapsed.Seconds);
+            }
+        }
+
+
+
+        public void MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER_Tick(object sender, EventArgs e)
+        {
+
+            if (timer_DYNAMIC_COMPETITORS_ACTUAL.Elapsed.Seconds != lastsecond_precompetitors_actual)
+            {
+                if (timer_DYNAMIC_COMPETITORS_ACTUAL.Elapsed.Seconds == Players_Actual_Flying.Count+1)
+                {
+                    Console.WriteLine("STOPPPP DYNAMIC COMPETITORS ACTUAL CLOCK");
+                    clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+                    //clock_MAIN_start();
+                }
+                else
+                {
+
+                    lastsecond_precompetitors_actual = timer_DYNAMIC_COMPETITORS_ACTUAL.Elapsed.Seconds;
+                    playsound_by_time("competitors_actual", timer_DYNAMIC_COMPETITORS_ACTUAL.Elapsed.Seconds);
+                }
+                Console.WriteLine("timer_DYNAMIC_COMPETITORS_ACTUAL:" + timer_DYNAMIC_COMPETITORS_ACTUAL.Elapsed.Seconds);
+            }
+        }
+
+
+
+
+
+        public void MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER_Tick(object sender, EventArgs e)
+        {
+
+            if (timer_DYNAMIC_COMPETITORS_NEXT.Elapsed.Seconds != lastsecond_precompetitors_next)
+            {
+                if (timer_DYNAMIC_COMPETITORS_NEXT.Elapsed.Seconds == Players_Actual_Flying.Count + 1)
+                {
+                    Console.WriteLine("STOPPPP DYNAMIC COMPETITORS NEXT CLOCK");
+                    clock_DYNAMIC_COMPETITORS_NEXT_stop();
+                    //clock_MAIN_start();
+                }
+                else
+                {
+
+                    lastsecond_precompetitors_next = timer_DYNAMIC_COMPETITORS_NEXT.Elapsed.Seconds;
+                    playsound_by_time("competitors_next", timer_DYNAMIC_COMPETITORS_NEXT.Elapsed.Seconds);
+                }
+                Console.WriteLine("timer_DYNAMIC_COMPETITORS_NEXT:" + timer_DYNAMIC_COMPETITORS_NEXT.Elapsed.Seconds);
+            }
+        }
+
 
 
 
@@ -2762,7 +3369,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public ObservableCollection<DataObject> testdata { get; set; } = new ObservableCollection<DataObject>();
+        public ObservableCollection<Int32> testdata { get; set; } = new ObservableCollection<Int32>();
 
 
         #region Players
@@ -3098,7 +3705,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTESTS_SOUNDLISTS { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
 
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CATEGORY_SOUNDS { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
-        public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
+        public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS_MAIN { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
+        public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS_PREP { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
 
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CATEGORY_LANDING { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
         public ObservableCollection<MODEL_CATEGORY_PENALISATIONS> MODEL_CATEGORY_PENALISATION { get; set; } = new ObservableCollection<MODEL_CATEGORY_PENALISATIONS>();
@@ -3208,12 +3816,20 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void FUNCTION_SELECTED_ROUND_FLYING_USERS(int rnd, int grp)
         {
-            if (rnd==0) { rnd = BIND_SELECTED_ROUND; }
-            if (grp== 0) { grp = BIND_SELECTED_GROUP; }
+            if (rnd == 0) { rnd = BIND_SELECTED_ROUND; }
+            if (grp == 0) { grp = BIND_SELECTED_GROUP; }
             Players_Actual_Flying.Clear();
+            testdata.Clear();
             SQL_READSOUTEZDATA("select U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_Flying");
-            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
 
+
+            int _tmp_newgroup = BIND_SELECTED_GROUP + 1;
+            int _tmp_newround = BIND_SELECTED_ROUND;
+
+            if (_tmp_newgroup > BIND_SQL_SOUTEZ_GROUPS) { _tmp_newgroup = 1; _tmp_newround += 1; }
+
+            SQL_READSOUTEZDATA("select U.ID from score S left join users U on S.userid = U.id where  s.rnd = " + _tmp_newround + " and s.grp = " + _tmp_newgroup + " order by s.stp asc; ", "get_Players_Actual_Flying_nextforsound");
+            //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
         }
 
         public void FUNCTION_SELECTED_ROUND_USERS(int rnd, int grp)
@@ -3258,6 +3874,22 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             get { return _BIND_MAINTIME_ISSTOPED; }
             set { _BIND_MAINTIME_ISSTOPED = value; OnPropertyChanged(nameof(BIND_MAINTIME_ISSTOPED)); }
         }
+
+
+        private bool _BIND_PREPTIME_ISRUNNING = false;
+        public bool BIND_PREPTIME_ISRUNNING
+        {
+            get { return _BIND_PREPTIME_ISRUNNING; }
+            set { _BIND_PREPTIME_ISRUNNING = value; OnPropertyChanged(nameof(BIND_PREPTIME_ISRUNNING)); }
+        }
+
+        private bool _BIND_PREPTIME_ISSTOPED = true;
+        public bool BIND_PREPTIME_ISSTOPED
+        {
+            get { return _BIND_PREPTIME_ISSTOPED; }
+            set { _BIND_PREPTIME_ISSTOPED = value; OnPropertyChanged(nameof(BIND_PREPTIME_ISSTOPED)); }
+        }
+
 
         private string _scoreentrytype;
         public string ScoreEntryType
@@ -3369,7 +4001,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
        
-            FUNCTION_SOUND_LOADSELECTEDSOUND(BINDING_SoundList[BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
+            FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
+            FUNCTION_SOUND_LOADSELECTEDSOUND_PREP(BINDING_SoundList[BIND_AUDIO_SELECTEDPREPSOUND_INDEX].Id);
 
         }
 
@@ -3418,12 +4051,22 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public void FUNCTION_SOUND_LOADSELECTEDSOUND(int soundlistid)
+        public void FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(int soundlistid)
         {
-            Console.WriteLine("FUNCTION_SOUND_LOADSELECTEDSOUND");
-            MODEL_CONTEST_SOUNDS.Clear();
-            SQL_READSOUTEZDATA("select * from sounds where id = '"+ soundlistid + "' order by id asc", "get_contest_sound");
+            Console.WriteLine("FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN");
+            MODEL_CONTEST_SOUNDS_MAIN.Clear();
+            SQL_READSOUTEZDATA("select * from sounds where id = '"+ soundlistid + "' order by id asc", "get_contest_sound_main");
             BIND_AUDIO_INFO = BINDING_SoundList[BIND_AUDIO_SELECTEDBASESOUND_INDEX].SoundName;
+
+        }
+
+        public void FUNCTION_SOUND_LOADSELECTEDSOUND_PREP(int soundlistid)
+        {
+            Console.WriteLine("FUNCTION_SOUND_LOADSELECTEDSOUND_PREP");
+            MODEL_CONTEST_SOUNDS_PREP.Clear();
+            SQL_READSOUTEZDATA("select * from sounds where id = '" + soundlistid + "' order by id asc", "get_contest_sound_prep");
+            BIND_AUDIO_PREP_INFO = BINDING_SoundList[BIND_AUDIO_SELECTEDPREPSOUND_INDEX].SoundName;
+            BIND_LETOVYCAS_PREP_MAX = MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count - 1].VALUE;
 
         }
 

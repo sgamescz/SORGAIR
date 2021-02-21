@@ -93,13 +93,14 @@ namespace WpfApp6.View
             //VM.BIND_VYBRANEKOLOMENU = "Vybrané kolo: 1/4";
             VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
             VM.clock_MAIN_create ();
+            VM.clock_PREP_create();
             controller.SetProgress(1);
             controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_complete));
             await Task.Delay(500);
-            await controller.CloseAsync();
-            await Task.Delay(100);
-
             VM.BINDING_selectedmenuindex = 1;
+            await Task.Delay(100);
+            await controller.CloseAsync();
+
 
 
 
