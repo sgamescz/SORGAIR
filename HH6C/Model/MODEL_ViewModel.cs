@@ -62,6 +62,9 @@ namespace WpfApp6.Model
         WaveOutEvent[] maintimewaveout = new WaveOutEvent[100];
         WaveOutEvent[] preptimewaveout = new WaveOutEvent[100];
 
+        WaveOutEvent[] final_maintimewaveout = new WaveOutEvent[100];
+        WaveOutEvent[] final_preptimewaveout = new WaveOutEvent[100];
+
         WaveOutEvent[] roundgroupwav_actual = new WaveOutEvent[5];
         WaveOutEvent[] roundgroupwav_next = new WaveOutEvent[5];
 
@@ -71,6 +74,9 @@ namespace WpfApp6.Model
 
         NAudio.Wave.WaveFileReader[] wav_maintime = new NAudio.Wave.WaveFileReader[100];
         NAudio.Wave.WaveFileReader[] wav_preptime = new NAudio.Wave.WaveFileReader[100];
+
+        NAudio.Wave.WaveFileReader[] wav_final_maintime = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_final_preptime = new NAudio.Wave.WaveFileReader[100];
 
         NAudio.Wave.WaveFileReader[] wav_competitors_actual = new NAudio.Wave.WaveFileReader[100];
         NAudio.Wave.WaveFileReader[] wav_competitors_next = new NAudio.Wave.WaveFileReader[100];
@@ -87,6 +93,9 @@ namespace WpfApp6.Model
         System.Windows.Threading.DispatcherTimer MAIN_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer PREP_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
 
+        System.Windows.Threading.DispatcherTimer MAIN_FINAL_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer PREP_FINAL_TIME_TIMER = new System.Windows.Threading.DispatcherTimer();
+
         System.Windows.Threading.DispatcherTimer MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER = new System.Windows.Threading.DispatcherTimer();
 
@@ -96,6 +105,9 @@ namespace WpfApp6.Model
 
         System.Diagnostics.Stopwatch timer_main = new System.Diagnostics.Stopwatch();
         System.Diagnostics.Stopwatch timer_prep = new System.Diagnostics.Stopwatch();
+
+        System.Diagnostics.Stopwatch timer_final_main = new System.Diagnostics.Stopwatch();
+        System.Diagnostics.Stopwatch timer_final_prep = new System.Diagnostics.Stopwatch();
 
         System.Diagnostics.Stopwatch timer_dynamic_roundgroup_actual = new System.Diagnostics.Stopwatch();
         System.Diagnostics.Stopwatch timer_DYNAMIC_COMPETITORS_ACTUAL = new System.Diagnostics.Stopwatch();
@@ -108,6 +120,15 @@ namespace WpfApp6.Model
         int pouzitabarva = 1;
         int pouzitepozadi = 1;
 
+
+        int last_second_prep_time = 0;
+        int last_second_main_time = 0;
+
+        int last_second_final_prep_time = 0;
+        int last_second_final_main_time = 0;
+
+        bool _BIND_IS_FINAL_FLIGHT_READY = false;
+
         bool BIND_MENU_ENABLED_online_value = false;
         bool BIND_MENU_ENABLED_finale_value = false;
         bool BIND_MENU_ENABLED_detailyastatistiky_value = false;
@@ -119,6 +140,7 @@ namespace WpfApp6.Model
         bool BIND_MENU_ENABLED_rozlosovani_value = false;
         bool BIND_MENU_ENABLED_vybranekolo_value = false;
         bool BIND_MENU_ENABLED_vysledky_value = false;
+        bool BIND_MENU_ENABLED_vysledky_finale_value = false;
         bool BIND_MENU_ENABLED_seznamkol_value = false;
 
 
@@ -152,27 +174,42 @@ namespace WpfApp6.Model
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT_value;
         public bool BIND_SQL_SOUTEZ_ENTRYSTYLENEXT_value;
         public bool BIND_SQL_AUDIO_COMPNUMBERS_value;
-        public bool _BIND_AUDIOFROMNEXTRNDGRP;
+        public bool _BIND_AUDIO_PREPTIME_MANUAL_NEXT;
+        public bool _BIND_PREP_AUDIO_MAN_AUTO;
+        public bool _BIND_AUDIO_PREPTIME_AUTO_NEXT;
         public bool BIND_SQL_AUDIO_COMPNUMBERS_PREP_value;
         public bool BIND_SQL_AUDIO_RNDGRPFLIGHT_value;
         public bool BIND_SQL_AUDIO_RNDGRPPREP_value;
         public string BIND_SORGNEWS_value = "Vítejte v nové verzi SORG AIR pro rok 2020. Aktuální novinky jsou blabla a tak dále a tak dale nějaký text z netu";
         public float BIND_LETOVYCAS_value = 0;
+        public float BIND_FINAL_LETOVYCAS_value = 0;
+
         public float BIND_LETOVYCAS_PREP_value = 0;
+        public float BIND_FINAL_LETOVYCAS_PREP_value = 0;
 
         public int BIND_LETOVYCAS_MAX_value = 600;
+        public int BIND_FINAL_LETOVYCAS_MAX_value = 600;
+
+
         public int BIND_PRE_LETOVYCAS_MAX_value = 20;
         public int BIND_LETOVYCAS_PREP_MAX_value = 20;
+        public int BIND_FINAL_LETOVYCAS_PREP_MAX_value = 20;
+
+
+
         public string BIND_LETOVYCAS_STRING_value = "xxx";
         public string BIND_LETOVYCAS_PREP_STRING_value = "xxx";
 
         public float BIND_PROGRESS_1_value = 0;
         public float BIND_PROGRESS_PREP_1_value = 0;
 
+        public float BIND_FINAL_PROGRESS_1_value = 0;
+        public float BIND_FINAL_PROGRESS_PREP_1_value = 0;
 
         public int BIND_SELECTED_ROUND_value = 1;
         public int BIND_SELECTED_GROUP_value = 1;
         public int _BIND_SELECTED_STARTPOINT;
+        public int _BIND_SELECTED_FINAL_STARTPOINT;
         public int BIND_SELECTED_ROUND_DESC_value;
         public int BIND_SELECTED_GROUP_DECS_value;
 
@@ -187,6 +224,7 @@ namespace WpfApp6.Model
 
         public string BIND_SQL_AUTO_PREPTIMELENGHT_value;
         public string BIND_SQL_AUTO_PREPTIMESTART_value;
+        public string BIND_SQL_AUTO_MAINTIMESTART_value;
 
         public string BIND_FLAG_value;
         public string BIND_PAID_value;
@@ -254,6 +292,18 @@ namespace WpfApp6.Model
         }
 
 
+        
+        public bool BIND_IS_FINAL_FLIGHT_READY
+        {
+            get { return _BIND_IS_FINAL_FLIGHT_READY; }
+            set { _BIND_IS_FINAL_FLIGHT_READY = value;
+                BIND_MENU_ENABLED_finale = value;
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='isfinalflightready'");
+                
+                OnPropertyChanged("BIND_IS_FINAL_FLIGHT_READY");
+                OnPropertyChanged("BIND_MENU_ENABLED_finale");
+            }
+        }
 
 
         private bool _BIND_CATEGORYEDITOR_ENABLED = false;
@@ -278,8 +328,6 @@ namespace WpfApp6.Model
             get { return _BIND_AUDIO_SELECTEDBASESOUND_INDEX; }
             set { _BIND_AUDIO_SELECTEDBASESOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDBASESOUND_INDEX");
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedsound1'");
-                //FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[value].Id);
-                //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
 
             }
         }
@@ -293,12 +341,33 @@ namespace WpfApp6.Model
             {
                 _BIND_AUDIO_SELECTEDPREPSOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDPREPSOUND_INDEX");
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedsound1prep'");
-                //FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[value].Id);
-                //BIND_AUDIO_INFO = BINDING_SoundList[value].SoundName;
 
             }
         }
 
+        int _BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX = -1;
+        public int BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX
+        {
+            get { return _BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX; }
+            set
+            {
+                _BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedfinalprepsound'");
+
+            }
+        }
+
+        int _BIND_AUDIO_SELECTEDFINALSOUND_INDEX = -1;
+        public int BIND_AUDIO_SELECTEDFINALSOUND_INDEX
+        {
+            get { return _BIND_AUDIO_SELECTEDFINALSOUND_INDEX; }
+            set
+            {
+                _BIND_AUDIO_SELECTEDFINALSOUND_INDEX = value; OnPropertyChanged("BIND_AUDIO_SELECTEDFINALSOUND_INDEX");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='selectedfinalsound'");
+
+            }
+        }
 
         int _BINDING_SoundList_languages_index = -1;
         public int BINDING_SoundList_languages_index
@@ -369,22 +438,30 @@ namespace WpfApp6.Model
         {
             Console.WriteLine("_BIND_JETREBAROZLOSOVAT_SCORE" + _BIND_JETREBAROZLOSOVAT_SCORE);
             Console.WriteLine("SUM"+ (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS));
-                if (_BIND_JETREBAROZLOSOVAT_SCORE != (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS))
-                {
+            if (_BIND_JETREBAROZLOSOVAT_SCORE != (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS))
+            {
                 BIND_ROZLOSOVANIODPOVIDAPOCTUM = "Collapsed";
                 Console.WriteLine("BIND_ROZLOSOVANIODPOVIDAPOCTUM" + BIND_ROZLOSOVANIODPOVIDAPOCTUM);
                 BIND_MENU_ENABLED_seznamkol = false;
                 BIND_MENU_ENABLED_vybranekolo = false;
                 BIND_MENU_ENABLED_vysledky = false;
-
-                }
-                else
-                {
+                BIND_MENU_ENABLED_vysledky_finale = false;
+                BIND_MENU_ENABLED_detailyastatistiky = false;
+                BIND_MENU_ENABLED_finale = false;
+            }
+            else
+            {
                 BIND_ROZLOSOVANIODPOVIDAPOCTUM = "Visible";
                 Console.WriteLine("BIND_ROZLOSOVANIODPOVIDAPOCTUM" + BIND_ROZLOSOVANIODPOVIDAPOCTUM);
+                Console.WriteLine("CBACBA");
                 BIND_MENU_ENABLED_seznamkol = true;
                 BIND_MENU_ENABLED_vybranekolo = true;
                 BIND_MENU_ENABLED_vysledky = true;
+                BIND_MENU_ENABLED_vysledky_finale = true;
+                BIND_MENU_ENABLED_detailyastatistiky = true;
+                if (BIND_IS_FINAL_FLIGHT_READY == true) {
+                    BIND_MENU_ENABLED_finale = true;
+                }
             }
 
         }
@@ -410,6 +487,8 @@ namespace WpfApp6.Model
 
 
                 string time = (MODEL_CONTEST_RULES[0].BASEROUNDLENGHT / 60).ToString() + ":" + (MODEL_CONTEST_RULES[0].BASEROUNDLENGHT % 60).ToString("00");
+                last_second_main_time = MODEL_CONTEST_SOUNDS_MAIN[MODEL_CONTEST_SOUNDS_MAIN.Count - 1].VALUE;
+                
                 return _BIND_AUDIO_INFO + " [" + casod + " - " + time + "]";
 
             }
@@ -442,12 +521,76 @@ namespace WpfApp6.Model
 
                 
                 string time = (MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count-1].VALUE / 60).ToString() + ":" + (MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count-1].VALUE % 60).ToString("00");
+                last_second_prep_time = MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count - 1].VALUE;
                 return _BIND_AUDIO_PREP_INFO + " [" + casod + " - " + time + "]";
 
             }
             set { _BIND_AUDIO_PREP_INFO = value; OnPropertyChanged("BIND_AUDIO_PREP_INFO"); }
         }
 
+
+
+
+
+        string _BIND_AUDIO_FINAL_INFO;
+        public string BIND_AUDIO_FINAL_INFO
+        {
+            get
+            {
+
+
+                string casod = "00:00";
+                if (MODEL_CONTEST_SOUNDS_FINAL_MAIN.Count > 0)
+                {
+
+                    if (MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE < 0)
+                    {
+                        casod = ("-" + Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE) / 60).ToString() + ":" + (Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE) % 60).ToString("00");
+                    }
+
+                }
+
+
+                string time = (MODEL_CONTEST_RULES[0].FINALROUNDLENGHT / 60).ToString() + ":" + (MODEL_CONTEST_RULES[0].FINALROUNDLENGHT % 60).ToString("00");
+                last_second_final_main_time = MODEL_CONTEST_SOUNDS_FINAL_MAIN[MODEL_CONTEST_SOUNDS_FINAL_MAIN.Count - 1].VALUE;
+
+                return _BIND_AUDIO_FINAL_INFO + " [" + casod + " - " + time + "]";
+
+            }
+            set { _BIND_AUDIO_FINAL_INFO = value; OnPropertyChanged("BIND_AUDIO_FINAL_INFO"); }
+        }
+
+
+
+
+
+        string _BIND_AUDIO_FINAL_PREP_INFO;
+        public string BIND_AUDIO_FINAL_PREP_INFO
+        {
+            get
+            {
+
+
+                string casod = "00:00";
+
+                if (MODEL_CONTEST_SOUNDS_FINAL_PREP.Count > 0)
+                {
+
+                    if (MODEL_CONTEST_SOUNDS_FINAL_PREP[0].VALUE < 0)
+                    {
+                        casod = ("-" + Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_PREP[0].VALUE) / 60).ToString() + ":" + (Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_PREP[0].VALUE) % 60).ToString("00");
+                    }
+
+                }
+
+
+
+                string time = (MODEL_CONTEST_SOUNDS_FINAL_PREP[MODEL_CONTEST_SOUNDS_FINAL_PREP.Count - 1].VALUE / 60).ToString() + ":" + (MODEL_CONTEST_SOUNDS_FINAL_PREP[MODEL_CONTEST_SOUNDS_FINAL_PREP.Count - 1].VALUE % 60).ToString("00");
+                last_second_final_prep_time = MODEL_CONTEST_SOUNDS_FINAL_PREP[MODEL_CONTEST_SOUNDS_FINAL_PREP.Count - 1].VALUE;
+                return _BIND_AUDIO_FINAL_PREP_INFO + " [" + casod + " - " + time + "]";
+            }
+            set { _BIND_AUDIO_FINAL_PREP_INFO = value; OnPropertyChanged("BIND_AUDIO_FINAL_PREP_INFO"); }
+        }
 
 
 
@@ -488,6 +631,11 @@ namespace WpfApp6.Model
             get { return BIND_MENU_ENABLED_vysledky_value; }
             set { BIND_MENU_ENABLED_vysledky_value = value; OnPropertyChanged("BIND_MENU_ENABLED_vysledky"); }
         }
+        public bool BIND_MENU_ENABLED_vysledky_finale
+        {
+            get { return BIND_MENU_ENABLED_vysledky_finale_value; }
+            set { BIND_MENU_ENABLED_vysledky_finale_value = value; OnPropertyChanged("BIND_MENU_ENABLED_vysledky_finale"); }
+        }
 
         public bool BIND_MENU_ENABLED_seznamkol
         {
@@ -495,6 +643,18 @@ namespace WpfApp6.Model
             set { BIND_MENU_ENABLED_seznamkol_value = value; OnPropertyChanged("BIND_MENU_ENABLED_seznamkol"); }
         }
 
+
+        public string _Function_global_resizemode= "Fill";
+        public string Function_global_resizemode
+        {
+            get { return _Function_global_resizemode; }
+            set { 
+                _Function_global_resizemode = value;
+                OnPropertyChanged("Function_global_resizemode");
+                SQL_SAVESORGDATA("update contest set value='" + value + "' where item='resizemode'");
+
+            }
+        }
 
 
         public int Function_global_changeforeground
@@ -573,6 +733,7 @@ namespace WpfApp6.Model
 
 
             BIND_SQL_SOUTEZ_NAZEV = SQL_READSOUTEZDATA("select value from contest where item='Name'", "");
+            BIND_IS_FINAL_FLIGHT_READY = Boolean.Parse(SQL_READSOUTEZDATA("select value from contest where item='isfinalflightready'", ""));
             BIND_SQL_SOUTEZ_KATEGORIE = SQL_READSOUTEZDATA("select value from contest where item='Category'", "");
             BIND_SQL_SOUTEZ_LOKACE = SQL_READSOUTEZDATA("select value from contest where item='Location'", "");
             BIND_SQL_SOUTEZ_DATUM = SQL_READSOUTEZDATA("select value from contest where item='Date'", "");
@@ -599,7 +760,9 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_ENTRYSTYLENEXT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystylenext'", ""));
             BIND_SQL_SOUTEZ_REQUIREFAILICENCE = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='RequireFAILicence'", ""));
             BIND_SQL_AUDIO_COMPNUMBERS = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumber'", ""));
-            BIND_AUDIOFROMNEXTRNDGRP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiofromnextrndgrp'", ""));
+            BIND_AUDIO_PREPTIME_MANUAL_NEXT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audio_preptime_man_next'", ""));
+            BIND_PREP_AUDIO_MAN_AUTO = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='prep_audio_man_auto'", ""));
+            BIND_AUDIO_PREPTIME_AUTO_NEXT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audio_preptime_auto_next'", ""));
             BIND_SQL_AUDIO_COMPNUMBERS_PREP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Audiocumpetitornumberprep'", ""));
             BIND_SQL_AUDIO_RNDGRPFLIGHT = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpflight'", ""));
             BIND_SQL_AUDIO_RNDGRPPREP = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Rndgrpprep'", ""));
@@ -609,11 +772,15 @@ namespace WpfApp6.Model
             BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Runpreptime'", ""));
             BIND_SQL_AUTO_PREPTIMELENGHT = SQL_READSOUTEZDATA("select value from contest where item='Preptimelenght'", "");
             BIND_SQL_AUTO_PREPTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Preptimestart'", "");
+            BIND_SQL_AUTO_MAINTIMESTART = SQL_READSOUTEZDATA("select value from contest where item='Maintimestart'", "");
             BIND_AUDIO_SELECTEDBASESOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedsound1'", ""));
             BIND_AUDIO_SELECTEDPREPSOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedsound1prep'", ""));
+            BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedfinalprepsound'", ""));
+            BIND_AUDIO_SELECTEDFINALSOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedfinalsound'", ""));
             BINDING_SoundList_languages_index = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedaudiolanguageindex'", ""));
 
             BIND_MENU_ENABLED_nastavenisouteze = true;
+            BIND_MENU_ENABLED_vysledky_finale = true;
             BIND_MENU_ENABLED_audioadalsi = true;
             BIND_MENU_ENABLED_hardware = true;
             BIND_MENU_ENABLED_soutezici = true;
@@ -621,9 +788,9 @@ namespace WpfApp6.Model
             BIND_MENU_ENABLED_vybranekolo = true;
             BIND_MENU_ENABLED_seznamkol = true;
             BIND_MENU_ENABLED_vysledky = true;
-            BIND_MENU_ENABLED_online = false;
-            BIND_MENU_ENABLED_detailyastatistiky = false;
-            BIND_MENU_ENABLED_finale = false;
+            BIND_MENU_ENABLED_online = true;
+            BIND_MENU_ENABLED_detailyastatistiky = true;
+
             
             FUNCTION_LOAD_MATRIX_FILES();
             FUNCTION_LOAD_TIMERS_MINUTES();
@@ -639,7 +806,12 @@ namespace WpfApp6.Model
             Console.WriteLine(SQL_READSOUTEZDATA("select value from contest where item='Matrix_score'", ""));
             BIND_JETREBAROZLOSOVAT_SCORE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Matrix_score'", ""));
             FUNCTION_JETREBAROZLOSOVAT_OVER();
-            
+
+            FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
+            FUNCTION_SELECTED_FINAL_ROUND_USERS(1, 1);
+
+            BIND_SELECTED_FINAL_ROUND = 1;
+            MODEL_CONTEST_FINAL_ROUNDS[BIND_SELECTED_FINAL_ROUND-1].ISSELECTED = "selected";
         }
 
 
@@ -663,15 +835,11 @@ namespace WpfApp6.Model
                 {
                     TimeSpan time_remaining = TimeSpan.FromSeconds(MODEL_CONTEST_RULES[0].BASEROUNDLENGHT);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
-                    //Console.WriteLine("time_remaining"+time_remaining);
-                    //Console.WriteLine("totalsec" + totalsec);
                     TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
-                    //Console.WriteLine("rozdil2 " + rozdil2);
 
                     letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
                 }
 
-                //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
                 return letovycas;
             }
 
@@ -689,13 +857,70 @@ namespace WpfApp6.Model
             
                     TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_PREP_MAX);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
-                    Console.WriteLine("time_remaining" + time_remaining);
-                    Console.WriteLine("totalsec" + totalsec);
                     TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
-                    Console.WriteLine("rozdil2 " + rozdil2);
 
                     letovycas = "Přípravný čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
               
+
+                //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
+                return letovycas;
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+        public string BIND_FINAL_LETOVYCAS_STRING
+        {
+            get
+            {
+                //                TimeSpan time_elapsed = TimeSpan.FromSeconds(BIND_LETOVYCAS_value);
+                var elapsed = timer_final_main.Elapsed;
+                string letovycas = "";
+
+                if (BIND_TYPEOFCLOCK == "PRE_MAIN")
+                {
+                    TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_FINAL_LETOVYCAS_MAX);
+                    TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
+                    TimeSpan rozdil = time_remaining.Subtract(totalsec);
+                    letovycas = "Letový čas začne za: " + rozdil.ToString("mm':'ss':'ff");
+                }
+                else
+                {
+                    TimeSpan time_remaining = TimeSpan.FromSeconds(MODEL_CONTEST_RULES[0].FINALROUNDLENGHT);
+                    TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
+                    TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
+
+                    letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+                }
+
+                return letovycas;
+            }
+
+        }
+
+
+        public string BIND_FINAL_LETOVYCAS_PREP_STRING
+        {
+            get
+            {
+                //                TimeSpan time_elapsed = TimeSpan.FromSeconds(BIND_LETOVYCAS_value);
+                var elapsed = timer_final_prep.Elapsed;
+                string letovycas = "";
+
+
+                TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_FINAL_LETOVYCAS_PREP_MAX);
+                TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
+                TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
+
+                letovycas = "Přípravný čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+
 
                 //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
                 return letovycas;
@@ -762,10 +987,96 @@ namespace WpfApp6.Model
                     {
                         _lastsecond = (timer_main.Elapsed.Minutes*60) + timer_main.Elapsed.Seconds;
                         playsound_by_time("main", _lastsecond);
+
+                        if (_lastsecond == _tmp_casspusteniautomatickehopripravnehocasu & BIND_SQL_AUTO_USEPREPTIME == true & BIND_SQL_AUTO_RUNPREPTIMENEXTROUND==true)
+                        {
+                            BIND_PREP_AUDIO_MAN_AUTO = false;
+                            clock_PREP_start();
+                        }
+
+                        if (last_second_main_time == _lastsecond)
+                        {
+                            clock_MAIN_stop();
+                        }
+
                     }
                     Console.WriteLine("cas:" + _lastsecond);
+                    DateTime xxx = DateTime.Parse(BIND_SQL_AUTO_PREPTIMESTART);
+                    Console.WriteLine("datetime:" + ((xxx.Hour*60)+ xxx.Minute));
 
 
+
+                }
+
+                //BIND_LETOVYCAS = Convert.ToSingle(timer_main.Elapsed.TotalSeconds);
+
+            }
+
+
+        }
+
+
+        public float BIND_FINAL_LETOVYCAS
+        {
+            get
+            {
+                return BIND_FINAL_LETOVYCAS_value;
+            }
+
+            set
+            {
+
+                BIND_FINAL_PROGRESS_1 = value;
+                BIND_FINAL_LETOVYCAS_value = value; OnPropertyChanged("BIND_FINAL_LETOVYCAS"); OnPropertyChanged("BIND_FINAL_LETOVYCAS_STRING");
+
+
+                if (timer_final_main.Elapsed.Seconds != lastsecond & BIND_FINAL_MAINTIME_ISRUNNING == true)
+                {
+                    //Console.WriteLine("ROZDIL - timer_main.Elapsed.Seconds:" + timer_main.Elapsed.Seconds);
+                    //Console.WriteLine("ROZDIL - lastsecond:" + lastsecond);
+                    lastsecond = timer_final_main.Elapsed.Seconds;
+
+                    if (BIND_TYPEOFCLOCK == "PRE_MAIN")
+                    {
+                        _lastsecond = -(Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE) - timer_final_main.Elapsed.Seconds);
+
+
+
+
+
+                        if (lastsecond == BIND_FINAL_LETOVYCAS_MAX)
+                        {
+                            BIND_FINAL_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].FINALROUNDLENGHT;
+                            BIND_FINAL_PROGRESS_1 = 0;
+                            BIND_TYPEOFCLOCK = "MAIN";
+                            timer_final_main.Restart();
+
+                        }
+                        else
+                        {
+                            playsound_by_time("main", _lastsecond);
+                        }
+                    }
+                    else
+                    {
+                        _lastsecond = (timer_final_main.Elapsed.Minutes * 60) + timer_final_main.Elapsed.Seconds;
+                        playsound_by_time("main", _lastsecond);
+
+                        if (_lastsecond == _tmp_casspusteniautomatickehopripravnehocasu & BIND_SQL_AUTO_USEPREPTIME == true & BIND_SQL_AUTO_RUNPREPTIMENEXTROUND == true)
+                        {
+                            BIND_PREP_AUDIO_MAN_AUTO = false;
+                            //clock_FINAL_PREP_start();
+                        }
+
+                        if (last_second_final_main_time == _lastsecond)
+                        {
+                            //clock_FINAL_MAIN_stop();
+                        }
+                        
+                    }
+                    Console.WriteLine("cas:" + _lastsecond);
+                    DateTime xxx = DateTime.Parse(BIND_SQL_AUTO_PREPTIMESTART);
+                    Console.WriteLine("datetime:" + ((xxx.Hour * 60) + xxx.Minute));
 
 
 
@@ -803,8 +1114,83 @@ namespace WpfApp6.Model
              
                    _lastsecond_prep = (timer_prep.Elapsed.Minutes * 60) + timer_prep.Elapsed.Seconds;
                    playsound_by_time("prep", _lastsecond_prep);
-                  
+                    if (_lastsecond_prep == _tmp_casspusteniautomatickehohlavnihocasu & BIND_SQL_AUTO_USEPREPTIME == true & BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME==true)
+                    {
+
+
+                        if (BIND_PREP_AUDIO_MAN_AUTO == true)
+                        {
+                            if (BIND_AUDIO_PREPTIME_MANUAL_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1); clock_MAIN_start(); } else { clock_MAIN_start(); }
+                        }
+                        else
+                        {
+                            if (BIND_AUDIO_PREPTIME_AUTO_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1); clock_MAIN_start(); } else { clock_MAIN_start(); }
+                        }
+
+
+                    }
+
+                    if (last_second_prep_time == _lastsecond_prep)
+                    {
+                        clock_PREP_stop();
+                    }
                     Console.WriteLine("prep_cas:" + _lastsecond_prep);
+
+                }
+
+            }
+
+
+        }
+
+
+
+
+
+
+        public float BIND_FINAL_LETOVYCAS_PREP
+        {
+            get
+            {
+                return BIND_FINAL_LETOVYCAS_PREP_value;
+            }
+
+            set
+            {
+
+                BIND_FINAL_PROGRESS_PREP_1 = value;
+                Console.WriteLine("BIND_FINAL_PROGRESS_PREP_1" + BIND_FINAL_PROGRESS_PREP_1);
+                BIND_FINAL_LETOVYCAS_PREP_value = value; OnPropertyChanged("BIND_FINAL_LETOVYCAS_PREP"); OnPropertyChanged("BIND_FINAL_LETOVYCAS_PREP_STRING");
+
+
+                if (timer_final_prep.Elapsed.Seconds != lastsecond_prep & BIND_FINAL_PREPTIME_ISRUNNING == true)
+                {
+                    lastsecond_prep = timer_final_prep.Elapsed.Seconds;
+
+
+                    _lastsecond_prep = (timer_final_prep.Elapsed.Minutes * 60) + timer_final_prep.Elapsed.Seconds;
+                    playsound_by_time("prep", _lastsecond_prep);
+                    if (_lastsecond_prep == _tmp_casspusteniautomatickehohlavnihocasu & BIND_SQL_AUTO_USEPREPTIME == true & BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME == true)
+                    {
+
+
+                        if (BIND_PREP_AUDIO_MAN_AUTO == true)
+                        {
+                            if (BIND_AUDIO_PREPTIME_MANUAL_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1); clock_FINAL_MAIN_start(); } else { clock_FINAL_MAIN_start(); }
+                        }
+                        else
+                        {
+                            if (BIND_AUDIO_PREPTIME_AUTO_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1); clock_FINAL_MAIN_start(); } else { clock_FINAL_MAIN_start(); }
+                        }
+
+
+                    }
+
+                    if (last_second_final_prep_time == _lastsecond_prep)
+                    {
+                        clock_FINAL_PREP_stop();
+                    }
+                    Console.WriteLine("FINALprep_cas:" + _lastsecond_prep);
 
                 }
 
@@ -872,7 +1258,7 @@ namespace WpfApp6.Model
                     if (listItem != null)
                     {
                         wav_preptime[listItem.CATEGORY].Position = 0;
-                        Console.WriteLine("Playing:" + listItem.CATEGORY);
+                        Console.WriteLine("Playing_PREPTIME:" + listItem.CATEGORY);
                         //maintimewaveout[listItem.CATEGORY].Init(wav_maintime[listItem.CATEGORY]);
 
 
@@ -880,14 +1266,61 @@ namespace WpfApp6.Model
                         {
                             if (BIND_SQL_AUDIO_RNDGRPPREP == true & listItem.TEXTVALUE == "---SAY-RND-GRP---")
                             {
-                                if (BIND_AUDIOFROMNEXTRNDGRP == true) { clock_DYNAMIC_ROUNDGROUP_NEXT_start(); } else { clock_DYNAMIC_ROUNDGROUP_ACTUAL_start(); }
-                                
+                                Console.WriteLine("---SAY-RND-GRP---");
+
+                                if (BIND_PREP_AUDIO_MAN_AUTO == true) //pokud je pusteno rucne
+                                {
+                                    if (BIND_AUDIO_PREPTIME_MANUAL_NEXT == false)
+                                    {
+                                        clock_DYNAMIC_ROUNDGROUP_ACTUAL_start();
+                                    }
+                                    else
+                                    {
+                                       clock_DYNAMIC_ROUNDGROUP_NEXT_start();
+                                    }
+
+                                }
+                                else //pokud je pusteno automaticky
+                                {
+                                    if (BIND_AUDIO_PREPTIME_AUTO_NEXT == false)
+                                    {
+                                        clock_DYNAMIC_ROUNDGROUP_ACTUAL_start();
+                                    }
+                                    else
+                                    {
+                                        clock_DYNAMIC_ROUNDGROUP_NEXT_start();
+                                    }
+                                }
+
                             }
 
                             if (BIND_SQL_AUDIO_COMPNUMBERS_PREP == true & listItem.TEXTVALUE == "---SAY-COMPETITORS---")
                             {
-                                if (BIND_AUDIOFROMNEXTRNDGRP == true) { clock_DYNAMIC_COMPETITORS_NEXT_start(); } else { clock_DYNAMIC_COMPETITORS_ACTUAL_start();  }
-                                
+
+                                if (BIND_PREP_AUDIO_MAN_AUTO == true) //pokud je pusteno rucne
+                                {
+                                    if (BIND_AUDIO_PREPTIME_MANUAL_NEXT == false)
+                                    {
+                                        clock_DYNAMIC_COMPETITORS_ACTUAL_start();
+                                    }
+                                    else
+                                    {
+                                        clock_DYNAMIC_COMPETITORS_NEXT_start();
+                                    }
+
+                                }
+                                else //pokud je pusteno automaticky
+                                {
+                                    if (BIND_AUDIO_PREPTIME_AUTO_NEXT == false)
+                                    {
+                                        clock_DYNAMIC_COMPETITORS_ACTUAL_start();
+                                    }
+                                    else
+                                    {
+                                        clock_DYNAMIC_COMPETITORS_NEXT_start();
+                                    }
+                                }
+
                             }
 
 
@@ -1039,6 +1472,40 @@ namespace WpfApp6.Model
 
         }
 
+
+        public int BIND_FINAL_LETOVYCAS_MAX
+        {
+            get
+            {
+                return BIND_FINAL_LETOVYCAS_MAX_value;
+            }
+
+            set
+            {
+                BIND_FINAL_LETOVYCAS_MAX_value = value; OnPropertyChanged("BIND_FINAL_LETOVYCAS_MAX"); OnPropertyChanged("BIND_FINAL_LETOVYCAS_STRING"); Console.WriteLine("BIND_FINAL_LETOVYCAS_MAX" + BIND_FINAL_LETOVYCAS_MAX);
+            }
+
+        }
+
+        private int _MAX_WIDTH = 50;
+        public int MAX_WIDTH
+        {
+            get
+            {
+                Console.WriteLine("_MAX_WIDTH:" + _MAX_WIDTH);
+                return _MAX_WIDTH;
+            }
+
+            set
+            {
+                _MAX_WIDTH = value; OnPropertyChanged("MAX_WIDTH");
+                Console.WriteLine("_MAX_WIDTH:" + _MAX_WIDTH);
+
+            }
+
+        }
+
+
         public int BIND_PRE_LETOVYCAS_MAX
         {
             get
@@ -1067,6 +1534,31 @@ namespace WpfApp6.Model
 
         }
 
+        public int BIND_FINAL_LETOVYCAS_PREP_MAX
+        {
+            get
+            {
+                return BIND_FINAL_LETOVYCAS_PREP_MAX_value;
+            }
+
+            set
+            {
+                BIND_FINAL_LETOVYCAS_PREP_MAX_value = value; OnPropertyChanged("BIND_FINAL_LETOVYCAS_PREP_MAX"); OnPropertyChanged("BIND_FINAL_LETOVYCAS_PREP_STRING");
+            }
+
+        }
+
+        public float BIND_FINAL_PROGRESS_1
+        {
+            get { return BIND_FINAL_PROGRESS_1_value; }
+            set { BIND_FINAL_PROGRESS_1_value = value; OnPropertyChanged("BIND_FINAL_PROGRESS_1"); }
+        }
+
+        public float BIND_FINAL_PROGRESS_PREP_1
+        {
+            get { return BIND_FINAL_PROGRESS_PREP_1_value; }
+            set { BIND_FINAL_PROGRESS_PREP_1_value = value; OnPropertyChanged("BIND_FINAL_PROGRESS_PREP_1"); }
+        }
 
 
         public float BIND_PROGRESS_1
@@ -1127,7 +1619,7 @@ namespace WpfApp6.Model
 
         public string BIND_VYBRANEKOLOMENU
         {
-            get { return SORGAIR.Properties.Lang.Lang.menu_selectedround + ":" + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP; }
+            get { return SORGAIR.Properties.Lang.Lang.menu_selectedflight + ":" + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP; }
         }
 
         public string BIND_SELECTED_ROUND_DESC
@@ -1266,6 +1758,13 @@ namespace WpfApp6.Model
             set { _BIND_SELECTED_STARTPOINT = value; OnPropertyChanged("BIND_SELECTED_STARTPOINT"); Console.WriteLine("BIND_SELECTED_STARTPOINT:" + BIND_SELECTED_STARTPOINT); }
         }
 
+        public int BIND_SELECTED_FINAL_STARTPOINT
+        {
+            get { return _BIND_SELECTED_FINAL_STARTPOINT; }
+            set { _BIND_SELECTED_FINAL_STARTPOINT = value; OnPropertyChanged("BIND_SELECTED_FINAL_STARTPOINT"); Console.WriteLine("BIND_SELECTED_FINAL_STARTPOINT:" + BIND_SELECTED_FINAL_STARTPOINT); }
+        }
+
+
         private int _BIND_VIEWED_STARTPOINT;
         public int BIND_VIEWED_STARTPOINT
         {
@@ -1285,7 +1784,25 @@ namespace WpfApp6.Model
         public int BIND_VIEWED_ROUND
         {
             get { return BIND_VIEWED_ROUND_value; }
-            set { BIND_VIEWED_ROUND_value = value; OnPropertyChanged("BIND_VIEWED_ROUND"); Console.WriteLine("BIND_VIEWED_ROUND:" + BIND_VIEWED_ROUND); FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); }
+            set { BIND_VIEWED_ROUND_value = value; OnPropertyChanged("BIND_VIEWED_ROUND"); Console.WriteLine("BIND_VIEWED_ROUND:" + BIND_VIEWED_ROUND); FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); OnPropertyChanged("BIND_START_SELECTED_ROUND_GROUP"); }
+        }
+
+        private int _BIND_SELECTED_FINAL_ROUND = 1;
+        public int BIND_SELECTED_FINAL_ROUND
+        {
+            get {
+                Console.WriteLine("_BIND_SELECTED_FINAL_ROUND:" + _BIND_SELECTED_FINAL_ROUND);
+                return _BIND_SELECTED_FINAL_ROUND; 
+            }
+            set {
+                _BIND_SELECTED_FINAL_ROUND = value; 
+                Console.WriteLine("BIND_SELECTED_FINAL_ROUND:" + BIND_SELECTED_FINAL_ROUND);
+                FUNCTION_SELECTED_FINAL_ROUND_USERS(_BIND_SELECTED_FINAL_ROUND, 1);
+                OnPropertyChanged("BIND_SELECTED_FINAL_ROUND");
+            }
+            //set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); 
+            //FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); OnPropertyChanged("BIND_START_SELECTED_ROUND_GROUP"); }
+
         }
 
 
@@ -1299,7 +1816,12 @@ namespace WpfApp6.Model
         public int BIND_VIEWED_GROUP
         {
             get { return BIND_VIEWED_GROUP_value; }
-            set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); }
+            set { BIND_VIEWED_GROUP_value = value; OnPropertyChanged("BIND_VIEWED_GROUP"); Console.WriteLine("BIND_VIEWED_GROUP" + BIND_VIEWED_GROUP); FUNCTION_SELECTED_ROUND_USERS(BIND_VIEWED_ROUND, BIND_VIEWED_GROUP); OnPropertyChanged("BIND_START_SELECTED_ROUND_GROUP"); }
+        }
+
+        public string BIND_START_SELECTED_ROUND_GROUP
+        {
+            get { return "Odstartovat let: " + BIND_VIEWED_ROUND + "/" + BIND_VIEWED_GROUP; }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTS
@@ -1344,7 +1866,32 @@ namespace WpfApp6.Model
         public int BIND_SQL_SOUTEZ_ROUNDSFINALE
         {
             get { return BIND_SQL_SOUTEZ_ROUNDSFINALE_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Roundsfinale'"); BIND_SQL_SOUTEZ_ROUNDSFINALE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDSFINALE"); }
+            set { 
+
+
+                if (value > BIND_SQL_SOUTEZ_ROUNDSFINALE_value)
+                {
+                    SQL_SAVESOUTEZDATA("insert into final_rounds (id,name,type,lenght,zadano) values (" + value + ",'finále:_" + value + "','auto',900,0);");
+                    SQL_SAVESOUTEZDATA("insert into final_groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'autofinalgrp_1','auto',900,0, " + value + " ,1);");
+                }
+                SQL_SAVESOUTEZDATA("delete from final_rounds where id > " + value + ";");
+                SQL_SAVESOUTEZDATA("delete from final_groups where masterround > " + value + ";");
+
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Roundsfinale'");
+                BIND_SQL_SOUTEZ_ROUNDSFINALE_value = value;
+                OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDSFINALE");
+                
+
+
+                //BIND_SQL_SOUTEZ_ROUNDS_value = value;
+                //OnPropertyChanged("BIND_SQL_SOUTEZ_ROUNDS");
+                //FUNCTION_LOAD_MATRIX_FILES();
+                //FUNCTION_JETREBAROZLOSOVAT_OVER();
+
+
+
+
+            }
         }
 
         public int BIND_SQL_SOUTEZ_STARTPOINTSFINALE
@@ -1518,10 +2065,24 @@ namespace WpfApp6.Model
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audiocumpetitornumber'"); BIND_SQL_AUDIO_COMPNUMBERS_value = value; OnPropertyChanged("BIND_SQL_AUDIO_COMPNUMBERS"); }
         }
 
-        public bool BIND_AUDIOFROMNEXTRNDGRP
+        public bool BIND_AUDIO_PREPTIME_MANUAL_NEXT
         {
-            get { return _BIND_AUDIOFROMNEXTRNDGRP; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audiofromnextrndgrp'"); _BIND_AUDIOFROMNEXTRNDGRP = value; OnPropertyChanged("BIND_AUDIOFROMNEXTRNDGRP"); }
+            get { return _BIND_AUDIO_PREPTIME_MANUAL_NEXT; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audio_preptime_man_next'"); _BIND_AUDIO_PREPTIME_MANUAL_NEXT = value; OnPropertyChanged("BIND_AUDIO_PREPTIME_MANUAL_NEXT"); }
+        }
+
+
+        public bool BIND_PREP_AUDIO_MAN_AUTO
+        {
+            get { return _BIND_PREP_AUDIO_MAN_AUTO; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='prep_audio_man_auto'"); _BIND_PREP_AUDIO_MAN_AUTO = value; OnPropertyChanged("BIND_PREP_AUDIO_MAN_AUTO"); }
+        }
+
+
+        public bool BIND_AUDIO_PREPTIME_AUTO_NEXT
+        {
+            get { return _BIND_AUDIO_PREPTIME_AUTO_NEXT; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Audio_preptime_auto_next'"); _BIND_AUDIO_PREPTIME_AUTO_NEXT = value; OnPropertyChanged("BIND_AUDIO_PREPTIME_AUTO_NEXT"); }
         }
 
 
@@ -1596,9 +2157,34 @@ namespace WpfApp6.Model
         public string BIND_SQL_AUTO_PREPTIMESTART
         {
             get { return BIND_SQL_AUTO_PREPTIMESTART_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Preptimestart'"); BIND_SQL_AUTO_PREPTIMESTART_value = value; OnPropertyChanged("BIND_SQL_AUTO_PREPTIMESTART"); }
+            set { 
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Preptimestart'"); 
+                BIND_SQL_AUTO_PREPTIMESTART_value = value;
+                DateTime xxx = DateTime.Parse(BIND_SQL_AUTO_PREPTIMESTART);
+                _tmp_casspusteniautomatickehopripravnehocasu = ((xxx.Hour * 60) + xxx.Minute);
+                OnPropertyChanged("BIND_SQL_AUTO_PREPTIMESTART");
+            }
         }
 
+        public string BIND_SQL_AUTO_MAINTIMESTART
+        {
+            get { return BIND_SQL_AUTO_MAINTIMESTART_value; }
+            set
+            {
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Maintimestart'");
+                BIND_SQL_AUTO_MAINTIMESTART_value = value;
+                DateTime xxx = DateTime.Parse(BIND_SQL_AUTO_MAINTIMESTART);
+                _tmp_casspusteniautomatickehohlavnihocasu = ((xxx.Hour * 60) + xxx.Minute);
+                OnPropertyChanged("BIND_SQL_AUTO_MAINTIMESTART");
+            }
+        }
+
+        public int _tmp_casspusteniautomatickehohlavnihocasu;
+
+        public int _tmp_casspusteniautomatickehopripravnehocasu;
+
+
+     
 
 
 
@@ -2201,9 +2787,49 @@ namespace WpfApp6.Model
 
                     }
 
+                    if (kamulozitvysledek == "get_finalresults_users")
+                    {
 
-                    
-                    if (kamulozitvysledek == "get_baseresults")
+
+                        string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                        var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
+                        var _Players_results = new MODEL_Player_baseresults()
+                        {
+                            POSITION = _results_autoincrement,
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
+                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
+                            GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
+                            PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare, 2).ToString("0.00"),
+
+                            RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101", ""),
+                            RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101", ""),
+
+                            RND2RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=102", ""),
+                            RND2RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=102", ""),
+
+
+                            RND3RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=103", ""),
+                            RND3RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=103", ""),
+
+
+                            FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png"
+
+                        };
+
+                        Console.WriteLine("AAAAAAAAAAAAAA" + SQL_READSOUTEZDATA("select prep from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""));
+
+                        Players_Finalresults.Add(_Players_results);
+                        _results_scoreompare = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"));
+                        vysledek = kamulozitvysledek;
+
+                    }
+
+                    if (kamulozitvysledek == "get_baseresults_users")
                     {
 
 
@@ -2245,6 +2871,50 @@ namespace WpfApp6.Model
                         };
 
                         Console.WriteLine("AAAAAAAAAAAAAA" + SQL_READSOUTEZDATA("select prep from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""));
+
+                        Players_Baseresults.Add(_Players_Baseresults);
+                        _results_scoreompare = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"));
+                        vysledek = kamulozitvysledek;
+
+                    }
+
+                    if (kamulozitvysledek == "get_baseresults_teams")
+                    {
+
+
+                        string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                        var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
+                        var _Players_Baseresults = new MODEL_Player_baseresults()
+                        {
+                            POSITION = _results_autoincrement,
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("team")),
+                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
+                            GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
+                            PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare, 2).ToString("0.00"),
+                            RND1RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=1 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND1RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=1 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+
+                            RND2RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=2 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND2RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=2 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+
+                            RND3RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=3 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND3RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=3 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+
+                            RND4RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=4 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND4RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=4 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+
+                            RND5RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=5 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND5RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=5 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+
+                            RND6RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=6 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND6RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=6 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), "")
+
+                        };
 
                         Players_Baseresults.Add(_Players_Baseresults);
                         _results_scoreompare = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"));
@@ -2341,6 +3011,47 @@ namespace WpfApp6.Model
                         MODEL_CONTEST_SOUNDS_MAIN.Add(_sound);
                     }
 
+                    if (kamulozitvysledek == "get_contest_sound_final_main")
+                    {
+                        Console.WriteLine("get_contest_sound_final_main");
+
+                        int i = MODEL_CONTEST_SOUNDS_FINAL_MAIN.Count;
+
+                        byte[] fileContent;
+
+                        if (sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) == "---FUNKY---")
+                        {
+
+                            var rand = new Random();
+                            var files = Directory.GetFiles("Audio\\FUNKYMODE\\", "*.wav");
+                            var rndname = files[rand.Next(files.Length)];
+                            fileContent = File.ReadAllBytes(rndname);
+                            Console.WriteLine("Random loaded FUNKY audio is:" + rndname);
+                        }
+                        else
+                        {
+                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        }
+
+                        wav_final_maintime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+
+                        final_maintimewaveout[i] = new WaveOutEvent();
+                        final_maintimewaveout[i].Init(wav_final_maintime[i]);
+                        Console.WriteLine("FINALNANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+
+                        var _sound = new MODEL_CATEGORY_LANDING()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("second")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")),
+                            CATEGORY = i,
+                            LENGHT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filedesc")),
+                            TODEL = 0
+                        };
+
+
+                        MODEL_CONTEST_SOUNDS_FINAL_MAIN.Add(_sound);
+                    }
 
 
                     if (kamulozitvysledek == "get_contest_sound_prep")
@@ -2382,7 +3093,43 @@ namespace WpfApp6.Model
                     }
 
 
+                    if (kamulozitvysledek == "get_contest_sound_final_prep")
+                    {
+                        Console.WriteLine("get_contest_sound_final_prep");
 
+                        int i = MODEL_CONTEST_SOUNDS_FINAL_PREP.Count;
+
+                        byte[] fileContent;
+
+                        if (sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) == "---FUNKY---")
+                        {
+                            fileContent = File.ReadAllBytes("Audio\\FUNKYMODE\\western.wav");
+                        }
+                        else
+                        {
+                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        }
+
+
+                        wav_final_preptime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+
+                        final_preptimewaveout[i] = new WaveOutEvent();
+                        final_preptimewaveout[i].Init(wav_final_preptime[i]);
+                        Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+
+                        var _sound = new MODEL_CATEGORY_LANDING()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("id")),
+                            VALUE = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("second")),
+                            TEXTVALUE = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")),
+                            CATEGORY = i,
+                            LENGHT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filedesc")),
+                            TODEL = 0
+                        };
+
+
+                        MODEL_CONTEST_SOUNDS_FINAL_PREP.Add(_sound);
+                    }
 
                     if (kamulozitvysledek == "get_penalisationglobal")
                     {
@@ -2411,6 +3158,35 @@ namespace WpfApp6.Model
                             _ISENABLED = false;
                         }
 
+
+
+                        var player_actual = new MODEL_Player_actual()
+                        {
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
+                            STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
+                            ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
+                            ISENABLED = _ISENABLED,
+
+                        };
+                        Players_Actual_Flying.Add(player_actual);
+                        vysledek = kamulozitvysledek;
+
+                    }
+
+
+                    if (kamulozitvysledek == "get_Players_Actual_final_Flying")
+                    {
+
+
+                        bool _ISENABLED = true;
+                        if (sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) == 0)
+                        {
+                            _ISENABLED = false;
+                        }
+
                         
 
                         var player_actual = new MODEL_Player_actual()
@@ -2424,11 +3200,10 @@ namespace WpfApp6.Model
                             ISENABLED = _ISENABLED
 
                         };
-                        Players_Actual_Flying.Add(player_actual);
+                        Players_Actual_Final_Flying.Add(player_actual);
                         vysledek = kamulozitvysledek;
 
                     }
-
 
 
                     if (kamulozitvysledek == "get_Players_Actual_Flying_nextforsound")
@@ -2573,6 +3348,31 @@ namespace WpfApp6.Model
 
                         };
                         MODEL_CONTEST_ROUNDS.Add(rounds);
+                        vysledek = kamulozitvysledek;
+                    }
+
+                    if (kamulozitvysledek == "get_final_rounds")
+                    {
+
+
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqltext + " >>>> " + kamulozitvysledek);
+
+
+
+                        var rounds = new MODEL_Contest_Rounds()
+                        {
+
+                            ID = sqlite_datareader.GetInt32(0),
+                            ROUNDNAME = sqlite_datareader.GetString(1),
+                            ROUNDTYPE = sqlite_datareader.GetString(2),
+                            ROUNDLENGHT = sqlite_datareader.GetInt32(3),
+                            ROUNDZADANO = sqlite_datareader.GetInt32(4),
+                            items = SQL__SUBQUERY_ADD_GROUPS(sqlite_datareader.GetInt32(0)),
+                            ISSELECTED = "notselected"
+
+
+                        };
+                        MODEL_CONTEST_FINAL_ROUNDS.Add(rounds);
                         vysledek = kamulozitvysledek;
                     }
 
@@ -2807,21 +3607,149 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             MAIN_TIME_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
         }
 
+        public void clock_FINAL_MAIN_create()
+        {
+            MAIN_FINAL_TIME_TIMER.Tick += MAIN_FINAL_TIME_TIMER_Tick;
+            MAIN_FINAL_TIME_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+        }
+
 
         public void clock_MAIN_start()
         {
+
+            if (MODEL_CONTEST_SOUNDS_MAIN.Count > 0)
+            {
+
+                if (MODEL_CONTEST_SOUNDS_MAIN[0].VALUE < 0)
+                {
+                    BIND_TYPEOFCLOCK = "PRE_MAIN";
+                    BIND_LETOVYCAS_MAX = Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE);
+
+
+                }
+                else
+                {
+                    BIND_TYPEOFCLOCK = "MAIN";
+                    BIND_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
+                }
+
+
+            }
+            else
+            {
+                BIND_TYPEOFCLOCK = "MAIN";
+                BIND_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].BASEROUNDLENGHT;
+            }
+
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_create();
+            clock_DYNAMIC_ROUNDGROUP_NEXT_create();
+            clock_DYNAMIC_COMPETITORS_ACTUAL_create();
+            clock_DYNAMIC_COMPETITORS_NEXT_create();
+
+
             BIND_MAINTIME_ISRUNNING = true;
             BIND_MAINTIME_ISSTOPED = false;
+
+
+            BIND_FINAL_MAINTIME_ISRUNNING = false;
+            BIND_FINAL_MAINTIME_ISSTOPED = false;
+            BIND_FINAL_PREPTIME_ISRUNNING = false;
+            BIND_FINAL_PREPTIME_ISSTOPED = false;
+
+
+
             BIND_LETOVYCAS = 0;
             timer_main.Reset();
             MAIN_TIME_TIMER.Start();
             timer_main.Start();
         }
 
+
+
+        public void clock_FINAL_MAIN_start()
+        {
+
+            if (MODEL_CONTEST_SOUNDS_FINAL_MAIN.Count > 0)
+            {
+
+                if (MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE < 0)
+                {
+                    BIND_TYPEOFCLOCK = "PRE_MAIN";
+                    BIND_FINAL_LETOVYCAS_MAX = Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE);
+
+
+                }
+                else
+                {
+                    BIND_TYPEOFCLOCK = "MAIN";
+                    BIND_FINAL_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].FINALROUNDLENGHT;
+                }
+
+
+            }
+            else
+            {
+                BIND_TYPEOFCLOCK = "MAIN";
+                BIND_FINAL_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].FINALROUNDLENGHT;
+            }
+
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_create();
+            clock_DYNAMIC_ROUNDGROUP_NEXT_create();
+            clock_DYNAMIC_COMPETITORS_ACTUAL_create();
+            clock_DYNAMIC_COMPETITORS_NEXT_create();
+
+
+            BIND_FINAL_MAINTIME_ISRUNNING = true;
+            BIND_FINAL_MAINTIME_ISSTOPED = false;
+
+            BIND_MAINTIME_ISRUNNING = false;
+            BIND_MAINTIME_ISSTOPED = false;
+            BIND_PREPTIME_ISRUNNING = false;
+            BIND_PREPTIME_ISSTOPED = false;
+
+            BIND_FINAL_LETOVYCAS = 0;
+            timer_final_main.Reset();
+            MAIN_FINAL_TIME_TIMER.Start();
+            timer_final_main.Start();
+        }
+
+
+        public void clock_FINAL__MAIN_stop()
+        {
+            MAIN_FINAL_TIME_TIMER.Stop();
+            timer_final_main.Stop();
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+            clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+            BIND_FINAL_MAINTIME_ISRUNNING = false;
+            BIND_FINAL_MAINTIME_ISSTOPED = true;
+
+
+            BIND_MAINTIME_ISRUNNING = false;
+            BIND_MAINTIME_ISSTOPED = true;
+            BIND_PREPTIME_ISRUNNING = false;
+            BIND_PREPTIME_ISSTOPED = true;
+
+
+
+        }
+
+
         public void clock_MAIN_stop()
         {
             MAIN_TIME_TIMER.Stop ();
             timer_main.Stop ();
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+            clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+            BIND_MAINTIME_ISRUNNING = false;
+            BIND_MAINTIME_ISSTOPED = true;
+
+            BIND_FINAL_MAINTIME_ISRUNNING = false;
+            BIND_FINAL_MAINTIME_ISSTOPED = true;
+            BIND_FINAL_PREPTIME_ISRUNNING = false;
+            BIND_FINAL_PREPTIME_ISSTOPED = true;
+
+
+
         }
 
 
@@ -2958,6 +3886,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_PREP_start()
         {
+            clock_DYNAMIC_COMPETITORS_NEXT_create();
+            clock_DYNAMIC_ROUNDGROUP_NEXT_create();
+            clock_DYNAMIC_COMPETITORS_ACTUAL_create();
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_create();
+
+
             BIND_PREPTIME_ISRUNNING = true;
             BIND_PREPTIME_ISSTOPED = false;
             BIND_LETOVYCAS_PREP = 0;
@@ -2970,6 +3904,53 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
             PREP_TIME_TIMER.Stop();
             timer_prep.Stop();
+            BIND_PREPTIME_ISRUNNING = false;
+            BIND_PREPTIME_ISSTOPED = true;
+            clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+            clock_DYNAMIC_COMPETITORS_NEXT_stop();
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+            clock_DYNAMIC_ROUNDGROUP_NEXT_stop();
+        }
+
+
+
+
+
+
+
+        public void clock_FINAL_PREP_create()
+        {
+            PREP_FINAL_TIME_TIMER.Tick += PREP_FINAL_TIME_TIMER_Tick;
+            PREP_FINAL_TIME_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
+        }
+
+
+        public void clock_FINAL_PREP_start()
+        {
+            clock_DYNAMIC_COMPETITORS_NEXT_create();
+            clock_DYNAMIC_ROUNDGROUP_NEXT_create();
+            clock_DYNAMIC_COMPETITORS_ACTUAL_create();
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_create();
+
+
+            BIND_FINAL_PREPTIME_ISRUNNING = true;
+            BIND_FINAL_PREPTIME_ISSTOPED = false;
+            BIND_FINAL_LETOVYCAS_PREP = 0;
+            timer_final_prep.Reset();
+            PREP_FINAL_TIME_TIMER.Start();
+            timer_final_prep.Start();
+        }
+
+        public void clock_FINAL_PREP_stop()
+        {
+            PREP_FINAL_TIME_TIMER.Stop();
+            timer_final_prep.Stop();
+            BIND_FINAL_PREPTIME_ISRUNNING = false;
+            BIND_FINAL_PREPTIME_ISSTOPED = true;
+            clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+            clock_DYNAMIC_COMPETITORS_NEXT_stop();
+            clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
+            clock_DYNAMIC_ROUNDGROUP_NEXT_stop();
         }
 
 
@@ -3076,9 +4057,20 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 BIND_LETOVYCAS = Convert.ToSingle(timer_main.Elapsed.TotalSeconds);
         }
 
+        public void MAIN_FINAL_TIME_TIMER_Tick(object sender, EventArgs e)
+        {
+            BIND_FINAL_LETOVYCAS = Convert.ToSingle(timer_final_main.Elapsed.TotalSeconds);
+        }
+
         public void PREP_TIME_TIMER_Tick(object sender, EventArgs e)
         {
             BIND_LETOVYCAS_PREP = Convert.ToSingle(timer_prep.Elapsed.TotalSeconds);
+        }
+
+
+        public void PREP_FINAL_TIME_TIMER_Tick(object sender, EventArgs e)
+        {
+            BIND_FINAL_LETOVYCAS_PREP = Convert.ToSingle(timer_final_prep.Elapsed.TotalSeconds);
         }
 
 
@@ -3204,7 +4196,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_TEAM_LOAD_TEAMS()
         {
             Teams.Clear();
-            SQL_READSOUTEZDATA("select distinct id, name, (select count(id) from users where team= t.id ) pocet from teams T;", "get_teams");
+            SQL_READSOUTEZDATA("select distinct id, name, (select count(id) from users where team= t.id ) pocet from teams T where id > 0;", "get_teams");
             UsersNOTinteams.Clear();
             SQL_READSOUTEZDATA("select * from users U where U.team = 0 and U.id > 0;", "get_usersnotinteam");
         }
@@ -3375,10 +4367,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         #region Players
         public ObservableCollection<MODEL_Player> Players { get; set; } = new ObservableCollection<MODEL_Player>();
         public ObservableCollection<MODEL_Player_actual> Players_Actual_Flying { get; set; } = new ObservableCollection<MODEL_Player_actual>();
+        public ObservableCollection<MODEL_Player_actual> Players_Actual_Final_Flying { get; set; } = new ObservableCollection<MODEL_Player_actual>();
         public ObservableCollection<MODEL_Player_actual> Players_Actual_SelectedRound { get; set; } = new ObservableCollection<MODEL_Player_actual>();
         public ObservableCollection<MODEL_Player_selected> Player_Selected { get; set; } = new ObservableCollection<MODEL_Player_selected>();
         public ObservableCollection<MODEL_Player_selected> Player_Selected_Roundlist { get; set; } = new ObservableCollection<MODEL_Player_selected>();
         public ObservableCollection<MODEL_Player_baseresults> Players_Baseresults { get; set; } = new ObservableCollection<MODEL_Player_baseresults>();
+        public ObservableCollection<MODEL_Player_baseresults> Players_Finalresults { get; set; } = new ObservableCollection<MODEL_Player_baseresults>();
 
         public void FUNCTION_USERS_LOAD_ALLCOMPETITORS()
         {
@@ -3640,23 +4634,38 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
-        public void FUNCTION_CHECK_ENTERED(int rnd, int grp)
+        public void FUNCTION_CHECK_ENTERED(int rnd, int grp, bool is_final_rounds)
         {
-            string tmp_celkem_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + ") celkem", "");
-            string tmp_zadano_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + " and entered = 'True') zadano", "");
 
-            if (Int32.Parse(tmp_zadano_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '0' where masterround=" + rnd + " and groupnumber=" + grp); }
-            if (Int32.Parse(tmp_zadano_vgroupe) < Int32.Parse(tmp_celkem_vgroupe)) {SQL_SAVESOUTEZDATA("update groups set zadano = '1' where masterround=" + rnd + " and groupnumber=" + grp);}
-            if (Int32.Parse(tmp_zadano_vgroupe) == Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + rnd + " and groupnumber=" + grp); }
+            if (is_final_rounds == true) 
+            {
+
+                int tmp_celkem_vkole = BIND_SQL_SOUTEZ_STARTPOINTSFINALE;
+                string tmp_zadano_vkole = SQL_READSOUTEZDATA("select count(entered) from score where rnd=" + (rnd+100) + " and entered='True';", "");
+
+                if (Int32.Parse(tmp_zadano_vkole) == 0) { SQL_SAVESOUTEZDATA("update final_rounds set zadano = '0' where id=" + rnd); }
+                if (Int32.Parse(tmp_zadano_vkole) < tmp_celkem_vkole) { SQL_SAVESOUTEZDATA("update final_rounds set zadano = '1' where id=" + rnd); }
+                if (Int32.Parse(tmp_zadano_vkole) == tmp_celkem_vkole) { SQL_SAVESOUTEZDATA("update final_rounds set zadano = '2' where id=" + rnd); }
+
+            }
+            else
+            {
+                string tmp_celkem_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + ") celkem", "");
+                string tmp_zadano_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + " and entered = 'True') zadano", "");
+
+                if (Int32.Parse(tmp_zadano_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '0' where masterround=" + rnd + " and groupnumber=" + grp); }
+                if (Int32.Parse(tmp_zadano_vgroupe) < Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '1' where masterround=" + rnd + " and groupnumber=" + grp); }
+                if (Int32.Parse(tmp_zadano_vgroupe) == Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + rnd + " and groupnumber=" + grp); }
 
 
-            string tmp_celkem_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + ") celkem", "");
-            string tmp_zadano_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + " and zadano = '2') zadano", "");
-            string tmp_castecne_zadano_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + " and zadano = '1') castecnezadano", "");
+                string tmp_celkem_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + ") celkem", "");
+                string tmp_zadano_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + " and zadano = '2') zadano", "");
 
-            if (Int32.Parse(tmp_zadano_vkole) == 0) { SQL_SAVESOUTEZDATA("update rounds set zadano = '0' where id=" + rnd ); }
-            if (Int32.Parse(tmp_zadano_vkole) < Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '1' where id=" + rnd); }
-            if (Int32.Parse(tmp_zadano_vkole) == Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '2' where id=" + rnd ); }
+                if (Int32.Parse(tmp_zadano_vkole) == 0) { SQL_SAVESOUTEZDATA("update rounds set zadano = '0' where id=" + rnd); }
+                if (Int32.Parse(tmp_zadano_vkole) < Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '1' where id=" + rnd); }
+                if (Int32.Parse(tmp_zadano_vkole) == Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '2' where id=" + rnd); }
+            }
+
 
         }
 
@@ -3708,6 +4717,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS_MAIN { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS_PREP { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
 
+        public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS_FINAL_MAIN { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
+        public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTEST_SOUNDS_FINAL_PREP { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
+
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CATEGORY_LANDING { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
         public ObservableCollection<MODEL_CATEGORY_PENALISATIONS> MODEL_CATEGORY_PENALISATION { get; set; } = new ObservableCollection<MODEL_CATEGORY_PENALISATIONS>();
         public ObservableCollection<MODEL_CATEGORY_PENALISATIONS> MODEL_CATEGORY_PENALISATIONGLOBAL { get; set; } = new ObservableCollection<MODEL_CATEGORY_PENALISATIONS>();
@@ -3715,6 +4727,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public ObservableCollection<MODEL_Contests_files> MODEL_CONTESTS_FILES { get; set; } = new ObservableCollection<MODEL_Contests_files>();
 
         public ObservableCollection<MODEL_Contest_Rounds> MODEL_CONTEST_ROUNDS { get; set; } = new ObservableCollection<MODEL_Contest_Rounds>();
+        public ObservableCollection<MODEL_Contest_Rounds> MODEL_CONTEST_FINAL_ROUNDS { get; set; } = new ObservableCollection<MODEL_Contest_Rounds>();
 
         public ObservableCollection<MODEL_Contest_Rules> MODEL_CONTEST_RULES { get; set; } = new ObservableCollection<MODEL_Contest_Rules>();
         public ObservableCollection<MODEL_category_Rules> MODEL_CATEGORY_RULES { get; set; } = new ObservableCollection<MODEL_category_Rules>();
@@ -3750,8 +4763,55 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
             MODEL_CONTEST_ROUNDS.Clear();
             SQL_READSOUTEZDATA("select * from rounds;", "get_rounds");
+        }
 
 
+        public void FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS()
+        {
+            MODEL_CONTEST_FINAL_ROUNDS.Clear();
+            SQL_READSOUTEZDATA("select * from final_rounds;", "get_final_rounds");
+        }
+
+
+        public void FUNCTION_ROUNDS_CREATE_FINAL_ROUNDS()
+        {
+            if (BIND_SQL_SOUTEZ_ROUNDSFINALE > 0)
+            {
+                BIND_MOVE_TO_FINAL_ROUNDS = true;
+                BIND_MENU_ENABLED_finale = true;
+                BIND_IS_FINAL_FLIGHT_READY = true;
+                SQL_SAVESOUTEZDATA("delete from score where rnd>=100;");
+                SQL_SAVESOUTEZDATA("delete from matrix where rnd>=100;");
+
+                for (int r = 0; r < BIND_SQL_SOUTEZ_ROUNDSFINALE; r++)
+                {
+
+                    for (int c = 0; c < BIND_SQL_SOUTEZ_STARTPOINTSFINALE; c++)
+                    {
+
+                        int tmpstp = (r + c + 1);
+                        if (tmpstp > BIND_SQL_SOUTEZ_STARTPOINTSFINALE) { tmpstp = tmpstp - BIND_SQL_SOUTEZ_STARTPOINTSFINALE; }
+                        //FUNCTION_SCOREENTRY_SAVE_SCORE(100 + r, 1, c + 1, Players_Baseresults[c].ID, 0, 0, 0, 0, 0, 0, 0, 0, "0", "0",);
+                        SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered) VALUES(" + (r + 101) + "," + 1 + "," + tmpstp + "," + Players_Baseresults[c].ID + ",0,0,0,0,0,0,0,0,'0','0', 'False');");
+                        SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + (r + 101) + ",1," + tmpstp + "," + Players_Baseresults[c].ID + ")");
+
+                    }
+
+
+                }
+
+                FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
+                MODEL_CONTEST_FINAL_ROUNDS[0].ISSELECTED = "selected";
+                FUNCTION_SELECTED_FINAL_ROUND_USERS(BIND_SELECTED_FINAL_ROUND, 1);
+
+            }
+        }
+
+        private bool _BIND_MOVE_TO_FINAL_ROUNDS = false;
+        public bool BIND_MOVE_TO_FINAL_ROUNDS
+        {
+            get { return _BIND_MOVE_TO_FINAL_ROUNDS; }
+            set { _BIND_MOVE_TO_FINAL_ROUNDS = value; OnPropertyChanged("BIND_MOVE_TO_FINAL_ROUNDS"); }
         }
 
 
@@ -3839,15 +4899,40 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Players_Actual_SelectedRound.Clear();
             SQL_READSOUTEZDATA("select U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_SelectedRound");
             //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
-
         }
 
-
-        public void FUNCTION_RESULTS_LOADBASERESULTS()
+        public void FUNCTION_SELECTED_FINAL_ROUND_USERS(int rnd, int grp)
         {
-            Players_Baseresults.Clear();
-            SQL_READSOUTEZDATA("select ((select sum(prep) from score s2 where s2.userid = s1.userid ) + (select sum(pen2value) from score s2 where s2.userid = s1.userid )) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid ) overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc", "get_baseresults");
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            if (rnd == 0) { rnd = BIND_SELECTED_FINAL_ROUND; }
+            if (grp == 0) { grp = BIND_SELECTED_GROUP; }
+            Players_Actual_Final_Flying.Clear();
+            SQL_READSOUTEZDATA("select U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + (rnd+100) + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_final_Flying");
             //SQL_READSOUTEZDATA("select round((ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) / (select max(ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*(select heightunder from rules)) -(heightover*(select heightover from rules)) ),0)) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + ")*1000,2) maxrow , ifnull(((((minutes*60)+seconds)*(select persecond from rules))+landing-(heightunder*0.5) -(heightover*3) ),0) RAWSCORE, U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1,0) pen1, ifnull(s.pen2,0) pen2, ifnull(s.raw,0) war, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc;", "get_Players_Actual_Flying");
+        }
+
+        public void FUNCTION_RESULTS_LOADBASERESULTS(string what)
+        {
+            //BIND_MENU_ENABLED_finale = false;
+            if (what == "users")
+            {
+                Players_Baseresults.Clear();
+                SQL_READSOUTEZDATA("select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 ) + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd < 100 )) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd < 100 ) overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd < 100 ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc", "get_baseresults_users");
+                if (BIND_SQL_SOUTEZ_ROUNDSFINALE_value == 0) { BIND_MENU_ENABLED_finale = false; BIND_MOVE_TO_FINAL_ROUNDS = false; } else { BIND_MOVE_TO_FINAL_ROUNDS = true; }
+            }
+
+            if (what == "teams")
+            {
+                Players_Baseresults.Clear();
+                SQL_READSOUTEZDATA("select sum(prep)-sum(pen2value) overalscore,sum(raw) overalrawscore,sum(pen2value) gpen,ifnull(t.id,0) teamid, t.name || ' (' || count( distinct s.userid) ||'x)' team from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where t.id > 0 and S.rnd < 100 group by team", "get_baseresults_teams");
+            }
+
+            if (what == "final_users")
+            {
+                Players_Finalresults.Clear();
+                SQL_READSOUTEZDATA(" select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100) + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd>100)) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100) overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100 ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc limit "+ BIND_SQL_SOUTEZ_STARTPOINTSFINALE, "get_finalresults_users");
+            }
+
 
         }
 
@@ -3889,6 +4974,44 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             get { return _BIND_PREPTIME_ISSTOPED; }
             set { _BIND_PREPTIME_ISSTOPED = value; OnPropertyChanged(nameof(BIND_PREPTIME_ISSTOPED)); }
         }
+
+
+
+
+
+
+
+
+        private bool _BIND_FINAL_MAINTIME_ISRUNNING = false;
+        public bool BIND_FINAL_MAINTIME_ISRUNNING
+        {
+            get { return _BIND_FINAL_MAINTIME_ISRUNNING; }
+            set { _BIND_FINAL_MAINTIME_ISRUNNING = value; OnPropertyChanged(nameof(BIND_FINAL_MAINTIME_ISRUNNING)); }
+        }
+
+        private bool _BIND_FINAL_MAINTIME_ISSTOPED = true;
+        public bool BIND_FINAL_MAINTIME_ISSTOPED
+        {
+            get { return _BIND_FINAL_MAINTIME_ISSTOPED; }
+            set { _BIND_FINAL_MAINTIME_ISSTOPED = value; OnPropertyChanged(nameof(BIND_FINAL_MAINTIME_ISSTOPED)); }
+        }
+
+
+        private bool _BIND_FINAL_PREPTIME_ISRUNNING = false;
+        public bool BIND_FINAL_PREPTIME_ISRUNNING
+        {
+            get { return _BIND_FINAL_PREPTIME_ISRUNNING; }
+            set { _BIND_FINAL_PREPTIME_ISRUNNING = value; OnPropertyChanged(nameof(BIND_FINAL_PREPTIME_ISRUNNING)); }
+        }
+
+        private bool _BIND_FINAL_PREPTIME_ISSTOPED = true;
+        public bool BIND_FINAL_PREPTIME_ISSTOPED
+        {
+            get { return _BIND_FINAL_PREPTIME_ISSTOPED; }
+            set { _BIND_FINAL_PREPTIME_ISSTOPED = value; OnPropertyChanged(nameof(BIND_FINAL_PREPTIME_ISSTOPED)); }
+        }
+
+
 
 
         private string _scoreentrytype;
@@ -4003,6 +5126,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
        
             FUNCTION_SOUND_LOADSELECTEDSOUND_MAIN(BINDING_SoundList[BIND_AUDIO_SELECTEDBASESOUND_INDEX].Id);
             FUNCTION_SOUND_LOADSELECTEDSOUND_PREP(BINDING_SoundList[BIND_AUDIO_SELECTEDPREPSOUND_INDEX].Id);
+            FUNCTION_SOUND_LOADSELECTEDSOUND_FINAL_MAIN(BINDING_SoundList[BIND_AUDIO_SELECTEDFINALSOUND_INDEX].Id);
+            FUNCTION_SOUND_LOADSELECTEDSOUND_FINAL_PREP(BINDING_SoundList[BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX].Id);
 
         }
 
@@ -4069,6 +5194,26 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BIND_LETOVYCAS_PREP_MAX = MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count - 1].VALUE;
 
         }
+
+        public void FUNCTION_SOUND_LOADSELECTEDSOUND_FINAL_MAIN(int soundlistid)
+        {
+            Console.WriteLine("FUNCTION_SOUND_LOADSELECTEDSOUND_FINAL_MAIN");
+            MODEL_CONTEST_SOUNDS_FINAL_MAIN.Clear();
+            SQL_READSOUTEZDATA("select * from sounds where id = '" + soundlistid + "' order by id asc", "get_contest_sound_final_main");
+            BIND_AUDIO_FINAL_INFO = BINDING_SoundList[BIND_AUDIO_SELECTEDFINALSOUND_INDEX].SoundName;
+
+        }
+
+        public void FUNCTION_SOUND_LOADSELECTEDSOUND_FINAL_PREP(int soundlistid)
+        {
+            Console.WriteLine("FUNCTION_SOUND_LOADSELECTEDSOUND_FINAL_PREP");
+            MODEL_CONTEST_SOUNDS_FINAL_PREP.Clear();
+            SQL_READSOUTEZDATA("select * from sounds where id = '" + soundlistid + "' order by id asc", "get_contest_sound_final_prep");
+            BIND_AUDIO_FINAL_PREP_INFO = BINDING_SoundList[BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX].SoundName;
+            //BIND_LETOVYCAS_PREP_MAX = MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count - 1].VALUE;
+
+        }
+
 
         public void FUNCTION_LOAD_TIMERS_PENALISATIONLOCAL()
         {

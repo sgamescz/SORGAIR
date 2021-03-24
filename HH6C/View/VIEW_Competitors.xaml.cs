@@ -16,9 +16,8 @@ using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using System.Windows.Documents;
 using ControlzEx.Theming;
-
+using System.Printing;
 
 using System.Windows.Documents.Serialization;
 
@@ -407,7 +406,7 @@ namespace WpfApp6.View
 
         private void printuserlist_Click(object sender, RoutedEventArgs e)
         {
-            firstFlyout_print_list.IsOpen = true;
+            firstFlyout_print_userlist.IsOpen = true;
         }
 
 
@@ -420,8 +419,8 @@ namespace WpfApp6.View
 
             //--< create xps document >--
 
-            if (System.IO.File.Exists("print_previw.xps")) { System.IO.File.Delete("print_previw.xps"); }
-            XpsDocument doc = new XpsDocument("print_previw.xps", System.IO.FileAccess.ReadWrite);
+            if (System.IO.File.Exists("print_preview.xps")) { System.IO.File.Delete("print_preview.xps"); }
+            XpsDocument doc = new XpsDocument("print_preview.xps", System.IO.FileAccess.ReadWrite);
 
             XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
 
@@ -464,15 +463,209 @@ namespace WpfApp6.View
         }
 
 
+        public static class PrintHelper
+        {
+            public static FixedDocument GetFixedDocument(FrameworkElement toPrint, PrintDialog printDialog)
+            {
+                PrintCapabilities capabilities = printDialog.PrintQueue.GetPrintCapabilities(printDialog.PrintTicket);
+                Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
+                Size visibleSize = new Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
+                FixedDocument fixedDoc = new FixedDocument();
 
+                // If the toPrint visual is not displayed on screen we neeed to measure and arrange it.
+                toPrint.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                toPrint.Arrange(new Rect(new Point(0, 0), toPrint.DesiredSize));
+
+                Size size = toPrint.DesiredSize;
+
+                // Will assume for simplicity the control fits horizontally on the page.
+                double yOffset = 0;
+                while (yOffset < size.Height)
+                {
+                    VisualBrush vb = new VisualBrush(toPrint);
+                    vb.Stretch = Stretch.None;
+                    vb.AlignmentX = AlignmentX.Left;
+                    vb.AlignmentY = AlignmentY.Top;
+                    vb.ViewboxUnits = BrushMappingMode.Absolute;
+                    vb.TileMode = TileMode.None;
+                    vb.Viewbox = new Rect(0, yOffset, visibleSize.Width, visibleSize.Height);
+
+                    PageContent pageContent = new PageContent();
+                    FixedPage page = new FixedPage();
+                    ((System.Windows.Markup.IAddChild)pageContent).AddChild(page);
+                    fixedDoc.Pages.Add(pageContent);
+                    page.Width = pageSize.Width;
+                    page.Height = pageSize.Height;
+
+                    Canvas canvas = new Canvas();
+                    FixedPage.SetLeft(canvas, capabilities.PageImageableArea.OriginWidth);
+                    FixedPage.SetTop(canvas, capabilities.PageImageableArea.OriginHeight);
+                    canvas.Width = visibleSize.Width;
+                    canvas.Height = visibleSize.Height;
+                    canvas.Background = vb;
+                    page.Children.Add(canvas);
+
+                    yOffset += visibleSize.Height;
+                }
+                return fixedDoc;
+            }
+
+            public static void ShowPrintPreview(FixedDocument fixedDoc)
+            {
+                Window wnd = new Window();
+                DocumentViewer viewer = new DocumentViewer();
+                viewer.Document = fixedDoc;
+                wnd.Content = viewer;
+                wnd.ShowDialog();
+            }
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            PrintDialog xxx = new PrintDialog();
+
+            IDocumentPaginatorSource idocument = myFlowDocReader as IDocumentPaginatorSource;
+            xxx.PrintDocument(idocument.DocumentPaginator, "Printing Machine : ");
+
+            //ThemeManager.Current.ChangeTheme(idocument, "Light.Blue");
 
 
-            ThemeManager.Current.ChangeTheme(competitorlist_print, "Light.Blue");
+            //PrintHelper.ShowPrintPreview(PrintHelper.GetFixedDocument(testprint, xxx));
+            //Print_WPF_Preview(competitorcards_print);
+           // Print();
+        }
 
-            Print_WPF_Preview(competitorlist_print);
+        private void printusercards_Click(object sender, RoutedEventArgs e)
+        {
+            firstFlyout_print_usercards.IsOpen = true;
+        }
+
+        internal void Print()
+        {
+          //  var paginator = new ProgramPaginator(testprint);
+            var dlg = new PrintDialog();
+
+
+           // paginator.PageSize = new Size(dlg.PrintableAreaWidth, dlg.PrintableAreaHeight);
+
+            Window wnd = new Window();
+            DocumentViewer viewer = new DocumentViewer();
+          //  viewer.Document = PrintHelper.GetFixedDocument(competitorcards_print, dlg);
+            wnd.Content = viewer;
+            wnd.ShowDialog();
+
+
+
+
+            if ((bool)dlg.ShowDialog())
+            {
+              //  dlg.PrintDocument(paginator, "Program");
+            }
+        }
+
+        private void createFlowDoc(object sender, RoutedEventArgs e)
+        {
+
+
+
+            BlockUIContainer bc = new BlockUIContainer();
+
+            Image myImg = new Image();
+            myImg.Source = new BitmapImage(new Uri(@"C:\asw\test.bmp"));
+            myImg.Width = 50;
+            myImg.Height = 50;
+            myImg.Stretch = Stretch.Fill;
+            myImg.Margin = new Thickness(0, 0, 0, 0);
+
+            Grid grid = new Grid();
+            grid.Width = 400;
+            grid.Height = 50;
+            grid.Background = new SolidColorBrush(Colors.Green);
+            grid.Children.Add(myImg);
+
+            StackPanel sp = new StackPanel();
+
+            sp.Width = 400;
+            sp.Height = 50;
+            sp.Orientation = Orientation.Vertical;
+            sp.HorizontalAlignment = HorizontalAlignment.Left;
+            sp.Children.Add(grid);
+            bc.Child = sp;
+
+
+            BlockUIContainer document1 = new BlockUIContainer();
+
+            this.myFlowDoc.Blocks.Add(bc);
+        }
+    }
+
+
+
+    class ProgramPaginator : DocumentPaginator
+    {
+        private FrameworkElement Element;
+        private ProgramPaginator()
+        {
+        }
+
+        public ProgramPaginator(FrameworkElement element)
+        {
+            Element = element;
+        }
+
+        public override DocumentPage GetPage(int pageNumber)
+        {
+
+            Element.RenderTransform = new TranslateTransform(-PageSize.Width * (pageNumber % Columns), -PageSize.Height * (pageNumber / Columns));
+
+            Size elementSize = new Size(
+                Element.ActualWidth,
+                Element.ActualHeight);
+            Element.Measure(elementSize);
+            Element.Arrange(new Rect(new Point(0, 0), elementSize));
+
+            var page = new DocumentPage(Element);
+            Element.RenderTransform = null;
+
+            return page;
+        }
+
+        public override bool IsPageCountValid
+        {
+            get { return true; }
+        }
+
+        public int Columns
+        {
+            get
+            {
+                return (int)Math.Ceiling(Element.ActualWidth / PageSize.Width);
+            }
+        }
+        public int Rows
+        {
+            get
+            {
+                return (int)Math.Ceiling(Element.ActualHeight / PageSize.Height);
+            }
+        }
+
+        public override int PageCount
+        {
+            get
+            {
+                return Columns * Rows;
+            }
+        }
+
+        public override Size PageSize
+        {
+            set; get;
+        }
+
+        public override IDocumentPaginatorSource Source
+        {
+            get { return null; }
         }
     }
 

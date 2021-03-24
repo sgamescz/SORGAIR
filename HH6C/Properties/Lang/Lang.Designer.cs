@@ -376,6 +376,24 @@ namespace SORGAIR.Properties.Lang {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Final results.
+        /// </summary>
+        public static string menu_results_final {
+            get {
+                return ResourceManager.GetString("menu_results_final", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Selected flight.
+        /// </summary>
+        public static string menu_selectedflight {
+            get {
+                return ResourceManager.GetString("menu_selectedflight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Selected round.
         /// </summary>
         public static string menu_selectedround {

@@ -148,7 +148,13 @@
     <value>Online</value>
   </data>
   <data name="menu_results" xml:space="preserve">
-    <value>Výsledky</value>
+    <value>Základní výsledky</value>
+  </data>
+  <data name="menu_results_final" xml:space="preserve">
+    <value>Finální výsledky</value>
+  </data>
+  <data name="menu_selectedflight" xml:space="preserve">
+    <value>Zvolený let</value>
   </data>
   <data name="menu_selectedround" xml:space="preserve">
     <value>Zvolené kolo</value>

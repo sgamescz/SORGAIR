@@ -260,6 +260,8 @@ namespace WpfApp6.Model
             set { _ISFOCUSED = value; RaisePropertyChanged(nameof(ISFOCUSED)); }
         }
 
+      
+
 
     }
 

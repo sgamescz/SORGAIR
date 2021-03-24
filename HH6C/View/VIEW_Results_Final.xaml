@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="WpfApp6.View.Results"
+    x:Class="WpfApp6.View.Results_final"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -129,32 +129,50 @@
 
         <StackPanel>
 
-            <Grid Height="165">
+            <Grid Height="90">
 
                 <mah:Tile
                     Name="results_users"
-                    Title="Soutěžící"
-                    Width="230"
+                    Title="Všichni soutěžící"
+                    Width="150"
                     Height="72"
-                    Margin="10,9,0,0"
+                    Margin="165,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Center"
                     Click="results_users_Click">
-                    <iconPacks:PackIconMaterial
+                    <iconPacks:PackIconFontAwesome
                         Width="25"
                         Height="25"
                         Margin="0,0,0,20"
                         VerticalAlignment="Center"
-                        Kind="CommentAccountOutline" />
+                        Kind="TrophySolid" />
                 </mah:Tile>
+                <mah:Tile
+                    Name="results_final_users"
+                    Title="Finalisté"
+                    Width="150"
+                    Height="72"
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Center"
+                    Click="results_users_Click">
+                    <iconPacks:PackIconFontAwesome
+                        Width="25"
+                        Height="25"
+                        Margin="0,0,0,20"
+                        VerticalAlignment="Center"
+                        Kind="MedalSolid" />
+                </mah:Tile>
+
 
                 <mah:Tile
                     Name="results_teams"
                     Title="Týmy"
-                    Width="220"
-                    Height="72"
-                    Margin="245,9,0,0"
+                    Width="155"
+                    Height="70"
+                    Margin="320,12,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Center"
@@ -166,23 +184,6 @@
                         VerticalAlignment="Center"
                         Kind="Jersey" />
                 </mah:Tile>
-                <mah:Tile
-                    Name="results_move_to_final"
-                    Title="Postoupit zobrazené soutěžící do finále"
-                    Width="980"
-                    Height="68"
-                    Margin="10,87,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Center"
-                    Click="results_move_to_final_Click"
-                    IsEnabled="{Binding BIND_MOVE_TO_FINAL_ROUNDS}">
-                    <iconPacks:PackIconMaterial
-                        Width="25"
-                        Height="25"
-                        Margin="0,0,0,20"
-                        Kind="AccountMultipleCheckOutline" />
-                </mah:Tile>
             </Grid>
             <DataGrid
                 x:Name="dataGrid1"
@@ -192,7 +193,7 @@
                 AutoGenerateColumns="False"
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
-                ItemsSource="{Binding Players_Baseresults}">
+                ItemsSource="{Binding Players_Finalresults}">
 
                 <DataGrid.Columns>
 
@@ -237,33 +238,22 @@
                     <DataGridTemplateColumn
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR1}"
-                        Header="Kolo 1"
+                        Header="Finále 1"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR2}"
-                        Header="Kolo 2"
+                        Header="Finále 2"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR3}"
-                        Header="Kolo 3"
+                        Header="Finále 3"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
-                    <DataGridTemplateColumn
-                        Width="*"
-                        CellTemplate="{StaticResource DateTemplateR4}"
-                        Header="Kolo 4"
-                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
-                    <DataGridTemplateColumn
-                        Width="*"
-                        CellTemplate="{StaticResource DateTemplateR5}"
-                        Header="Kolo 5"
-                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
+                  
 
 
                 </DataGrid.Columns>

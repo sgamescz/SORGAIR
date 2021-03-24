@@ -280,8 +280,14 @@
       <DependentUpon>Lang.resx</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="View\VIEW_Results_Final.xaml.cs">
+      <DependentUpon>VIEW_Results_Final.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VIEW_Rounds.xaml.cs">
       <DependentUpon>VIEW_Rounds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VIEW_Finals.xaml.cs">
+      <DependentUpon>VIEW_Finals.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VIEW_Teams.xaml.cs">
       <DependentUpon>VIEW_Teams.xaml</DependentUpon>
@@ -292,8 +298,8 @@
     <Compile Include="View\VIEW_Draw.xaml.cs">
       <DependentUpon>VIEW_Draw.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TMP_1.xaml.cs">
-      <DependentUpon>TMP_1.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Online.xaml.cs">
+      <DependentUpon>VIEW_Online.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VIEW_SelectedRound.xaml.cs">
       <DependentUpon>VIEW_SelectedRound.xaml</DependentUpon>
@@ -301,8 +307,8 @@
     <Compile Include="View\VIEW_Home.xaml.cs">
       <DependentUpon>VIEW_Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TMP_2.xaml.cs">
-      <DependentUpon>TMP_2.xaml</DependentUpon>
+    <Compile Include="View\VIEW_Detail.xaml.cs">
+      <DependentUpon>VIEW_Detail.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VIEW_Audio.xaml.cs">
       <DependentUpon>VIEW_Audio.xaml</DependentUpon>
@@ -336,7 +342,15 @@
       <DependentUpon>CORE.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\VIEW_Results_Final.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\VIEW_Rounds.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VIEW_Finals.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -352,7 +366,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TMP_1.xaml">
+    <Page Include="View\VIEW_Online.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,7 +378,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\TMP_2.xaml">
+    <Page Include="View\VIEW_Detail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

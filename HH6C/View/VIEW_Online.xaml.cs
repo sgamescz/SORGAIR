@@ -18,9 +18,9 @@ namespace WpfApp6.View
     /// <summary>
     /// Interakční logika pro UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class Online : UserControl
     {
-        public UserControl1()
+        public Online()
         {
             InitializeComponent();
         }

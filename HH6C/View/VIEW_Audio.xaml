@@ -8,7 +8,7 @@
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="750"
+    Height="840"
     d:DesignWidth="1000"
     mc:Ignorable="d">
 
@@ -72,7 +72,7 @@
                                 x:Name="useaudio"
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Margin="0,0,0,0"
+                                Margin="5"
                                 HorizontalAlignment="Left"
                                 HorizontalContentAlignment="Left"
                                 ContentDirection="RightToLeft"
@@ -97,22 +97,12 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Left"
-                                    Content="Hlásit čísla soutěžících na začátku přípravného času"
-                                    FontSize="12"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
-
                                 <ToggleButton
-                                    Grid.Row="0"
+                                    Grid.Row="1"
                                     Grid.Column="0"
                                     Width="50"
                                     Height="50"
@@ -131,7 +121,6 @@
                                 </ToggleButton>
 
 
-
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
@@ -139,77 +128,12 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Left"
-                                    Content="Hlásit čísla soutěžících na začátku letu"
+                                    Content="Hlásit čísla soutěžících na začátku přípravného času"
                                     FontSize="12"
                                     IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
 
                                 <ToggleButton
                                     Grid.Row="1"
-                                    Grid.Column="0"
-                                    Width="50"
-                                    Height="50"
-                                    Margin="5"
-                                    IsChecked="{Binding BIND_SQL_AUDIO_COMPNUMBERS}"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
-                                    <Rectangle
-                                        Width="20"
-                                        Height="20"
-                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularUserVoice}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </ToggleButton>
-
-
-                                <mah:ToggleSwitch
-                                    x:Name="AUDIOFROMNEXTRNDGRP"
-                                    Grid.Row="0"
-                                    Grid.Column="4"
-                                    Margin="20,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Left"
-                                    ContentDirection="RightToLeft"
-                                    FontSize="12"
-                                    IsOn="{Binding BIND_AUDIOFROMNEXTRNDGRP}"
-                                    OffContent="Hlášené hodnoty pro AKTUÁLNÍ let"
-                                    OnContent="Hlášené hodnoty pro NÁSLEDUjÍCÍ let" />
-
-
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="3"
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    HorizontalContentAlignment="Left"
-                                    Content="Hlásit kolo a skupinu na začátku letu"
-                                    FontSize="12"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
-
-                                <ToggleButton
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    Width="50"
-                                    Height="50"
-                                    Margin="5"
-                                    IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPFLIGHT}"
-                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
-                                    <Rectangle
-                                        Width="20"
-                                        Height="20"
-                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=SocialUservoice}" />
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </ToggleButton>
-
-
-                                <ToggleButton
-                                    Grid.Row="0"
                                     Grid.Column="2"
                                     Width="50"
                                     Height="50"
@@ -228,7 +152,7 @@
                                 </ToggleButton>
 
                                 <Label
-                                    Grid.Row="0"
+                                    Grid.Row="1"
                                     Grid.Column="3"
                                     Margin="0,0,0,0"
                                     HorizontalAlignment="Left"
@@ -240,6 +164,28 @@
 
 
 
+
+
+
+                                <ToggleButton
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Width="50"
+                                    Height="50"
+                                    Margin="5"
+                                    IsChecked="{Binding BIND_SQL_AUDIO_COMPNUMBERS}"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                                    <Rectangle
+                                        Width="20"
+                                        Height="20"
+                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularUserVoice}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
+
                                 <Label
                                     Grid.Row="2"
                                     Grid.Column="1"
@@ -247,12 +193,49 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     HorizontalContentAlignment="Left"
-                                    Content="Funky mód (náhodné úryvky písniček před začátkem kola)"
+                                    Content="Hlásit čísla soutěžících na začátku letu"
                                     FontSize="12"
                                     IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
 
+
+
+
+
                                 <ToggleButton
                                     Grid.Row="2"
+                                    Grid.Column="2"
+                                    Width="50"
+                                    Height="50"
+                                    Margin="5"
+                                    IsChecked="{Binding BIND_SQL_AUDIO_RNDGRPFLIGHT}"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
+                                    Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                                    <Rectangle
+                                        Width="20"
+                                        Height="20"
+                                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:Modern Kind=SocialUservoice}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </ToggleButton>
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="3"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Left"
+                                    Content="Hlásit kolo a skupinu na začátku letu"
+                                    FontSize="12"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+
+
+
+
+
+                                <ToggleButton
+                                    Grid.Row="3"
                                     Grid.Column="0"
                                     Width="50"
                                     Height="50"
@@ -271,7 +254,27 @@
                                     </Rectangle>
                                 </ToggleButton>
 
+                                <Label
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Left"
+                                    Content="Funky mód (náhodné úryvky písniček před začátkem kola)"
+                                    FontSize="12"
+                                    IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+
+
+
+
                             </Grid>
+
+
+
+
+
+
 
                         </Grid>
 
@@ -289,7 +292,7 @@
 
 
 
-            <mah:MetroHeader Margin="0,30,0,0" Header="Ostatní nastavení audia">
+            <mah:MetroHeader Margin="0,10,0,0" Header="Ostatní nastavení audia">
 
                 <Grid Margin="0,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -330,20 +333,22 @@
 
 
                         <Label
-                            Grid.Row="5"
+                            Grid.Row="4"
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
                             Content="Zvuk pro přípravný čas ve finálových kolech:" />
                         <ComboBox
+                            x:Name="soundfile_finalround"
                             Grid.Row="5"
                             Grid.Column="1"
-                            Margin="0,0,0,10"
+                            Margin="0,0,198,10"
                             DisplayMemberPath="SoundName"
                             FontSize="13"
                             FontWeight="Bold"
                             IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                            ItemsSource="{Binding BINDING_SoundList}" />
+                            ItemsSource="{Binding BINDING_SoundList}"
+                            SelectedIndex="{Binding BIND_AUDIO_SELECTEDFINALSOUND_INDEX}" />
 
 
                         <Label
@@ -355,7 +360,7 @@
                         <ComboBox
                             Grid.Row="6"
                             Grid.Column="1"
-                            Margin="0,0,0,10"
+                            Margin="0,0,198,14"
                             DisplayMemberPath="SoundName"
                             FontSize="13"
                             FontWeight="Bold"
@@ -365,9 +370,10 @@
 
                         <mah:ToggleSwitch
                             x:Name="audio_menorwoman"
-                            Grid.Row="7"
+                            Grid.Row="6"
                             Grid.Column="1"
-                            Margin="0,0,0,20"
+                            Height="38"
+                            Margin="436,0,0,14"
                             HorizontalAlignment="Left"
                             HorizontalContentAlignment="Left"
                             ContentDirection="RightToLeft"
@@ -379,7 +385,7 @@
 
 
                         <Label
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
@@ -388,7 +394,7 @@
 
                         <ComboBox
                             x:Name="soundfile_basicround"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.Column="1"
                             Margin="0,0,198,10"
                             DisplayMemberPath="SoundName"
@@ -396,29 +402,17 @@
                             FontWeight="Bold"
                             IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
                             ItemsSource="{Binding BINDING_SoundList}"
-                            SelectedIndex="{Binding BIND_AUDIO_SELECTEDBASESOUND_INDEX}"
-                            SelectionChanged="ComboBox_SelectionChanged" />
-
-                        <Button
-                            x:Name="soundfile_basicround2"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Margin="407,0,0,10"
-                            Click="soundfile_basicround2_Click"
-                            Content="Načíst vybraný zvuk"
-                            FontSize="13"
-                            FontWeight="Bold"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
+                            SelectedIndex="{Binding BIND_AUDIO_SELECTEDBASESOUND_INDEX}" />
 
                         <Label
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
-                            Content="Zvuk pro Přípravný časzákladní kola:" />
+                            Content="Zvuk pro Přípravný čas základní kola:" />
                         <ComboBox
                             x:Name="soundfile_basicround_prep"
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.Column="1"
                             Margin="0,0,198,10"
                             DisplayMemberPath="SoundName"
@@ -428,32 +422,33 @@
                             ItemsSource="{Binding BINDING_SoundList}"
                             SelectedIndex="{Binding BIND_AUDIO_SELECTEDPREPSOUND_INDEX}" />
 
-                        <Button
-                            x:Name="soundfile_basicroundprep2"
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Margin="407,0,0,10"
-                            Click="soundfile_basicroundprep2_Click"
-                            Content="Načíst vybraný zvuk"
-                            FontSize="13"
-                            FontWeight="Bold"
-                            IsEnabled="{Binding ElementName=useaudio, Path=IsOn}" />
-
                         <Label
-                            Grid.Row="4"
+                            Grid.Row="5"
                             Grid.Column="0"
                             Margin="0,0,10,0"
                             HorizontalContentAlignment="Right"
                             Content="Zvuk pro finálová kola:" />
                         <ComboBox
+                            x:Name="soundfile_finalround_prep"
                             Grid.Row="4"
                             Grid.Column="1"
-                            Margin="0,0,0,10"
+                            Margin="0,0,198,10"
                             DisplayMemberPath="SoundName"
                             FontSize="13"
                             FontWeight="Bold"
                             IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                            ItemsSource="{Binding BINDING_SoundList}" />
+                            ItemsSource="{Binding BINDING_SoundList}"
+                            SelectedIndex="{Binding BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX}" />
+                        <Button
+                            x:Name="soundfile_finalround2"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="407,0,0,10"
+                            Click="soundfile_save_and_load_all"
+                            Content="Uložit a načíst zvuky"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            IsEnabled="{Binding IsOn, ElementName=useaudio}" Grid.RowSpan="4" />
 
 
 
@@ -469,7 +464,7 @@
 
 
 
-            <mah:MetroHeader Margin="0,50,0,0" Header="Automatické spouštění a další operace">
+            <mah:MetroHeader Margin="0,10,0,0" Header="Automatické spouštění a další operace">
 
                 <Grid
                     Grid.Row="1"
@@ -485,6 +480,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
 
@@ -496,9 +494,9 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Left"
-                        Content="V daném čase automaticky spustit přípravný čas pro další let"
+                        Content="V daném čase hlavního odpočtu automaticky spustit přípravný čas"
                         FontSize="12"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}" />
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
 
 
                     <mah:TimePicker
@@ -511,7 +509,7 @@
                         HorizontalAlignment="Left"
                         Culture="cs"
                         HandVisibility="HourMinute"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         IsReadOnly="False"
                         PickerVisibility="HourMinute"
                         SelectedDateTime="{Binding BIND_SQL_AUTO_PREPTIMESTART}"
@@ -523,7 +521,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Content="Čas (minuta : vteřina) spuštění přípravného času"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}" />
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
 
 
                     <Label
@@ -533,9 +531,34 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Left"
-                        Content="Po doběhnutí přípravného času spustit letový čas dalšího kola"
+                        Content="V daném čase přípravného času automaticky spustit hlavní čas"
                         FontSize="12"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}" />
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
+
+
+                    <mah:TimePicker
+                        x:Name="kdyspustitpripravnyxx"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Width="64"
+                        Height="30"
+                        Margin="0,2,0,0"
+                        HorizontalAlignment="Left"
+                        Culture="cs"
+                        HandVisibility="HourMinute"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
+                        IsReadOnly="False"
+                        PickerVisibility="HourMinute"
+                        SelectedDateTime="{Binding BIND_SQL_AUTO_MAINTIMESTART}"
+                        SelectedTimeFormat="Short" />
+
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Čas (minuta : vteřina) spuštění přípravného času"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
 
 
 
@@ -544,27 +567,15 @@
 
 
 
-
-
-
-                    <ToggleButton
+                    <mah:ToggleSwitch
                         Name="pouzivatpripravnycas"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Width="50"
-                        Height="50"
-                        Margin="0,0,0,10"
-                        IsChecked="{Binding BIND_SQL_AUTO_USEPREPTIME}"
-                        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
-                        <Rectangle
-                            Width="20"
-                            Height="20"
-                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=RoutesClock}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </ToggleButton>
+                        Grid.ColumnSpan="2"
+                        Margin="5"
+                        IsOn="{Binding BIND_SQL_AUTO_USEPREPTIME}"
+                        OffContent="NEPoužívát automatické operace"
+                        OnContent="Používát automatické operace" />
 
                     <ToggleButton
                         Name="tg1"
@@ -574,7 +585,7 @@
                         Height="50"
                         Margin="0,0,0,10"
                         IsChecked="{Binding BIND_SQL_AUTO_RUNPREPTIMENEXTROUND}"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                         <Rectangle
                             Width="20"
@@ -592,28 +603,17 @@
                         Width="50"
                         Height="50"
                         IsChecked="{Binding BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME}"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
                         <Rectangle
                             Width="20"
                             Height="20"
                             Fill="{DynamicResource MahApps.Brushes.Gray1}">
                             <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=ProgressCheck}" />
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarClock}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
-
-
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="0,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        HorizontalContentAlignment="Left"
-                        Content="Používat přípravný čas mezi koly"
-                        FontSize="12" />
 
 
 
@@ -625,11 +625,12 @@
                         HorizontalAlignment="Left"
                         Culture="cs"
                         HandVisibility="HourMinute"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         IsReadOnly="False"
                         PickerVisibility="HourMinute"
                         SelectedDateTime="{Binding BIND_SQL_AUTO_PREPTIMELENGHT}"
-                        SelectedTimeFormat="Short" />
+                        SelectedTimeFormat="Short"
+                        Visibility="Hidden" />
 
                     <Label
                         Grid.Row="0"
@@ -637,10 +638,8 @@
                         HorizontalAlignment="Left"
                         VerticalContentAlignment="Center"
                         Content="Délka přípravného času mezi koly (minuta : vteřina)"
-                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsChecked}" />
-
-
-
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
+                        Visibility="Hidden" />
 
 
 

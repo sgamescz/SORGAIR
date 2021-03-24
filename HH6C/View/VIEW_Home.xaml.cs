@@ -17,8 +17,6 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Threading;
 using System.Net;
-using System;
-using System.Net;
 using System.IO;
 using System.Net.Cache;
 using System.Globalization;
@@ -67,7 +65,6 @@ namespace WpfApp6.View
             controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_users));
             await Task.Delay(10);
 
-
             VM.FUNCTION_USERS_LOAD_ALLCOMPETITORS();
             VM.FUNCTION_TEAM_LOAD_TEAMS();
 
@@ -94,14 +91,14 @@ namespace WpfApp6.View
             VM.BIND_TYPEOFCLOCK = "PRE_MAIN";
             VM.clock_MAIN_create ();
             VM.clock_PREP_create();
+            VM.clock_FINAL_MAIN_create();
+            VM.clock_FINAL_PREP_create();
             controller.SetProgress(1);
             controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_complete));
             await Task.Delay(500);
             VM.BINDING_selectedmenuindex = 1;
             await Task.Delay(100);
             await controller.CloseAsync();
-
-
 
 
         }

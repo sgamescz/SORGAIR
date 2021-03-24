@@ -35,7 +35,6 @@ namespace WpfApp6
    
     public partial class Core : MetroWindow
     {
-        private static System.Timers.Timer aTimer;
 
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
 
@@ -131,10 +130,23 @@ namespace WpfApp6
 
         private void CLICK_originalresize(object sender, RoutedEventArgs e)
         {
-            this.Width = 1268;
+            this.Width = 1230;
             this.Height =  900;
             this.WindowState = WindowState.Normal;
 
+        }
+
+        private void CLICK_resizemode(object sender, RoutedEventArgs e)
+        {
+
+            if (VM.Function_global_resizemode == "Uniform")
+            {
+                VM.Function_global_resizemode = "Fill";
+            }
+            else
+            {
+                VM.Function_global_resizemode = "Uniform";
+            }
         }
     }
 }

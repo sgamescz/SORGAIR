@@ -523,7 +523,7 @@
                             Kind="Printer" />
                     </mah:Tile>
                     <mah:Tile
-                        x:Name="deletxe_competitor"
+                        x:Name="printusercards"
                         Title="Vytisknout karty soutěžících"
                         Width="Auto"
                         Height="60"
@@ -531,7 +531,7 @@
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Top"
                         Background="{DynamicResource MahApps.Brushes.Accent}"
-                        Click="delete_competitor_Click"
+                        Click="printusercards_Click"
                         HorizontalTitleAlignment="Center"
                         IsEnabled="True"
                         TitleFontSize="12">
@@ -1209,79 +1209,80 @@
 
 
             <mah:Flyout
-                x:Name="firstFlyout_print_list"
+                x:Name="firstFlyout_print_userlist"
                 Margin="10,0,0,0"
                 AnimateOpacity="True"
                 AreAnimationsEnabled="True"
                 Header="Tisk seznamu soutěžících"
                 IsModal="False"
-                IsOpen="True"
+                IsOpen="False"
                 Position="Right"
                 Theme="Adapt">
 
 
 
-                <Grid Height="735" VerticalAlignment="Top" >
-
-                    <ListBox
-                    x:Name="competitorlist_print"
-                    Margin="10,10,10,55"
-                        IsEnabled="True"
-                        
-                    BorderThickness="2"
-                    ItemsSource="{Binding Players}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="70" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="80" />
-                                    </Grid.ColumnDefinitions>
-
+                <Grid Height="735" VerticalAlignment="Top">
+                    <ScrollViewer Margin="0,0,0,53">
+                        <ListBox
+                            x:Name="competitorlist_print"
+                            Height="662"
+                            BorderThickness="2"
+                            IsEnabled="True"
+                            ItemsSource="{Binding Players}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="70" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
 
 
 
 
-                                    <Image
-                                    Grid.Column="0"
-                                    Width="20"
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
-                                    Source="{Binding PAID}"
-                                    Stretch="Fill" />
-                                    <TextBlock
-                                    x:Name="XXX"
-                                    Grid.Column="1"
-                                    Text="{Binding ID}" />
-                                    <Image
-                                    Grid.Column="2"
-                                    Width="20"
-                                    Margin="0,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Bottom"
-                                    Source="{Binding FLAG}"
-                                    Stretch="Fill" />
-                                    <TextBlock Grid.Column="3" Text="{Binding COUNTRY}" />
-                                    <TextBlock
-                                    Grid.Column="4"
-                                    HorizontalAlignment="left"
-                                    Text="{Binding FIRSTNAME}" />
-                                    <TextBlock Grid.Column="5" Text="{Binding LASTNAME}" />
-                                    <TextBlock Grid.Column="6" Text="{Binding FAILIC}" />
-                                    <TextBlock Grid.Column="7" Text="{Binding NACLIC}" />
-                                    <TextBlock Grid.Column="8" Text="{Binding AGECAT}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+
+                                        <Image
+                                            Grid.Column="0"
+                                            Width="20"
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Source="{Binding PAID}"
+                                            Stretch="Fill" />
+                                        <TextBlock
+                                            x:Name="XXX"
+                                            Grid.Column="1"
+                                            Text="{Binding ID}" />
+                                        <Image
+                                            Grid.Column="2"
+                                            Width="20"
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Source="{Binding FLAG}"
+                                            Stretch="Fill" />
+                                        <TextBlock Grid.Column="3" Text="{Binding COUNTRY}" />
+                                        <TextBlock
+                                            Grid.Column="4"
+                                            HorizontalAlignment="left"
+                                            Text="{Binding FIRSTNAME}" />
+                                        <TextBlock Grid.Column="5" Text="{Binding LASTNAME}" />
+                                        <TextBlock Grid.Column="6" Text="{Binding FAILIC}" />
+                                        <TextBlock Grid.Column="7" Text="{Binding NACLIC}" />
+                                        <TextBlock Grid.Column="8" Text="{Binding AGECAT}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+
 
                     <mah:Tile
                         x:Name="showprintpreview"
@@ -1295,7 +1296,6 @@
                         HorizontalTitleAlignment="center"
                         IsEnabled="True"
                         Style="{StaticResource userbuttonstyle}"
-                      
                         TitleFontSize="12"
                         VerticalTitleAlignment="Bottom">
                         <iconPacks:PackIconFeatherIcons
@@ -1307,6 +1307,67 @@
                     </mah:Tile>
 
                 </Grid>
+
+
+            </mah:Flyout>
+
+            <mah:Flyout
+                x:Name="firstFlyout_print_usercards"
+                Margin="10,0,0,0"
+                AnimateOpacity="True"
+                AreAnimationsEnabled="True"
+                Header="Tisk karet soutěžících"
+                IsModal="False"
+                IsOpen="False"
+                Position="Right"
+                Theme="Adapt">
+
+                <Grid>
+
+                    <FlowDocumentPageViewer
+                        x:Name="myFlowDocReader"
+                        Height="640"
+                        Margin="0,0,10,101"
+                        VerticalAlignment="Bottom">
+                        <FlowDocument x:Name="myFlowDoc" />
+                    </FlowDocumentPageViewer>
+
+                    <Button
+                        x:Name="createBtn"
+                        Width="970"
+                        Margin="0,655,10,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Click="createFlowDoc"
+                        Content="Create" />
+
+                    <mah:Tile
+                        Title="Vytisknout seznam soutěžících"
+                        Width="Auto"
+                        Height="Auto"
+                        Margin="10,687,10,10"
+                        VerticalContentAlignment="Top"
+                        Click="Button_Click"
+                        HorizontalTitleAlignment="center"
+                        IsEnabled="True"
+                        Style="{StaticResource userbuttonstyle}"
+                        TitleFontSize="12"
+                        VerticalTitleAlignment="Bottom">
+                        <iconPacks:PackIconFeatherIcons
+                            Width="20"
+                            Height="20"
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            Kind="Printer" />
+                    </mah:Tile>
+
+                </Grid>
+
+
+
+
+
+
 
 
             </mah:Flyout>

@@ -19,10 +19,10 @@ namespace WpfApp6.View
     /// <summary>
     /// Interakční logika pro FirstView.xaml
     /// </summary>
-    public partial class FirstView : UserControl
+    public partial class Detail : UserControl
     {
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
-        public FirstView()
+        public Detail()
         {
 
             InitializeComponent();

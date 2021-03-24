@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:v="clr-namespace:WpfApp6.View"
     Title="SORG AIR 2021"
-    Width="1270"
+    Width="1230"
     Height="900"
     Dialog:DialogParticipation.Register="{Binding}"
     Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
@@ -19,7 +19,7 @@
     Loaded="MetroWindow_Loaded"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d" >
+    mc:Ignorable="d">
 
     <Controls:MetroWindow.Resources>
 
@@ -27,7 +27,7 @@
 
 
             <DataTemplate x:Key="MenuItemTemplateIC" DataType="{x:Type Controls:HamburgerMenuIconItem}">
-                <Grid Height="60">
+                <Grid Height="58">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="74" />
                         <ColumnDefinition />
@@ -100,6 +100,18 @@
                 </StackPanel>
             </Button>
 
+            <Label>Resize mode</Label>
+            <Button Click="CLICK_resizemode">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterialDesign
+                        Width="24"
+                        Height="24"
+                        Kind="PhotoSizeSelectSmall" />
+
+                </StackPanel>
+            </Button>
+
+
             <Label>Change color</Label>
             <Button Click="CLICK_changeforeground">
                 <StackPanel Orientation="Horizontal">
@@ -125,9 +137,10 @@
     </Controls:MetroWindow.RightWindowCommands>
 
     <Viewbox
+        x:Name="viewbox_core"
         HorizontalAlignment="Center"
         VerticalAlignment="top"
-        Stretch= "Fill">
+        Stretch="{Binding Function_global_resizemode}">
 
 
         <Grid
@@ -276,22 +289,36 @@
 
                         </Controls:HamburgerMenuIconItem>
 
+
+
                         <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_finale}" Label="{x:Static language:Lang.menu_finals}">
                             <Controls:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconFontAwesome Kind="GemRegular" />
                             </Controls:HamburgerMenuIconItem.Icon>
                             <Controls:HamburgerMenuIconItem.Tag>
-                                <v:FirstView />
+                                <v:Finals />
                             </Controls:HamburgerMenuIconItem.Tag>
 
                         </Controls:HamburgerMenuIconItem>
+
+                        <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_vysledky_finale}" Label="{x:Static language:Lang.menu_results_final}">
+                            <Controls:HamburgerMenuIconItem.Icon>
+                                <iconPacks:PackIconFontAwesome Kind="MedalSolid" />
+                            </Controls:HamburgerMenuIconItem.Icon>
+                            <Controls:HamburgerMenuIconItem.Tag>
+                                <v:Results_final />
+                            </Controls:HamburgerMenuIconItem.Tag>
+
+                        </Controls:HamburgerMenuIconItem>
+
+
 
                         <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_detailyastatistiky}" Label="{x:Static language:Lang.menu_detailstatistics}">
                             <Controls:HamburgerMenuIconItem.Icon>
                                 <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
                             </Controls:HamburgerMenuIconItem.Icon>
                             <Controls:HamburgerMenuIconItem.Tag>
-                                <v:Results />
+                                <v:Detail />
                             </Controls:HamburgerMenuIconItem.Tag>
 
                         </Controls:HamburgerMenuIconItem>
@@ -301,7 +328,7 @@
                                 <iconPacks:PackIconMaterial Kind="LanConnect" />
                             </Controls:HamburgerMenuIconItem.Icon>
                             <Controls:HamburgerMenuIconItem.Tag>
-                                <v:Draw />
+                                <v:Online />
                             </Controls:HamburgerMenuIconItem.Tag>
                         </Controls:HamburgerMenuIconItem>
 

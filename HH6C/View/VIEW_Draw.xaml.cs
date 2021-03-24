@@ -91,7 +91,6 @@ namespace WpfApp6.View
 
             int Round = 1;
             int Group = 0;
-            int Startpoint = 0;
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 
@@ -244,6 +243,7 @@ namespace WpfApp6.View
 
 
          VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+
             VM.BIND_SELECTED_GROUP = 1;
             VM.BIND_SELECTED_ROUND = 1;
             VM.BIND_VIEWED_ROUND = 1;

@@ -222,6 +222,12 @@
   <data name="menu_results" xml:space="preserve">
     <value>Results</value>
   </data>
+  <data name="menu_results_final" xml:space="preserve">
+    <value>Final results</value>
+  </data>
+  <data name="menu_selectedflight" xml:space="preserve">
+    <value>Selected flight</value>
+  </data>
   <data name="menu_selectedround" xml:space="preserve">
     <value>Selected round</value>
   </data>

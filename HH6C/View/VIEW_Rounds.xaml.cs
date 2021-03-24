@@ -24,7 +24,6 @@ namespace WpfApp6.View
     public partial class Rounds : UserControl
     {
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
-        private MODEL_ViewModel BINDMODEL;
 
         public Rounds()
         {
@@ -33,13 +32,6 @@ namespace WpfApp6.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            
-            
-
-
-            //StackPanel stp = ((sender as MahApps.Metro.Controls.Tile).Parent as StackPanel);
-            //stp.Tag = "selected";
 
 
             string tag = (sender as MahApps.Metro.Controls.Tile).Tag.ToString();
@@ -482,7 +474,7 @@ namespace WpfApp6.View
                     scoreentry.IsOpen = false;
                     //_isscoreentryopen = false;
                     //HWbasemodul_Copy4s.Focus();
-                    VM.FUNCTION_CHECK_ENTERED(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP);
+                    VM.FUNCTION_CHECK_ENTERED(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP,false);
 
                     VM.FUNCTION_SELECTED_ROUND_USERS(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP);
                    
