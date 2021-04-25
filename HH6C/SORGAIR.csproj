@@ -203,6 +203,9 @@
       <HintPath>..\packages\NAudio.WinMM.2.0.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
+    <Reference Include="Select.HtmlToPdf, Version=21.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.HtmlToPdf.21.1.0-rc1\lib\net40\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -262,6 +265,9 @@
     <Compile Include="Model\MODEL_Team.cs" />
     <Compile Include="Model\MODEL_Player.cs" />
     <Compile Include="Model\MODEL_ViewModel.cs" />
+    <Compile Include="Print.xaml.cs">
+      <DependentUpon>Print.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Lang\Lang.en-US.Designer.cs">
       <DependentUpon>Lang.en-US.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -342,6 +348,10 @@
       <DependentUpon>CORE.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Print.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\VIEW_Results_Final.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

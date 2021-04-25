@@ -251,6 +251,7 @@ namespace WpfApp6.View
 
             VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
             VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
+            VM.BIND_IS_FINAL_FLIGHT_READY = false;
             controller.SetProgress(1);
             controller.SetMessage("New matrix created");
             await Task.Delay(1000);

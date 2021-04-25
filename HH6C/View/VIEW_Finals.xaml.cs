@@ -67,7 +67,7 @@ namespace WpfApp6.View
             else
             {
                 Console.WriteLine("yes");
-                VM.clock_FINAL__MAIN_stop();
+                VM.clock_FINAL_MAIN_stop();
 
             }
 
@@ -110,13 +110,13 @@ namespace WpfApp6.View
 
         private void show_scoreentry_form()
         {
-            Console.WriteLine(VM.BIND_SELECTED_FINAL_ROUND + "_" + VM.BIND_SELECTED_GROUP + "_" + VM.BIND_SELECTED_FINAL_STARTPOINT);
-            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SELECTED_FINAL_ROUND+100, 0, VM.BIND_SELECTED_FINAL_STARTPOINT);
+            Console.WriteLine(VM.BIND_SELECTED_FINAL_ROUND + "_1_" + VM.BIND_SELECTED_FINAL_STARTPOINT);
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT);
             scoreentry.IsOpen = true;
             scoreentry_minutes.Focus();
-            savescore_event(true);
             _isscoreentryopen = true;
             scoreentry_height.IsEnabled = VM.MODEL_CONTEST_RULES[0].ENTRYHEIGHT;
+            savescore_event(true);
 
         }
 
@@ -124,7 +124,9 @@ namespace WpfApp6.View
         {
 
             Button tagbutton = sender as Button;
+            Console.WriteLine("AHAH:" + tagbutton.Tag.ToString());
             VM.BIND_SELECTED_FINAL_STARTPOINT = int.Parse(tagbutton.Tag.ToString());
+            Console.WriteLine("BIND_SELECTED_FINAL_STARTPOINT" + VM.BIND_SELECTED_FINAL_STARTPOINT);
             show_scoreentry_form();
 
         }
@@ -144,7 +146,7 @@ namespace WpfApp6.View
         private void scoreentry_back_Click(object sender, RoutedEventArgs e)
         {
             //scoreentry_landing.SelectedIndex = 5;
-            //scoreentry.IsOpen = false;
+            scoreentry.IsOpen = false;
             _isscoreentryopen = false;
 
         }
@@ -278,7 +280,7 @@ namespace WpfApp6.View
                 string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
 
                 VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_GROUP + " and stp = " + VM.BIND_SELECTED_FINAL_STARTPOINT);
-                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = " + VM.BIND_SELECTED_GROUP, ""));
+                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = 1", ""));
                 Decimal _PREPSCORE = 0;
 
                 if (_MAXRAW != 0)
@@ -292,12 +294,12 @@ namespace WpfApp6.View
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP);
+                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP);
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
                 Console.WriteLine(VM.Player_Selected[0].SCORE_RAW);
                 Console.WriteLine(VM.Player_Selected[0].SCORE_PREP);
-                aktualscore.Content = "SCORE : " + VM.Player_Selected[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected[0].SCORE_RAW + " ]";
+                aktualscore.Content = "ACTSCORE : " + VM.Player_Selected[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected[0].SCORE_RAW + " ]";
 
                 }
 
@@ -433,7 +435,7 @@ namespace WpfApp6.View
 
                     VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_GROUP + " and stp = "+ VM.BIND_SELECTED_FINAL_STARTPOINT);
 
-                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = " + VM.BIND_SELECTED_GROUP, ""));
+                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = 1", ""));
 
                     Decimal _PREPSCORE = 0;
 
@@ -451,7 +453,7 @@ namespace WpfApp6.View
                     VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                     VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP);
+                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP);
 
                     VM.FUNCTION_CHECK_ENTERED(VM.BIND_SELECTED_FINAL_ROUND, 1,true);
                     //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
@@ -507,7 +509,7 @@ namespace WpfApp6.View
         private void preptimer_play_Click(object sender, RoutedEventArgs e)
         {
             VM.MAX_WIDTH = 20;
-            VM.BIND_PREP_AUDIO_MAN_AUTO = true;
+            VM.BIND_PREP_AUDIO_FINAL_MAN_AUTO = true;
             VM.clock_FINAL_PREP_start();
         }
 
@@ -524,6 +526,8 @@ namespace WpfApp6.View
 
         private void scoreentry_minutes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            aktualscore.Content = "--XX--";
+
             Console.Write("_isscoreentryopen" + _isscoreentryopen);
             try
             {
@@ -531,7 +535,7 @@ namespace WpfApp6.View
 
                 if (VM != null)
                 {
-                    if (scoreentry.IsOpen == true)
+                    if (_isscoreentryopen == true)
                     {
                         savescore_event(true);
                     }

@@ -112,6 +112,72 @@
                 </StackPanel>
             </DataTemplate>
 
+
+            <DataTemplate x:Key="DateTemplateR6">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND6RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND6RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR7">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND7RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND7RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR8">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND8RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND8RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR9">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND9RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND9RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR10">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND10RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND10RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
             <DataTemplate x:Key="DateTemplateFLAG">
                 <StackPanel>
                     <Image
@@ -129,7 +195,7 @@
 
         <StackPanel>
 
-            <Grid Height="165">
+            <Grid Height="200">
 
                 <mah:Tile
                     Name="results_users"
@@ -170,8 +236,8 @@
                     Name="results_move_to_final"
                     Title="Postoupit zobrazené soutěžící do finále"
                     Width="980"
-                    Height="68"
-                    Margin="10,87,0,0"
+                    Height="64"
+                    Margin="10,126,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Center"
@@ -183,9 +249,46 @@
                         Margin="0,0,0,20"
                         Kind="AccountMultipleCheckOutline" />
                 </mah:Tile>
+                <WrapPanel
+                    Name="table_filter_final"
+                    Width="980"
+                    Height="35"
+                    Margin="10,86,0,79"
+                    HorizontalAlignment="Left"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    Orientation="Horizontal"
+                    Visibility="Visible">
+
+                    <mah:ToggleSwitch
+                        Width="110"
+                        Content="Stát"
+                        FontSize="12"
+                        IsOn="True"
+                        Toggled="ToggleSwitchfinal_Toggled" />
+                    <mah:ToggleSwitch
+                        Width="100"
+                        Content="ID"
+                        FontSize="12"
+                        IsOn="True"
+                        Toggled="ToggleSwitchfinal_Toggled" />
+                    <mah:ToggleSwitch
+                        Width="100"
+                        Content="G.PEN"
+                        FontSize="12"
+                        IsOn="True"
+                        Toggled="ToggleSwitchfinal_Toggled" />
+
+                    <mah:ToggleSwitch
+                        Width="115"
+                        Content="Ztráta"
+                        FontSize="12"
+                        IsOn="True"
+                        Toggled="ToggleSwitchfinal_Toggled" />
+
+                </WrapPanel>
             </Grid>
             <DataGrid
-                x:Name="dataGrid1"
+                x:Name="dataGrid_clasic_results"
                 Width="980"
                 Margin="10,0,0,0"
                 HorizontalAlignment="Left"
@@ -235,33 +338,73 @@
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R1VISIBILITY"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR1}"
                         Header="Kolo 1"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R2VISIBILITY"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR2}"
                         Header="Kolo 2"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R3VISIBILITY"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR3}"
                         Header="Kolo 3"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R4VISIBILITY"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR4}"
                         Header="Kolo 4"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R5VISIBILITY"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR5}"
                         Header="Kolo 5"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R6VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR6}"
+                        Header="Kolo 6"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R7VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR7}"
+                        Header="Kolo 7"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R8VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR8}"
+                        Header="Kolo 8"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R9VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR9}"
+                        Header="Kolo 9"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R10VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR10}"
+                        Header="Kolo 10"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
 

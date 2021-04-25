@@ -45,6 +45,81 @@
 
         <Grid.Resources>
             <!--  DataTemplate for Published Date column defined in Grid.Resources.  PublishDate is a property on the ItemsSource of type DateTime  -->
+
+
+
+            <DataTemplate x:Key="DateTemplateR1_FR">
+                <StackPanel Height="40">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND1RES_SCORE_F}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND1RES_DATA_F}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR2_FR">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND2RES_SCORE_F}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND2RES_DATA_F}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR3_FR">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND3RES_SCORE_F}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND3RES_DATA_F}" />
+                </StackPanel>
+            </DataTemplate>
+
+
+            <DataTemplate x:Key="DateTemplateR4_FR">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND4RES_SCORE_F}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND4RES_DATA_F}" />
+                </StackPanel>
+            </DataTemplate>
+
+
+            <DataTemplate x:Key="DateTemplateR5_FR">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND5RES_SCORE_F}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND5RES_DATA_F}" />
+                </StackPanel>
+            </DataTemplate>
+
+
+
+
+
+
             <DataTemplate x:Key="DateTemplateR1">
                 <StackPanel Height="40">
                     <TextBlock
@@ -112,6 +187,72 @@
                 </StackPanel>
             </DataTemplate>
 
+
+            <DataTemplate x:Key="DateTemplateR6">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND6RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND6RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR7">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND7RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND7RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR8">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND8RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND8RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR9">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND9RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND9RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DateTemplateR10">
+                <StackPanel>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding RND10RES_SCORE}" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                        Text="{Binding RND10RES_DATA}" />
+                </StackPanel>
+            </DataTemplate>
+
             <DataTemplate x:Key="DateTemplateFLAG">
                 <StackPanel>
                     <Image
@@ -133,10 +274,10 @@
 
                 <mah:Tile
                     Name="results_users"
-                    Title="Všichni soutěžící"
-                    Width="150"
+                    Title="Celkové výsledky soutěže"
+                    Width="225"
                     Height="72"
-                    Margin="165,10,0,0"
+                    Margin="200,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Center"
@@ -150,14 +291,15 @@
                 </mah:Tile>
                 <mah:Tile
                     Name="results_final_users"
-                    Title="Finalisté"
-                    Width="150"
+                    Title="Výsledky finále"
+                    Width="185"
                     Height="72"
                     Margin="10,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Center"
-                    Click="results_users_Click">
+                    Click="results_final_users_Click"
+                    IsEnabled="{Binding BIND_MENU_ENABLED_finale}">
                     <iconPacks:PackIconFontAwesome
                         Width="25"
                         Height="25"
@@ -169,10 +311,10 @@
 
                 <mah:Tile
                     Name="results_teams"
-                    Title="Týmy"
-                    Width="155"
-                    Height="70"
-                    Margin="320,12,0,0"
+                    Title="Celková pořadí týmů"
+                    Width="210"
+                    Height="72"
+                    Margin="430,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Center"
@@ -185,15 +327,126 @@
                         Kind="Jersey" />
                 </mah:Tile>
             </Grid>
+            <WrapPanel
+                Name="table_filter_final"
+                Width="980"
+                Height="35"
+                Margin="10,0,0,10"
+                HorizontalAlignment="Left"
+                Background="{DynamicResource MahApps.Brushes.Accent4}"
+                Orientation="Horizontal"
+                Visibility="Collapsed">
+
+                <mah:ToggleSwitch
+                    Width="110"
+                    Content="Stát"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitchfinal_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="ID"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitchfinal_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="Bonus"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="G.PEN"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitchfinal_Toggled" />
+
+                <mah:ToggleSwitch
+                    Width="115"
+                    Content="Ztráta"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitchfinal_Toggled" />
+
+            </WrapPanel>
+            <WrapPanel
+                Name="table_filter_complete"
+                Width="980"
+                Height="35"
+                Margin="10,0,0,10"
+                HorizontalAlignment="Left"
+                Background="{DynamicResource MahApps.Brushes.Accent4}"
+                Orientation="Horizontal"
+                Visibility="Collapsed">
+
+                <mah:ToggleSwitch
+                    Width="110"
+                    Content="Stát"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="ID"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="G.PEN"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="115"
+                    Content="F.Score"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="115"
+                    Content="F.Ztráta"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="Bonus"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="1000"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+
+                <mah:ToggleSwitch
+                    Width="110"
+                    Content="Z.Score"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Width="110"
+                    Content="Z.Ztráta"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+
+            </WrapPanel>
             <DataGrid
-                x:Name="dataGrid1"
+                x:Name="datagrid_vysledky_finalistu"
                 Width="980"
                 Margin="10,0,0,0"
                 HorizontalAlignment="Left"
                 AutoGenerateColumns="False"
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
-                ItemsSource="{Binding Players_Finalresults}">
+                ItemsSource="{Binding Players_Finalresults}"
+                Visibility="Collapsed">
 
                 <DataGrid.Columns>
 
@@ -222,13 +475,13 @@
                         Header="ID"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
+                        Binding="{Binding GPEN}"
+                        Header="G.PEN"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
                         Binding="{Binding PREPSCORE}"
                         FontWeight="Bold"
                         Header="Celkové score"
-                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                    <DataGridTextColumn
-                        Binding="{Binding GPEN}"
-                        Header="G.PEN"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
                         Binding="{Binding PREPSCOREDIFF}"
@@ -236,24 +489,41 @@
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R1VISIBILITYFINAL"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR1}"
                         Header="Finále 1"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R2VISIBILITYFINAL"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR2}"
                         Header="Finále 2"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
+                        x:Name="R3VISIBILITYFINAL"
                         Width="*"
                         CellTemplate="{StaticResource DateTemplateR3}"
                         Header="Finále 3"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
-                  
+                    <DataGridTemplateColumn
+                        x:Name="R4VISIBILITYFINAL"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR4}"
+                        Header="Finále 4"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R5VISIBILITYFINAL"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Finále 5"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
 
 
                 </DataGrid.Columns>
@@ -261,7 +531,197 @@
 
             </DataGrid>
 
+            <DataGrid
+                x:Name="datagrid_vysledky_celkove"
+                Width="980"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                AutoGenerateColumns="False"
+                CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                IsReadOnly="True"
+                ItemsSource="{Binding Players_Baseresults_Complete}"
+                Visibility="Collapsed">
 
+                <DataGrid.Columns>
+
+
+                    <DataGridTextColumn
+                        Binding="{Binding POSITION}"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Header="Pozice"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding PLAYERDATA}"
+                        Header="Soutěžící"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="FINAL_RESULTS_TABLE_FLAG"
+                        Width="50"
+                        CellTemplate="{StaticResource DateTemplateFLAG}"
+                        Header="Stát"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_ID"
+                        Binding="{Binding ID}"
+                        Header="ID"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_GPEN_FINAL"
+                        Binding="{Binding GPEN}"
+                        Header="G.PEN"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding PREPSCORE_FINAL}"
+                        FontWeight="Bold"
+                        Header="F.Score"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_DIFF_FINAL"
+                        Binding="{Binding PREPSCOREDIFF_FINAL}"
+                        Header="F.Ztráta"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+                    <DataGridTemplateColumn
+                        x:Name="R1VISIBILITYFINAL_FR"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR1_FR}"
+                        Header="Finále 1"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R2VISIBILITYFINAL_FR"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR2_FR}"
+                        Header="Finále 2"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R3VISIBILITYFINAL_FR"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR3_FR}"
+                        Header="Finále 3"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R4VISIBILITYFINAL_FR"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR4_FR}"
+                        Header="Finále 4"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R5VISIBILITYFINAL_FR"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5_FR}"
+                        Header="Finále 5"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_BONUS_POINTS"
+                        Binding="{Binding BONUS_POINTS}"
+                        Header="Bonus"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_TO_1000"
+                        Binding="{Binding TO_1000}"
+                        Header="1000"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTextColumn
+                        Binding="{Binding PREPSCORE_BASE}"
+                        FontWeight="Bold"
+                        Header="Z.Score"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTextColumn
+                        Binding="{Binding PREPSCOREDIFF_BASE}"
+                        Header="Z.Ztráta"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+                    <DataGridTemplateColumn
+                        x:Name="R1VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR1}"
+                        Header="Kolo 1"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R2VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR2}"
+                        Header="Kolo 2"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R3VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR3}"
+                        Header="Kolo 3"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R4VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR4}"
+                        Header="Kolo 4"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R5VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Kolo 5"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R6VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Kolo 6"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R7VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Kolo 7"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R8VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Kolo 8"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R9VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Kolo 9"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTemplateColumn
+                        x:Name="R10VISIBILITY"
+                        Width="*"
+                        CellTemplate="{StaticResource DateTemplateR5}"
+                        Header="Kolo 10"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+
+                </DataGrid.Columns>
+
+
+            </DataGrid>
         </StackPanel>
 
     </Grid>

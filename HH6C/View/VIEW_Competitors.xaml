@@ -498,36 +498,12 @@
             Header="Tisk">
             <Grid Margin="0,-10,0,0">
                 <UniformGrid Columns="2" Rows="1">
-
-
-                    <mah:Tile
-                        x:Name="printuserlist"
-                        Title="Vytisknout seznam soutěžících"
-                        Width="Auto"
-                        Height="59"
-                        Margin="3,3,2,0"
-                        VerticalAlignment="Top"
-                        VerticalContentAlignment="Top"
-                        Click="printuserlist_Click"
-                        HorizontalTitleAlignment="center"
-                        IsEnabled="True"
-                        Style="{StaticResource userbuttonstyle}"
-                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV"
-                        TitleFontSize="12"
-                        VerticalTitleAlignment="Bottom">
-                        <iconPacks:PackIconFeatherIcons
-                            Width="20"
-                            Height="20"
-                            Margin="10"
-                            VerticalAlignment="Center"
-                            Kind="Printer" />
-                    </mah:Tile>
                     <mah:Tile
                         x:Name="printusercards"
-                        Title="Vytisknout karty soutěžících"
+                        Title="Vytisknout karty / seznam soutěžících"
                         Width="Auto"
                         Height="60"
-                        Margin="3,3,3,0"
+                        Margin="3,3,-490,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Top"
                         Background="{DynamicResource MahApps.Brushes.Accent}"
@@ -1208,12 +1184,13 @@
             </mah:Flyout>
 
 
+
             <mah:Flyout
-                x:Name="firstFlyout_print_userlist"
+                x:Name="firstFlyout_print_scorecards"
                 Margin="10,0,0,0"
                 AnimateOpacity="True"
                 AreAnimationsEnabled="True"
-                Header="Tisk seznamu soutěžících"
+                Header="Tisk karet / seznamu soutěžících "
                 IsModal="False"
                 IsOpen="False"
                 Position="Right"
@@ -1221,156 +1198,147 @@
 
 
 
-                <Grid Height="735" VerticalAlignment="Top">
-                    <ScrollViewer Margin="0,0,0,53">
-                        <ListBox
-                            x:Name="competitorlist_print"
-                            Height="662"
-                            BorderThickness="2"
-                            IsEnabled="True"
-                            ItemsSource="{Binding Players}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="0,2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30" />
-                                            <ColumnDefinition Width="40" />
-                                            <ColumnDefinition Width="40" />
-                                            <ColumnDefinition Width="70" />
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="80" />
-                                        </Grid.ColumnDefinitions>
+                <StackPanel Height="739">
+                    <mah:MetroHeader
+                        Height="140"
+                        Margin="10,20,10,0"
+                        Header="Tisk seznamu soutěžících">
+                        <Grid>
+                            <mah:Tile
+                                x:Name="print_to_html_userslist"
+                                Title="Tisk v HTML"
+                                Width="365"
+                                Height="75"
+                                Margin="250,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_html_userslist_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="LogosInternetExplorer" />
+                            </mah:Tile>
+
+
+                            <mah:Tile
+                                x:Name="print_to_pdf_userslist"
+                                Title="Tisk v PDF"
+                                Width="350"
+                                Height="75"
+                                Margin="620,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_pdf_userslist_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="SolidFilePdf" />
+                            </mah:Tile>
+                        </Grid>
+
+                    </mah:MetroHeader>
+                    <mah:MetroHeader Margin="10,20,10,0" Header="Tisk karet soutěžících">
+
+                        <Grid Height="109">
+                            <Label
+                                Width="235"
+                                Height="28"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                Content="Počet karet na stránku" />
+                            <mah:NumericUpDown
+                                x:Name="pocetnastranku_updown"
+                                Width="235"
+                                Height="44"
+                                Margin="10,43,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                ButtonsAlignment="Opposite"
+                                InterceptManualEnter="True"
+                                Maximum="999"
+                                Minimum="0"
+                                SwitchUpDownButtons="True"
+                                TextAlignment="Center"
+                                Value="3" />
+
+                            <mah:Tile
+                                x:Name="print_to_html"
+                                Title="Tisk v HTML"
+                                Width="365"
+                                Height="75"
+                                Margin="250,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_html_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="LogosInternetExplorer" />
+                            </mah:Tile>
+
+
+                            <mah:Tile
+                                x:Name="print_to_pdf"
+                                Title="Tisk v PDF"
+                                Width="350"
+                                Height="75"
+                                Margin="620,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_pdf_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="SolidFilePdf" />
+                            </mah:Tile>
 
 
 
+                        </Grid>
+                    </mah:MetroHeader>
 
 
-                                        <Image
-                                            Grid.Column="0"
-                                            Width="20"
-                                            Margin="0,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Bottom"
-                                            Source="{Binding PAID}"
-                                            Stretch="Fill" />
-                                        <TextBlock
-                                            x:Name="XXX"
-                                            Grid.Column="1"
-                                            Text="{Binding ID}" />
-                                        <Image
-                                            Grid.Column="2"
-                                            Width="20"
-                                            Margin="0,0,0,0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Bottom"
-                                            Source="{Binding FLAG}"
-                                            Stretch="Fill" />
-                                        <TextBlock Grid.Column="3" Text="{Binding COUNTRY}" />
-                                        <TextBlock
-                                            Grid.Column="4"
-                                            HorizontalAlignment="left"
-                                            Text="{Binding FIRSTNAME}" />
-                                        <TextBlock Grid.Column="5" Text="{Binding LASTNAME}" />
-                                        <TextBlock Grid.Column="6" Text="{Binding FAILIC}" />
-                                        <TextBlock Grid.Column="7" Text="{Binding NACLIC}" />
-                                        <TextBlock Grid.Column="8" Text="{Binding AGECAT}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </ScrollViewer>
-
-
-                    <mah:Tile
-                        x:Name="showprintpreview"
-                        Title="Vytisknout seznam soutěžících"
-                        Width="Auto"
-                        Height="59"
-                        Margin="10,687,10,-11"
-                        VerticalAlignment="Top"
-                        VerticalContentAlignment="Top"
-                        Click="Button_Click"
-                        HorizontalTitleAlignment="center"
-                        IsEnabled="True"
-                        Style="{StaticResource userbuttonstyle}"
-                        TitleFontSize="12"
-                        VerticalTitleAlignment="Bottom">
-                        <iconPacks:PackIconFeatherIcons
-                            Width="20"
-                            Height="20"
-                            Margin="10"
-                            VerticalAlignment="Center"
-                            Kind="Printer" />
-                    </mah:Tile>
-
-                </Grid>
-
-
-            </mah:Flyout>
-
-            <mah:Flyout
-                x:Name="firstFlyout_print_usercards"
-                Margin="10,0,0,0"
-                AnimateOpacity="True"
-                AreAnimationsEnabled="True"
-                Header="Tisk karet soutěžících"
-                IsModal="False"
-                IsOpen="False"
-                Position="Right"
-                Theme="Adapt">
-
-                <Grid>
-
-                    <FlowDocumentPageViewer
-                        x:Name="myFlowDocReader"
-                        Height="640"
-                        Margin="0,0,10,101"
-                        VerticalAlignment="Bottom">
-                        <FlowDocument x:Name="myFlowDoc" />
-                    </FlowDocumentPageViewer>
-
-                    <Button
-                        x:Name="createBtn"
-                        Width="970"
-                        Margin="0,655,10,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Click="createFlowDoc"
-                        Content="Create" />
-
-                    <mah:Tile
-                        Title="Vytisknout seznam soutěžících"
-                        Width="Auto"
-                        Height="Auto"
-                        Margin="10,687,10,10"
-                        VerticalContentAlignment="Top"
-                        Click="Button_Click"
-                        HorizontalTitleAlignment="center"
-                        IsEnabled="True"
-                        Style="{StaticResource userbuttonstyle}"
-                        TitleFontSize="12"
-                        VerticalTitleAlignment="Bottom">
-                        <iconPacks:PackIconFeatherIcons
-                            Width="20"
-                            Height="20"
-                            Margin="10"
-                            VerticalAlignment="Center"
-                            Kind="Printer" />
-                    </mah:Tile>
-
-                </Grid>
-
-
-
-
-
-
+                </StackPanel>
 
 
             </mah:Flyout>
+
         </mah:FlyoutsControl>
 
 

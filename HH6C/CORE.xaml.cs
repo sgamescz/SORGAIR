@@ -25,6 +25,8 @@ using System.Globalization;
 using System.IO;
 using System.Net.Cache;
 using System.Net;
+using Microsoft.Win32;
+
 
 namespace WpfApp6
 {
@@ -64,21 +66,33 @@ namespace WpfApp6
 
         public void thread2()
         {
-            string remoteUrl = "http://sorgair.com/api/version.php";
-            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
-            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-            HttpWebRequest.DefaultCachePolicy = policy;
-
-            httpRequest.CachePolicy = policy;
-            WebResponse response = httpRequest.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            string result = reader.ReadToEnd();
-            Console.WriteLine(result);
+            try
+            {
 
 
-            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+                string remoteUrl = "http://sorgair.com/api/version.php";
+                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
+
+                httpRequest.CachePolicy = policy;
+                WebResponse response = httpRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                string result = reader.ReadToEnd();
+                Console.WriteLine(result);
+
+
+                this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
         }
+
 
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
@@ -117,6 +131,12 @@ namespace WpfApp6
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
             HamburgerMenuControl.SelectedIndex = VM.BINDING_selectedmenuindex;
+
+            int RegVal;
+            RegVal = 11001;
+            using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
+                if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
+                    Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", RegVal, RegistryValueKind.DWord);
 
 
         }

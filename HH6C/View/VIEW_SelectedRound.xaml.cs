@@ -110,9 +110,9 @@ namespace WpfApp6.View
             VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(0, 0, 0);
             scoreentry.IsOpen = true;
             scoreentry_minutes.Focus();
-            savescore_event(true);
             _isscoreentryopen = true;
             scoreentry_height.IsEnabled = VM.MODEL_CONTEST_RULES[0].ENTRYHEIGHT;
+            savescore_event(true);
 
         }
 
@@ -140,7 +140,7 @@ namespace WpfApp6.View
         private void scoreentry_back_Click(object sender, RoutedEventArgs e)
         {
             //scoreentry_landing.SelectedIndex = 5;
-            //scoreentry.IsOpen = false;
+            scoreentry.IsOpen = false;
             _isscoreentryopen = false;
 
         }
@@ -293,7 +293,8 @@ namespace WpfApp6.View
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
                 Console.WriteLine(VM.Player_Selected[0].SCORE_RAW);
                 Console.WriteLine(VM.Player_Selected[0].SCORE_PREP);
-                aktualscore.Content = "SCORE : " + VM.Player_Selected[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected[0].SCORE_RAW + " ]";
+
+                aktualscore.Content = "XXXSCORE : " + VM.Player_Selected[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected[0].SCORE_RAW + " ]";
 
                 }
 
@@ -474,16 +475,28 @@ namespace WpfApp6.View
                 }
 
 
+
+
                 if (VM.BIND_SQL_SOUTEZ_ENTRYSTYLENEXT == true)
                 {
                     Console.WriteLine("VM.BIND_SELECTED_STARTPOINT" + VM.BIND_SELECTED_STARTPOINT);
                     Console.WriteLine("VM.BIND_SQL_SOUTEZ_STARTPOINTS" + VM.BIND_SQL_SOUTEZ_STARTPOINTS);
 
+
+                    znova:
                     if (VM.BIND_SELECTED_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTS)
                     {
                         VM.BIND_SELECTED_STARTPOINT += 1;
-                        show_scoreentry_form();
+                        if (int.Parse(VM.SQL_READSOUTEZDATA("select userid from score where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + VM.BIND_SELECTED_GROUP + " and stp=" + VM.BIND_SELECTED_STARTPOINT, "")) > 0)
+                        {
+                            show_scoreentry_form();
+                        }
+                        else
+                        {
+                            goto znova;
+                        }
                     }
+
                 }
 
 
@@ -505,18 +518,32 @@ namespace WpfApp6.View
         }
 
 
-        private void scoreentry_minutes_SelectionChanged(object sender, RoutedEventArgs e)
+        private void preptimer_play_Click(object sender, RoutedEventArgs e)
         {
 
-            Console.Write("_isscoreentryopen" + _isscoreentryopen);
+            VM.BIND_PREP_AUDIO_MAN_AUTO = true;
+            VM.clock_PREP_start();
+        }
+
+        private void preptimer_stop_Click(object sender, RoutedEventArgs e)
+        {
+            VM.clock_PREP_stop();
+         
+        }
+
+        private void scoreentry_minutes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            aktualscore.Content = "--XX--";
+            Console.Write("scoreentry.IsOpen" + _isscoreentryopen);
             try
             {
 
 
                 if (VM != null)
                 {
-                    if (scoreentry.IsOpen == true)
+                    if (_isscoreentryopen == true)
                     {
+
                         savescore_event(true);
                     }
                 }
@@ -529,21 +556,6 @@ namespace WpfApp6.View
             }
 
 
-
-
-        }
-
-        private void preptimer_play_Click(object sender, RoutedEventArgs e)
-        {
-
-            VM.BIND_PREP_AUDIO_MAN_AUTO = true;
-            VM.clock_PREP_start();
-        }
-
-        private void preptimer_stop_Click(object sender, RoutedEventArgs e)
-        {
-            VM.clock_PREP_stop();
-         
         }
     }
 }

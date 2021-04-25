@@ -364,6 +364,12 @@ namespace WpfApp6.Model
             set { _FINALROUNDMAXTIME = value; RaisePropertyChanged(nameof(FINALROUNDMAXTIME)); }
         }
 
+        private bool _BONUSONLYFORFINALIST;
+        public bool BONUSONLYFORFINALIST
+        {
+            get { return _BONUSONLYFORFINALIST; }
+            set { _BONUSONLYFORFINALIST = value; RaisePropertyChanged(nameof(BONUSONLYFORFINALIST)); }
+        }
 
 
     }
@@ -588,6 +594,24 @@ namespace WpfApp6.Model
             get { return _FINALROUNDMAXTIME; }
             set { _FINALROUNDMAXTIME = value; RaisePropertyChanged(nameof(FINALROUNDMAXTIME)); }
         }
+
+
+
+        private bool _BONUSONLYFORFINALIST;
+        public bool BONUSONLYFORFINALIST
+        {
+            get { return _BONUSONLYFORFINALIST; }
+            set { _BONUSONLYFORFINALIST = value; RaisePropertyChanged(nameof(BONUSONLYFORFINALIST)); }
+        }
+
+
+        private bool _RECTO1000FROMABSMAX;
+        public bool RECTO1000FROMABSMAX
+        {
+            get { return _RECTO1000FROMABSMAX; }
+            set { _RECTO1000FROMABSMAX = value; RaisePropertyChanged(nameof(RECTO1000FROMABSMAX)); }
+        }
+
 
 
     }

@@ -1,29 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using ControlzEx.Theming;
-using System.Printing;
-
-using System.Windows.Documents.Serialization;
-
-using System.Windows.Xps;
-
-using System.Windows.Xps.Packaging;
+using System.IO;
+using System.Threading.Tasks;
 
 
 namespace WpfApp6.View
@@ -34,8 +19,9 @@ namespace WpfApp6.View
     public partial class Soutezici : UserControl
     {
 
-        
-        
+        string html_all;
+
+
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
 
 
@@ -404,268 +390,264 @@ namespace WpfApp6.View
         {
         }
 
-        private void printuserlist_Click(object sender, RoutedEventArgs e)
-        {
-            firstFlyout_print_userlist.IsOpen = true;
-        }
-
-
-
-        public void Print_WPF_Preview(FrameworkElement wpf_Element)
-
-        {
-
-            //------------< WPF_Print_current_Window >------------
-
-            //--< create xps document >--
-
-            if (System.IO.File.Exists("print_preview.xps")) { System.IO.File.Delete("print_preview.xps"); }
-            XpsDocument doc = new XpsDocument("print_preview.xps", System.IO.FileAccess.ReadWrite);
-
-            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
-
-            SerializerWriterCollator preview_Document = writer.CreateVisualsCollator();
-
-            preview_Document.BeginBatchWrite();
-
-            preview_Document.Write(wpf_Element);  //*this or wpf xaml control
-
-            preview_Document.EndBatchWrite();
-
-            //--</ create xps document >--
-
-
-
-            //var doc2 = new XpsDocument("Druckausgabe.xps", FileAccess.Read);
-
-
-
-            FixedDocumentSequence preview = doc.GetFixedDocumentSequence();
-
-
-
-            var window = new Window();
-
-            window.Content = new DocumentViewer { Document = preview };
-
-            window.ShowDialog();
-
-
-
-            doc.Close();
-
-            //------------</ WPF_Print_current_Window >------------
-
-
-
-
-
-        }
-
-
-        public static class PrintHelper
-        {
-            public static FixedDocument GetFixedDocument(FrameworkElement toPrint, PrintDialog printDialog)
-            {
-                PrintCapabilities capabilities = printDialog.PrintQueue.GetPrintCapabilities(printDialog.PrintTicket);
-                Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-                Size visibleSize = new Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
-                FixedDocument fixedDoc = new FixedDocument();
-
-                // If the toPrint visual is not displayed on screen we neeed to measure and arrange it.
-                toPrint.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                toPrint.Arrange(new Rect(new Point(0, 0), toPrint.DesiredSize));
-
-                Size size = toPrint.DesiredSize;
-
-                // Will assume for simplicity the control fits horizontally on the page.
-                double yOffset = 0;
-                while (yOffset < size.Height)
-                {
-                    VisualBrush vb = new VisualBrush(toPrint);
-                    vb.Stretch = Stretch.None;
-                    vb.AlignmentX = AlignmentX.Left;
-                    vb.AlignmentY = AlignmentY.Top;
-                    vb.ViewboxUnits = BrushMappingMode.Absolute;
-                    vb.TileMode = TileMode.None;
-                    vb.Viewbox = new Rect(0, yOffset, visibleSize.Width, visibleSize.Height);
-
-                    PageContent pageContent = new PageContent();
-                    FixedPage page = new FixedPage();
-                    ((System.Windows.Markup.IAddChild)pageContent).AddChild(page);
-                    fixedDoc.Pages.Add(pageContent);
-                    page.Width = pageSize.Width;
-                    page.Height = pageSize.Height;
-
-                    Canvas canvas = new Canvas();
-                    FixedPage.SetLeft(canvas, capabilities.PageImageableArea.OriginWidth);
-                    FixedPage.SetTop(canvas, capabilities.PageImageableArea.OriginHeight);
-                    canvas.Width = visibleSize.Width;
-                    canvas.Height = visibleSize.Height;
-                    canvas.Background = vb;
-                    page.Children.Add(canvas);
-
-                    yOffset += visibleSize.Height;
-                }
-                return fixedDoc;
-            }
-
-            public static void ShowPrintPreview(FixedDocument fixedDoc)
-            {
-                Window wnd = new Window();
-                DocumentViewer viewer = new DocumentViewer();
-                viewer.Document = fixedDoc;
-                wnd.Content = viewer;
-                wnd.ShowDialog();
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            PrintDialog xxx = new PrintDialog();
-
-            IDocumentPaginatorSource idocument = myFlowDocReader as IDocumentPaginatorSource;
-            xxx.PrintDocument(idocument.DocumentPaginator, "Printing Machine : ");
-
-            //ThemeManager.Current.ChangeTheme(idocument, "Light.Blue");
-
-
-            //PrintHelper.ShowPrintPreview(PrintHelper.GetFixedDocument(testprint, xxx));
-            //Print_WPF_Preview(competitorcards_print);
-           // Print();
-        }
 
         private void printusercards_Click(object sender, RoutedEventArgs e)
         {
-            firstFlyout_print_usercards.IsOpen = true;
+            firstFlyout_print_scorecards.IsOpen = true;
+
         }
 
-        internal void Print()
+
+        private async void print_scorecards(string output_type)
         {
-          //  var paginator = new ProgramPaginator(testprint);
-            var dlg = new PrintDialog();
-
-
-           // paginator.PageSize = new Size(dlg.PrintableAreaWidth, dlg.PrintableAreaHeight);
-
-            Window wnd = new Window();
-            DocumentViewer viewer = new DocumentViewer();
-          //  viewer.Document = PrintHelper.GetFixedDocument(competitorcards_print, dlg);
-            wnd.Content = viewer;
-            wnd.ShowDialog();
 
 
 
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Generuji karty soutěžících k tisku");
+            await Task.Delay(300);
+            controller.SetProgress(0);
 
-            if ((bool)dlg.ShowDialog())
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            Console.WriteLine("VM.Players.Count" + VM.Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+            int pocetnastranku = int.Parse(pocetnastranku_updown.Value.ToString());
+            int tmp_pocetnastranku = 0;
+
+            html_main = File.ReadAllText(directory + "/Print_templates/scorecard_long_frame.html", Encoding.UTF8);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/scorecard_long_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+            for (int i = 0; i < VM.Players.Count(); i++)
             {
-              //  dlg.PrintDocument(paginator, "Program");
+
+                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
+                Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
+                await Task.Delay(100);
+                string tabulkaletu = "";
+
+                for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+                {
+                    string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[i].ID + " and rnd = " + x, "");
+                    tabulkaletu = tabulkaletu + $@"<tr>
+<td class='gray'>{x}</td>
+<td class='gray'>{tmp_grp_stp}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>";
+                }
+
+
+
+                for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDSFINALE + 1; x++)
+                {
+                    string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[i].ID + " and rnd = " + x + 100, "");
+                    tabulkaletu = tabulkaletu + $@"<tr>
+<td class='gray'>F{x}</td>
+<td class='gray'>{tmp_grp_stp}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>";
+                }
+
+
+
+
+                tmp_pocetnastranku += 1;
+
+                html_body_withrightdata = html_body;
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", "Dinosoutěž 1");
+                html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[i].FAILIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[i].AGECAT);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[i].CLUB);
+                html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[i].FREQ);
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[i].COUNTRY + ".png");
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);
+
+
+                html_body_complete = html_body_complete + html_body_withrightdata;
+
+                if (tmp_pocetnastranku == pocetnastranku)
+                {
+                    tmp_pocetnastranku = 0;
+                    html_body_complete = html_body_complete + "<div class='pagebreak'>---- ✂ ---- ✂ ---- cut here ---- ✂ ---- ✂ ----</div>";
+                }
+
             }
-        }
-
-        private void createFlowDoc(object sender, RoutedEventArgs e)
-        {
 
 
+            html_all = html_main.Replace("@BODY", html_body_complete);
 
-            BlockUIContainer bc = new BlockUIContainer();
-
-            Image myImg = new Image();
-            myImg.Source = new BitmapImage(new Uri(@"C:\asw\test.bmp"));
-            myImg.Width = 50;
-            myImg.Height = 50;
-            myImg.Stretch = Stretch.Fill;
-            myImg.Margin = new Thickness(0, 0, 0, 0);
-
-            Grid grid = new Grid();
-            grid.Width = 400;
-            grid.Height = 50;
-            grid.Background = new SolidColorBrush(Colors.Green);
-            grid.Children.Add(myImg);
-
-            StackPanel sp = new StackPanel();
-
-            sp.Width = 400;
-            sp.Height = 50;
-            sp.Orientation = Orientation.Vertical;
-            sp.HorizontalAlignment = HorizontalAlignment.Left;
-            sp.Children.Add(grid);
-            bc.Child = sp;
-
-
-            BlockUIContainer document1 = new BlockUIContainer();
-
-            this.myFlowDoc.Blocks.Add(bc);
-        }
-    }
-
-
-
-    class ProgramPaginator : DocumentPaginator
-    {
-        private FrameworkElement Element;
-        private ProgramPaginator()
-        {
-        }
-
-        public ProgramPaginator(FrameworkElement element)
-        {
-            Element = element;
-        }
-
-        public override DocumentPage GetPage(int pageNumber)
-        {
-
-            Element.RenderTransform = new TranslateTransform(-PageSize.Width * (pageNumber % Columns), -PageSize.Height * (pageNumber / Columns));
-
-            Size elementSize = new Size(
-                Element.ActualWidth,
-                Element.ActualHeight);
-            Element.Measure(elementSize);
-            Element.Arrange(new Rect(new Point(0, 0), elementSize));
-
-            var page = new DocumentPage(Element);
-            Element.RenderTransform = null;
-
-            return page;
-        }
-
-        public override bool IsPageCountValid
-        {
-            get { return true; }
-        }
-
-        public int Columns
-        {
-            get
+            if (output_type == "pdf")
             {
-                return (int)Math.Ceiling(Element.ActualWidth / PageSize.Width);
+
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
+                doc.Save(directory + "/Print/scorecard_long.pdf");
+                doc.Close();
+
+                System.Diagnostics.Process.Start(directory + "/Print/scorecard_long.pdf");
             }
+
+
+            if (output_type=="html") {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/scorecard_long.html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/scorecard_long.html");
+            }
+            await controller.CloseAsync();
+            await Task.Delay(300);
+
+
+
         }
-        public int Rows
+
+
+        private async void print_userslist(string output_type)
         {
-            get
+
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Generuji seznam soutěžících k tisku");
+            await Task.Delay(300);
+            controller.SetProgress(0);
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            Console.WriteLine("VM.Players.Count" + VM.Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/userlist_frame.html", Encoding.UTF8);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/userlist_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+            for (int i = 0; i < VM.Players.Count(); i++)
             {
-                return (int)Math.Ceiling(Element.ActualHeight / PageSize.Height);
-            }
-        }
 
-        public override int PageCount
-        {
-            get
+                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
+                Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
+                await Task.Delay(100);
+
+                html_body_withrightdata = html_body;
+                Console.WriteLine(html_body_withrightdata);
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", "Dinosoutěž 1");
+                html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[i].FAILIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[i].AGECAT);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[i].CLUB);
+                html_body_withrightdata = html_body_withrightdata.Replace("@PAID", VM.Players[i].PAIDSTR);
+                html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[i].FREQ);
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[i].COUNTRY + ".png");
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+
+                html_body_complete = html_body_complete + html_body_withrightdata;
+
+            }
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+            if (output_type == "pdf")
             {
-                return Columns * Rows;
+
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
+                doc.Save(directory + "/Print/userslist.pdf");
+                doc.Close();
+
+                System.Diagnostics.Process.Start(directory + "/Print/userslist.pdf");
             }
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/userslist.html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/userslist.html");
+            }
+            await controller.CloseAsync();
+            await Task.Delay(300);
+
+
+
         }
 
-        public override Size PageSize
+        private void print_to_html_Click(object sender, RoutedEventArgs e)
         {
-            set; get;
+            print_scorecards("html");
+
         }
 
-        public override IDocumentPaginatorSource Source
+        private void print_to_pdf_Click(object sender, RoutedEventArgs e)
         {
-            get { return null; }
+            print_scorecards("pdf");
+        }
+
+        private void print_to_html_userslist_Click(object sender, RoutedEventArgs e)
+        {
+            print_userslist("html");
+        }
+
+        private void print_to_pdf_userslist_Click(object sender, RoutedEventArgs e)
+        {
+            print_userslist("pdf");
+
         }
     }
 

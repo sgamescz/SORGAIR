@@ -97,7 +97,8 @@
                 Width="Auto"
                 Height="65"
                 Margin="10,3"
-                Click="btn_importusersbymatrixfile_Click">
+                Click="btn_importusersbymatrixfile_Click"
+                IsEnabled="{Binding CONTEST_LOCK}">
                 <iconPacks:PackIconModern
                     Width="30"
                     Height="30"
@@ -111,6 +112,7 @@
 
         <ItemsControl
             Margin="10,0,10,10"
+            IsEnabled="{Binding CONTEST_LOCK}"
             ItemsSource="{Binding MODEL_CONTEST_ROUNDS}"
             Visibility="{Binding BIND_ROZLOSOVANIODPOVIDAPOCTUM}">
             <ItemsControl.ItemTemplate>

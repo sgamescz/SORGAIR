@@ -273,6 +273,7 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("INSERT INTO Sounds(id, second, filename, filedesc) SELECT L.id, L.second, L.filename, L.filedesc FROM rulesdb.sounds L where L.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO Soundlist(category, id, soundname) SELECT L.category, L.id , L.soundname FROM rulesdb.soundlist L where L.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO rules SELECT * FROM rulesdb.rules where id = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO bonuspoints(id, value) SELECT L.id, L.value FROM rulesdb.bonuspoints L where L.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_CATEGORY + "' where item='Category';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION + "' where item='Location';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE + "' where item='Date';");
@@ -355,8 +356,15 @@ namespace WpfApp6.View
                         string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
                         var directory = System.IO.Path.GetDirectoryName(path);
 
+                        try
+                        {
+                            File.Delete(directory + "/Data/" + VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].FILENAME + ".db");
+                        }
+                        catch (Exception err)
+                        {
+                            Console.WriteLine(err.Message);
+                        }
 
-                        File.Delete(directory + "/Data/" + VM.MODEL_CONTESTS_FILES[competitionlist.SelectedIndex].FILENAME + ".db");
 
                         VM.FUNCTION_LOAD_CONTESTS_FILES();
                         if (competitionlist.Items.Count > 0)
@@ -389,6 +397,12 @@ namespace WpfApp6.View
                 newcontestdelete.IsEnabled = false;
 
             }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            Window printwindow = new SORGAIR.Print();
+            printwindow.Show();
         }
     }
 }

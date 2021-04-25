@@ -6,8 +6,9 @@
     Title="SORG AIR 2021 - Language selector"
     Width="619"
     Height="267"
-    BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
-    BorderThickness="1"
+    Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+    BorderThickness="3"
+    GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen">
 
@@ -16,7 +17,7 @@
         <TextBlock
             Margin="10,111,10,10"
             TextAlignment="Center"
-            TextWrapping="Wrap" ><Run Text="!! Only for beta testing. Do not share this application please !! All what u want / or bug found,  please tell us via ales@sgames.cz, or on our FB site "/></TextBlock>
+            TextWrapping="Wrap"><Run Text="!! Only for beta testing. Do not share this application please !! All what u want / or bug found,  please tell us via ales@sgames.cz, or on our FB site " /></TextBlock>
 
         <Button
             Width="110"
@@ -43,7 +44,13 @@
             VerticalAlignment="Top"
             Click="Button_Click_2"
             Content="Slovak" />
-        <Image HorizontalAlignment="Left"  VerticalAlignment="Top" Source="sorgairlogotransparent.png" Margin="190,28,0,0" Height="67" Width="230" />
+        <Image
+            Width="230"
+            Height="67"
+            Margin="190,28,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Source="sorgairlogotransparent.png" />
     </Grid>
 
 </Controls:MetroWindow>

@@ -61,7 +61,9 @@ namespace SORGAIR
                         ", limit2='" + VM.MODEL_CATEGORY_RULES[0].TIME2LIMIT.ToString(new CultureInfo("en-US")) + "', points_under_limit2='" + VM.MODEL_CATEGORY_RULES[0].TIME2UNDER.ToString(new CultureInfo("en-US")) + "', points_over_limit2='" + VM.MODEL_CATEGORY_RULES[0].TIME2OVER.ToString(new CultureInfo("en-US")) + "', " +
                         "sub_from_landing1='" + VM.MODEL_CATEGORY_RULES[0].SUBFROMLANDING1.ToString(new CultureInfo("en-US")) + "' , sub_from_landing2='" + VM.MODEL_CATEGORY_RULES[0].SUBFROMLANDING2.ToString(new CultureInfo("en-US")) + "', sub_from_time1='" + VM.MODEL_CATEGORY_RULES[0].SUBFROMTIME1.ToString(new CultureInfo("en-US")) + "', " +
                         "sub_from_time2='" + VM.MODEL_CATEGORY_RULES[0].SUBFROMTIME2.ToString(new CultureInfo("en-US")) + "' , delete_landing1='" + VM.MODEL_CATEGORY_RULES[0].DELETELANDING1 + "', delete_landing2='" + VM.MODEL_CATEGORY_RULES[0].DELETELANDING2 + "' " +
-                        ", delete_time1='" + VM.MODEL_CATEGORY_RULES[0].DELETETIME1 + "' , delete_time2='" + VM.MODEL_CATEGORY_RULES[0].DELETETIME2 + "' , delete_all1='" + VM.MODEL_CATEGORY_RULES[0].DELETEALL1 + "' , delete_all2='" + VM.MODEL_CATEGORY_RULES[0].DELETEALL2 + "', category='" + VM.MODEL_CATEGORY_RULES[0].CATEGORY + "', BASEROUNDLENGHT='" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDLENGHT + "' , BASEROUNDMAXTIME='" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDMAXTIME + "', FINALROUNDLENGHT='" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDLENGHT + "', FINALROUNDMAXTIME='" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDMAXTIME + "' where id = '" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + "';");
+                        ", delete_time1='" + VM.MODEL_CATEGORY_RULES[0].DELETETIME1 + "' , delete_time2='" + VM.MODEL_CATEGORY_RULES[0].DELETETIME2 + "' , delete_all1='" + VM.MODEL_CATEGORY_RULES[0].DELETEALL1 + "' , delete_all2='" + VM.MODEL_CATEGORY_RULES[0].DELETEALL2 + 
+                        "', category='" + VM.MODEL_CATEGORY_RULES[0].CATEGORY + "', BASEROUNDLENGHT='" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDLENGHT + "' , BASEROUNDMAXTIME='" + VM.MODEL_CATEGORY_RULES[0].BASEROUNDMAXTIME + 
+                        "', FINALROUNDLENGHT='" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDLENGHT + "', FINALROUNDMAXTIME='" + VM.MODEL_CATEGORY_RULES[0].FINALROUNDMAXTIME + "',bonusonlyforfinalist='" + VM.MODEL_CATEGORY_RULES[0].BONUSONLYFORFINALIST + "',RECTO1000FROMABSMAX='" + VM.MODEL_CATEGORY_RULES[0].RECTO1000FROMABSMAX + "' where id = '" + VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID + "';");
             VM.FUNCTION_LOAD_CATEGORIES();
 
 
@@ -79,6 +81,7 @@ namespace SORGAIR
                 VM.FUNCTION_LOAD_CATEGORY_SOUNDLISTS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
                 VM.FUNCTION_LOAD_CATEGORY_PENALISATION(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
                 VM.FUNCTION_LOAD_CATEGORY_PENALISATIONGLOBAL(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+                VM.FUNCTION_LOAD_CATEGORY_BONUSPOINTS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
                 VM.BIND_CATEGORYEDITOR_ENABLED = true;
             }
         }
@@ -205,6 +208,33 @@ namespace SORGAIR
             VM.FUNCTION_LOAD_CATEGORY_LANDING(categoryid);
 
         }
+
+
+
+        private void savebonuspoints(int categoryid)
+        {
+
+            VM.SQL_SAVESORGDATA("delete from bonuspoints where category = " + categoryid + ";");
+
+            for (int i = 0; i < VM.MODEL_CATEGORY_BONUSPOINTS.Count; i++)
+            {
+
+                if (VM.MODEL_CATEGORY_BONUSPOINTS[i].TODEL == 0)
+                {
+                    VM.SQL_SAVESORGDATA("insert into bonuspoints (category,id, value) " +
+                    "values('" + categoryid + "'," + "'" + VM.MODEL_CATEGORY_BONUSPOINTS[i].ID + "','" + VM.MODEL_CATEGORY_BONUSPOINTS[i].VALUE + "');");
+                }
+
+
+
+            }
+
+
+
+            VM.FUNCTION_LOAD_CATEGORY_BONUSPOINTS(categoryid);
+
+        }
+
 
         private void savesound(int categoryid)
         {
@@ -490,6 +520,48 @@ namespace SORGAIR
             //VM.SQL_SAVESORGDATA("update soundlist set soundname = '" + _textvalue + "' where id=" + VM.MODEL_CONTESTS_SOUNDLISTS[soundlist_seznam.SelectedIndex].ID + ";");
             VM.FUNCTION_LOAD_CATEGORY_SOUNDLISTS(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
 
+        }
+
+        private async void addbonuspoints_Click(object sender, RoutedEventArgs e)
+        {
+
+            var currentWindow = this;
+
+            var _id = await currentWindow.ShowInputAsync("Pozice", "Zadej pozici soutěžícího, ke kterému se tyto budy připíšou", new MetroDialogSettings() { DefaultText = "0" });
+            var _value = await currentWindow.ShowInputAsync("Body", "Zadej bonusové body (číslo)", new MetroDialogSettings() { DefaultText = "100" });
+
+            if (_id == null | _value == null)
+                return;
+
+
+            var landing = new MODEL_CATEGORY_PENALISATIONS()
+            {
+
+
+
+                CATEGORY = 1,
+                ID = int.Parse(_id),
+                VALUE = int.Parse(_value),
+                TEXTVALUE = "bonus",
+                DELETE_LANDING = "False",
+                DELETE_TIME = "False",
+                DELETE_ALL = "False",
+                TODEL = 0
+            };
+
+            VM.MODEL_CATEGORY_BONUSPOINTS.Add(landing);
+
+            savebonuspoints(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+        }
+
+        private void deletebonuspoints_Click(object sender, RoutedEventArgs e)
+        {
+            savebonuspoints(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
+        }
+
+        private void savebonuspointsall_Click(object sender, RoutedEventArgs e)
+        {
+            savebonuspoints(VM.MODEL_CONTESTS_CATEGORIES[categorylist.SelectedIndex].ID);
         }
     }
 }

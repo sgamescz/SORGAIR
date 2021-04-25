@@ -101,6 +101,7 @@
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
                             HorizontalTitleAlignment="Left"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource ExtraLargeTileStyle}"
                             Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
                             <iconPacks:PackIconUnicons
@@ -114,6 +115,7 @@
                             Margin="3"
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource LargeTileStyle}"
                             Tag="Lokace|Zadej místo soutěže|BIND_SQL_SOUTEZ_LOKACE">
                             <iconPacks:PackIconFontAwesome
@@ -125,6 +127,7 @@
                             Title="{Binding BIND_SQL_SOUTEZ_DATUM}"
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource SmallTileStyle}"
                             Tag="Datum|Datum konání soutěže|BIND_SQL_SOUTEZ_DATUM">
                             <iconPacks:PackIconModern
@@ -140,6 +143,7 @@
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
                             Count="{Binding BIND_SQL_SOUTEZ_TEPLOTA}"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource LargeTileStyle}"
                             Tag="Teplota|Zadej teplotu °C|BIND_SQL_SOUTEZ_TEPLOTA|Počasí|Popiš počasí|BIND_SQL_SOUTEZ_POCASI">
                             <iconPacks:PackIconWeatherIcons
@@ -168,7 +172,7 @@
                             Count="15:30"
                             CountFontSize="35"
                             HorizontalTitleAlignment="Center"
-                            IsEnabled="True"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource LargeTileStyle}"
                             TitleFontSize="14"
                             VerticalTitleAlignment="Bottom" />
@@ -181,6 +185,7 @@
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Background="{DynamicResource MahApps.Brushes.Accent}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource SmallTileStyle}"
                             Tag="Pořadatel|Jméno pořadatelského klubu|BIND_SQL_SOUTEZ_CLUB">
                             <iconPacks:PackIconMaterial
@@ -195,6 +200,7 @@
                             Background="YellowGreen"
                             Click="nastaveni_soutez_Click"
                             Count="{Binding BIND_SQL_SOUTEZ_SMCRID}"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource extraSmallTileStyle}"
                             Tag="SMČR ID|Čislo soutěže jak je vedeno na SMČR|BIND_SQL_SOUTEZ_SMCRID" />
 
@@ -202,6 +208,7 @@
                             Title="{Binding BIND_SQL_SOUTEZ_DIRECTOR}"
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource extraSmallTileStyle}"
                             Tag="Ředitel soutěže|Jméno ředitele soutěže|BIND_SQL_SOUTEZ_DIRECTOR">
                             <iconPacks:PackIconMaterial
@@ -216,6 +223,7 @@
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Background="{DynamicResource MahApps.Brushes.AccentBase}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource extraSmallTileStyle}"
                             Tag="Hlavní rozhodčí|Jméno hlavního rozhodčího|BIND_SQL_SOUTEZ_HEADJURY">
                             <iconPacks:PackIconMaterial
@@ -227,6 +235,7 @@
                             Title="{Binding BIND_SQL_SOUTEZ_JURY1}"
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource extraSmallTileStyle}"
                             Tag="Rozhodčí 1|Jméno prvního rozhodčího|BIND_SQL_SOUTEZ_JURY1">
                             <iconPacks:PackIconMaterial
@@ -239,6 +248,7 @@
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Background="{DynamicResource MahApps.Brushes.Accent2}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource extraSmallTileStyle}"
                             Tag="Rozhodčí 2|Jméno druhého rozhodčího|BIND_SQL_SOUTEZ_JURY2">
                             <iconPacks:PackIconMaterial
@@ -250,6 +260,7 @@
                             Title="{Binding BIND_SQL_SOUTEZ_JURY3}"
                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
                             Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             Style="{StaticResource extraSmallTileStyle}"
                             Tag="Rozhodčí 3|Jméno třetího rozhodčího|BIND_SQL_SOUTEZ_JURY3">
                             <iconPacks:PackIconMaterial
@@ -310,11 +321,11 @@
                         VerticalAlignment="Top"
                         ButtonsAlignment="Opposite"
                         InterceptManualEnter="False"
-                        Maximum="40"
+                        IsEnabled="{Binding CONTEST_LOCK}"
+                        Maximum="10"
                         Minimum="1"
                         SwitchUpDownButtons="True"
                         TextAlignment="Center"
-                        ValueChanged="NUM_BASEROUNDS_ValueChanged"
                         Value="{Binding BIND_SQL_SOUTEZ_ROUNDS}" />
 
                     <mah:NumericUpDown
@@ -328,12 +339,11 @@
                         VerticalAlignment="Top"
                         mah:TextBoxHelper.ClearTextButton="False"
                         ButtonsAlignment="Opposite"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         Maximum="10"
                         Minimum="0"
                         SwitchUpDownButtons="True"
                         TextAlignment="Center"
-                        ValueChanged="NUM_BASEGROUPS_ValueChanged"
-                        ValueDecremented="NUM_BASEGROUPS_ValueDecremented"
                         Value="{Binding BIND_SQL_SOUTEZ_GROUPS}" />
                     <Label
                         Grid.Row="2"
@@ -351,6 +361,7 @@
                         VerticalAlignment="Top"
                         ButtonsAlignment="Opposite"
                         InterceptManualEnter="False"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         Maximum="99"
                         Minimum="1"
                         SwitchUpDownButtons="True"
@@ -373,11 +384,11 @@
                         VerticalAlignment="Top"
                         mah:TextBoxHelper.ClearTextButton="False"
                         ButtonsAlignment="Opposite"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         Maximum="3"
                         Minimum="0"
                         SwitchUpDownButtons="True"
                         TextAlignment="Center"
-                        ValueChanged="NUM_BASEDELETEDROUNDS_ValueChanged"
                         Value="{Binding BIND_SQL_SOUTEZ_DELETES}" />
                     <Label
                         Grid.Row="4"
@@ -401,7 +412,8 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         ButtonsAlignment="Opposite"
-                        Maximum="15"
+                        IsEnabled="{Binding CONTEST_LOCK}"
+                        Maximum="5"
                         Minimum="0"
                         SwitchUpDownButtons="True"
                         TextAlignment="Center"
@@ -423,6 +435,7 @@
                         VerticalAlignment="Top"
                         ButtonsAlignment="Opposite"
                         InterceptManualEnter="False"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         Maximum="30"
                         Minimum="1"
                         SwitchUpDownButtons="True"
@@ -443,6 +456,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         ButtonsAlignment="Opposite"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         Maximum="99"
                         Minimum="0"
                         SwitchUpDownButtons="True"
@@ -482,6 +496,7 @@
                         HorizontalContentAlignment="Left"
                         ContentDirection="RightToLeft"
                         FontSize="12"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLE}"
                         MouseDoubleClick="landingoptions_IsCheckedChanged"
                         OffContent="U zadávání výsledku zobrazovat jen čísla"
@@ -496,6 +511,7 @@
                         HorizontalContentAlignment="Left"
                         ContentDirection="RightToLeft"
                         FontSize="12"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLEPOINTSORLENGHT}"
                         MouseDoubleClick="landingoptions_IsCheckedChanged"
                         OffContent="Přistání zadávat ve vzdálenosti"
@@ -508,6 +524,7 @@
                         HorizontalContentAlignment="Left"
                         ContentDirection="RightToLeft"
                         FontSize="12"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLENEXT}"
                         OffContent="Při zadávání výsledku ENTER pouze uloží výsledek"
                         OnContent="Při zadávání výsledku ENTER uloží a přejde na další záznam" />
@@ -533,6 +550,7 @@
                             HorizontalAlignment="Left"
                             Culture="cs"
                             HandVisibility="HourMinute"
+                            IsEnabled="{Binding CONTEST_LOCK}"
                             IsReadOnly="False"
                             PickerVisibility="HourMinute"
                             SelectedDateTime="{Binding BIND_CONTESTBEGIN}"
@@ -558,6 +576,7 @@
                         HorizontalContentAlignment="Left"
                         ContentDirection="RightToLeft"
                         FontSize="12"
+                        IsEnabled="{Binding CONTEST_LOCK}"
                         IsOn="{Binding BIND_SQL_SOUTEZ_REQUIREFAILICENCE}"
                         OffContent="FAI licence není povinná"
                         OnContent="Vyžadovat FAI licenci" />
@@ -566,6 +585,30 @@
                 </Grid>
 
             </mah:MetroHeader>
+
+            <Grid Height="65">
+                <mah:Tile
+                    Name="zameksoutezebutton"
+                    Title="Zámek soutěže"
+                    Width="137"
+                    Height="Auto"
+                    Margin="0,14,10,10"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Right"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Click="zameksoutezebutton_Click"
+                    Style="{StaticResource extraSmallTileStyle}">
+
+
+                    <iconPacks:PackIconBoxIcons
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,10,0"
+                        Kind="SolidLock" />
+                </mah:Tile>
+
+            </Grid>
+
         </StackPanel>
 
 

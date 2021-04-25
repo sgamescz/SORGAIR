@@ -157,18 +157,17 @@ namespace WpfApp6.View
             }
         }
 
-        private void NUM_BASEROUNDS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        private void zameksoutezebutton_Click(object sender, RoutedEventArgs e)
         {
+            if (VM.CONTEST_LOCK == true)
+            {
+                VM.CONTEST_LOCK = false;
+            }
+            else
+            {
+                VM.CONTEST_LOCK = true;
+            }
         }
-
-        private void NUM_BASEGROUPS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        {
-        }
-
-        private void NUM_BASEDELETEDROUNDS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        {
-        }
-
     }
 
 

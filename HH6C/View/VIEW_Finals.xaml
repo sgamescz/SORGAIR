@@ -405,7 +405,7 @@
                     VerticalAlignment="Top"
                     FontSize="13"
                     IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                    IsOn="{Binding BIND_AUDIO_PREPTIME_MANUAL_NEXT}"
+                    IsOn="{Binding BIND_AUDIO_FINAL_PREPTIME_MANUAL_NEXT}"
                     OffContent="Manuální přípravný čas hlásí (+spouští) zvolený let"
                     OnContent="Manuální přípravný čas hlásí (+spouští) následující let" />
 
@@ -416,7 +416,7 @@
                     VerticalAlignment="Top"
                     FontSize="13"
                     IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
-                    IsOn="{Binding BIND_AUDIO_PREPTIME_AUTO_NEXT}"
+                    IsOn="{Binding BIND_AUDIO_FINAL_PREPTIME_AUTO_NEXT}"
                     OffContent="Automatický přípravný čas hlásí (+spouští) zvolený let"
                     OnContent="Automatický přípravný čas hlásí (+spouští) následující let" />
 

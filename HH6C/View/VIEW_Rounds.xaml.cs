@@ -24,6 +24,7 @@ namespace WpfApp6.View
     public partial class Rounds : UserControl
     {
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+        bool _isscoreentryopen = false;
 
         public Rounds()
         {
@@ -122,8 +123,8 @@ namespace WpfApp6.View
             VM.FUNCTION_SCOREENTRY_FROMROUNDSLIST_LOAD_USERDATA(0, 0, 0);
             scoreentry.IsOpen = true;
             scoreentry_minutes.Focus();
-            //savescore_event(true);
-            //_isscoreentryopen = true;
+            savescore_event(true);
+            _isscoreentryopen = true;
             scoreentry_height.IsEnabled = VM.MODEL_CONTEST_RULES[0].ENTRYHEIGHT;
 
         }
@@ -131,31 +132,37 @@ namespace WpfApp6.View
 
         private void scoreentry_back_Click(object sender, RoutedEventArgs e)
         {
-
+               scoreentry.IsOpen = false;
+            _isscoreentryopen = false;
         }
 
       
         private void scoreentry_minutes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+            aktualscore.Content = "--XX--";
+
+            Console.Write("_isscoreentryopen" + _isscoreentryopen);
             try
             {
+
+
                 if (VM != null)
                 {
-                    if (scoreentry.IsOpen == true)
+                    if (_isscoreentryopen == true)
                     {
                         savescore_event(true);
                     }
                 }
 
+
             }
-            catch
+            catch (Exception aaa)
             {
-                
+                Console.WriteLine(aaa.Message);
             }
 
 
-           
         }
 
         private void scoreentry_save_Click(object sender, RoutedEventArgs e)
@@ -173,6 +180,9 @@ namespace WpfApp6.View
 
             if (quick_partial_save == true)
             {
+
+                if (VM.bind_scoreentry_fromroundlist_selected_minute > 0 & VM.bind_scoreentry_fromroundlist_selected_second > 0 & VM.bind_scoreentry_fromroundlist_selected_landing > 0 & VM.bind_scoreentry_fromroundlist_selected_height > 0)
+                {
 
 
                 int _tmp_height = scoreentry_height.SelectedIndex;
@@ -317,9 +327,10 @@ namespace WpfApp6.View
                 aktualscore.Content = "SCORE : " + VM.Player_Selected_Roundlist[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected_Roundlist[0].SCORE_RAW + " ]";
 
 
-
-
             }
+
+
+        }
             else
             {
                 if (scoreentry_minutes.SelectedIndex >= 0 & scoreentry_seconds.SelectedIndex >= 0 & scoreentry_height.SelectedIndex >= 0 & scoreentry_landing.SelectedIndex >= 0)
@@ -472,7 +483,7 @@ namespace WpfApp6.View
 
                     
                     scoreentry.IsOpen = false;
-                    //_isscoreentryopen = false;
+                    _isscoreentryopen = false;
                     //HWbasemodul_Copy4s.Focus();
                     VM.FUNCTION_CHECK_ENTERED(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP,false);
 
@@ -504,11 +515,18 @@ namespace WpfApp6.View
                 {
                     Console.WriteLine("VM.BIND_VIEWED_STARTPOINT" + VM.BIND_VIEWED_STARTPOINT);
                     Console.WriteLine("VM.BIND_SQL_SOUTEZ_STARTPOINTS" + VM.BIND_SQL_SOUTEZ_STARTPOINTS);
-
+                    znova:
                     if (VM.BIND_VIEWED_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTS)
                     {
                         VM.BIND_VIEWED_STARTPOINT += 1;
-                        show_scoreentry_form();
+                        if ( int.Parse(VM.SQL_READSOUTEZDATA("select userid from score where rnd="+ VM.BIND_VIEWED_ROUND + " and grp=" + VM.BIND_VIEWED_GROUP + " and stp=" + VM.BIND_VIEWED_STARTPOINT, ""))>0)
+                        {
+                            show_scoreentry_form();
+                        }
+                        else
+                        {
+                            goto znova;
+                        }
                     }
                 }
 

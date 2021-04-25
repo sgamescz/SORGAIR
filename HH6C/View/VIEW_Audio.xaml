@@ -442,13 +442,14 @@
                         <Button
                             x:Name="soundfile_finalround2"
                             Grid.Row="2"
+                            Grid.RowSpan="4"
                             Grid.Column="1"
                             Margin="407,0,0,10"
                             Click="soundfile_save_and_load_all"
                             Content="Uložit a načíst zvuky"
                             FontSize="13"
                             FontWeight="Bold"
-                            IsEnabled="{Binding IsOn, ElementName=useaudio}" Grid.RowSpan="4" />
+                            IsEnabled="{Binding IsOn, ElementName=useaudio}" />
 
 
 
@@ -464,7 +465,10 @@
 
 
 
-            <mah:MetroHeader Margin="0,10,0,0" Header="Automatické spouštění a další operace">
+            <mah:MetroHeader
+                Height="321"
+                Margin="0,10,0,0"
+                Header="Automatické spouštění a další operace">
 
                 <Grid
                     Grid.Row="1"
@@ -520,7 +524,7 @@
                         Grid.Column="3"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="Čas (minuta : vteřina) spuštění přípravného času"
+                        Content="Čas spuštění (minuta : vteřina)"
                         IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
 
 
@@ -537,7 +541,7 @@
 
 
                     <mah:TimePicker
-                        x:Name="kdyspustitpripravnyxx"
+                        x:Name="kdyspustithlavni"
                         Grid.Row="2"
                         Grid.Column="2"
                         Width="64"
@@ -557,7 +561,7 @@
                         Grid.Column="3"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="Čas (minuta : vteřina) spuštění přípravného času"
+                        Content="Čas spuštění (minuta : vteřina)"
                         IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
 
 
@@ -572,7 +576,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="5"
+                        Margin="10,0,0,10"
                         IsOn="{Binding BIND_SQL_AUTO_USEPREPTIME}"
                         OffContent="NEPoužívát automatické operace"
                         OnContent="Používát automatické operace" />
@@ -583,7 +587,7 @@
                         Grid.Column="0"
                         Width="50"
                         Height="50"
-                        Margin="0,0,0,10"
+                        Margin="10,1,11,6"
                         IsChecked="{Binding BIND_SQL_AUTO_RUNPREPTIMENEXTROUND}"
                         IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
@@ -592,7 +596,8 @@
                             Height="20"
                             Fill="{DynamicResource MahApps.Brushes.Gray1}">
                             <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarClock}" />
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarAlert}" />
+
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
@@ -602,6 +607,7 @@
                         Grid.Column="0"
                         Width="50"
                         Height="50"
+                        Margin="0,0,0,5"
                         IsChecked="{Binding BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME}"
                         IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
@@ -610,7 +616,7 @@
                             Height="20"
                             Fill="{DynamicResource MahApps.Brushes.Gray1}">
                             <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarClock}" />
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarRangeOutline}" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </ToggleButton>
@@ -641,9 +647,112 @@
                         IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
                         Visibility="Hidden" />
 
+                    <ToggleButton
+                        Name="tg3"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Width="50"
+                        Height="50"
+                        Margin="0,0,0,5"
+                        IsChecked="{Binding BIND_SQL_AUTO_RUNPREPTIMENEXTROUND_FINAL}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
+                        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarAlert}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </ToggleButton>
+
+                    <Label
+                        x:Name="togxgle_spoustetautomatickypripravnycas"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="0,0,40,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Content="V daném čase hlavního odpočtu finále automaticky spustit přípravný čas"
+                        FontSize="12"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
+
+                    <mah:TimePicker
+                        x:Name="kdyspustitpripravny_finale"
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Width="64"
+                        Height="30"
+                        Margin="0,2,0,0"
+                        HorizontalAlignment="Left"
+                        Culture="cs"
+                        HandVisibility="HourMinute"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
+                        IsReadOnly="False"
+                        PickerVisibility="HourMinute"
+                        SelectedDateTime="{Binding BIND_SQL_AUTO_PREPTIMESTART_FINAL}"
+                        SelectedTimeFormat="Short" />
+
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Čas spuštění (minuta : vteřina)"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
 
 
-
+                    <ToggleButton
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Width="50"
+                        Height="50"
+                        IsChecked="{Binding BIND_SQL_AUTO_NEXTFLIGHTAFTERPREPTIME_FINAL}"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
+                        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+                        <Rectangle
+                            Width="20"
+                            Height="20"
+                            Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{iconPacks:Material Kind=CalendarRangeOutline}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </ToggleButton>
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        Content="V daném čase přípravného času finále automaticky spustit hlavní čas"
+                        FontSize="12"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
+                    <mah:TimePicker
+                        x:Name="kdyspustithlavni_finale"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Width="64"
+                        Height="30"
+                        Margin="0,2,0,0"
+                        HorizontalAlignment="Left"
+                        Culture="cs"
+                        HandVisibility="HourMinute"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}"
+                        IsReadOnly="False"
+                        PickerVisibility="HourMinute"
+                        SelectedDateTime="{Binding BIND_SQL_AUTO_MAINTIMESTART_FINAL}"
+                        SelectedTimeFormat="Short" />
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Čas spuštění (minuta : vteřina)"
+                        IsEnabled="{Binding ElementName=pouzivatpripravnycas, Path=IsOn}" />
                 </Grid>
 
 

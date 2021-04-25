@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+
 
 namespace WpfApp6.Model
 {
@@ -13,14 +15,14 @@ namespace WpfApp6.Model
 
 
 
-
+     
 
 
     public class MODEL_Player : MODEL_BaseClass
     {
         // Default constructor for Player
 
-
+        
         public MODEL_Player()
         {
 
@@ -266,9 +268,6 @@ namespace WpfApp6.Model
     }
 
 
-
-
-
     public class MODEL_Player_baseresults : MODEL_BaseClass
     {
         // Default constructor for Player
@@ -325,8 +324,8 @@ namespace WpfApp6.Model
         }
 
 
-        private string  _PREPSCOREDIFF;
-        public string  PREPSCOREDIFF
+        private string _PREPSCOREDIFF;
+        public string PREPSCOREDIFF
         {
             get { return _PREPSCOREDIFF; }
             set { _PREPSCOREDIFF = value; RaisePropertyChanged(nameof(PREPSCOREDIFF)); }
@@ -355,6 +354,7 @@ namespace WpfApp6.Model
             get { return _RND2RES_SCORE; }
             set { _RND2RES_SCORE = value; RaisePropertyChanged(nameof(RND2RES_SCORE)); }
         }
+
 
 
         private string _RND3RES_SCORE;
@@ -386,6 +386,30 @@ namespace WpfApp6.Model
             set { _RND6RES_SCORE = value; RaisePropertyChanged(nameof(RND6RES_SCORE)); }
         }
 
+        private string _RND7RES_SCORE;
+        public string RND7RES_SCORE
+        {
+            get { return _RND7RES_SCORE; }
+            set { _RND7RES_SCORE = value; RaisePropertyChanged(nameof(RND7RES_SCORE)); }
+        }
+        private string _RND8RES_SCORE;
+        public string RND8RES_SCORE
+        {
+            get { return _RND8RES_SCORE; }
+            set { _RND8RES_SCORE = value; RaisePropertyChanged(nameof(RND8RES_SCORE)); }
+        }
+        private string _RND9RES_SCORE;
+        public string RND9RES_SCORE
+        {
+            get { return _RND9RES_SCORE; }
+            set { _RND9RES_SCORE = value; RaisePropertyChanged(nameof(RND9RES_SCORE)); }
+        }
+        private string _RND10RES_SCORE;
+        public string RND10RES_SCORE
+        {
+            get { return _RND10RES_SCORE; }
+            set { _RND10RES_SCORE = value; RaisePropertyChanged(nameof(RND10RES_SCORE)); }
+        }
 
 
 
@@ -426,6 +450,110 @@ namespace WpfApp6.Model
             set { _RND6RES_DATA = value; RaisePropertyChanged(nameof(RND6RES_DATA)); }
         }
 
+        private string _RND7RES_DATA;
+        public string RND7RES_DATA
+        {
+            get { return _RND7RES_DATA; }
+            set { _RND7RES_DATA = value; RaisePropertyChanged(nameof(RND7RES_DATA)); }
+        }
+        private string _RND8RES_DATA;
+        public string RND8RES_DATA
+        {
+            get { return _RND8RES_DATA; }
+            set { _RND8RES_DATA = value; RaisePropertyChanged(nameof(RND8RES_DATA)); }
+        }
+        private string _RND9RES_DATA;
+        public string RND9RES_DATA
+        {
+            get { return _RND9RES_DATA; }
+            set { _RND9RES_DATA = value; RaisePropertyChanged(nameof(RND9RES_DATA)); }
+        }
+        private string _RND10RES_DATA;
+        public string RND10RES_DATA
+        {
+            get { return _RND10RES_DATA; }
+            set { _RND10RES_DATA = value; RaisePropertyChanged(nameof(RND10RES_DATA)); }
+        }
+
+
+
+
+
+
+        public Visibility _R1VISIBILITY;
+        public Visibility R1VISIBILITY
+        {
+            get { return _R1VISIBILITY; }
+            set { _R1VISIBILITY = value; RaisePropertyChanged(nameof(R1VISIBILITY)); }
+        }
+
+        public Visibility _R2VISIBILITY;
+        public Visibility R2VISIBILITY
+        {
+            get { return _R2VISIBILITY; }
+            set { _R2VISIBILITY = value; RaisePropertyChanged(nameof(R2VISIBILITY)); }
+        }
+
+        public Visibility _R3VISIBILITY;
+        public Visibility R3VISIBILITY
+        {
+            get { return _R3VISIBILITY; }
+            set { _R3VISIBILITY = value; RaisePropertyChanged(nameof(R3VISIBILITY)); }
+        }
+
+        public Visibility _R4VISIBILITY;
+        public Visibility R4VISIBILITY
+        {
+            get { return _R4VISIBILITY; }
+            set { _R4VISIBILITY = value; RaisePropertyChanged(nameof(R4VISIBILITY)); }
+        }
+
+        public Visibility _R5VISIBILITY;
+        public Visibility R5VISIBILITY
+        {
+            get { return _R5VISIBILITY; }
+            set { _R5VISIBILITY = value; RaisePropertyChanged(nameof(R5VISIBILITY)); }
+        }
+
+        public Visibility _R6VISIBILITY;
+        public Visibility R6VISIBILITY
+        {
+            get { return _R6VISIBILITY; }
+            set { _R6VISIBILITY = value; RaisePropertyChanged(nameof(R6VISIBILITY)); }
+        }
+
+        public Visibility _R7VISIBILITY;
+        public Visibility R7VISIBILITY
+        {
+            get { return _R7VISIBILITY; }
+            set { _R7VISIBILITY = value; RaisePropertyChanged(nameof(R7VISIBILITY)); }
+        }
+
+
+        public Visibility _R8VISIBILITY;
+        public Visibility R8VISIBILITY
+        {
+            get { return _R8VISIBILITY; }
+            set { _R8VISIBILITY = value; RaisePropertyChanged(nameof(R8VISIBILITY)); }
+        }
+
+        public Visibility _R9VISIBILITY;
+        public Visibility R9VISIBILITY
+        {
+            get { return _R9VISIBILITY; }
+            set { _R9VISIBILITY = value; RaisePropertyChanged(nameof(R9VISIBILITY)); }
+        }
+
+        public Visibility _R10VISIBILITY;
+        public Visibility R10VISIBILITY
+        {
+            get { return _R10VISIBILITY; }
+            set { _R10VISIBILITY = value; RaisePropertyChanged(nameof(R10VISIBILITY)); }
+        }
+
+
+
+
 
         private string _FLAG;
         public string FLAG
@@ -435,6 +563,427 @@ namespace WpfApp6.Model
         }
 
 
+
+
+    }
+
+
+
+    public class MODEL_Player_baseresults_complete : MODEL_BaseClass
+    {
+        // Default constructor for Player
+        public MODEL_Player_baseresults_complete()
+        {
+        }
+
+
+        private int _POSITION;
+        public int POSITION
+        {
+            get { return _POSITION; }
+            set { _POSITION = value; RaisePropertyChanged(nameof(POSITION)); }
+        }
+
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+
+
+        private string _PLAYERDATA;
+        public string PLAYERDATA
+        {
+            get { return _PLAYERDATA; }
+            set { _PLAYERDATA = value; RaisePropertyChanged(nameof(PLAYERDATA)); }
+        }
+
+
+        private Double _RAWSCORE_BASE;
+        public Double RAWSCORE_BASE
+        {
+            get { return _RAWSCORE_BASE; }
+            set { _RAWSCORE_BASE = value; RaisePropertyChanged(nameof(RAWSCORE_BASE)); }
+        }
+
+        private Double _PREPSCORE_BASE;
+        public Double PREPSCORE_BASE
+        {
+            get { return _PREPSCORE_BASE; }
+            set { _PREPSCORE_BASE = value; RaisePropertyChanged(nameof(PREPSCORE_BASE)); }
+        }
+
+
+        private Double _RAWSCORE_FINAL;
+        public Double RAWSCORE_FINAL
+        {
+            get { return _RAWSCORE_FINAL; }
+            set { _RAWSCORE_FINAL = value; RaisePropertyChanged(nameof(RAWSCORE_FINAL)); }
+        }
+
+        private Double _PREPSCORE_FINAL;
+        public Double PREPSCORE_FINAL
+        {
+            get { return _PREPSCORE_FINAL; }
+            set { _PREPSCORE_FINAL = value; RaisePropertyChanged(nameof(PREPSCORE_FINAL)); }
+        }
+
+
+
+        private Double _GPEN;
+        public Double GPEN
+        {
+            get { return _GPEN; }
+            set { _GPEN = value; RaisePropertyChanged(nameof(GPEN)); }
+        }
+
+
+        private string  _PREPSCOREDIFF_BASE;
+        public string PREPSCOREDIFF_BASE
+        {
+            get { return _PREPSCOREDIFF_BASE; }
+            set { _PREPSCOREDIFF_BASE = value; RaisePropertyChanged(nameof(PREPSCOREDIFF_BASE)); }
+        }
+
+        private string _PREPSCOREDIFF_FINAL;
+        public string PREPSCOREDIFF_FINAL
+        {
+            get { return _PREPSCOREDIFF_FINAL; }
+            set { _PREPSCOREDIFF_FINAL = value; RaisePropertyChanged(nameof(PREPSCOREDIFF_FINAL)); }
+        }
+
+
+        private string _RND1RES_SCORE_F;
+        public string RND1RES_SCORE_F
+        {
+            get { return _RND1RES_SCORE_F; }
+            set { _RND1RES_SCORE_F = value; RaisePropertyChanged(nameof(RND1RES_SCORE_F)); }
+        }
+
+        private string _RND1RES_DATA_F;
+        public string RND1RES_DATA_F
+        {
+            get { return _RND1RES_DATA_F; }
+            set { _RND1RES_DATA_F = value; RaisePropertyChanged(nameof(RND1RES_DATA_F)); }
+        }
+
+
+
+        private string _RND2RES_SCORE_F;
+        public string RND2RES_SCORE_F
+        {
+            get { return _RND2RES_SCORE_F; }
+            set { _RND2RES_SCORE_F = value; RaisePropertyChanged(nameof(RND2RES_SCORE_F)); }
+        }
+
+        private string _RND2RES_DATA_F;
+        public string RND2RES_DATA_F
+        {
+            get { return _RND2RES_DATA_F; }
+            set { _RND2RES_DATA_F = value; RaisePropertyChanged(nameof(RND2RES_DATA_F)); }
+        }
+
+
+        private string _RND3RES_SCORE_F;
+        public string RND3RES_SCORE_F
+        {
+            get { return _RND3RES_SCORE_F; }
+            set { _RND3RES_SCORE_F = value; RaisePropertyChanged(nameof(RND3RES_SCORE_F)); }
+        }
+
+        private string _RND3RES_DATA_F;
+        public string RND3RES_DATA_F
+        {
+            get { return _RND3RES_DATA_F; }
+            set { _RND3RES_DATA_F = value; RaisePropertyChanged(nameof(RND3RES_DATA_F)); }
+        }
+
+
+        private string _RND4RES_SCORE_F;
+        public string RND4RES_SCORE_F
+        {
+            get { return _RND4RES_SCORE_F; }
+            set { _RND4RES_SCORE_F = value; RaisePropertyChanged(nameof(RND4RES_SCORE_F)); }
+        }
+
+        private string _RND4RES_DATA_F;
+        public string RND4RES_DATA_F
+        {
+            get { return _RND4RES_DATA_F; }
+            set { _RND4RES_DATA_F = value; RaisePropertyChanged(nameof(RND4RES_DATA_F)); }
+        }
+
+
+        private string _RND5RES_SCORE_F;
+        public string RND5RES_SCORE_F
+        {
+            get { return _RND5RES_SCORE_F; }
+            set { _RND5RES_SCORE_F = value; RaisePropertyChanged(nameof(RND5RES_SCORE_F)); }
+        }
+
+
+        private string _RND5RES_DATA_F;
+        public string RND5RES_DATA_F
+        {
+            get { return _RND5RES_DATA_F; }
+            set { _RND5RES_DATA_F = value; RaisePropertyChanged(nameof(RND5RES_DATA_F)); }
+        }
+
+
+
+
+
+
+
+
+        private string _RND1RES_SCORE;
+        public string RND1RES_SCORE
+        {
+            get { return _RND1RES_SCORE; }
+            set { _RND1RES_SCORE = value; RaisePropertyChanged(nameof(RND1RES_SCORE)); }
+        }
+
+        private string _RND1RES_DATA;
+        public string RND1RES_DATA
+        {
+            get { return _RND1RES_DATA; }
+            set { _RND1RES_DATA = value; RaisePropertyChanged(nameof(RND1RES_DATA)); }
+        }
+
+
+
+        private string _RND2RES_SCORE;
+        public string RND2RES_SCORE
+        {
+            get { return _RND2RES_SCORE; }
+            set { _RND2RES_SCORE = value; RaisePropertyChanged(nameof(RND2RES_SCORE)); }
+        }
+
+        
+
+        private string _RND3RES_SCORE;
+        public string RND3RES_SCORE
+        {
+            get { return _RND3RES_SCORE; }
+            set { _RND3RES_SCORE = value; RaisePropertyChanged(nameof(RND3RES_SCORE)); }
+        }
+
+
+        private string _RND4RES_SCORE;
+        public string RND4RES_SCORE
+        {
+            get { return _RND4RES_SCORE; }
+            set { _RND4RES_SCORE = value; RaisePropertyChanged(nameof(RND4RES_SCORE)); }
+        }
+
+        private string _RND5RES_SCORE;
+        public string RND5RES_SCORE
+        {
+            get { return _RND5RES_SCORE; }
+            set { _RND5RES_SCORE = value; RaisePropertyChanged(nameof(RND5RES_SCORE)); }
+        }
+
+        private string _RND6RES_SCORE;
+        public string RND6RES_SCORE
+        {
+            get { return _RND6RES_SCORE; }
+            set { _RND6RES_SCORE = value; RaisePropertyChanged(nameof(RND6RES_SCORE)); }
+        }
+
+        private string _RND7RES_SCORE;
+        public string RND7RES_SCORE
+        {
+            get { return _RND7RES_SCORE; }
+            set { _RND7RES_SCORE = value; RaisePropertyChanged(nameof(RND7RES_SCORE)); }
+        }
+        private string _RND8RES_SCORE;
+        public string RND8RES_SCORE
+        {
+            get { return _RND8RES_SCORE; }
+            set { _RND8RES_SCORE = value; RaisePropertyChanged(nameof(RND8RES_SCORE)); }
+        }
+        private string _RND9RES_SCORE;
+        public string RND9RES_SCORE
+        {
+            get { return _RND9RES_SCORE; }
+            set { _RND9RES_SCORE = value; RaisePropertyChanged(nameof(RND9RES_SCORE)); }
+        }
+        private string _RND10RES_SCORE;
+        public string RND10RES_SCORE
+        {
+            get { return _RND10RES_SCORE; }
+            set { _RND10RES_SCORE = value; RaisePropertyChanged(nameof(RND10RES_SCORE)); }
+        }
+
+
+
+        private string _RND2RES_DATA;
+        public string RND2RES_DATA
+        {
+            get { return _RND2RES_DATA; }
+            set { _RND2RES_DATA = value; RaisePropertyChanged(nameof(RND2RES_DATA)); }
+        }
+
+
+        private string _RND3RES_DATA;
+        public string RND3RES_DATA
+        {
+            get { return _RND3RES_DATA; }
+            set { _RND3RES_DATA = value; RaisePropertyChanged(nameof(RND3RES_DATA)); }
+        }
+
+
+        private string _RND4RES_DATA;
+        public string RND4RES_DATA
+        {
+            get { return _RND4RES_DATA; }
+            set { _RND4RES_DATA = value; RaisePropertyChanged(nameof(RND4RES_DATA)); }
+        }
+
+        private string _RND5RES_DATA;
+        public string RND5RES_DATA
+        {
+            get { return _RND5RES_DATA; }
+            set { _RND5RES_DATA = value; RaisePropertyChanged(nameof(RND5RES_DATA)); }
+        }
+
+        private string _RND6RES_DATA;
+        public string RND6RES_DATA
+        {
+            get { return _RND6RES_DATA; }
+            set { _RND6RES_DATA = value; RaisePropertyChanged(nameof(RND6RES_DATA)); }
+        }
+
+        private string _RND7RES_DATA;
+        public string RND7RES_DATA
+        {
+            get { return _RND7RES_DATA; }
+            set { _RND7RES_DATA = value; RaisePropertyChanged(nameof(RND7RES_DATA)); }
+        }
+        private string _RND8RES_DATA;
+        public string RND8RES_DATA
+        {
+            get { return _RND8RES_DATA; }
+            set { _RND8RES_DATA = value; RaisePropertyChanged(nameof(RND8RES_DATA)); }
+        }
+        private string _RND9RES_DATA;
+        public string RND9RES_DATA
+        {
+            get { return _RND9RES_DATA; }
+            set { _RND9RES_DATA = value; RaisePropertyChanged(nameof(RND9RES_DATA)); }
+        }
+        private string _RND10RES_DATA;
+        public string RND10RES_DATA
+        {
+            get { return _RND10RES_DATA; }
+            set { _RND10RES_DATA = value; RaisePropertyChanged(nameof(RND10RES_DATA)); }
+        }
+
+
+
+
+
+
+        public Visibility _R1VISIBILITY;
+        public Visibility R1VISIBILITY
+        {
+            get { return _R1VISIBILITY; }
+            set { _R1VISIBILITY = value; RaisePropertyChanged(nameof(R1VISIBILITY)); }
+        }
+
+        public Visibility _R2VISIBILITY;
+        public Visibility R2VISIBILITY
+        {
+            get { return _R2VISIBILITY; }
+            set { _R2VISIBILITY = value; RaisePropertyChanged(nameof(R2VISIBILITY)); }
+        }
+
+        public Visibility _R3VISIBILITY;
+        public Visibility R3VISIBILITY
+        {
+            get { return _R3VISIBILITY; }
+            set { _R3VISIBILITY = value; RaisePropertyChanged(nameof(R3VISIBILITY)); }
+        }
+
+        public Visibility _R4VISIBILITY;
+        public Visibility R4VISIBILITY
+        {
+            get { return _R4VISIBILITY; }
+            set { _R4VISIBILITY = value; RaisePropertyChanged(nameof(R4VISIBILITY)); }
+        }
+
+        public Visibility _R5VISIBILITY;
+        public Visibility R5VISIBILITY
+        {
+            get { return _R5VISIBILITY; }
+            set { _R5VISIBILITY = value; RaisePropertyChanged(nameof(R5VISIBILITY)); }
+        }
+
+        public Visibility _R6VISIBILITY;
+        public Visibility R6VISIBILITY
+        {
+            get { return _R6VISIBILITY; }
+            set { _R6VISIBILITY = value; RaisePropertyChanged(nameof(R6VISIBILITY)); }
+        }
+
+        public Visibility _R7VISIBILITY;
+        public Visibility R7VISIBILITY
+        {
+            get { return _R7VISIBILITY; }
+            set { _R7VISIBILITY = value; RaisePropertyChanged(nameof(R7VISIBILITY)); }
+        }
+
+
+        public Visibility _R8VISIBILITY;
+        public Visibility R8VISIBILITY
+        {
+            get { return _R8VISIBILITY; }
+            set { _R8VISIBILITY = value; RaisePropertyChanged(nameof(R8VISIBILITY)); }
+        }
+
+        public Visibility _R9VISIBILITY;
+        public Visibility R9VISIBILITY
+        {
+            get { return _R9VISIBILITY; }
+            set { _R9VISIBILITY = value; RaisePropertyChanged(nameof(R9VISIBILITY)); }
+        }
+
+        public Visibility _R10VISIBILITY;
+        public Visibility R10VISIBILITY
+        {
+            get { return _R10VISIBILITY; }
+            set { _R10VISIBILITY = value; RaisePropertyChanged(nameof(R10VISIBILITY)); }
+        }
+
+
+
+
+
+        private string _FLAG;
+        public string FLAG
+        {
+            get { return _FLAG; }
+            set { _FLAG = value; RaisePropertyChanged(nameof(FLAG)); }
+        }
+
+
+
+        private Double _BONUS_POINTS;
+        public Double BONUS_POINTS
+        {
+            get { return _BONUS_POINTS; }
+            set { _BONUS_POINTS  = value; RaisePropertyChanged(nameof(BONUS_POINTS)); }
+        }
+
+        private string _TO_1000;
+        public string TO_1000
+        {
+            get { return _TO_1000; }
+            set { _TO_1000  = value; RaisePropertyChanged(nameof(TO_1000)); }
+        }
 
 
     }

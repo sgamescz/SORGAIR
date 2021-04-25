@@ -438,7 +438,7 @@
                                         HorizontalAlignment="Stretch"
                                         Content="{Binding STARTPOINT}"
                                         ContentStringFormat="Startoviště: {0}"
-                                        IsEnabled="{Binding REALPLAYER}"
+                                        IsEnabled="{Binding ISENABLED}"
                                         Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
                                         Tag="{Binding STARTPOINT}" />
                                     <Button
@@ -446,7 +446,7 @@
                                         Margin="2,5,2,0"
                                         Click="Button_Click_3"
                                         Content="{Binding PLAYERDATA}"
-                                        IsEnabled="{Binding REALPLAYER}"
+                                        IsEnabled="{Binding ISENABLED}"
                                         Style="{StaticResource MahApps.Styles.Button.Square}"
                                         Tag="{Binding STARTPOINT}"
                                         TextBlock.TextAlignment="Center" />
@@ -461,7 +461,7 @@
                                         FontSize="10"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                                        IsEnabled="{Binding REALPLAYER}"
+                                        IsEnabled="{Binding ISENABLED}"
                                         Tag="{Binding STARTPOINT}" />
                                     <Button
                                         Width="Auto"
@@ -471,7 +471,7 @@
                                         Background="{DynamicResource MahApps.Brushes.Accent2}"
                                         Content="{Binding PREPSCORE}"
                                         FontWeight="Bold"
-                                        IsEnabled="{Binding REALPLAYER}"
+                                        IsEnabled="{Binding ISENABLED}"
                                         Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
                                         Tag="{Binding STARTPOINT}" />
 
@@ -958,7 +958,7 @@
 
                         <Label
                             x:Name="aktualscore"
-                            Margin="218,349,9,52"
+                            Margin="218,349,9,102"
                             HorizontalContentAlignment="Center"
                             Content="---" />
 
