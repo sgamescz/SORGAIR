@@ -262,7 +262,13 @@ namespace WpfApp6.Model
             set { _ISFOCUSED = value; RaisePropertyChanged(nameof(ISFOCUSED)); }
         }
 
-      
+
+        private string _REFLY_DATA;
+        public string REFLY_DATA
+        {
+            get { return _REFLY_DATA; }
+            set { _REFLY_DATA = value; RaisePropertyChanged(nameof(REFLY_DATA)); }
+        }
 
 
     }
@@ -346,6 +352,12 @@ namespace WpfApp6.Model
             set { _RND1RES_DATA = value; RaisePropertyChanged(nameof(RND1RES_DATA)); }
         }
 
+        private string _RND1RES_SKRTACKA = "False";
+        public string RND1RES_SKRTACKA
+        {
+            get { return _RND1RES_SKRTACKA; }
+            set { _RND1RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND1RES_SKRTACKA)); }
+        }
 
 
         private string _RND2RES_SCORE;
@@ -355,6 +367,12 @@ namespace WpfApp6.Model
             set { _RND2RES_SCORE = value; RaisePropertyChanged(nameof(RND2RES_SCORE)); }
         }
 
+        private string _RND2RES_SKRTACKA = "False";
+        public string RND2RES_SKRTACKA
+        {
+            get { return _RND2RES_SKRTACKA; }
+            set { _RND2RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND2RES_SKRTACKA)); }
+        }
 
 
         private string _RND3RES_SCORE;
@@ -362,6 +380,13 @@ namespace WpfApp6.Model
         {
             get { return _RND3RES_SCORE; }
             set { _RND3RES_SCORE = value; RaisePropertyChanged(nameof(RND3RES_SCORE)); }
+        }
+
+        private string _RND3RES_SKRTACKA = "False";
+        public string RND3RES_SKRTACKA
+        {
+            get { return _RND3RES_SKRTACKA; }
+            set { _RND3RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND3RES_SKRTACKA)); }
         }
 
 
@@ -372,6 +397,14 @@ namespace WpfApp6.Model
             set { _RND4RES_SCORE = value; RaisePropertyChanged(nameof(RND4RES_SCORE)); }
         }
 
+        private string _RND4RES_SKRTACKA = "False";
+        public string RND4RES_SKRTACKA
+        {
+            get { return _RND4RES_SKRTACKA; }
+            set { _RND4RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND4RES_SKRTACKA)); }
+        }
+
+
         private string _RND5RES_SCORE;
         public string RND5RES_SCORE
         {
@@ -379,11 +412,25 @@ namespace WpfApp6.Model
             set { _RND5RES_SCORE = value; RaisePropertyChanged(nameof(RND5RES_SCORE)); }
         }
 
+        private string _RND5RES_SKRTACKA = "False";
+        public string RND5RES_SKRTACKA
+        {
+            get { return _RND5RES_SKRTACKA; }
+            set { _RND5RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND5RES_SKRTACKA)); }
+        }
+
+
         private string _RND6RES_SCORE;
         public string RND6RES_SCORE
         {
             get { return _RND6RES_SCORE; }
             set { _RND6RES_SCORE = value; RaisePropertyChanged(nameof(RND6RES_SCORE)); }
+        }
+        private string _RND6RES_SKRTACKA = "False";
+        public string RND6RES_SKRTACKA
+        {
+            get { return _RND6RES_SKRTACKA; }
+            set { _RND6RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND6RES_SKRTACKA)); }
         }
 
         private string _RND7RES_SCORE;
@@ -392,23 +439,51 @@ namespace WpfApp6.Model
             get { return _RND7RES_SCORE; }
             set { _RND7RES_SCORE = value; RaisePropertyChanged(nameof(RND7RES_SCORE)); }
         }
+        private string _RND7RES_SKRTACKA = "False";
+        public string RND7RES_SKRTACKA
+        {
+            get { return _RND7RES_SKRTACKA; }
+            set { _RND7RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND7RES_SKRTACKA)); }
+        }
+
         private string _RND8RES_SCORE;
         public string RND8RES_SCORE
         {
             get { return _RND8RES_SCORE; }
             set { _RND8RES_SCORE = value; RaisePropertyChanged(nameof(RND8RES_SCORE)); }
         }
+        private string _RND8RES_SKRTACKA = "False";
+        public string RND8RES_SKRTACKA
+        {
+            get { return _RND8RES_SKRTACKA; }
+            set { _RND8RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND8RES_SKRTACKA)); }
+        }
+
+
         private string _RND9RES_SCORE;
         public string RND9RES_SCORE
         {
             get { return _RND9RES_SCORE; }
             set { _RND9RES_SCORE = value; RaisePropertyChanged(nameof(RND9RES_SCORE)); }
         }
+        private string _RND9RES_SKRTACKA = "False";
+        public string RND9RES_SKRTACKA
+        {
+            get { return _RND9RES_SKRTACKA; }
+            set { _RND9RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND9RES_SKRTACKA)); }
+        }
+
         private string _RND10RES_SCORE;
         public string RND10RES_SCORE
         {
             get { return _RND10RES_SCORE; }
             set { _RND10RES_SCORE = value; RaisePropertyChanged(nameof(RND10RES_SCORE)); }
+        }
+        private string _RND10RES_SKRTACKA = "False";
+        public string RND10RES_SKRTACKA
+        {
+            get { return _RND10RES_SKRTACKA; }
+            set { _RND10RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND10RES_SKRTACKA)); }
         }
 
 
@@ -670,6 +745,12 @@ namespace WpfApp6.Model
             set { _RND1RES_DATA_F = value; RaisePropertyChanged(nameof(RND1RES_DATA_F)); }
         }
 
+        private string _RND1RES_SKRTACKA_F = "False";
+        public string RND1RES_SKRTACKA_F
+        {
+            get { return _RND1RES_SKRTACKA_F; }
+            set { _RND1RES_SKRTACKA_F = value; RaisePropertyChanged(nameof(RND1RES_SKRTACKA_F)); }
+        }
 
 
         private string _RND2RES_SCORE_F;
@@ -686,6 +767,12 @@ namespace WpfApp6.Model
             set { _RND2RES_DATA_F = value; RaisePropertyChanged(nameof(RND2RES_DATA_F)); }
         }
 
+        private string _RND2RES_SKRTACKA_F = "False";
+        public string RND2RES_SKRTACKA_F
+        {
+            get { return _RND2RES_SKRTACKA_F; }
+            set { _RND2RES_SKRTACKA_F = value; RaisePropertyChanged(nameof(RND2RES_SKRTACKA_F)); }
+        }
 
         private string _RND3RES_SCORE_F;
         public string RND3RES_SCORE_F
@@ -701,6 +788,12 @@ namespace WpfApp6.Model
             set { _RND3RES_DATA_F = value; RaisePropertyChanged(nameof(RND3RES_DATA_F)); }
         }
 
+        private string _RND3RES_SKRTACKA_F = "False";
+        public string RND3RES_SKRTACKA_F
+        {
+            get { return _RND3RES_SKRTACKA_F; }
+            set { _RND3RES_SKRTACKA_F = value; RaisePropertyChanged(nameof(RND3RES_SKRTACKA_F)); }
+        }
 
         private string _RND4RES_SCORE_F;
         public string RND4RES_SCORE_F
@@ -714,6 +807,12 @@ namespace WpfApp6.Model
         {
             get { return _RND4RES_DATA_F; }
             set { _RND4RES_DATA_F = value; RaisePropertyChanged(nameof(RND4RES_DATA_F)); }
+        }
+        private string _RND4RES_SKRTACKA_F = "False";
+        public string RND4RES_SKRTACKA_F
+        {
+            get { return _RND4RES_SKRTACKA_F; }
+            set { _RND4RES_SKRTACKA_F = value; RaisePropertyChanged(nameof(RND4RES_SKRTACKA_F)); }
         }
 
 
@@ -732,6 +831,12 @@ namespace WpfApp6.Model
             set { _RND5RES_DATA_F = value; RaisePropertyChanged(nameof(RND5RES_DATA_F)); }
         }
 
+        private string _RND5RES_SKRTACKA_F = "False";
+        public string RND5RES_SKRTACKA_F
+        {
+            get { return _RND5RES_SKRTACKA_F; }
+            set { _RND5RES_SKRTACKA_F = value; RaisePropertyChanged(nameof(RND5RES_SKRTACKA_F)); }
+        }
 
 
 
@@ -753,6 +858,12 @@ namespace WpfApp6.Model
             set { _RND1RES_DATA = value; RaisePropertyChanged(nameof(RND1RES_DATA)); }
         }
 
+        private string _RND1RES_SKRTACKA = "False";
+        public string RND1RES_SKRTACKA
+        {
+            get { return _RND1RES_SKRTACKA; }
+            set { _RND1RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND1RES_SKRTACKA)); }
+        }
 
 
         private string _RND2RES_SCORE;
@@ -762,13 +873,26 @@ namespace WpfApp6.Model
             set { _RND2RES_SCORE = value; RaisePropertyChanged(nameof(RND2RES_SCORE)); }
         }
 
-        
+        private string _RND2RES_SKRTACKA = "False";
+        public string RND2RES_SKRTACKA
+        {
+            get { return _RND2RES_SKRTACKA; }
+            set { _RND2RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND2RES_SKRTACKA)); }
+        }
+
 
         private string _RND3RES_SCORE;
         public string RND3RES_SCORE
         {
             get { return _RND3RES_SCORE; }
             set { _RND3RES_SCORE = value; RaisePropertyChanged(nameof(RND3RES_SCORE)); }
+        }
+
+        private string _RND3RES_SKRTACKA = "False";
+        public string RND3RES_SKRTACKA
+        {
+            get { return _RND3RES_SKRTACKA; }
+            set { _RND3RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND3RES_SKRTACKA)); }
         }
 
 
@@ -779,6 +903,14 @@ namespace WpfApp6.Model
             set { _RND4RES_SCORE = value; RaisePropertyChanged(nameof(RND4RES_SCORE)); }
         }
 
+        private string _RND4RES_SKRTACKA = "False";
+        public string RND4RES_SKRTACKA
+        {
+            get { return _RND4RES_SKRTACKA; }
+            set { _RND4RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND4RES_SKRTACKA)); }
+        }
+
+
         private string _RND5RES_SCORE;
         public string RND5RES_SCORE
         {
@@ -786,11 +918,25 @@ namespace WpfApp6.Model
             set { _RND5RES_SCORE = value; RaisePropertyChanged(nameof(RND5RES_SCORE)); }
         }
 
+        private string _RND5RES_SKRTACKA = "False";
+        public string RND5RES_SKRTACKA
+        {
+            get { return _RND5RES_SKRTACKA; }
+            set { _RND5RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND5RES_SKRTACKA)); }
+        }
+
+
         private string _RND6RES_SCORE;
         public string RND6RES_SCORE
         {
             get { return _RND6RES_SCORE; }
             set { _RND6RES_SCORE = value; RaisePropertyChanged(nameof(RND6RES_SCORE)); }
+        }
+        private string _RND6RES_SKRTACKA = "False";
+        public string RND6RES_SKRTACKA
+        {
+            get { return _RND6RES_SKRTACKA; }
+            set { _RND6RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND6RES_SKRTACKA)); }
         }
 
         private string _RND7RES_SCORE;
@@ -799,23 +945,51 @@ namespace WpfApp6.Model
             get { return _RND7RES_SCORE; }
             set { _RND7RES_SCORE = value; RaisePropertyChanged(nameof(RND7RES_SCORE)); }
         }
+        private string _RND7RES_SKRTACKA = "False";
+        public string RND7RES_SKRTACKA
+        {
+            get { return _RND7RES_SKRTACKA; }
+            set { _RND7RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND7RES_SKRTACKA)); }
+        }
+
         private string _RND8RES_SCORE;
         public string RND8RES_SCORE
         {
             get { return _RND8RES_SCORE; }
             set { _RND8RES_SCORE = value; RaisePropertyChanged(nameof(RND8RES_SCORE)); }
         }
+        private string _RND8RES_SKRTACKA = "False";
+        public string RND8RES_SKRTACKA
+        {
+            get { return _RND8RES_SKRTACKA; }
+            set { _RND8RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND8RES_SKRTACKA)); }
+        }
+
+
         private string _RND9RES_SCORE;
         public string RND9RES_SCORE
         {
             get { return _RND9RES_SCORE; }
             set { _RND9RES_SCORE = value; RaisePropertyChanged(nameof(RND9RES_SCORE)); }
         }
+        private string _RND9RES_SKRTACKA = "False";
+        public string RND9RES_SKRTACKA
+        {
+            get { return _RND9RES_SKRTACKA; }
+            set { _RND9RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND9RES_SKRTACKA)); }
+        }
+
         private string _RND10RES_SCORE;
         public string RND10RES_SCORE
         {
             get { return _RND10RES_SCORE; }
             set { _RND10RES_SCORE = value; RaisePropertyChanged(nameof(RND10RES_SCORE)); }
+        }
+        private string _RND10RES_SKRTACKA = "False";
+        public string RND10RES_SKRTACKA
+        {
+            get { return _RND10RES_SKRTACKA; }
+            set { _RND10RES_SKRTACKA = value; RaisePropertyChanged(nameof(RND10RES_SKRTACKA)); }
         }
 
 

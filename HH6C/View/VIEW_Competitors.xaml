@@ -1254,7 +1254,7 @@
                         </Grid>
 
                     </mah:MetroHeader>
-                    <mah:MetroHeader Margin="10,20,10,0" Header="Tisk karet soutěžících">
+                    <mah:MetroHeader Margin="10,20,10,0" Header="Tisk klasických karet soutěžících">
 
                         <Grid Height="109">
                             <Label
@@ -1266,7 +1266,7 @@
                                 HorizontalContentAlignment="Center"
                                 Content="Počet karet na stránku" />
                             <mah:NumericUpDown
-                                x:Name="pocetnastranku_updown"
+                                x:Name="pocetnastranku1_updown"
                                 Width="235"
                                 Height="44"
                                 Margin="10,43,0,0"
@@ -1275,7 +1275,7 @@
                                 ButtonsAlignment="Opposite"
                                 InterceptManualEnter="True"
                                 Maximum="999"
-                                Minimum="0"
+                                Minimum="1"
                                 SwitchUpDownButtons="True"
                                 TextAlignment="Center"
                                 Value="3" />
@@ -1332,7 +1332,162 @@
 
                         </Grid>
                     </mah:MetroHeader>
+                    <mah:MetroHeader Margin="10,20,10,0" Header="Tisk trhacích karet časoměřičů">
 
+                        <Grid Height="109">
+                            <Label
+                                Width="235"
+                                Height="28"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                Content="Počet karet na stránku" />
+                            <mah:NumericUpDown
+                                x:Name="pocetnastranku2_updown"
+                                Width="235"
+                                Height="44"
+                                Margin="10,43,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                ButtonsAlignment="Opposite"
+                                InterceptManualEnter="True"
+                                Maximum="999"
+                                Minimum="1"
+                                SwitchUpDownButtons="True"
+                                TextAlignment="Center"
+                                Value="9" />
+
+                            <mah:Tile
+                                x:Name="print_to_html_cut_timekeepers"
+                                Title="Tisk v HTML"
+                                Width="365"
+                                Height="75"
+                                Margin="250,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_html_cut_timekeepers_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="LogosInternetExplorer" />
+                            </mah:Tile>
+
+
+                            <mah:Tile
+                                x:Name="print_to_pdf_cut_timekeepers"
+                                Title="Tisk v PDF"
+                                Width="350"
+                                Height="75"
+                                Margin="620,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_pdf_cut_timekeepers_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="SolidFilePdf" />
+                            </mah:Tile>
+
+
+
+                        </Grid>
+                    </mah:MetroHeader>
+                    <mah:MetroHeader Margin="10,20,10,0" Header="Tisk trhacích karet soutěžících">
+
+                        <Grid Height="109">
+                            <Label
+                                Width="235"
+                                Height="28"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                Content="Počet karet na stránku" />
+                            <mah:NumericUpDown
+                                x:Name="pocetnastranku3_updown"
+                                Width="235"
+                                Height="44"
+                                Margin="10,43,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                ButtonsAlignment="Opposite"
+                                InterceptManualEnter="True"
+                                Maximum="999"
+                                Minimum="1"
+                                SwitchUpDownButtons="True"
+                                TextAlignment="Center"
+                                Value="9" />
+
+                            <mah:Tile
+                                x:Name="print_to_html_cut_competitors"
+                                Title="Tisk v HTML"
+                                Width="365"
+                                Height="75"
+                                Margin="250,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_html_cut_competitors_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="LogosInternetExplorer" />
+                            </mah:Tile>
+
+
+                            <mah:Tile
+                                x:Name="print_to_pdf_cut_competitors"
+                                Title="Tisk v PDF"
+                                Width="350"
+                                Height="75"
+                                Margin="620,12,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_tx_pdf_cut_competitors_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="SolidFilePdf" />
+                            </mah:Tile>
+
+
+
+                        </Grid>
+                    </mah:MetroHeader>
 
                 </StackPanel>
 

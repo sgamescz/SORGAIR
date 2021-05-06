@@ -398,7 +398,7 @@ namespace WpfApp6.View
         }
 
 
-        private async void print_scorecards(string output_type)
+        private async void print_scorecards(string template_name, string output_type, int  cutcounter)
         {
 
 
@@ -417,12 +417,14 @@ namespace WpfApp6.View
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 
-            int pocetnastranku = int.Parse(pocetnastranku_updown.Value.ToString());
+            int pocetnastranku = 0;
+            if (cutcounter == 1) { pocetnastranku = int.Parse(pocetnastranku1_updown.Value.ToString());}
+            if (cutcounter == 2) { pocetnastranku = int.Parse(pocetnastranku2_updown.Value.ToString()); }
             int tmp_pocetnastranku = 0;
 
-            html_main = File.ReadAllText(directory + "/Print_templates/scorecard_long_frame.html", Encoding.UTF8);
+            html_main = File.ReadAllText(directory + "/Print_templates/"+ template_name + "_frame.html", Encoding.UTF8);
 
-            html_body = File.ReadAllText(directory + "/Print_templates/scorecard_long_data.html", Encoding.UTF8);
+            html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
             string html_body_complete = "";
             for (int i = 0; i < VM.Players.Count(); i++)
             {
@@ -474,7 +476,7 @@ namespace WpfApp6.View
                 html_body_withrightdata = html_body;
 
                 html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
-                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", "Dinosoutěž 1");
+                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
                 html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
                 html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
                 html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[i].NACLIC);
@@ -513,20 +515,20 @@ namespace WpfApp6.View
 
                 SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
                 SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
-                doc.Save(directory + "/Print/scorecard_long.pdf");
+                doc.Save(directory + "/Print/" + template_name + ".pdf");
                 doc.Close();
 
-                System.Diagnostics.Process.Start(directory + "/Print/scorecard_long.pdf");
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".pdf");
             }
 
 
             if (output_type=="html") {
 
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/scorecard_long.html"))
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + template_name + ".html"))
                 {
                     file.WriteLine(html_all);
                 }
-                System.Diagnostics.Process.Start(directory + "/Print/scorecard_long.html");
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".html");
             }
             await controller.CloseAsync();
             await Task.Delay(300);
@@ -534,6 +536,121 @@ namespace WpfApp6.View
 
 
         }
+
+
+
+        private async void print_scorecards_type2(string template_name, string output_type)
+        {
+
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Generuji karty soutěžících k tisku");
+            await Task.Delay(300);
+            controller.SetProgress(0);
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            Console.WriteLine("VM.Players.Count" + VM.Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+            int pocetnastranku = int.Parse(pocetnastranku3_updown.Value.ToString());
+            int tmp_pocetnastranku = 0;
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+            for (int i = 0; i < VM.Players.Count(); i++)
+            {
+
+                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
+                Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
+                await Task.Delay(100);
+                string tabulkaletu = "";
+
+                for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+                {
+                    string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[i].ID + " and rnd = " + x, "");
+
+                    tmp_pocetnastranku += 1;
+
+                    html_body_withrightdata = html_body;
+
+                    html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@RND", x.ToString());
+                    html_body_withrightdata = html_body_withrightdata.Replace("@GRP", tmp_grp_stp);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[i].NACLIC);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[i].FAILIC);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[i].AGECAT);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[i].CLUB);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                    html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[i].FREQ);
+
+
+
+
+                    byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[i].COUNTRY + ".png");
+                    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                    Console.WriteLine(base64ImageRepresentation);
+                    html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+                    html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);
+
+
+                    html_body_complete = html_body_complete + html_body_withrightdata;
+
+                    if (tmp_pocetnastranku == pocetnastranku)
+                    {
+                        tmp_pocetnastranku = 0;
+                        html_body_complete = html_body_complete + "<div class='pagebreak'>---- ✂ ---- ✂ ---- cut here ---- ✂ ---- ✂ ----</div>";
+                    }
+
+
+                }
+
+
+
+            }
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+            if (output_type == "pdf")
+            {
+
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
+                doc.Save(directory + "/Print/" + template_name + ".pdf");
+                doc.Close();
+
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".pdf");
+            }
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + template_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".html");
+            }
+            await controller.CloseAsync();
+            await Task.Delay(300);
+
+
+
+        }
+
 
 
         private async void print_userslist(string output_type)
@@ -558,6 +675,7 @@ namespace WpfApp6.View
 
 
             html_main = File.ReadAllText(directory + "/Print_templates/userlist_frame.html", Encoding.UTF8);
+            html_main = html_main.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
 
             html_body = File.ReadAllText(directory + "/Print_templates/userlist_data.html", Encoding.UTF8);
             string html_body_complete = "";
@@ -572,7 +690,7 @@ namespace WpfApp6.View
                 Console.WriteLine(html_body_withrightdata);
 
                 html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
-                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", "Dinosoutěž 1");
+                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
                 html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
                 html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[i].ID.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
@@ -630,13 +748,13 @@ namespace WpfApp6.View
 
         private void print_to_html_Click(object sender, RoutedEventArgs e)
         {
-            print_scorecards("html");
+            print_scorecards("scorecard_long","html",1);
 
         }
 
         private void print_to_pdf_Click(object sender, RoutedEventArgs e)
         {
-            print_scorecards("pdf");
+            print_scorecards("scorecard_long", "pdf",1);
         }
 
         private void print_to_html_userslist_Click(object sender, RoutedEventArgs e)
@@ -647,6 +765,30 @@ namespace WpfApp6.View
         private void print_to_pdf_userslist_Click(object sender, RoutedEventArgs e)
         {
             print_userslist("pdf");
+
+        }
+
+        private void print_tx_pdf_cut_competitors_Click(object sender, RoutedEventArgs e)
+        {
+            print_scorecards_type2("scorecard_cut_competitors", "pdf");
+
+        }
+
+        private void print_to_html_cut_competitors_Click(object sender, RoutedEventArgs e)
+        {
+            print_scorecards_type2("scorecard_cut_competitors", "html");
+
+        }
+
+        private void print_to_html_cut_timekeepers_Click(object sender, RoutedEventArgs e)
+        {
+            print_scorecards("scorecard_cut_timekeepers", "html",2);
+
+        }
+
+        private void print_to_pdf_cut_timekeepers_Click(object sender, RoutedEventArgs e)
+        {
+            print_scorecards("scorecard_cut_timekeepers", "pdf",2);
 
         }
     }

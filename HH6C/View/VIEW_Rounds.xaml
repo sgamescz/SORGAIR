@@ -455,12 +455,12 @@
                                         Height="30"
                                         Margin="2,5,2,0"
                                         HorizontalAlignment="Stretch"
-                                        Background="{DynamicResource MahApps.Brushes.Gray10}"
+                                        Background="{DynamicResource MahApps.Brushes.Accent4}"
                                         Content="{Binding RAWSCORE}"
                                         ContentStringFormat="Raw score = {0}"
-                                        FontSize="10"
-                                        FontWeight="Bold"
-                                        Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                        FontSize="11"
+                                        FontWeight="DemiBold"
+                                        Foreground="White"
                                         IsEnabled="{Binding ISENABLED}"
                                         Tag="{Binding STARTPOINT}" />
                                     <Button
@@ -470,6 +470,7 @@
                                         HorizontalAlignment="Stretch"
                                         Background="{DynamicResource MahApps.Brushes.Accent2}"
                                         Content="{Binding PREPSCORE}"
+                                        FontSize="15"
                                         FontWeight="Bold"
                                         IsEnabled="{Binding ISENABLED}"
                                         Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
@@ -531,8 +532,6 @@
                 </UniformGrid>
 
             </StackPanel>
-
-
             <Controls:FlyoutsControl
                 Height="480"
                 Margin="0,0,0,10"
@@ -692,10 +691,10 @@
                             </Controls:Tile>
                         </UniformGrid>
 
-                        <UniformGrid Columns="2" Rows="4" />
+
 
                         <Controls:MetroHeader
-                            Margin="115,131,0,275"
+                            Margin="115,129,0,331"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Header="Letový čas">
@@ -714,7 +713,7 @@
 
 
                         <Controls:MetroHeader
-                            Margin="134,173,0,233"
+                            Margin="134,171,0,289"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Center"
@@ -734,7 +733,7 @@
 
 
                         <Controls:MetroHeader
-                            Margin="144,217,0,189"
+                            Margin="144,215,0,245"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Header="Výška">
@@ -753,7 +752,7 @@
                         </Controls:MetroHeader>
 
                         <Controls:MetroHeader
-                            Margin="80,268,0,138"
+                            Margin="80,266,0,194"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Header="Penalizace v kole">
@@ -771,7 +770,7 @@
                         </Controls:MetroHeader>
 
                         <Controls:MetroHeader
-                            Margin="67,311,0,95"
+                            Margin="67,309,0,151"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Header="Penalizace globální">
@@ -792,7 +791,7 @@
                         <Controls:ToggleSwitch
                             Grid.Column="0"
                             Width="202"
-                            Margin="10,383,0,12"
+                            Margin="10,380,0,68"
                             HorizontalAlignment="Left"
                             HorizontalContentAlignment="Left"
                             ContentDirection="LeftToRight"
@@ -804,7 +803,7 @@
 
 
                         <Controls:MetroHeader
-                            Margin="148,352,0,54"
+                            Margin="148,350,0,110"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Header="Score">

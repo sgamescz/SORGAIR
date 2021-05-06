@@ -116,6 +116,42 @@ namespace WpfApp6.View
 
         }
 
+
+        private void show_refly_form()
+        {
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(0, 0, 0);
+            
+            refly.IsOpen = true;
+            VM.FUNCTION_SHOW_AVAIABLE_GROUPS(VM.BIND_SELECTED_ROUND);
+            string tmp_existujerefly = VM.SQL_READSOUTEZDATA("select userid from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", "");
+            if (tmp_existujerefly == "")
+            {
+                refly_muzebyt.Visibility = Visibility.Visible;
+                refly_nemuzebyt.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                refly_muzebyt.Visibility = Visibility.Collapsed;
+                refly_nemuzebyt.Visibility = Visibility.Visible;
+
+                string tmp_cosepocita = VM.SQL_READSOUTEZDATA("select whatcount1 from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", "");
+
+                if (tmp_cosepocita == "1")
+                {
+                    VM.BIND_DATA_OPAKOVACIHO_LETU = "Počítá se výsledek z opakovacího letu";
+                }
+                else
+                {
+                    VM.BIND_DATA_OPAKOVACIHO_LETU = "Počítá se lepší výsledek";
+                }
+            }
+            //scoreentry_minutes.Focus();
+            //_isscoreentryopen = true;
+            //scoreentry_height.IsEnabled = VM.MODEL_CONTEST_RULES[0].ENTRYHEIGHT;
+            //savescore_event(true);
+
+        }
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
 
@@ -450,7 +486,10 @@ namespace WpfApp6.View
 
                     VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP);
 
-                    VM.FUNCTION_CHECK_ENTERED(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP,false);
+
+                    //VM.FUNCTION_zjisti_jestli_a_ktery_z_refly_je_pocitany(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP, VM.BIND_SELECTED_STARTPOINT);
+
+                    VM.FUNCTION_CHECK_ENTERED_ALL();
                     VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
                     VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
 
@@ -554,6 +593,232 @@ namespace WpfApp6.View
             {
                 Console.WriteLine(aaa.Message);
             }
+
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            Button tagbutton = sender as Button;
+            VM.BIND_SELECTED_STARTPOINT = int.Parse(tagbutton.Tag.ToString());
+            show_refly_form();
+
+        }
+
+        private void save_refly_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void userdetail_id_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void Tile_Click(object sender, RoutedEventArgs e)
+        {
+            Tile tagbutton = sender as Tile;
+
+            int tmp_first_empty_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where user=0 and rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + int.Parse(tagbutton.Tag.ToString()) + " limit 1", ""));
+
+            if (refly_what_count.IsOn == true)
+            {
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + int.Parse(tagbutton.Tag.ToString()) + ","+ tmp_first_empty_stp+"," + VM.Player_Selected[0].ID + ",1,2);");
+            }
+            else
+            {
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + int.Parse(tagbutton.Tag.ToString()) + "," + tmp_first_empty_stp + "," + VM.Player_Selected[0].ID + ",0,0);");
+            }
+
+            VM.SQL_SAVESOUTEZDATA("update score set userid=" + VM.Player_Selected[0].ID + ", entered='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + int.Parse(tagbutton.Tag.ToString()) + " and stp=" + tmp_first_empty_stp + "");
+            VM.SQL_SAVESOUTEZDATA("update matrix set user=" + VM.Player_Selected[0].ID + " where rnd=" + VM.BIND_SELECTED_ROUND + " and grp="+ int.Parse(tagbutton.Tag.ToString()) + " and stp=" + tmp_first_empty_stp + "");
+           
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
+
+
+            VM.FUNCTION_CHECK_ENTERED_ALL();
+            VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+            VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
+
+
+            VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+            for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+            {
+                VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+            }
+            VM.MODEL_CONTEST_GROUPS[VM.BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+
+
+            for (int i = 0; i < VM.MODEL_CONTEST_ROUNDS.Count; i++)
+            {
+                VM.MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
+            }
+            VM.MODEL_CONTEST_ROUNDS[VM.BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
+            refly.IsOpen = false;
+
+            VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
+
+
+        }
+
+
+
+        private async void delete_refly_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Odstranění refly", "Opravdu chceš odebrat opravný let a jeho výsledky?", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Negative)
+            {
+                Console.WriteLine("No");
+            }
+            else
+            {
+
+
+
+                int to_rnd = int.Parse(VM.SQL_READSOUTEZDATA("select rnd_to from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", ""));
+                int to_grp = int.Parse(VM.SQL_READSOUTEZDATA("select grp_to from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", ""));
+                int to_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp_to from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", ""));
+                VM.SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + VM.BIND_SELECTED_GROUP + " and stp=" + VM.BIND_SELECTED_STARTPOINT + "");
+                VM.SQL_SAVESOUTEZDATA("update matrix set user=0 where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp + "");
+                VM.SQL_SAVESOUTEZDATA("delete from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from = " + VM.BIND_SELECTED_GROUP + " and stp_from = " + VM.BIND_SELECTED_STARTPOINT);
+                VM.SQL_SAVESOUTEZDATA("delete from score where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp + "");
+                VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + to_rnd + "," + to_grp + "," + to_stp + ",0,'True')");
+
+                int tmp_pozustalych_v_refly_skupine = int.Parse(VM.SQL_READSOUTEZDATA("select count(userid) from refly where rnd_to=" + to_rnd + " and grp_to=" + to_grp , ""));
+
+
+                if (VM.SQL_READSOUTEZDATA("select type from groups where masterround="+ to_rnd + " and groupnumber="+ to_grp, "") == "refly") { 
+                   
+                    Console.WriteLine("v refly groupe zustalo lidi:" + tmp_pozustalych_v_refly_skupine);
+                    if (tmp_pozustalych_v_refly_skupine == 0)
+    
+                    {
+                        Console.WriteLine("mažu vše po prázné refly skupině");
+                        VM.SQL_SAVESOUTEZDATA("delete from groups where masterround=" + to_rnd + " and groupnumber = " + to_grp);
+                        VM.SQL_SAVESOUTEZDATA("delete from score where rnd=" + to_rnd + " and grp = " + to_grp);
+                        VM.SQL_SAVESOUTEZDATA("delete from matrix where rnd=" + to_rnd + " and grp = " + to_grp);
+                        VM.FUNCTION_CHECK_ENTERED_ALL();
+                        VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                        VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
+
+                        VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                        for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                        {
+                            VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                        }
+                        VM.MODEL_CONTEST_GROUPS[VM.BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+                    }
+                    else
+                    {
+                        VM.FUNCTION_CHECK_ENTERED_ALL();
+                        VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                        VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
+
+                        VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                        for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                        {
+                            VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                        }
+                        VM.MODEL_CONTEST_GROUPS[VM.BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+                    }
+
+                }
+                else
+                {
+                    VM.FUNCTION_CHECK_ENTERED_ALL();
+                    VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                    VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
+                    
+                    VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                    for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                    {
+                        VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                    }
+                    VM.MODEL_CONTEST_GROUPS[VM.BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+
+                }
+
+              
+
+
+               
+
+
+                for (int i = 0; i < VM.MODEL_CONTEST_ROUNDS.Count; i++)
+                {
+                    VM.MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
+                }
+                VM.MODEL_CONTEST_ROUNDS[VM.BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
+                refly.IsOpen = false;
+                VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
+
+            }
+
+
+        }
+
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+
+            
+            VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "refly", true) + "','refly',600,0, " + VM.BIND_SELECTED_ROUND + " ," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND,"", true) + ");");
+            for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+            {
+                VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + VM.BIND_SELECTED_ROUND + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + "," + s + ",0)");
+                VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + VM.BIND_SELECTED_ROUND + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + "," + s + ",0,'True')");
+            }
+
+
+
+            int tmp_refly_group_number = VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false);
+
+
+            int tmp_first_empty_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where user=0 and rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + tmp_refly_group_number + " limit 1", ""));
+
+            if (refly_what_count.IsOn == true)
+            {
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + tmp_refly_group_number + "," + tmp_first_empty_stp + "," + VM.Player_Selected[0].ID + ",1,2);");
+            }
+            else
+            {
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + tmp_refly_group_number + "," + tmp_first_empty_stp + "," + VM.Player_Selected[0].ID + ",0,0);");
+            }
+
+            VM.SQL_SAVESOUTEZDATA("update score set userid=" + VM.Player_Selected[0].ID + ", entered='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + tmp_refly_group_number + " and stp=" + tmp_first_empty_stp + "");
+            VM.SQL_SAVESOUTEZDATA("update matrix set user=" + VM.Player_Selected[0].ID + " where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + tmp_refly_group_number + " and stp=" + tmp_first_empty_stp + "");
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
+
+
+            VM.FUNCTION_CHECK_ENTERED_ALL();
+            VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+            VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
+
+
+            VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+            for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+            {
+                VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+            }
+            VM.MODEL_CONTEST_GROUPS[VM.BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+
+
+            for (int i = 0; i < VM.MODEL_CONTEST_ROUNDS.Count; i++)
+            {
+                VM.MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
+            }
+            VM.MODEL_CONTEST_ROUNDS[VM.BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
+            refly.IsOpen = false;
+
+            VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
+
+
 
 
         }

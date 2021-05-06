@@ -8,6 +8,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Linq;
+using System.Text;
 
 
 namespace WpfApp6.View
@@ -19,6 +21,8 @@ namespace WpfApp6.View
     {
 
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+
+        string html_all;
 
         string matrix_switch_user1 = "";
         string matrix_switch_user2 = "";
@@ -41,6 +45,7 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("delete from score");
             VM.SQL_SAVESOUTEZDATA("delete from groups");
             VM.SQL_SAVESOUTEZDATA("delete from rounds");
+            VM.SQL_SAVESOUTEZDATA("delete from refly");
             VM.SQL_SAVESOUTEZDATA("update users set Matrixid=0");
             VM.BIND_JETREBAROZLOSOVAT_SCORE = VM.BIND_SQL_SOUTEZ_ROUNDS * VM.BIND_SQL_SOUTEZ_GROUPS * VM.BIND_SQL_SOUTEZ_STARTPOINTS;
             VM.FUNCTION_JETREBAROZLOSOVAT_OVER();
@@ -69,7 +74,7 @@ namespace WpfApp6.View
 
                         Console.WriteLine(progg);
                         VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + r + "," + g + "," + s + ",0)");
-                        VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid) values (" + r + "," + g + "," + s + ",0)");
+                        VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + r + "," + g + "," + s + ",0,'True')");
                         controller.SetProgress(progg);
                         controller.SetMessage(string.Format("Generating: {0}%", Math.Round((progg * 100), 2)));
                         await Task.Delay(1);
@@ -177,8 +182,9 @@ namespace WpfApp6.View
                             //string  _id = VM.SQL_READSOUTEZDATA("select userid from score where userid=0 and rnd=" + r + " and grp=" + g + " and stp=" + s + " limit 1 ;", "");
 
                             VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + _id + ") where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
-                            VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id  + ") where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
-
+                            if (_id != 0) { 
+                            VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id  + "), entered='False' where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
+                            }
                         }
 
                         controller.SetMessage("Placing Round / Group:" + r + "/" + g);
@@ -227,7 +233,7 @@ namespace WpfApp6.View
                             System.Diagnostics.Debug.WriteLine("R:" + Round + "|G:" + Group + "|L:" + x + "|" + poleidnaradku[x - 1]);
 
                             VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + poleidnaradku[x - 1].Substring(1) + ") where rnd=" + Round + " and grp=" + Group + " and stp=" + x + " ;");
-                            VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + poleidnaradku[x - 1].Substring(1) + ") where rnd=" + Round + " and grp=" + Group + " and stp=" + x + " ;");
+                            VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + poleidnaradku[x - 1].Substring(1) + "), entered='False' where rnd=" + Round + " and grp=" + Group + " and stp=" + x + " ;");
                         }
 
                         controller.SetMessage("Placing Round / Group:" + Round + "/" + Group);
@@ -239,10 +245,11 @@ namespace WpfApp6.View
 
             }
 
-            
 
 
-         VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+            VM.FUNCTION_CHECK_ENTERED_ALL();
+
+            VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
 
             VM.BIND_SELECTED_GROUP = 1;
             VM.BIND_SELECTED_ROUND = 1;
@@ -337,6 +344,128 @@ namespace WpfApp6.View
 
             Console.WriteLine("matrix_switch {0}  / {1} ", matrix_switch_user1, matrix_switch_user2);
 
+
+        }
+
+        private void print_matrix_btn_Click(object sender, RoutedEventArgs e)
+        {
+            print_matrix("matrix", "html");
+        }
+
+
+        private async void print_matrix(string template_name, string output_type)
+        {
+
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Generuji karty soutěžících k tisku");
+            await Task.Delay(300);
+            controller.SetProgress(0);
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            Console.WriteLine("VM.Players.Count" + VM.Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
+            html_main = html_main.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+         
+
+                //controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
+                //Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
+                await Task.Delay(100);
+                string tabulkaletu = "";
+
+                for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+                {
+                tabulkaletu = tabulkaletu + $@"
+Kolo : {x}
+<table>
+    <tbody>
+        <tr>
+            <th></th>";
+
+                for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS+1; s++)
+                {
+                    tabulkaletu = tabulkaletu + "<th>Startoviště:"+s+" </th>";
+
+                }
+
+                tabulkaletu = tabulkaletu + "</tr>";
+
+                for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                {
+                    tabulkaletu = tabulkaletu + "<tr><td class='gray'>Skupina: "+ g +"</td>";
+                    for (int stp = 1; stp < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; stp++)
+                    {
+                        string kdo = VM.SQL_READSOUTEZDATA("select Lastname || ' ' || Firstname from matrix M left join users U on M.user = U.ID where rnd=" + x.ToString() + " and grp=" + g.ToString() +" and stp="+ stp.ToString() + " ; ", "");
+                        tabulkaletu = tabulkaletu + "<td>"+ kdo +"</td>";
+
+                    }
+                }
+
+
+                tabulkaletu = tabulkaletu + "</tr></tbody></table>";
+                }
+
+
+
+             
+
+
+                html_body_withrightdata = html_body;
+
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);
+
+
+                html_body_complete = html_body_complete + html_body_withrightdata;
+
+
+         
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+            if (output_type == "pdf")
+            {
+
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
+                doc.Save(directory + "/Print/" + template_name + ".pdf");
+                doc.Close();
+
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".pdf");
+            }
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + template_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".html");
+            }
+            await controller.CloseAsync();
+            await Task.Delay(300);
+
+
+
+        }
+
+        private void print_matrixpdf_btn_Click(object sender, RoutedEventArgs e)
+        {
+            print_matrix("matrix", "pdf");
 
         }
     }

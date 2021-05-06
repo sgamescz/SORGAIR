@@ -455,7 +455,7 @@ namespace WpfApp6.View
 
                     VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP);
 
-                    VM.FUNCTION_CHECK_ENTERED(VM.BIND_SELECTED_FINAL_ROUND, 1,true);
+                    VM.FUNCTION_CHECK_ENTERED_FINAL(VM.BIND_SELECTED_FINAL_ROUND, 1,true);
                     //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
                     //VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_FINAL_ROUND);
                     VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();

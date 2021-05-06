@@ -37,12 +37,19 @@ namespace WpfApp6.View
 
             string tag = (sender as MahApps.Metro.Controls.Tile).Tag.ToString();
             VM.BIND_VIEWED_ROUND = int.Parse(tag);
+            VM.FUNCTION_CHECK_ENTERED_ALL();
             VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_VIEWED_ROUND);
-
+            VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
 
             for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
             {
                 VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+            }
+
+            Console.WriteLine(VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_VIEWED_ROUND, "", false));
+            Console.WriteLine("XXXXXXXX");
+            if (VM.BIND_VIEWED_GROUP > VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_VIEWED_ROUND,"",false)) { 
+                VM.BIND_VIEWED_GROUP = VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_VIEWED_ROUND, "", false); 
             }
             VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
 
@@ -70,6 +77,11 @@ namespace WpfApp6.View
             {
                 VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
             }
+
+            VM.FUNCTION_CHECK_ENTERED_ALL();
+            VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_VIEWED_ROUND);
+            VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+            VM.MODEL_CONTEST_ROUNDS[VM.BIND_VIEWED_ROUND - 1].ISSELECTED = "selected";
             VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
 
             
@@ -485,8 +497,7 @@ namespace WpfApp6.View
                     scoreentry.IsOpen = false;
                     _isscoreentryopen = false;
                     //HWbasemodul_Copy4s.Focus();
-                    VM.FUNCTION_CHECK_ENTERED(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP,false);
-
+                    VM.FUNCTION_CHECK_ENTERED_ALL();
                     VM.FUNCTION_SELECTED_ROUND_USERS(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP);
                    
                     VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
@@ -552,7 +563,6 @@ namespace WpfApp6.View
             }
         }
 
-
-
+       
     }
 }

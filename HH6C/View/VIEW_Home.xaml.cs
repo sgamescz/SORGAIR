@@ -236,8 +236,8 @@ namespace WpfApp6.View
                 await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_noteverythinkfilled, SORGAIR.Properties.Lang.Lang.home_pleasefillallfields);
                 return;
             }
-            
-            
+
+
 
 
 
@@ -257,7 +257,15 @@ namespace WpfApp6.View
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 
-            File.Copy(directory + "/Data/config/empty.db", directory + "/Data/" + newdbname + ".db");
+            if (File.Exists(directory + "/Data/config/empty_"+ VM.BIND_NEWCONTEST_CATEGORY + ".db"))
+            {
+                File.Copy(directory + "/Data/config/empty_" + VM.BIND_NEWCONTEST_CATEGORY + ".db", directory + "/Data/" + newdbname + ".db");
+            }
+            else
+            {
+                File.Copy(directory + "/Data/config/empty.db", directory + "/Data/" + newdbname + ".db");
+            }
+
             string catidindb;
 
             VM.SQL_OPENCONNECTION(newdbname);
@@ -278,6 +286,12 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION + "' where item='Location';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE + "' where item='Date';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_NAME + "' where item='Name';");
+            //VM.SQL_SAVESOUTEZDATA("delete from Groups;");
+            // VM.SQL_SAVESOUTEZDATA("delete from Rounds;");
+            //VM.SQL_SAVESOUTEZDATA("delete from Score;");
+            //VM.SQL_SAVESOUTEZDATA("delete from final_rounds;");
+            //VM.SQL_SAVESOUTEZDATA("delete from Matrix;");
+
             VM.SQL_CLOSECONNECTION("SOUTEZ");
 
             newcontest.IsOpen = false;

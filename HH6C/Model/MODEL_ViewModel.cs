@@ -59,41 +59,41 @@ namespace WpfApp6.Model
 
 
         //System.Windows.Media.MediaPlayer[] SoundDB = new System.Windows.Media.MediaPlayer[100];
-        WaveOutEvent[] maintimewaveout = new WaveOutEvent[100];
-        WaveOutEvent[] preptimewaveout = new WaveOutEvent[100];
+        WaveOutEvent[] maintimewaveout = new WaveOutEvent[300];
+        WaveOutEvent[] preptimewaveout = new WaveOutEvent[300];
 
-        WaveOutEvent[] final_maintimewaveout = new WaveOutEvent[100];
-        WaveOutEvent[] final_preptimewaveout = new WaveOutEvent[100];
+        WaveOutEvent[] final_maintimewaveout = new WaveOutEvent[300];
+        WaveOutEvent[] final_preptimewaveout = new WaveOutEvent[300];
 
-        WaveOutEvent[] roundgroupwav_actual = new WaveOutEvent[20];
-        WaveOutEvent[] roundgroupwav_next = new WaveOutEvent[20];
+        WaveOutEvent[] roundgroupwav_actual = new WaveOutEvent[50];
+        WaveOutEvent[] roundgroupwav_next = new WaveOutEvent[50];
 
-        WaveOutEvent[] competitorswav_actual = new WaveOutEvent[20];
-        WaveOutEvent[] competitorswav_next = new WaveOutEvent[20];
+        WaveOutEvent[] competitorswav_actual = new WaveOutEvent[50];
+        WaveOutEvent[] competitorswav_next = new WaveOutEvent[50];
 
-        WaveOutEvent[] roundgroupwav_final_actual = new WaveOutEvent[20];
-        WaveOutEvent[] roundgroupwav_final_next = new WaveOutEvent[20];
+        WaveOutEvent[] roundgroupwav_final_actual = new WaveOutEvent[50];
+        WaveOutEvent[] roundgroupwav_final_next = new WaveOutEvent[50];
 
-        WaveOutEvent[] competitorswav_final_actual = new WaveOutEvent[20];
-        WaveOutEvent[] competitorswav_final_next = new WaveOutEvent[20];
+        WaveOutEvent[] competitorswav_final_actual = new WaveOutEvent[50];
+        WaveOutEvent[] competitorswav_final_next = new WaveOutEvent[50];
  
-        NAudio.Wave.WaveFileReader[] wav_maintime = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_preptime = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_maintime = new NAudio.Wave.WaveFileReader[300];
+        NAudio.Wave.WaveFileReader[] wav_preptime = new NAudio.Wave.WaveFileReader[300];
 
-        NAudio.Wave.WaveFileReader[] wav_final_maintime = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_final_preptime = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_final_maintime = new NAudio.Wave.WaveFileReader[300];
+        NAudio.Wave.WaveFileReader[] wav_final_preptime = new NAudio.Wave.WaveFileReader[300];
 
-        NAudio.Wave.WaveFileReader[] wav_competitors_actual = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_competitors_next = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_competitors_actual = new NAudio.Wave.WaveFileReader[300];
+        NAudio.Wave.WaveFileReader[] wav_competitors_next = new NAudio.Wave.WaveFileReader[300];
 
-        NAudio.Wave.WaveFileReader[] wav_roundgroup_actual = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_roundgroup_next = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_roundgroup_actual = new NAudio.Wave.WaveFileReader[300];
+        NAudio.Wave.WaveFileReader[] wav_roundgroup_next = new NAudio.Wave.WaveFileReader[300];
 
-        NAudio.Wave.WaveFileReader[] wav_competitors_final_actual = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_competitors_final_next = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_competitors_final_actual = new NAudio.Wave.WaveFileReader[300];
+        NAudio.Wave.WaveFileReader[] wav_competitors_final_next = new NAudio.Wave.WaveFileReader[300];
 
-        NAudio.Wave.WaveFileReader[] wav_roundgroup_final_actual = new NAudio.Wave.WaveFileReader[100];
-        NAudio.Wave.WaveFileReader[] wav_roundgroup_final_next = new NAudio.Wave.WaveFileReader[100];
+        NAudio.Wave.WaveFileReader[] wav_roundgroup_final_actual = new NAudio.Wave.WaveFileReader[300];
+        NAudio.Wave.WaveFileReader[] wav_roundgroup_final_next = new NAudio.Wave.WaveFileReader[300];
 
 
         SQLiteConnection DBSORG_Connection;
@@ -184,7 +184,6 @@ namespace WpfApp6.Model
         public int BIND_SQL_SOUTEZ_DELETES_value;
         public int BIND_SQL_SOUTEZ_ROUNDSFINALE_value;
         public int BIND_SQL_SOUTEZ_STARTPOINTSFINALE_value;
-        public int BIND_SQL_SOUTEZ_DELETESFINALE_value;
         public string BIND_VYBRANEKOLOMENU_value = SORGAIR.Properties.Lang.Lang.menu_selectedround  + " : 0/0";
         public string BIND_POCETSOUTEZICICHMENU_value = "0";
         public int BIND_POCETSOUTEZICICH_value = 0;
@@ -341,7 +340,9 @@ namespace WpfApp6.Model
         public bool CONTEST_LOCK
         {
             get { return _CONTEST_LOCK; }
-            set { _CONTEST_LOCK = value; OnPropertyChanged("CONTEST_LOCK"); }
+            set { _CONTEST_LOCK = value; OnPropertyChanged("CONTEST_LOCK");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='islocked'");
+            }
         }
 
         private bool _BIND_CATEGORYEDITOR_ENABLED = false;
@@ -832,7 +833,6 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_DELETES = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletes'", ""));
             BIND_SQL_SOUTEZ_ROUNDSFINALE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Roundsfinale'", ""));
             BIND_SQL_SOUTEZ_STARTPOINTSFINALE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Startpointsfinale'", ""));
-            BIND_SQL_SOUTEZ_DELETESFINALE = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='Deletesfinale'", ""));
             BIND_CONTESTBEGIN = SQL_READSOUTEZDATA("select value from contest where item='contestbegin'", "");
             BIND_USEAUDIO = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='useaudio'", ""));
             BIND_SQL_SOUTEZ_ENTRYSTYLE = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='Entrystyle'", ""));
@@ -867,6 +867,9 @@ namespace WpfApp6.Model
             BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedfinalprepsound'", ""));
             BIND_AUDIO_SELECTEDFINALSOUND_INDEX = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedfinalsound'", ""));
             BINDING_SoundList_languages_index = Convert.ToInt32(SQL_READSOUTEZDATA("select value from contest where item='selectedaudiolanguageindex'", ""));
+            CONTEST_LOCK = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest  where item='islocked'",""));
+
+
 
             BIND_IS_FINAL_FLIGHT_READY = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='isfinalflightready'", ""));
 
@@ -1887,7 +1890,7 @@ namespace WpfApp6.Model
 
         public string BIND_SELECTED_GROUP_DESC
         {
-            get { return SQL_READSOUTEZDATA("select Name from Groups where masterround = " + BIND_SELECTED_GROUP, ""); }
+            get { return SQL_READSOUTEZDATA("select Name from Groups where masterround = " + BIND_SELECTED_ROUND + " and groupnumber =  " + BIND_SELECTED_GROUP, ""); }
         }
 
 
@@ -1923,6 +1926,33 @@ namespace WpfApp6.Model
 
 
 
+        private int _BIND_ROUNDS_IN_RESULTS= 1;
+        public int BIND_ROUNDS_IN_RESULTS
+        {
+            get { return _BIND_ROUNDS_IN_RESULTS; }
+
+            set
+            {
+                _BIND_ROUNDS_IN_RESULTS = value;
+                OnPropertyChanged("BIND_ROUNDS_IN_RESULTS");
+
+                if (BIND_ROUNDS_IN_RESULTS > BIND_SQL_SOUTEZ_DELETES)
+                {
+                    BIND_SKRTEJ_ENABLED = true;
+                }
+                else
+                {
+                    BIND_SKRTEJ_ENABLED = false;
+                }
+
+            }
+        }
+
+
+
+
+
+
         public int BIND_SQL_SOUTEZ_ROUNDS
         {
             get { return BIND_SQL_SOUTEZ_ROUNDS_value; }
@@ -1940,7 +1970,7 @@ namespace WpfApp6.Model
 
                 }
                 SQL_SAVESOUTEZDATA("delete from rounds where id > " + value + ";");
-                SQL_SAVESOUTEZDATA("delete from groups where masterround > " + value + ";");
+                SQL_SAVESOUTEZDATA("delete from groups where masterround > " + value + " and type = 'auto' ;");
 
 
                
@@ -1980,7 +2010,7 @@ namespace WpfApp6.Model
                 if ((value * BIND_SQL_SOUTEZ_STARTPOINTS) >= BIND_POCETSOUTEZICICH)
                 {
                     Console.WriteLine("vetsi nez mozno");
-                    SQL_SAVESOUTEZDATA("delete from groups where groupnumber > " + value + ";");
+                    SQL_SAVESOUTEZDATA("delete from groups where groupnumber > " + value + " and type='auto';");
                     SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Groups'");
                     BIND_SQL_SOUTEZ_GROUPS_value = value;
                     OnPropertyChanged("BIND_SQL_SOUTEZ_GROUPS");
@@ -2164,11 +2194,6 @@ namespace WpfApp6.Model
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Startpointsfinale'"); BIND_SQL_SOUTEZ_STARTPOINTSFINALE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTSFINALE"); }
         }
 
-        public int BIND_SQL_SOUTEZ_DELETESFINALE
-        {
-            get { return BIND_SQL_SOUTEZ_DELETESFINALE_value; }
-            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Deletesfinale'"); BIND_SQL_SOUTEZ_DELETESFINALE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_DELETESFINALE"); }
-        }
 
 
 
@@ -3086,6 +3111,19 @@ namespace WpfApp6.Model
         {
             int _results_autoincrement = 0;
             double _results_scoreompare = 1000 * BIND_SQL_SOUTEZ_ROUNDS;
+
+            double _results_scoreompare_do_kola = 0;
+
+            if (_ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA == true)
+            {
+                _results_scoreompare_do_kola = 1000 * (BIND_ROUNDS_IN_RESULTS- BIND_SQL_SOUTEZ_DELETES);
+            }
+            else
+            {
+                _results_scoreompare_do_kola = 1000 * BIND_ROUNDS_IN_RESULTS;
+            }
+
+
             double _results_scoreompare_final = 1000 * BIND_SQL_SOUTEZ_ROUNDSFINALE;
 
             Console.WriteLine("SQL_READSOUTEZDATA [SQL] : " + sqltext + " >>>> " + kamulozitvysledek);
@@ -3218,52 +3256,57 @@ namespace WpfApp6.Model
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
                         GPEN= sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
                         PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
-                        PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare,2).ToString("0.00"),
-                        RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""),
-                        RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""),
+                        PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare_do_kola,2).ToString("0.00"),
+                        RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
+                        RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
+                        RND1RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
 
-                        RND2RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2", ""),
-                        RND2RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2", ""),
+                        RND2RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2 and refly='False'", ""),
+                        RND2RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2 and refly='False'", ""),
+                        RND2RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2 and refly='False'", ""),
 
 
-                        RND3RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3", ""),
-                        RND3RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3", ""),
+                        RND3RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3 and refly='False'", ""),
+                        RND3RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3 and refly='False'", ""),
+                        RND3RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3 and refly='False'", ""),
 
-                        RND4RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4", ""),
-                        RND4RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4", ""),
+                        RND4RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4 and refly='False'", ""),
+                        RND4RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4 and refly='False'", ""),
+                        RND4RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4 and refly='False'", ""),
 
-                        RND5RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5", ""),
-                        RND5RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5", ""),
+                        RND5RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5 and refly='False'", ""),
+                        RND5RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5 and refly='False'", ""),
+                        RND5RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5 and refly='False'", ""),
 
-                        RND6RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6", ""),
-                        RND6RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6", ""),
+                        RND6RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6 and refly='False'", ""),
+                        RND6RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6 and refly='False'", ""),
+                        RND6RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6 and refly='False'", ""),
 
-                        RND7RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7", ""),
-                        RND7RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7", ""),
+                        RND7RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7 and refly='False'", ""),
+                        RND7RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7 and refly='False'", ""),
+                        RND7RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7 and refly='False'", ""),
 
-                        RND8RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8", ""),
-                        RND8RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8", ""),
+                        RND8RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8 and refly='False'", ""),
+                        RND8RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8 and refly='False'", ""),
+                        RND8RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8 and refly='False'", ""),
 
-                        RND9RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9", ""),
-                        RND9RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9", ""),
+                        RND9RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9 and refly='False'", ""),
+                        RND9RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9 and refly='False'", ""),
+                        RND9RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9 and refly='False'", ""),
 
-                        RND10RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10", ""),
-                        RND10RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10", ""),
+                        RND10RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
+                        RND10RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
+                        RND10RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
 
                         FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png"
 
                         };
 
-                        Console.WriteLine("AAAAAAAAAAAAAA" + SQL_READSOUTEZDATA("select prep from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""));
-
-
-                        
-
                     
 
 
                         Players_Baseresults.Add(_Players_Baseresults);
-                        _results_scoreompare = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"));
+                        _results_scoreompare_do_kola = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"));
                         vysledek = kamulozitvysledek;
 
                     }
@@ -3311,7 +3354,7 @@ namespace WpfApp6.Model
                         double maxscorefor1000 = 1;
                         if (SQL_READSOUTEZDATA("select RECTO1000FROMABSMAX from rules","") == "True")
                         {
-                            maxscorefor1000 = double.Parse(SQL_READSOUTEZDATA("select max(((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 ) +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  ))) overalscore_base from score s1 left join users U on S1.userid = U.id", ""));
+                            maxscorefor1000 = double.Parse(SQL_READSOUTEZDATA("select max(((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False' ))) overalscore_base from score s1 left join users U on S1.userid = U.id", ""));
                         }
                         else
                         {
@@ -3337,56 +3380,65 @@ namespace WpfApp6.Model
                             
                             BONUS_POINTS = Double.Parse(tmpbonus),
 
-                        RND1RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101", ""),
-                            RND1RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101", ""),
+                        RND1RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101 and refly='False'", ""),
+                            RND1RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101 and refly='False'", ""),
 
-                            RND2RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=102", ""),
-                            RND2RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=102", ""),
-
-
-                            RND3RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=103", ""),
-                            RND3RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=103", ""),
-
-                            RND4RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=104", ""),
-                            RND4RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=104", ""),
-
-                            RND5RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=105", ""),
-                            RND5RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=105", ""),
+                            RND2RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=102 and refly='False'", ""),
+                            RND2RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=102 and refly='False'", ""),
 
 
+                            RND3RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=103 and refly='False'", ""),
+                            RND3RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=103 and refly='False'", ""),
+
+                            RND4RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=104 and refly='False'", ""),
+                            RND4RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=104 and refly='False'", ""),
+
+                            RND5RES_SCORE_F = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=105 and refly='False'", ""),
+                            RND5RES_DATA_F = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=105 and refly='False'", ""),
 
 
 
-                            RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""),
-                            RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1", ""),
+                            RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
+                            RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
+                            RND1RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
 
-                            RND2RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2", ""),
-                            RND2RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2", ""),
+                            RND2RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2 and refly='False'", ""),
+                            RND2RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2 and refly='False'", ""),
+                            RND2RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=2 and refly='False'", ""),
 
 
-                            RND3RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3", ""),
-                            RND3RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3", ""),
+                            RND3RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3 and refly='False'", ""),
+                            RND3RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3 and refly='False'", ""),
+                            RND3RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=3 and refly='False'", ""),
 
-                            RND4RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4", ""),
-                            RND4RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4", ""),
+                            RND4RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4 and refly='False'", ""),
+                            RND4RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4 and refly='False'", ""),
+                            RND4RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=4 and refly='False'", ""),
 
-                            RND5RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5", ""),
-                            RND5RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5", ""),
+                            RND5RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5 and refly='False'", ""),
+                            RND5RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5 and refly='False'", ""),
+                            RND5RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=5 and refly='False'", ""),
 
-                            RND6RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6", ""),
-                            RND6RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6", ""),
+                            RND6RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6 and refly='False'", ""),
+                            RND6RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6 and refly='False'", ""),
+                            RND6RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=6 and refly='False'", ""),
 
-                            RND7RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7", ""),
-                            RND7RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7", ""),
+                            RND7RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7 and refly='False'", ""),
+                            RND7RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7 and refly='False'", ""),
+                            RND7RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=7 and refly='False'", ""),
 
-                            RND8RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8", ""),
-                            RND8RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8", ""),
+                            RND8RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8 and refly='False'", ""),
+                            RND8RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8 and refly='False'", ""),
+                            RND8RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=8 and refly='False'", ""),
 
-                            RND9RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9", ""),
-                            RND9RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9", ""),
+                            RND9RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9 and refly='False'", ""),
+                            RND9RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9 and refly='False'", ""),
+                            RND9RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=9 and refly='False'", ""),
 
-                            RND10RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10", ""),
-                            RND10RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10", ""),
+                            RND10RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
+                            RND10RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
+                            RND10RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
+
 
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png"
 
@@ -3426,23 +3478,23 @@ namespace WpfApp6.Model
                             GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
                             PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare, 2).ToString("0.00"),
-                            RND1RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=1 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
-                            RND1RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=1 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND1RES_SCORE = SQL_READSOUTEZDATA("select ifnull(sum(prep),0) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=1 and s.skrtacka = 'False' and s.refly='False' and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND1RES_DATA = SQL_READSOUTEZDATA("select ifnull(strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height),0)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=1  and s.skrtacka = 'False' and s.refly='False' and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
 
-                            RND2RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=2 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
-                            RND2RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=2 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND2RES_SCORE = SQL_READSOUTEZDATA("select ifnull(sum(prep),0) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=2 and s.skrtacka = 'False' and s.refly='False'  and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND2RES_DATA = SQL_READSOUTEZDATA("select ifnull(strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height),0)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=2 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
 
-                            RND3RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=3 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
-                            RND3RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=3 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND3RES_SCORE = SQL_READSOUTEZDATA("select ifnull(sum(prep),0) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=3 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND3RES_DATA = SQL_READSOUTEZDATA("select ifnull(strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height),0)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=3 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
 
-                            RND4RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=4 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
-                            RND4RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=4 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND4RES_SCORE = SQL_READSOUTEZDATA("select ifnull(sum(prep),0) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=4 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND4RES_DATA = SQL_READSOUTEZDATA("select ifnull(strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height),0)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=4 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
 
-                            RND5RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=5 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
-                            RND5RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=5 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND5RES_SCORE = SQL_READSOUTEZDATA("select ifnull(sum(prep),0) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=5 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND5RES_DATA = SQL_READSOUTEZDATA("select ifnull(strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height),0)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=5 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
 
-                            RND6RES_SCORE = SQL_READSOUTEZDATA("select sum(prep) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=6 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
-                            RND6RES_DATA = SQL_READSOUTEZDATA("select strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=6 and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), "")
+                            RND6RES_SCORE = SQL_READSOUTEZDATA("select ifnull(sum(prep),0) from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=6 and s.skrtacka = 'False' and s.refly='False'  and t.id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), ""),
+                            RND6RES_DATA = SQL_READSOUTEZDATA("select ifnull(strftime('%M:%S', ((sum(minutes)*60)+sum(seconds))/86400.0) ||' / '||sum(landing)||' / '||sum(height),0)  from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where  rnd=6 and s.skrtacka = 'False' and s.refly='False'  and t.id= " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")), "")
 
                         };
 
@@ -3688,17 +3740,39 @@ namespace WpfApp6.Model
                             _ISENABLED = false;
                         }
 
+                        string tmp_refly_data = "----";
+
+                        string tmp_refly_data_from =  SQL_READSOUTEZDATA("select ifnull(r.rnd_from || '-'  || r.grp_from || '-' || r.stp_from || ' <> ' || r.rnd_to || '-' || r.grp_to || '-' || r.stp_to,'Refly') rfly from refly R where  r.rnd_from = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("rnd")) + " and r.grp_from = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("grp")) + " and r.stp_from = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")), "");
+                        string tmp_refly_data_to = SQL_READSOUTEZDATA("select ifnull(r.rnd_from || '-'  || r.grp_from || '-' || r.stp_from || ' <> ' || r.rnd_to || '-' || r.grp_to || '-' || r.stp_to,'Refly') rfly from refly R where  r.rnd_to = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("rnd")) + " and r.grp_to = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("grp")) + " and r.stp_to = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")), "");
+
+
+                        if (tmp_refly_data_from == "" & tmp_refly_data_to == "") {tmp_refly_data = "REFLY";}
+                        else
+                        {
+                            if (tmp_refly_data_from != ""){tmp_refly_data = tmp_refly_data_from;}
+                            if (tmp_refly_data_to != "") { tmp_refly_data = tmp_refly_data_to; }
+                        }
+
 
 
                         var player_actual = new MODEL_Player_actual()
                         {
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
                             STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
-                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) 
+                            + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) 
+                            + " [" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine 
+                            + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" 
+                            + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) 
+                            + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) 
+                            + Environment.NewLine  +sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height"))
+                            + Environment.NewLine + "l-pen : "+sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("pen1"))
+                            +Environment.NewLine + "g-pen : " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("pen2")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
                             ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
                             ISENABLED = _ISENABLED,
+                            REFLY_DATA = tmp_refly_data
 
                         };
                         Players_Actual_Flying.Add(player_actual);
@@ -3723,11 +3797,21 @@ namespace WpfApp6.Model
                         {
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
                             STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
-                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine  + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID"))  + "]"+  Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            // PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine  + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID"))  + "]"+  Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname"))
+                            + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname"))
+                            + " [" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine
+                            + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":"
+                            + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds"))
+                            + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing"))
+                            + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height"))
+                            + Environment.NewLine + "l-pen : " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("pen1"))
+                            + Environment.NewLine + "g-pen : " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("pen2")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
                             ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
-                            ISENABLED = _ISENABLED
+                            ISENABLED = _ISENABLED,
+                            REFLY_DATA = "RFLYDATA2"
 
                         };
                         Players_Actual_Final_Flying.Add(player_actual);
@@ -3772,11 +3856,21 @@ namespace WpfApp6.Model
                         {
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")),
                             STARTPOINT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("stp")),
-                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            //PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")) + Environment.NewLine + "[" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing")) + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname"))
+                            + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname"))
+                            + " [" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("ID")) + "]" + Environment.NewLine + Environment.NewLine
+                            + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("minutes")) + ":"
+                            + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("seconds"))
+                            + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("landing"))
+                            + Environment.NewLine + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("height"))
+                            + Environment.NewLine + "l-pen : " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("pen1"))
+                            + Environment.NewLine + "g-pen : " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("pen2")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("raw")),
                             ENTERED = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("entered")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("prep")),
-                            ISENABLED = _ISENABLED
+                            ISENABLED = _ISENABLED,
+                            REFLY_DATA = "RFLYDATA3"
 
                         };
                         Players_Actual_SelectedRound.Add(player_actual);
@@ -5463,33 +5557,210 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
-        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string  rawscore, string prepscore )
+        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore)
         {
             Console.WriteLine("saving score");
-            SQL_SAVESOUTEZDATA("delete from score where rnd="+rnd+" and grp="+grp +" and stp="+stp +";");
-            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered) VALUES("+rnd+ "," + grp + "," + stp  + "," + usrid  + "," + minutes  + "," + seconds + "," + landing  + "," + height +  ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore  + "', 'True');");
+            SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True');");
 
             Decimal _MAXRAW = Decimal.Parse(SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp, ""));
 
+            if (rnd >= 100)
+            {
+                for (int i = 1; i < BIND_SQL_SOUTEZ_STARTPOINTSFINALE + 1; i++)
+                {
+                    Console.WriteLine(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+
+                    decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+                    Decimal _PREPSCORE = 0;
+                    if (_MAXRAW != 0)
+                    {
+                        _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                    }
+                    string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
+                    SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < BIND_SQL_SOUTEZ_STARTPOINTS + 1; i++)
+                {
+                    Console.WriteLine(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+
+                    decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+                    Decimal _PREPSCORE = 0;
+                    if (_MAXRAW != 0)
+                    {
+                        _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                    }
+                    string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
+                    SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
+                }
+            }
+
+
+
+            FUNCTION_CHECK_REFLY(rnd, grp);          
+
+
+
+        }
+
+
+        public int FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(int rnd, string type_skupiny, bool pridat_1)
+        {
+
+            int vysledek = 0;
+                
+            if (type_skupiny == "") {
+                vysledek = int.Parse(SQL_READSOUTEZDATA("select count(id) from Groups where masterround =" + rnd, ""));
+            }
+            else {
+                vysledek = int.Parse(SQL_READSOUTEZDATA("select count(id) from Groups where masterround =" + rnd + "  and type='" + type_skupiny + "'", ""));
+            }
+
+
+            if (pridat_1 is true) { vysledek = vysledek + 1; }
+            return vysledek;
+        }
+
+
+        public void FUNCTION_CHECK_REFLY(int rnd, int grp)
+        {
             for (int i = 1; i < BIND_SQL_SOUTEZ_STARTPOINTS + 1; i++)
             {
-                Console.WriteLine(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
+                FUNCTION_zjisti_jestli_a_ktery_z_refly_je_pocitany_from(rnd, grp, i);
+                FUNCTION_zjisti_jestli_a_ktery_z_refly_je_pocitany_to(rnd, grp, i);
+            }
+        }
 
-                decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
-                Decimal _PREPSCORE = 0;
-                if (_MAXRAW != 0)
+
+        public void FUNCTION_zjisti_jestli_a_ktery_z_refly_je_pocitany_from(int from_rnd, int from_grp, int from_stp)
+        {
+
+            string tmp_existujerefly = SQL_READSOUTEZDATA("select userid from refly where rnd_from=" + from_rnd + " and grp_from=" + from_grp + " and stp_from=" + from_stp + " ", "");
+
+            Console.WriteLine("ZJISTUJI REFLY PRO FROM:"+from_rnd+"/"+from_grp+"/"+from_stp);
+
+
+
+            if (tmp_existujerefly == "")
+            {
+                Console.WriteLine("refly neexistuje");
+            }
+            else
+            {
+                Console.WriteLine("Refly existuje");
+
+                int to_rnd = int.Parse(SQL_READSOUTEZDATA("select rnd_to from refly where rnd_from=" + from_rnd + " and grp_from=" + from_grp + " and stp_from=" + from_stp + " ", ""));
+                int to_grp = int.Parse(SQL_READSOUTEZDATA("select grp_to from refly where rnd_from=" + from_rnd + " and grp_from=" + from_grp + " and stp_from=" + from_stp + " ", ""));
+                int to_stp = int.Parse(SQL_READSOUTEZDATA("select stp_to from refly where rnd_from=" + from_rnd + " and grp_from=" + from_grp + " and stp_from=" + from_stp + " ", ""));
+
+                double tmp_score1;
+                double tmp_score2;
+
+                tmp_score1 = double.Parse(SQL_READSOUTEZDATA("select prep from score where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp + " ", ""));
+                tmp_score2 = double.Parse(SQL_READSOUTEZDATA("select prep from score where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp + " ", ""));
+
+                int tmp_pocitat_jen_lepsi_vysledek = int.Parse(SQL_READSOUTEZDATA("select whatcount1 from refly where rnd_from=" + from_rnd + " and grp_from=" + from_grp + " and stp_from=" + from_stp + " ", ""));
+
+                if (tmp_pocitat_jen_lepsi_vysledek == 0)
                 {
-                    _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                    Console.WriteLine("Tento výsledek má nastaveno že má počítat lepší výsledek");
+                    Console.WriteLine("Refly score z obou letů pro porovnání jsou:");
+                    Console.WriteLine(tmp_score1);
+                    Console.WriteLine(tmp_score2);
+
+                    if (tmp_score1 > tmp_score2)
+                    {
+                        Console.WriteLine("zapisuji u score1 at se pocita, a score 2 at se nepocita");
+                        SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                        SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                    }
+                    else
+                    {
+                        Console.WriteLine("zapisuji u score1 at se nepocita, a score 2 at se pocita");
+                        SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                        SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                    }
+
+
+
                 }
-                string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
-                SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
+                else
+                {
+                    Console.WriteLine("Neřešit který výsledek je lepší. Počítá se prostě ten druhý");
+                    SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                }
+            }
+
+
+        }
+
+        public void FUNCTION_zjisti_jestli_a_ktery_z_refly_je_pocitany_to(int to_rnd, int to_grp, int to_stp)
+        {
+
+            string tmp_existujerefly = SQL_READSOUTEZDATA("select userid from refly where rnd_to=" + to_rnd + " and grp_to=" + to_grp + " and stp_to=" + to_stp + " ", "");
+
+            Console.WriteLine("ZJISTUJI REFLY PRO TO:" + to_rnd + "/" + to_grp + "/" + to_stp);
+
+
+
+            if (tmp_existujerefly == "")
+            {
+                Console.WriteLine("refly neexistuje");
+            }
+            else
+            {
+                Console.WriteLine("Refly existuje");
+
+                int from_rnd = int.Parse(SQL_READSOUTEZDATA("select rnd_from from refly where rnd_to=" + to_rnd + " and grp_to=" + to_grp + " and stp_to=" + to_stp + " ", ""));
+                int from_grp = int.Parse(SQL_READSOUTEZDATA("select grp_from from refly where rnd_to=" + to_rnd + " and grp_to=" + to_grp + " and stp_to=" + to_stp + " ", ""));
+                int from_stp = int.Parse(SQL_READSOUTEZDATA("select stp_from from refly where rnd_to=" + to_rnd + " and grp_to=" + to_grp + " and stp_to=" + to_stp + " ", ""));
+
+                double tmp_score1;
+                double tmp_score2;
+
+                tmp_score1 = double.Parse(SQL_READSOUTEZDATA("select prep from score where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp + " ", ""));
+                tmp_score2 = double.Parse(SQL_READSOUTEZDATA("select prep from score where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp + " ", ""));
+
+                int tmp_pocitat_jen_lepsi_vysledek = int.Parse(SQL_READSOUTEZDATA("select whatcount1 from refly where rnd_to=" + to_rnd + " and grp_to=" + to_grp + " and stp_to=" + to_stp + " ", ""));
+
+                if (tmp_pocitat_jen_lepsi_vysledek == 0)
+                {
+                    Console.WriteLine("Tento výsledek má nastaveno že má počítat lepší výsledek");
+                    Console.WriteLine("Refly score z obou letů pro porovnání jsou:");
+                    Console.WriteLine(tmp_score1);
+                    Console.WriteLine(tmp_score2);
+
+                    if (tmp_score1 > tmp_score2)
+                    {
+                        Console.WriteLine("zapisuji u score1 at se pocita, a score 2 at se nepocita");
+                        SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                        SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                    }
+                    else
+                    {
+                        Console.WriteLine("zapisuji u score1 at se nepocita, a score 2 at se pocita");
+                        SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                        SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                    }
+
+
+
+                }
+                else
+                {
+                    Console.WriteLine("Neřešit který výsledek je lepší. Počítá se prostě ten druhý");
+                    SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                }
             }
 
 
         }
 
 
-        public void FUNCTION_CHECK_ENTERED(int rnd, int grp, bool is_final_rounds)
+        public void FUNCTION_CHECK_ENTERED_FINAL(int rnd, int grp, bool is_final_rounds)
         {
 
             if (is_final_rounds == true) 
@@ -5503,14 +5774,17 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 if (Int32.Parse(tmp_zadano_vkole) == tmp_celkem_vkole) { SQL_SAVESOUTEZDATA("update final_rounds set zadano = '2' where id=" + rnd); }
 
             }
-            else
+            else //toto se už nepouziva, nahrazeno FUNCTION_CHECK_ENTERED_ALL
             {
                 string tmp_celkem_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + " and userid>0) celkem", "");
                 string tmp_zadano_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + rnd + " and grp = " + grp + " and entered = 'True' and userid>0) zadano", "");
 
+
                 if (Int32.Parse(tmp_zadano_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '0' where masterround=" + rnd + " and groupnumber=" + grp); }
-                if (Int32.Parse(tmp_zadano_vgroupe) < Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '1' where masterround=" + rnd + " and groupnumber=" + grp); }
+                if ((Int32.Parse(tmp_zadano_vgroupe) < Int32.Parse(tmp_celkem_vgroupe)) & (Int32.Parse(tmp_zadano_vgroupe) > 0)) { SQL_SAVESOUTEZDATA("update groups set zadano = '1' where masterround=" + rnd + " and groupnumber=" + grp); }
                 if (Int32.Parse(tmp_zadano_vgroupe) == Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + rnd + " and groupnumber=" + grp); }
+                if (Int32.Parse(tmp_celkem_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + rnd + " and groupnumber=" + grp); }
+
 
 
                 string tmp_celkem_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + rnd + ") celkem", "");
@@ -5524,6 +5798,51 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
+
+
+
+        public void FUNCTION_CHECK_ENTERED_ALL()
+        {
+
+
+            for (int r = 1; r < MODEL_CONTEST_ROUNDS.Count+1; r++)
+            {
+
+                for (int g = 1; g < MODEL_CONTEST_GROUPS.Count+1; g++)
+                {
+
+                    string tmp_celkem_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + r + " and grp = " + g + " and userid>0) celkem", "");
+                    string tmp_zadano_vgroupe = SQL_READSOUTEZDATA("select (select count(entered) from score where rnd=" + r + " and grp = " + g + " and entered = 'True' and userid>0) zadano", "");
+
+
+                    if (Int32.Parse(tmp_zadano_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '0' where masterround=" + r + " and groupnumber=" + g); }
+                    if ((Int32.Parse(tmp_zadano_vgroupe) < Int32.Parse(tmp_celkem_vgroupe)) & (Int32.Parse(tmp_zadano_vgroupe) > 0)) { SQL_SAVESOUTEZDATA("update groups set zadano = '1' where masterround=" + r + " and groupnumber=" + g); }
+                    if (Int32.Parse(tmp_zadano_vgroupe) == Int32.Parse(tmp_celkem_vgroupe)) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + r + " and groupnumber=" + g); }
+                    if (Int32.Parse(tmp_celkem_vgroupe) == 0) { SQL_SAVESOUTEZDATA("update groups set zadano = '2' where masterround=" + r + " and groupnumber=" + g); }
+
+
+                }
+
+                string tmp_celkem_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + r + ") celkem", "");
+                string tmp_zadano_vkole = SQL_READSOUTEZDATA("select (select count(zadano) from groups where masterround=" + r + " and zadano = '2') zadano", "");
+
+                if (Int32.Parse(tmp_zadano_vkole) == 0) { SQL_SAVESOUTEZDATA("update rounds set zadano = '0' where id=" + r); }
+                if ((Int32.Parse(tmp_zadano_vkole) < Int32.Parse(tmp_celkem_vkole)) & (Int32.Parse(tmp_zadano_vkole) > 0)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '1' where id=" + r); }
+                if (Int32.Parse(tmp_zadano_vkole) == Int32.Parse(tmp_celkem_vkole)) { SQL_SAVESOUTEZDATA("update rounds set zadano = '2' where id=" + r); }
+                if (Int32.Parse(tmp_celkem_vkole) == 0) { SQL_SAVESOUTEZDATA("update rounds set zadano = '2' where id=" + r); }
+
+
+
+            }
+
+
+
+
+
+
+
+
+        }
 
 
 
@@ -5590,6 +5909,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
         public ObservableCollection<MODEL_Contest_Groups> MODEL_CONTEST_GROUPS { get; set; } = new ObservableCollection<MODEL_Contest_Groups>();
+        public ObservableCollection<MODEL_Contest_Groups> MODEL_CONTEST_AVAIABLE_REFLYGROUP { get; set; } = new ObservableCollection<MODEL_Contest_Groups>();
 
         public ObservableCollection<MODEL_Player_flags> MODEL_Contest_FLAGS { get; set; } = new ObservableCollection<MODEL_Player_flags>();
 
@@ -5672,6 +5992,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
+        public string _BIND_DATA_OPAKOVACIHO_LETU = "xxx";
+        public string  BIND_DATA_OPAKOVACIHO_LETU
+        {
+            get { return _BIND_DATA_OPAKOVACIHO_LETU; }
+            set { _BIND_DATA_OPAKOVACIHO_LETU = value; OnPropertyChanged("BIND_DATA_OPAKOVACIHO_LETU"); }
+        }
+
+
+        private bool _BIND_SKRTEJ_ENABLED = false;
+        public bool BIND_SKRTEJ_ENABLED
+        {
+            get { return _BIND_SKRTEJ_ENABLED; }
+            set { _BIND_SKRTEJ_ENABLED = value; OnPropertyChanged("BIND_SKRTEJ_ENABLED"); }
+        }
+
+        public bool _ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = false;
+
+        
+
         public void FUNCTION_LOAD_RULES()
         {
             MODEL_CONTEST_RULES.Clear();
@@ -5735,6 +6074,36 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             SQL_READSOUTEZDATA("select rnd,grp,g.* from matrix M left join groups G on M.rnd = G.masterround where M.rnd=" + kolo + " group by groupnumber;", "get_groups");
         }
 
+        public void FUNCTION_SHOW_AVAIABLE_GROUPS(int kolo)
+        {
+            MODEL_CONTEST_AVAIABLE_REFLYGROUP.Clear();
+            int tmp_pocetstartovistvkole = int.Parse(SQL_READSOUTEZDATA("select count(masterround) from groups where masterround=" + kolo, ""));
+            for (int i = 1; i <= tmp_pocetstartovistvkole; i++)
+            {
+                var pocetpraznychpozic = "0";
+                if (i > BIND_SELECTED_GROUP)
+                {
+                    pocetpraznychpozic = SQL_READSOUTEZDATA("select ifnull(count(user),0) from matrix where rnd=" + kolo + " and grp = " + i + " and user=0", "");
+
+                }
+
+                var groups = new MODEL_Contest_Groups()
+                {
+                    ID = i,
+                    GROUPNAME = "Volných pozic: "+ pocetpraznychpozic,
+                    GROUPTYPE = pocetpraznychpozic,
+                    GROUPLENGHT = 1,
+                    GROUPZADANO = int.Parse(pocetpraznychpozic)
+                };
+                MODEL_CONTEST_AVAIABLE_REFLYGROUP.Add(groups);
+
+
+            }
+
+
+        }
+
+
 
         public void FUNCTION_SELECTED_ROUND_FLYING_USERS(int rnd, int grp)
         {
@@ -5744,7 +6113,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (grp == 0) { grp = BIND_SELECTED_GROUP; }
             Players_Actual_Flying.Clear();
             users_id_for_sound.Clear();
-            SQL_READSOUTEZDATA("select U.ID,S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_Flying");
+            SQL_READSOUTEZDATA("select U.ID,S.rnd, S.grp, S.stp,U.Firstname,U.Lastname, ifnull(s.minutes,0) minutes, ifnull(s.seconds,0) seconds, ifnull(s.landing,0) landing, ifnull(s.height,0) height, ifnull(s.pen1id,0) pen1, ifnull(s.pen2id,0) pen2, ifnull(s.raw,0) raw, ifnull(s.prep,0) prep, ifnull(s.entered,'False') entered  from score S left join users U on S.userid = U.id where  s.rnd = " + rnd + " and s.grp = " + grp + " order by s.stp asc; ", "get_Players_Actual_Flying");
 
 
             users_id_for_sound.Clear();
@@ -5795,7 +6164,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (what == "users")
             {
                 Players_Baseresults.Clear();
-                SQL_READSOUTEZDATA("select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 ) + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd < 100 )) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd < 100 ) overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd < 100 ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc", "get_baseresults_users");
+                SQL_READSOUTEZDATA("select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd <= "+ BIND_ROUNDS_IN_RESULTS + " and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " )) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " and s2.skrtacka='False' and s2.refly='False') overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc,overalrawscore desc", "get_baseresults_users");
                 if (BIND_SQL_SOUTEZ_ROUNDSFINALE_value == 0) { BIND_MENU_ENABLED_finale = false; BIND_MOVE_TO_FINAL_ROUNDS = false; } else { BIND_MOVE_TO_FINAL_ROUNDS = true; }
             }
 
@@ -5803,21 +6172,21 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 
                 Players_Baseresults_Complete.Clear();
-                SQL_READSOUTEZDATA("select ifnull(((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100) + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100)),0) overalscore_fin, ifnull((select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 ),0) overalrawscore_fin , ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 ) +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base,  (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100  ) overalrawscore_base , (select sum(pen2value) from score s2 where s2.userid = s1.userid  ) gpen,  s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore_fin desc, overalscore_base desc", "get_baseresults_users_complete");
+                SQL_READSOUTEZDATA("select ifnull(((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100)),0) overalscore_fin, ifnull((select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False'),0) overalrawscore_fin , ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False' ) +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base,  (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100 and skrtacka='False' and refly='False' ) overalrawscore_base , (select sum(pen2value) from score s2 where s2.userid = s1.userid  ) gpen,  s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore_fin desc, overalrawscore_fin desc, overalscore_base desc, overalrawscore_base desc", "get_baseresults_users_complete");
             }
 
 
             if (what == "teams")
             {
                 Players_Baseresults.Clear();
-                SQL_READSOUTEZDATA("select sum(prep)-sum(pen2value) overalscore,sum(raw) overalrawscore,sum(pen2value) gpen,ifnull(t.id,0) teamid, t.name || ' (' || count( distinct s.userid) ||'x)' team from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where t.id > 0 and S.rnd < 100 group by team", "get_baseresults_teams");
+                SQL_READSOUTEZDATA("select sum(prep)-sum(pen2value) overalscore,sum(raw) overalrawscore,sum(pen2value) gpen,ifnull(t.id,0) teamid, t.name || ' (' || count( distinct s.userid) ||'x)' team from score S left JOIN users U ON U.id = S.userid left join teams T on T.id = U.team where t.id > 0 and S.rnd < 100 and userid>0 and s.skrtacka = 'False' and s.refly='False'  group by team", "get_baseresults_teams");
                 BIND_MOVE_TO_FINAL_ROUNDS = false;
             }
 
             if (what == "final_users")
             {
                 Players_Finalresults.Clear();
-                SQL_READSOUTEZDATA(" select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100) + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd>100)) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100) overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100 ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id group by userid order by overalscore desc limit "+ BIND_SQL_SOUTEZ_STARTPOINTSFINALE, "get_finalresults_users");
+                SQL_READSOUTEZDATA(" select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd>100)) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') overalrawscore , ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False') +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base,  (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100 and skrtacka='False' and refly='False' ) overalrawscore_base, (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100 ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc, overalrawscore desc, overalscore_base desc, overalrawscore_base desc  limit " + BIND_SQL_SOUTEZ_STARTPOINTSFINALE, "get_finalresults_users");
             }
 
 
@@ -6269,6 +6638,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 {
                     SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('Audio_preptime_final_man_next','False');");
                 }
+
+                if (SQL_VERIFY_IF_EXIST("contest", "item", "islocked") == false)
+                {
+                    SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('islocked','False');");
+                }
+
 
                 if (SQL_VERIFY_IF_EXIST("contest", "item", "prep_audio_final_man_auto") == false)
                 {

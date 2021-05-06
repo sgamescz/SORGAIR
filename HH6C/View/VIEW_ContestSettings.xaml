@@ -446,27 +446,6 @@
                         Grid.Column="3"
                         Content="Počet finalistů" />
 
-                    <mah:NumericUpDown
-                        x:Name="NUM_FINDELETEDROUNDS"
-                        Grid.Row="3"
-                        Grid.Column="2"
-                        Width="70"
-                        Height="26"
-                        Margin="00,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        ButtonsAlignment="Opposite"
-                        IsEnabled="{Binding CONTEST_LOCK}"
-                        Maximum="99"
-                        Minimum="0"
-                        SwitchUpDownButtons="True"
-                        TextAlignment="Center"
-                        Value="{Binding BIND_SQL_SOUTEZ_DELETESFINALE}" />
-                    <Label
-                        Grid.Row="3"
-                        Grid.Column="3"
-                        Content="Počet škrtaných výsledků ve finále" />
-
                 </Grid>
 
             </mah:MetroHeader>
@@ -605,6 +584,28 @@
                         Height="20"
                         Margin="0,2,10,0"
                         Kind="SolidLock" />
+                </mah:Tile>
+
+
+
+                <mah:Tile
+                    Name="pouzitjakosablonu"
+                    Title="Použít jako šablonu"
+                    Width="158"
+                    Height="Auto"
+                    Margin="0,14,152,10"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Right"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Click="pouzitjakosablonu_Click"
+                    Style="{StaticResource extraSmallTileStyle}">
+
+
+                    <iconPacks:PackIconBoxIcons
+                        Width="20"
+                        Height="20"
+                        Margin="0,2,10,0"
+                        Kind="SolidStarHalf" />
                 </mah:Tile>
 
             </Grid>

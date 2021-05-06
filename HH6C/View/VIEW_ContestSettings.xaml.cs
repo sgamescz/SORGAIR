@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-
+using System.IO;
 
 
 namespace WpfApp6.View
@@ -110,7 +110,6 @@ namespace WpfApp6.View
                 if (tagy == "deletes") { VM.BIND_SQL_SOUTEZ_DELETES = xxx; }
                 if (tagy == "rounds") { VM.BIND_SQL_SOUTEZ_ROUNDS = xxx; }
                 if (tagy == "startpointsfinale") { VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE = xxx; }
-                if (tagy == "deletesfinale") { VM.BIND_SQL_SOUTEZ_DELETESFINALE = xxx; }
                 if (tagy == "roundsfinale") { VM.BIND_SQL_SOUTEZ_ROUNDSFINALE = xxx; }
 
             }
@@ -167,6 +166,16 @@ namespace WpfApp6.View
             {
                 VM.CONTEST_LOCK = true;
             }
+        }
+
+        private void pouzitjakosablonu_Click(object sender, RoutedEventArgs e)
+        {
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+            Console.WriteLine(VM.BIND_SQL_SOUTEZ_DBFILE);
+                File.Copy(directory + "/Data/" + VM.BIND_SQL_SOUTEZ_DBFILE + ".db", directory + "/Data/config/empty_" + VM.BIND_NEWCONTEST_CATEGORY + ".db",true);
+
         }
     }
 

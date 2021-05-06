@@ -117,139 +117,424 @@
 
 
 
-
-
-
             <DataTemplate x:Key="DateTemplateR1">
+
+
                 <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND1RES_SCORE}" />
+                        Text="{Binding RND1RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND1RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND1RES_DATA}" />
+                        Text="{Binding RND1RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND1RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="DateTemplateR2">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND2RES_SCORE}" />
+                        Text="{Binding RND2RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND2RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND2RES_DATA}" />
+                        Text="{Binding RND2RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND2RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
+
 
             <DataTemplate x:Key="DateTemplateR3">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND3RES_SCORE}" />
+                        Text="{Binding RND3RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND3RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND3RES_DATA}" />
+                        Text="{Binding RND3RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND3RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
 
-
             <DataTemplate x:Key="DateTemplateR4">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND4RES_SCORE}" />
+                        Text="{Binding RND4RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND4RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND4RES_DATA}" />
+                        Text="{Binding RND4RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND4RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
 
 
             <DataTemplate x:Key="DateTemplateR5">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND5RES_SCORE}" />
+                        Text="{Binding RND5RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND5RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND5RES_DATA}" />
+                        Text="{Binding RND5RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND5RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
+
 
 
             <DataTemplate x:Key="DateTemplateR6">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND6RES_SCORE}" />
+                        Text="{Binding RND6RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND6RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND6RES_DATA}" />
+                        Text="{Binding RND6RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND6RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
+
+
 
             <DataTemplate x:Key="DateTemplateR7">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND7RES_SCORE}" />
+                        Text="{Binding RND7RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND7RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND7RES_DATA}" />
+                        Text="{Binding RND7RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND7RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
+
+
 
             <DataTemplate x:Key="DateTemplateR8">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND8RES_SCORE}" />
+                        Text="{Binding RND8RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND8RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND8RES_DATA}" />
+                        Text="{Binding RND8RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND8RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
+
+
 
             <DataTemplate x:Key="DateTemplateR9">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND9RES_SCORE}" />
+                        Text="{Binding RND9RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND9RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND9RES_DATA}" />
+                        Text="{Binding RND9RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND9RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
 
+
             <DataTemplate x:Key="DateTemplateR10">
-                <StackPanel>
+
+
+                <StackPanel Height="40">
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
-                        Text="{Binding RND10RES_SCORE}" />
+                        Text="{Binding RND10RES_SCORE}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND10RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                        Text="{Binding RND10RES_DATA}" />
+                        Text="{Binding RND10RES_DATA}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RND10RES_SKRTACKA}" Value="True">
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
                 </StackPanel>
             </DataTemplate>
 
@@ -326,6 +611,41 @@
                         VerticalAlignment="Center"
                         Kind="Jersey" />
                 </mah:Tile>
+
+                <Controls:Tile
+                    x:Name="print_completeresultspdf_btn"
+                    Title=""
+                    Width="85"
+                    Height="Auto"
+                    Margin="0,10,10,10"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Center"
+                    Click="print_completeresultspdf_btn_Click">
+                    <iconPacks:PackIconBoxIcons
+                        Width="20"
+                        Height="20"
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Center"
+                        Kind="SolidFilePdf" />
+                </Controls:Tile>
+                <Controls:Tile
+                    x:Name="print_completeresults_btn"
+                    Title=""
+                    Width="85"
+                    Height="Auto"
+                    Margin="0,10,100,10"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Center"
+                    Click="print_completeresults_btn_Click">
+                    <iconPacks:PackIconBoxIcons
+                        Width="20"
+                        Height="20"
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Center"
+                        Kind="LogosInternetExplorer" />
+                </Controls:Tile>
+
+
             </Grid>
             <WrapPanel
                 Name="table_filter_final"
@@ -335,7 +655,7 @@
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Collapsed">
+                Visibility="Visible">
 
                 <mah:ToggleSwitch
                     Width="110"
@@ -378,45 +698,52 @@
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Collapsed">
+                Visibility="Visible">
 
                 <mah:ToggleSwitch
+                    Name="p_stat"
                     Width="110"
                     Content="Stát"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_id"
                     Width="100"
                     Content="ID"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_gpen"
                     Width="100"
                     Content="G.PEN"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_fscore"
                     Width="115"
                     Content="F.Score"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_fztrata"
                     Width="115"
                     Content="F.Ztráta"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_bonus"
                     Width="100"
                     Content="Bonus"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_1000"
                     Width="100"
                     Content="1000"
                     FontSize="12"
@@ -424,12 +751,14 @@
                     Toggled="ToggleSwitch_Toggled" />
 
                 <mah:ToggleSwitch
+                    Name="p_zscore"
                     Width="110"
                     Content="Z.Score"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="p_zztrata"
                     Width="110"
                     Content="Z.Ztráta"
                     FontSize="12"
@@ -446,7 +775,7 @@
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Finalresults}"
-                Visibility="Collapsed">
+                Visibility="Visible">
 
                 <DataGrid.Columns>
 
@@ -540,7 +869,7 @@
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Baseresults_Complete}"
-                Visibility="Collapsed">
+                Visibility="Visible">
 
                 <DataGrid.Columns>
 
