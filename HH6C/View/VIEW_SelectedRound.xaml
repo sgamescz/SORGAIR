@@ -548,6 +548,7 @@
                                         HorizontalContentAlignment="Left"
                                         ContentDirection="RightToLeft"
                                         FontSize="12"
+                                        IsOn="True"
                                         OffContent="Refly není kvůli zvolenému soutěžícímu (bude počítán lepší vysledek)"
                                         OnContent="Refly je kvůli zvolenému soutěžícímu (bude počítán vysledek z refly)" />
                                     <ItemsControl
@@ -621,16 +622,17 @@
                                 <Grid Margin="0,0,0,-1">
                                     <UniformGrid Columns="2" Rows="1">
                                         <Button
+                                            Name="create_refly_group"
                                             Height="55"
                                             Margin="5,10"
-                                            Click="Button_Click_3"
+                                            Click="create_refly_group_Click"
                                             Content="Vytvořit refly skupinu a přidat soutěžícího"
                                             Style="{DynamicResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
                                         <Button
+                                            Name="create_refly_and_add_random"
                                             Height="55"
                                             Margin="5,10"
-                                            IsEnabled="False"
-                                            Click="Button_Click_3"
+                                            Click="create_refly_and_add_random_Click"
                                             Content="Vytvořit refly skupinu a dolosovat soutěžící"
                                             Style="{DynamicResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
                                     </UniformGrid>

@@ -762,11 +762,11 @@ namespace WpfApp6.View
 
         }
 
-        private async void Button_Click_3(object sender, RoutedEventArgs e)
+
+        private int FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR()
         {
 
-            
-            VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "refly", true) + "','refly',600,0, " + VM.BIND_SELECTED_ROUND + " ," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND,"", true) + ");");
+            VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "refly", true) + "','refly',600,0, " + VM.BIND_SELECTED_ROUND + " ," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", true) + ");");
             for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
             {
                 VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + VM.BIND_SELECTED_ROUND + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + "," + s + ",0)");
@@ -778,23 +778,39 @@ namespace WpfApp6.View
             int tmp_refly_group_number = VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false);
 
 
-            int tmp_first_empty_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where user=0 and rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + tmp_refly_group_number + " limit 1", ""));
+            FUNCTION_ADD_USER_TO_REFLY(tmp_refly_group_number, VM.Player_Selected[0].ID, refly_what_count.IsOn);
 
-            if (refly_what_count.IsOn == true)
+
+            return tmp_refly_group_number;
+        }
+     
+        private void FUNCTION_ADD_USER_TO_REFLY(int refly_group, int userid, bool je_jen_dolosovany)
+        {
+
+            int tmp_first_empty_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where user=0 and rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + refly_group + " limit 1", ""));
+
+
+            if (je_jen_dolosovany== true)
             {
-                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + tmp_refly_group_number + "," + tmp_first_empty_stp + "," + VM.Player_Selected[0].ID + ",1,2);");
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + refly_group + "," + tmp_first_empty_stp + "," + userid + ",1,2);");
             }
             else
             {
-                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + tmp_refly_group_number + "," + tmp_first_empty_stp + "," + VM.Player_Selected[0].ID + ",0,0);");
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + VM.BIND_SELECTED_ROUND + "," + refly_group + "," + tmp_first_empty_stp + "," + userid + ",0,0);");
             }
 
-            VM.SQL_SAVESOUTEZDATA("update score set userid=" + VM.Player_Selected[0].ID + ", entered='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + tmp_refly_group_number + " and stp=" + tmp_first_empty_stp + "");
-            VM.SQL_SAVESOUTEZDATA("update matrix set user=" + VM.Player_Selected[0].ID + " where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + tmp_refly_group_number + " and stp=" + tmp_first_empty_stp + "");
+            VM.SQL_SAVESOUTEZDATA("update score set userid=" + userid + ", entered='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + refly_group + " and stp=" + tmp_first_empty_stp + "");
+            VM.SQL_SAVESOUTEZDATA("update matrix set user=" + userid + " where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + refly_group + " and stp=" + tmp_first_empty_stp + "");
+
+        }
+
+        private async void create_refly_group_Click(object sender, RoutedEventArgs e)
+        {
+
+            FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR();
 
             var currentWindow = this.TryFindParent<MetroWindow>();
             MessageDialogResult result = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
-
 
             VM.FUNCTION_CHECK_ENTERED_ALL();
             VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
@@ -819,8 +835,79 @@ namespace WpfApp6.View
             VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
 
 
+        }
+
+        private async void create_refly_and_add_random_Click(object sender, RoutedEventArgs e)
+        {
+
+            int _novareflyskupina = FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR();
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult uvodnimsgbox = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
 
 
+            var mySettings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Přidat vylosovaného",
+                NegativeButtonText = "Vylosovat jiného",
+                FirstAuxiliaryButtonText = "Konec", 
+                ColorScheme = MetroDialogColorScheme.Theme
+            };
+
+znovalosovat:
+
+            int _tmp_vylosovany_soutezici_id = int.Parse(VM.SQL_READSOUTEZDATA("select s.userid from score S where s.rnd=1 and s.userid not in (select userid from refly where rnd_from = 1)  and s.userid>0 order by random() limit 1", ""));
+            string _tmp_vylosovany_soutezici_jmeno = VM.SQL_READSOUTEZDATA("select lastname || ' ' || firstname from users where id = "+_tmp_vylosovany_soutezici_id, "");
+
+            int _pocetvolnychstartovist = int.Parse(VM.SQL_READSOUTEZDATA("select count(userid) from refly where rnd_to = " + VM.BIND_SELECTED_ROUND + " and grp_to=" + _novareflyskupina, ""))+1;
+
+
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Přidání dalšího soutěžícího do refly", "Pro refly byl na pozici " + _pocetvolnychstartovist + "/" + VM.BIND_SQL_SOUTEZ_STARTPOINTS + " vylosován : " + _tmp_vylosovany_soutezici_jmeno +". Chcete jej přidat ?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,mySettings);
+            if (result == MessageDialogResult.Negative) { goto znovalosovat; }
+            if (result == MessageDialogResult.Affirmative)
+            {
+
+
+
+                int tmp_first_empty_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where user=0 and rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + _novareflyskupina + " limit 1", ""));
+
+                int tmp_grp = int.Parse(VM.SQL_READSOUTEZDATA("select grp from matrix where rnd = " + VM.BIND_SELECTED_ROUND + " and user = " + _tmp_vylosovany_soutezici_id + " order by grp asc limit 1", ""));
+                int tmp_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where rnd = " + VM.BIND_SELECTED_ROUND + " and user = "+ _tmp_vylosovany_soutezici_id + " order by grp asc limit 1", ""));
+
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + tmp_grp + "," + tmp_stp+ "," + VM.BIND_SELECTED_ROUND + "," + _novareflyskupina + "," + tmp_first_empty_stp + "," + _tmp_vylosovany_soutezici_id + ",1,2);");
+                VM.SQL_SAVESOUTEZDATA("update score set userid=" + _tmp_vylosovany_soutezici_id + ", entered='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + _novareflyskupina + " and stp=" + tmp_first_empty_stp + "");
+                VM.SQL_SAVESOUTEZDATA("update matrix set user=" + _tmp_vylosovany_soutezici_id + " where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + _novareflyskupina + " and stp=" + tmp_first_empty_stp + "");
+                _pocetvolnychstartovist = int.Parse(VM.SQL_READSOUTEZDATA("select count(userid) from refly where rnd_to = " + VM.BIND_SELECTED_ROUND + " and grp_to=" + _novareflyskupina, ""));
+                MessageDialogResult resultxx = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
+                MessageDialogResult result2 = await currentWindow.ShowMessageAsync("Přidání dalšího soutěžícího do refly", "Obsazenost refly je : "+ _pocetvolnychstartovist + "/" + VM.BIND_SQL_SOUTEZ_STARTPOINTS + " Chcete přidat dalšího?", MessageDialogStyle.AffirmativeAndNegative);
+                if (result2 == MessageDialogResult.Affirmative) { goto znovalosovat; }
+            }
+
+            if (result == MessageDialogResult.FirstAuxiliary) {
+
+                VM.FUNCTION_CHECK_ENTERED_ALL();
+                VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_ROUND);
+
+
+                VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                {
+                    VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                }
+                VM.MODEL_CONTEST_GROUPS[VM.BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+
+
+                for (int i = 0; i < VM.MODEL_CONTEST_ROUNDS.Count; i++)
+                {
+                    VM.MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
+                }
+                VM.MODEL_CONTEST_ROUNDS[VM.BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
+                refly.IsOpen = false;
+
+                VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
+
+            }
         }
     }
 }

@@ -14,6 +14,9 @@ using System.Globalization;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using System.Net.Cache;
+using System.Globalization;
+using System.Net;
 
 
 
@@ -2261,6 +2264,7 @@ namespace WpfApp6.Model
             set {  _BIND_NEWCONTEST_CATEGORY = value; OnPropertyChanged("BIND_NEWCONTEST_CATEGORY"); }
         }
 
+
         private string _BIND_NEWCONTEST_NAME = "Nová soutěž";
         public string BIND_NEWCONTEST_NAME
         {
@@ -2281,6 +2285,39 @@ namespace WpfApp6.Model
         {
             get { return _BIND_NEWCONTEST_DATE; }
             set { _BIND_NEWCONTEST_DATE = value; OnPropertyChanged("BIND_NEWCONTEST_DATE"); }
+        }
+
+
+        private string _BIND_NEWCONTEST_CATEGORY_ONLINE = "F5J";
+        public string BIND_NEWCONTEST_CATEGORY_ONLINE
+        {
+            get { return _BIND_NEWCONTEST_CATEGORY_ONLINE; }
+            set { _BIND_NEWCONTEST_CATEGORY_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_CATEGORY_ONLINE"); }
+        }
+
+
+
+
+        private string _BIND_NEWCONTEST_NAME_ONLINE = "Nová soutěž";
+        public string BIND_NEWCONTEST_NAME_ONLINE
+        {
+            get { return _BIND_NEWCONTEST_NAME_ONLINE; }
+            set { _BIND_NEWCONTEST_NAME_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_NAME_ONLINE"); }
+        }
+
+        private string _BIND_NEWCONTEST_LOCATION_ONLINE = "Kde soutěž bude";
+        public string BIND_NEWCONTEST_LOCATION_ONLINE
+        {
+            get { return _BIND_NEWCONTEST_LOCATION_ONLINE; }
+            set { _BIND_NEWCONTEST_LOCATION_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_LOCATION_ONLINE"); }
+        }
+
+
+        private string _BIND_NEWCONTEST_DATE_ONLINE = DateTime.Now.ToString("dd.MM.yyyy"); // case sensitive;
+        public string BIND_NEWCONTEST_DATE_ONLINE
+        {
+            get { return _BIND_NEWCONTEST_DATE_ONLINE; }
+            set { _BIND_NEWCONTEST_DATE_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_DATE_ONLINE"); }
         }
 
 
@@ -5275,7 +5312,62 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
+        public void FUNCTION_LOAD_CONTESTS_ONLINE(string category)
+        {
 
+
+            MODEL_CONTESTS_ONLINE.Clear();
+            Console.WriteLine("Searching online contests for category" + category);
+
+            string[] mArrayOfcontests = new string[300];
+
+
+            string remoteUrl = "https://stoupak.cz/sorgair/2021/api_listofcontests.php?cat="+category;
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+
+        String[] spearator = {"<br>"};
+        String[] strlist = result.Split(spearator,100,StringSplitOptions.None);
+            foreach (String soutez in strlist)
+            {
+                Console.WriteLine(soutez);
+
+                String[] spearator_sub = { "|" };
+
+                if (soutez.Length > 5)
+                {
+                    var contests = new MODEL_Contests_files()
+                    {
+
+                        FILENAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[3],
+                        CATEGORY = BIND_NEWCONTEST_CATEGORY,
+                        NAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[0],
+                        LOCATION = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[2],
+                        DATE = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[1]
+                    };
+                    MODEL_CONTESTS_ONLINE.Add(contests);
+
+                }
+
+
+
+
+            }
+
+
+
+
+            OnPropertyChanged("MODEL_CONTESTS_ONLINE");
+            //filewithmatrix.ItemsSource = Listofmatrixes;
+
+        }
 
         public void FUNCTION_team_rename(string name, int id_team)
         {
@@ -5900,6 +5992,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public ObservableCollection<MODEL_CATEGORY_PENALISATIONS> MODEL_CATEGORY_BONUSPOINTS { get; set; } = new ObservableCollection<MODEL_CATEGORY_PENALISATIONS>();
 
         public ObservableCollection<MODEL_Contests_files> MODEL_CONTESTS_FILES { get; set; } = new ObservableCollection<MODEL_Contests_files>();
+        public ObservableCollection<MODEL_Contests_files> MODEL_CONTESTS_ONLINE { get; set; } = new ObservableCollection<MODEL_Contests_files>();
 
         public ObservableCollection<MODEL_Contest_Rounds> MODEL_CONTEST_ROUNDS { get; set; } = new ObservableCollection<MODEL_Contest_Rounds>();
         public ObservableCollection<MODEL_Contest_Rounds> MODEL_CONTEST_FINAL_ROUNDS { get; set; } = new ObservableCollection<MODEL_Contest_Rounds>();
@@ -6501,10 +6594,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             int _tmp_newgroup = BIND_SELECTED_GROUP + posun;
             int _tmp_newround = BIND_SELECTED_ROUND;
 
-            if (_tmp_newgroup > BIND_SQL_SOUTEZ_GROUPS) { _tmp_newgroup = 1; _tmp_newround += 1; }
+            if (_tmp_newgroup > FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(BIND_SELECTED_ROUND,"",false) ) { _tmp_newgroup = 1; _tmp_newround += 1; }
 
 
-            if (_tmp_newgroup <= 0) { _tmp_newgroup = BIND_SQL_SOUTEZ_GROUPS; _tmp_newround -= 1; }
+            if (_tmp_newgroup <= 0) {
+                _tmp_newround -= 1; 
+                _tmp_newgroup = FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(_tmp_newround, "", false);  
+            }
 
 
 
@@ -6514,14 +6610,21 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             int _tmp_selected_round_down = _tmp_newround;
 
 
-            if (_tmp_selected_group_up > BIND_SQL_SOUTEZ_GROUPS) { _tmp_selected_group_up = 1; _tmp_selected_round_up += 1; }
-            if (_tmp_selected_group_down < 1) { _tmp_selected_group_down = BIND_SQL_SOUTEZ_GROUPS; _tmp_selected_round_down -= 1; }
+            if (_tmp_selected_group_up > FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(_tmp_selected_round_up, "", false)) { _tmp_selected_group_up = 1; _tmp_selected_round_up += 1; }
+            if (_tmp_selected_group_down < 1) {
+                Console.WriteLine("TADY TADY");
+                Console.WriteLine("_tmp_newgroup:" + _tmp_newgroup);
+                Console.WriteLine("_tmp_newround:" + _tmp_newround);
+                _tmp_selected_round_down -= 1;
+                 _tmp_selected_group_down = FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(_tmp_selected_round_down, "", false); 
+                
+            }
 
 
 
 
 
-            BIND_PREWROUND_TEXT = "Předchozí let : " + _tmp_selected_round_down + " / " + _tmp_selected_group_down;
+            BIND_PREWROUND_TEXT = "yPředchozí let : " + _tmp_selected_round_down + " / " + _tmp_selected_group_down;
 
             if (_tmp_newround < BIND_SQL_SOUTEZ_ROUNDS + 1 && _tmp_newround > 0)
             {
@@ -6540,7 +6643,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                 if (_tmp_selected_round_up == BIND_SQL_SOUTEZ_ROUNDS + 1)
                 {
-                   BIND_PREWROUND_TEXT = "Předchozí let : " + BIND_SQL_SOUTEZ_ROUNDS + " / " + (BIND_SQL_SOUTEZ_GROUPS - 1);
+                   BIND_PREWROUND_TEXT = "xPředchozí let : " + BIND_SQL_SOUTEZ_ROUNDS + " / " + (BIND_SQL_SOUTEZ_GROUPS - 1);
                 }
 
             }

@@ -65,20 +65,21 @@
         <Style x:Key="selectedstyl" TargetType="{x:Type StackPanel}">
             <Style.Triggers>
                 <Trigger Property="Tag" Value="selected">
-                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent2}" />
+
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="selectedstyltext" TargetType="{x:Type Label}">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="8" />
+            <Setter Property="FontSize" Value="9" />
             <Setter Property="Margin" Value="0" />
-            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
 
             <Style.Triggers>
                 <Trigger Property="Tag" Value="selected">
-                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                    <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                     <Setter Property="Content" Value="Vybráno" />
 
                 </Trigger>
@@ -142,9 +143,9 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    Margin="2,0,2,2"
-                                    BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
-                                    BorderThickness="2">
+                                    Margin="0"
+                                    BorderBrush="{DynamicResource MahApps.Brushes.Accent4}"
+                                    BorderThickness="1">
                                     <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
                                         <Label
                                             Height="20"
@@ -159,7 +160,7 @@
                                             Height="35"
                                             Margin="2,0,0,0"
                                             HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Top"
+                                            VerticalAlignment="Top"                                            
                                             HorizontalContentAlignment="Left"
                                             VerticalContentAlignment="Center"
                                             Background="{DynamicResource MahApps.Brushes.AccentBase}"
@@ -186,7 +187,7 @@
                                             HorizontalContentAlignment="Left"
                                             VerticalContentAlignment="Center"
                                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                                            Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                            Background="{DynamicResource MahApps.Brushes.Accent2}"
                                             Click="Button_Click"
                                             HorizontalTitleAlignment="center"
                                             Tag="{Binding ID}"
@@ -289,9 +290,9 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    Margin="2"
-                                    BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
-                                    BorderThickness="2">
+                                    Margin="0"
+                                    BorderBrush="{DynamicResource MahApps.Brushes.Accent4}"
+                                    BorderThickness="1">
                                     <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
                                         <Label
                                             Height="20"
@@ -326,13 +327,13 @@
                                             Title="{Binding GROUPNAME}"
                                             Width="Auto"
                                             Height="95"
-                                            Margin="0,1,0,1"
+                                            Margin="0,2,0,1"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Top"
                                             HorizontalContentAlignment="Left"
                                             VerticalContentAlignment="Center"
                                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
-                                            Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                            Background="{DynamicResource MahApps.Brushes.Accent2}"
                                             Click="Button_Click_1"
                                             HorizontalTitleAlignment="center"
                                             Tag="{Binding ID}"

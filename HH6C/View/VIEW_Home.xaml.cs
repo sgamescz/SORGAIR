@@ -418,5 +418,29 @@ namespace WpfApp6.View
             Window printwindow = new SORGAIR.Print();
             printwindow.Show();
         }
+
+        private void categorylistforinternet_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (categorylistforinternet.SelectedIndex >= 0)
+            {
+                VM.BIND_NEWCONTEST_CATEGORY_ONLINE = VM.MODEL_CONTESTS_CATEGORIES[categorylistforinternet.SelectedIndex].CATEGORY;
+                createonlinecontent.IsEnabled = true;
+            }
+
+            VM.FUNCTION_LOAD_CONTESTS_ONLINE(VM.BIND_NEWCONTEST_CATEGORY_ONLINE);
+        }
+
+        private void listofcontestfrominternet_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listofcontestfrominternet.SelectedIndex >= 0)
+            {
+
+                VM.BIND_NEWCONTEST_DATE_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].DATE;
+                VM.BIND_NEWCONTEST_NAME_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].NAME;
+                VM.BIND_NEWCONTEST_LOCATION_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].LOCATION;
+
+
+            }
+        }
     }
 }
