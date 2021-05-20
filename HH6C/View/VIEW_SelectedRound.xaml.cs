@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
@@ -90,7 +80,7 @@ namespace WpfApp6.View
 
         private void HWbasemodul_Copywe2_Click(object sender, RoutedEventArgs e)
         {
-            VM.BIND_LETOVYCAS_MAX = 600;
+            VM.BIND_LETOVYCAS_MAX = 100;
         }
 
 
@@ -763,19 +753,19 @@ namespace WpfApp6.View
         }
 
 
-        private int FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR()
+        private int FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(int round)
         {
 
-            VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "refly", true) + "','refly',600,0, " + VM.BIND_SELECTED_ROUND + " ," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", true) + ");");
+            VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "refly", true) + "','refly',600,0, " + round + " ," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "", true) + ");");
             for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
             {
-                VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + VM.BIND_SELECTED_ROUND + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + "," + s + ",0)");
-                VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + VM.BIND_SELECTED_ROUND + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + "," + s + ",0,'True')");
+                VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + round + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "", false) + "," + s + ",0)");
+                VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + round + "," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "", false) + "," + s + ",0,'True')");
             }
 
 
 
-            int tmp_refly_group_number = VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false);
+            int tmp_refly_group_number = VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "", false);
 
 
             FUNCTION_ADD_USER_TO_REFLY(tmp_refly_group_number, VM.Player_Selected[0].ID, refly_what_count.IsOn);
@@ -807,7 +797,7 @@ namespace WpfApp6.View
         private async void create_refly_group_Click(object sender, RoutedEventArgs e)
         {
 
-            FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR();
+            FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(VM.BIND_SELECTED_ROUND);
 
             var currentWindow = this.TryFindParent<MetroWindow>();
             MessageDialogResult result = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
@@ -840,7 +830,7 @@ namespace WpfApp6.View
         private async void create_refly_and_add_random_Click(object sender, RoutedEventArgs e)
         {
 
-            int _novareflyskupina = FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR();
+            int _novareflyskupina = FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(VM.BIND_SELECTED_ROUND);
 
             var currentWindow = this.TryFindParent<MetroWindow>();
             MessageDialogResult uvodnimsgbox = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);

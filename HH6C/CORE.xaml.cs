@@ -131,7 +131,8 @@ namespace WpfApp6
 //            this.Show();
   //          System.Threading.Thread.Sleep(500);
             HamburgerMenuControl.SelectedIndex = VM.BINDING_selectedmenuindex;
-
+            this.SizeChanged += Form1_ResizeEnd;
+            
             int RegVal;
             RegVal = 11001;
             using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
@@ -148,12 +149,34 @@ namespace WpfApp6
         }
 
 
+
+
+
+
+        private void Form1_ResizeEnd(Object sender, EventArgs e)
+        {
+
+
+
+            
+           if (VM.Function_global_resizemode != "Fill")
+            {
+
+
+                main_master_grid.Width = this.ActualWidth;
+                main_master_grid.Height = this.ActualHeight;
+
+            }
+
+        }
+
+
         private void CLICK_originalresize(object sender, RoutedEventArgs e)
         {
             this.Width = 1230;
             this.Height =  900;
             this.WindowState = WindowState.Normal;
-
+         
         }
 
         private void CLICK_resizemode(object sender, RoutedEventArgs e)
@@ -166,6 +189,9 @@ namespace WpfApp6
             else
             {
                 VM.Function_global_resizemode = "Uniform";
+                main_master_grid.Width = this.Width;
+                main_master_grid.Height = this.Height;
+
             }
         }
     }

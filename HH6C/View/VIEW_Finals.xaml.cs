@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
@@ -43,7 +33,8 @@ namespace WpfApp6.View
             string tag = (sender as MahApps.Metro.Controls.Tile).Tag.ToString();
             VM.BIND_SELECTED_FINAL_ROUND = int.Parse(tag);
             //VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_FINAL_ROUND);
-
+            VM.BIND_SELECTED_FINAL_GROUP = 1;
+            VM.FUNCTION_SELECTED_FINAL_ROUND_USERS(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP);
 
             for (int i = 0; i < VM.MODEL_CONTEST_FINAL_ROUNDS.Count; i++)
             {
@@ -52,7 +43,7 @@ namespace WpfApp6.View
 
 
             VM.MODEL_CONTEST_FINAL_ROUNDS[VM.BIND_SELECTED_FINAL_ROUND - 1].ISSELECTED = "selected";
-
+            VM.FUNCTION_ROUNDS_LOAD_FINAL_GROUPS(int.Parse(tag));
         }
 
         private async void maintimer_stop_Click(object sender, RoutedEventArgs e)
@@ -94,7 +85,7 @@ namespace WpfApp6.View
 
         private void HWbasemodul_Copywe2_Click(object sender, RoutedEventArgs e)
         {
-            VM.BIND_LETOVYCAS_MAX = 600;
+            VM.BIND_LETOVYCAS_MAX = 100;
         }
 
 
@@ -110,8 +101,8 @@ namespace WpfApp6.View
 
         private void show_scoreentry_form()
         {
-            Console.WriteLine(VM.BIND_SELECTED_FINAL_ROUND + "_1_" + VM.BIND_SELECTED_FINAL_STARTPOINT);
-            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT);
+            Console.WriteLine(VM.BIND_SELECTED_FINAL_ROUND + "_"+ VM.BIND_SELECTED_FINAL_GROUP+"_" + VM.BIND_SELECTED_FINAL_STARTPOINT);
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT);
             scoreentry.IsOpen = true;
             scoreentry_minutes.Focus();
             _isscoreentryopen = true;
@@ -119,6 +110,16 @@ namespace WpfApp6.View
             savescore_event(true);
 
         }
+
+        private void show_refly_form()
+        {
+            Console.WriteLine(VM.BIND_SELECTED_FINAL_ROUND + "_"+ VM.BIND_SELECTED_FINAL_GROUP+"_" + VM.BIND_SELECTED_FINAL_STARTPOINT);
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SELECTED_FINAL_ROUND + 100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT);
+            refly.IsOpen = true;
+            _isscoreentryopen = true;
+
+        }
+
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
@@ -279,8 +280,8 @@ namespace WpfApp6.View
 
                 string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
 
-                VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_GROUP + " and stp = " + VM.BIND_SELECTED_FINAL_STARTPOINT);
-                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = 1", ""));
+                VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_FINAL_GROUP + " and stp = " + VM.BIND_SELECTED_FINAL_STARTPOINT);
+                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = "+ VM.BIND_SELECTED_FINAL_GROUP, ""));
                 Decimal _PREPSCORE = 0;
 
                 if (_MAXRAW != 0)
@@ -294,7 +295,7 @@ namespace WpfApp6.View
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP);
+                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP);
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
                 Console.WriteLine(VM.Player_Selected[0].SCORE_RAW);
@@ -433,9 +434,9 @@ namespace WpfApp6.View
 
                     string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
 
-                    VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_GROUP + " and stp = "+ VM.BIND_SELECTED_FINAL_STARTPOINT);
+                    VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_FINAL_GROUP + " and stp = "+ VM.BIND_SELECTED_FINAL_STARTPOINT);
 
-                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = 1", ""));
+                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = "+ VM.BIND_SELECTED_FINAL_GROUP, ""));
 
                     Decimal _PREPSCORE = 0;
 
@@ -453,14 +454,14 @@ namespace WpfApp6.View
                     VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                     VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, 1, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP);
+                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP);
 
-                    VM.FUNCTION_CHECK_ENTERED_FINAL(VM.BIND_SELECTED_FINAL_ROUND, 1,true);
+                    VM.FUNCTION_CHECK_ENTERED_FINAL(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP, true);
                     //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
                     //VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_FINAL_ROUND);
                     VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
 
-                    VM.FUNCTION_SELECTED_FINAL_ROUND_USERS(VM.BIND_SELECTED_FINAL_ROUND, 1);
+                    VM.FUNCTION_SELECTED_FINAL_ROUND_USERS(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP);
 
                     for (int i = 0; i < VM.MODEL_CONTEST_FINAL_ROUNDS.Count; i++)
                     {
@@ -548,6 +549,119 @@ namespace WpfApp6.View
                 Console.WriteLine(aaa.Message);
             }
 
+
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            Button tagbutton = sender as Button;
+            Console.WriteLine("AHAH:" + tagbutton.Tag.ToString());
+            VM.BIND_SELECTED_FINAL_STARTPOINT = int.Parse(tagbutton.Tag.ToString());
+            Console.WriteLine("BIND_SELECTED_FINAL_STARTPOINT" + VM.BIND_SELECTED_FINAL_STARTPOINT);
+            show_refly_form();
+        }
+
+        private void create_refly_group_Click(object sender, RoutedEventArgs e)
+        {
+            FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(VM.BIND_SELECTED_FINAL_ROUND+100);
+            VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP);
+
+
+
+
+            for (int i = 0; i < VM.MODEL_CONTEST_FINAL_ROUNDS.Count; i++)
+            {
+                VM.MODEL_CONTEST_FINAL_ROUNDS[i].ISSELECTED = "---";
+            }
+
+
+            VM.MODEL_CONTEST_FINAL_ROUNDS[VM.BIND_SELECTED_FINAL_ROUND - 1].ISSELECTED = "selected";
+            VM.FUNCTION_ROUNDS_LOAD_FINAL_GROUPS(VM.BIND_SELECTED_FINAL_ROUND);
+
+            refly.IsOpen = false;
+
+
+
+        }
+
+
+
+        private int FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(int round)
+        {
+
+            VM.SQL_SAVESOUTEZDATA("insert into groups_final (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_REFLY_SKUPIN_V_FINALE(round, "refly", true) + "','refly',600,0, " + round + " ," + VM.FUNCTION_KOLIK_JE_REFLY_SKUPIN_V_FINALE(round, "", true) + ");");
+            for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE + 1; s++)
+            {
+                VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + round + "," + VM.FUNCTION_KOLIK_JE_REFLY_SKUPIN_V_FINALE(round, "", false) + "," + s + ",0)");
+                VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + round + "," + VM.FUNCTION_KOLIK_JE_REFLY_SKUPIN_V_FINALE(round, "", false) + "," + s + ",0,'True')");
+            }
+
+
+
+            int tmp_refly_group_number = VM.FUNCTION_KOLIK_JE_REFLY_SKUPIN_V_FINALE(round, "", false);
+
+
+            FUNCTION_ADD_USERS_TO_FINAL_REFLY(round, tmp_refly_group_number, VM.Player_Selected[0].ID, refly_what_count.IsOn);
+
+
+            return tmp_refly_group_number;
+        }
+
+        private async void FUNCTION_ADD_USERS_TO_FINAL_REFLY(int round, int refly_group, int userid, bool je_jen_dolosovany)
+        {
+
+
+            for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE + 1; s++)
+            {
+                if (VM.Players_Actual_Final_Flying[s-1].ID == userid)
+                {
+                    VM.SQL_SAVESOUTEZDATA("update score set userid=" + VM.Players_Actual_Final_Flying[s - 1].ID + ", entered='False' where rnd=" + round + " and grp=" + refly_group + " and stp=" + s + "");
+                    VM.SQL_SAVESOUTEZDATA("update matrix set user=" + VM.Players_Actual_Final_Flying[s - 1].ID + " where rnd=" + round + " and grp=" + refly_group + " and stp=" + s + "");
+                    VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + round + "," + VM.BIND_SELECTED_GROUP + "," + s + "," + round + "," + refly_group + "," + s + "," + VM.Players_Actual_Final_Flying[s - 1].ID + ",1,2);");
+                }
+                else
+                {
+                    VM.SQL_SAVESOUTEZDATA("update score set userid=" + VM.Players_Actual_Final_Flying[s - 1].ID + ", entered='False' where rnd=" + round + " and grp=" + refly_group + " and stp=" + s + "");
+                    VM.SQL_SAVESOUTEZDATA("update matrix set user=" + VM.Players_Actual_Final_Flying[s - 1].ID + " where rnd=" + round + " and grp=" + refly_group + " and stp=" + s + "");
+                    VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + round + "," + VM.BIND_SELECTED_GROUP + "," + s + "," + round + "," + refly_group + "," + s + "," + VM.Players_Actual_Final_Flying[s - 1].ID + ",0,0);");
+                }
+            }
+
+
+            // int tmp_first_empty_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where user=0 and rnd=" + round + " and grp=" + refly_group + " limit 1", ""));
+
+
+            //if (je_jen_dolosovany == true)
+            //{
+            //VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + round + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + round + "," + refly_group + "," + tmp_first_empty_stp + "," + userid + ",1,2);");
+            // }
+            //else
+            //{
+            //VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + round + "," + VM.BIND_SELECTED_GROUP + "," + VM.BIND_SELECTED_STARTPOINT + "," + round + "," + refly_group + "," + tmp_first_empty_stp + "," + userid + ",0,0);");
+            //}
+
+            //VM.SQL_SAVESOUTEZDATA("update score set userid=" + userid + ", entered='False' where rnd=" + round + " and grp=" + refly_group + " and stp=" + tmp_first_empty_stp + "");
+            //VM.SQL_SAVESOUTEZDATA("update matrix set user=" + userid + " where rnd=" + round + " and grp=" + refly_group + " and stp=" + tmp_first_empty_stp + "");
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byli zařazeni do opravného letu", MessageDialogStyle.Affirmative);
+
+
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+
+            Button tagbutton = sender as Tile;
+            VM.BIND_SELECTED_FINAL_GROUP = int.Parse(tagbutton.Tag.ToString());
+            VM.FUNCTION_SELECTED_FINAL_ROUND_USERS(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP);
+
+
+            for (int i = 0; i < VM.MODEL_CONTEST_FINAL_GROUPS.Count; i++)
+            {
+                VM.MODEL_CONTEST_FINAL_GROUPS[i].ISSELECTED = "---";
+            }
+
+            VM.MODEL_CONTEST_FINAL_GROUPS[VM.BIND_SELECTED_FINAL_GROUP - 2].ISSELECTED = "selected";
 
         }
     }

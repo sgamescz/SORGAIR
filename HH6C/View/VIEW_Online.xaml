@@ -15,7 +15,7 @@
         <Controls:ToggleSwitch
             x:Name="_switch"
             Width="295"
-            Height="77"
+            Height="60"
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -25,5 +25,8 @@
             IsOn="True"
             OnContent="Ano"/>
 
+        <Button Margin="10,75,510,325" Click="Button_Click">
+            existuje už tato soutĚž?
+        </Button>
     </Grid>
 </UserControl>

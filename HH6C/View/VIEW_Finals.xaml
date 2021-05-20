@@ -9,6 +9,7 @@
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:WpfApp6.Model"
+    Height="835"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
     d:DesignWidth="1000"
     mc:Ignorable="d">
@@ -106,159 +107,301 @@
 
     </UserControl.Resources>
 
-    <Grid Height="835" Margin="0,0,0,0">
+    <Grid Margin="0,0,0,10">
 
         <Controls:MetroHeader
             x:Name="listofrounds"
-            Height="110"
+            Height="185"
             Margin="0,5,0,0"
             VerticalAlignment="Top"
             Header="{Binding BIND_SELECTED_FINAL_ROUND}"
             HeaderStringFormat="Zvolene kolo: {0}"
             Style="{StaticResource specialheader}">
+            <StackPanel>
+                <ItemsControl Margin="0,0,0,-3" ItemsSource="{Binding MODEL_CONTEST_FINAL_ROUNDS}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
 
-            <ItemsControl Margin="0,0,0,-3" ItemsSource="{Binding MODEL_CONTEST_FINAL_ROUNDS}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="1" />
-                    </ItemsPanelTemplate>
-
-                </ItemsControl.ItemsPanel>
-
-
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Margin="2,0,2,2"
-                            BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
-                            BorderThickness="2">
-                            <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
-                                <Label
-                                    Height="20"
-                                    Style="{StaticResource selectedstyltext}"
-                                    Tag="{Binding ISSELECTED}" />
+                    </ItemsControl.ItemsPanel>
 
 
-
-                                <Controls:Tile
-                                    Title="{Binding ID, StringFormat={} Počet startpointů je :{0}}"
-                                    Width="Auto"
-                                    Height="35"
-                                    Margin="2,0,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Background="{DynamicResource MahApps.Brushes.AccentBase}"
-                                    Click="Button_Click"
-                                    HorizontalTitleAlignment="center"
-                                    Tag="{Binding ID}"
-                                    VerticalTitleAlignment="Center"
-                                    Visibility="Collapsed">
-                                    <iconPacks:PackIconSimpleIcons
-                                        Width="20"
-                                        Height="20"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        Kind="Bamboo" />
-                                </Controls:Tile>
-
-                                <Controls:Tile
-                                    Title="{Binding ROUNDNAME}"
-                                    Width="Auto"
-                                    Height="51"
-                                    Margin="0,2,0,1"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Background="{DynamicResource MahApps.Brushes.AccentBase}"
-                                    Click="Button_Click"
-                                    HorizontalTitleAlignment="center"
-                                    Tag="{Binding ID}"
-                                    VerticalTitleAlignment="Center">
-                                    <iconPacks:PackIconModern
-                                        Width="20"
-                                        Height="20"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        Kind="DeeplinkRound" />
-                                </Controls:Tile>
-
-                                <Controls:Tile
-                                    Title="{Binding ROUNDTYPE}"
-                                    Width="Auto"
-                                    Height="35"
-                                    Margin="0,0,0,2"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Background="{DynamicResource MahApps.Brushes.Accent2}"
-                                    Click="Button_Click"
-                                    HorizontalTitleAlignment="center"
-                                    Tag="{Binding ID}"
-                                    VerticalTitleAlignment="Center"
-                                    Visibility="Collapsed">
-                                    <iconPacks:PackIconMaterial
-                                        Width="20"
-                                        Height="20"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        Kind="FormatListBulletedType" />
-                                </Controls:Tile>
-
-                                <Controls:Tile
-                                    x:Name="userdetail_ch1"
-                                    Title="{Binding ROUNDLENGHT}"
-                                    Width="Auto"
-                                    Height="35"
-                                    Margin="0,0,0,2"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Background="{DynamicResource MahApps.Brushes.Accent3}"
-                                    Click="Button_Click"
-                                    HorizontalTitleAlignment="center"
-                                    Tag="{Binding ID}"
-                                    VerticalTitleAlignment="Center"
-                                    Visibility="Collapsed">
-                                    <iconPacks:PackIconTypicons
-                                        Width="20"
-                                        Height="20"
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        Kind="Stopwatch" />
-                                </Controls:Tile>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="2,0,2,2"
+                                BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
+                                BorderThickness="2">
+                                <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
+                                    <Label
+                                        Height="10"
+                                        Style="{StaticResource selectedstyltext}"
+                                        Tag="{Binding ISSELECTED}" />
 
 
 
-                                <Button
-                                    Width="Auto"
-                                    Height="13"
-                                    MinWidth="1"
-                                    Margin="0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Top"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding ROUNDZADANO}"
-                                    Style="{DynamicResource zadano}"
-                                    Tag="{Binding ROUNDZADANO}" />
+                                    <Controls:Tile
+                                        Title="{Binding ID, StringFormat={} Počet startpointů je :{0}}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="2,0,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconSimpleIcons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Bamboo" />
+                                    </Controls:Tile>
+
+                                    <Controls:Tile
+                                        Title="{Binding ROUNDNAME}"
+                                        Width="Auto"
+                                        Height="40"
+                                        Margin="0,2,0,1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconModern
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="DeeplinkRound" />
+                                    </Controls:Tile>
+
+                                    <Controls:Tile
+                                        Title="{Binding ROUNDTYPE}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconMaterial
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="FormatListBulletedType" />
+                                    </Controls:Tile>
+
+                                    <Controls:Tile
+                                        x:Name="userdetail_ch1"
+                                        Title="{Binding ROUNDLENGHT}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.Accent3}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconTypicons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Stopwatch" />
+                                    </Controls:Tile>
 
 
 
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                                    <Button
+                                        Width="Auto"
+                                        Height="8"
+                                        MinWidth="1"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Content="{Binding ROUNDZADANO}"
+                                        Style="{DynamicResource zadano}"
+                                        Tag="{Binding ROUNDZADANO}" />
 
-            </ItemsControl>
+
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+                <ItemsControl Margin="0,5,0,-3" ItemsSource="{Binding MODEL_CONTEST_FINAL_GROUPS}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+
+                    </ItemsControl.ItemsPanel>
+
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Height="65"
+                                Margin="2,0,2,2"
+                                BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
+                                BorderThickness="2">
+                                <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding ISSELECTED}">
+                                    <Label
+                                        Height="10"
+                                        Style="{StaticResource selectedstyltext}"
+                                        Tag="{Binding ISSELECTED}" />
+
+
+
+                                    <Controls:Tile
+                                        Title="{Binding ID, StringFormat={} Počet startpointů je :{0}}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="2,0,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconFontAwesome
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="LayerGroupSolid" />
+                                    </Controls:Tile>
+
+                                    <Controls:Tile
+                                        Title="{Binding GROUPNAME}"
+                                        Width="Auto"
+                                        Height="40"
+                                        Margin="0,2,0,1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                        Click="Tile_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center">
+                                        <iconPacks:PackIconFontAwesome
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="LayerGroupSolid" />
+                                    </Controls:Tile>
+
+                                    <Controls:Tile
+                                        Title="{Binding GROUPTYPE}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.Accent2}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconMaterial
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="FormatListBulletedType" />
+                                    </Controls:Tile>
+
+                                    <Controls:Tile
+                                        x:Name="userdetail_ch1"
+                                        Title="{Binding GROUPLENGHT}"
+                                        Width="Auto"
+                                        Height="35"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource MahApps.Brushes.Accent3}"
+                                        Click="Button_Click"
+                                        HorizontalTitleAlignment="center"
+                                        Tag="{Binding ID}"
+                                        VerticalTitleAlignment="Center"
+                                        Visibility="Collapsed">
+                                        <iconPacks:PackIconTypicons
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Kind="Stopwatch" />
+                                    </Controls:Tile>
+
+
+
+                                    <Button
+                                        Width="Auto"
+                                        Height="8"
+                                        MinWidth="1"
+                                        Margin="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Content="{Binding GROUPZADANO}"
+                                        Style="{DynamicResource zadano}"
+                                        Tag="{Binding GROUPZADANO}" />
+
+
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </StackPanel>
+
         </Controls:MetroHeader>
 
+
         <Controls:MetroHeader
-            Margin="0,126,5,435"
+            Margin="5,170,0,366"
             Header="Ovládaní finálového kola"
             IsTabStop="False">
             <Grid Margin="0,-10,0,-1">
@@ -426,13 +569,13 @@
         </Controls:MetroHeader>
 
         <Controls:MetroHeader
-            Height="420"
-            Margin="2,405,-2,0"
+            Height="378"
+            Margin="5,454,0,0"
             VerticalAlignment="Top"
             Header="Seznam soutěžících a výsledků"
             IsTabStop="False">
             <ItemsControl
-                Margin="7,10,13,4"
+                Margin="7,0,13,4"
                 IsTabStop="False"
                 ItemsSource="{Binding Players_Actual_Final_Flying}">
                 <ItemsControl.ItemsPanel>
@@ -496,7 +639,8 @@
                             <Button
                                 Height="25"
                                 Margin="5,5,5,0"
-                                Content="REFLY"
+                                Click="Button_Click_3"
+                                Content="{Binding REFLY_DATA}"
                                 IsEnabled="{Binding ISENABLED}"
                                 IsTabStop="False"
                                 Style="{StaticResource MahApps.Styles.Button}"
@@ -537,7 +681,7 @@
 
 
         <Controls:FlyoutsControl
-            Height="415"
+            Height="410"
             VerticalAlignment="Bottom"
             IsTabStop="False">
 
@@ -545,12 +689,240 @@
 
 
 
+            <Controls:Flyout
+                x:Name="refly"
+                Height="410"
+                Margin="0,0,0,0"
+                VerticalAlignment="Top"
+                Controls:HeaderedControlHelper.HeaderFontSize="13"
+                Controls:HeaderedControlHelper.HeaderMargin="20 0 50 0"
+                AnimateOpacity="True"
+                AreAnimationsEnabled="True"
+                ClosingFinished="scoreentry_back_Click"
+                Header="Refly"
+                IsModal="False"
+                IsOpen="False"
+                Position="Bottom"
+                Theme="Adapt"
+                TitleVisibility="Visible">
 
+                <Grid Background="{DynamicResource MahApps.Brushes.Gray10}">
+                    <ItemsControl
+                        Margin="0,0,457,312"
+                        IsTabStop="False"
+                        ItemsSource="{Binding Player_Selected}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Controls:Tile
+                                    x:Name="userdetail_id"
+                                    Title="ID soutěžícího"
+                                    Width="200"
+                                    Height="89"
+                                    Margin="10,10,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    VerticalContentAlignment="Center"
+                                    Background="IndianRed"
+                                    Count="{Binding ID}"
+                                    CountFontSize="29"
+                                    FontStyle="Italic"
+                                    IsTabStop="False"
+                                    Style="{StaticResource userbuttonstyle}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <ItemsControl
+                        Margin="215,10,10,358"
+                        IsTabStop="False"
+                        ItemsSource="{Binding Player_Selected}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Controls:Tile
+                                    x:Name="userdetail_ch2"
+                                    Title="{Binding WHOLENAME}"
+                                    Width="Auto"
+                                    Height="42"
+                                    Margin="0"
+                                    VerticalAlignment="Top"
+                                    HorizontalContentAlignment="Left"
+                                    Background="{DynamicResource MahApps.Brushes.Accent2}"
+                                    FontWeight="Bold"
+                                    HorizontalTitleAlignment="Center"
+                                    IsTabStop="False"
+                                    Style="{StaticResource userbuttonstyle}"
+                                    TitleFontSize="17"
+                                    VerticalTitleAlignment="Center">
+                                    <iconPacks:PackIconMaterial
+                                        Width="25"
+                                        Height="25"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Kind="CommentAccountOutline" />
+                                </Controls:Tile>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <UniformGrid
+                        Margin="215,52,10,312"
+                        Columns="3"
+                        Rows="1">
+
+                        <Controls:Tile
+                            Title="{Binding BIND_SELECTED_ROUND_DESC}"
+                            Width="auto"
+                            Height="42"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Left"
+                            Background="{DynamicResource MahApps.Brushes.Accent4}"
+                            HorizontalTitleAlignment="Right"
+                            IsTabStop="False"
+                            Style="{StaticResource userbuttonstyle}"
+                            VerticalTitleAlignment="Center">
+                            <iconPacks:PackIconModern
+                                Width="25"
+                                Height="25"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Kind="DeeplinkRound" />
+
+                        </Controls:Tile>
+
+
+                        <Controls:Tile
+                            Title="{Binding BIND_SELECTED_GROUP_DESC}"
+                            Width="auto"
+                            Height="42"
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Left"
+                            Background="{DynamicResource MahApps.Brushes.Accent4}"
+                            HorizontalTitleAlignment="Right"
+                            IsTabStop="False"
+                            Style="{StaticResource userbuttonstyle}"
+                            VerticalTitleAlignment="Center">
+                            <iconPacks:PackIconFontAwesome
+                                Width="25"
+                                Height="25"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Kind="LayerGroupSolid" />
+
+                        </Controls:Tile>
+
+
+                        <Controls:Tile
+                            Title="{Binding BIND_SELECTED_STARTPOINT, StringFormat='Startoviště : {0}'}"
+                            Width="auto"
+                            Height="42"
+                            Margin="5,5,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Left"
+                            Background="{DynamicResource MahApps.Brushes.Accent4}"
+                            HorizontalTitleAlignment="Right"
+                            IsTabStop="False"
+                            Style="{StaticResource userbuttonstyle}"
+                            VerticalTitleAlignment="Center">
+                            <iconPacks:PackIconMaterial
+                                Width="25"
+                                Height="25"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Kind="BlurLinear" />
+
+                        </Controls:Tile>
+                    </UniformGrid>
+
+
+
+                    <StackPanel Margin="0,120,0,0">
+
+                        <Grid
+                            x:Name="refly_muzebyt"
+                            Height="160"
+                            Visibility="Visible">
+
+                            <Controls:MetroHeader
+                                x:Name="refly_masdzebyt"
+                                Height="155"
+                                Margin="10,10,10,0"
+                                VerticalAlignment="Top"
+                                Header="Vytvořit novou refly skupinu"
+                                HeaderStringFormat="Zvolená skupina: {0}"
+                                Visibility="Visible">
+                                <Grid Margin="0,0,0,-1">
+                                    <Controls:ToggleSwitch
+                                        x:Name="refly_what_count"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Width="629"
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Left"
+                                        ContentDirection="RightToLeft"
+                                        FontSize="12"
+                                        IsOn="True"
+                                        OffContent="Refly není kvůli zvolenému soutěžícímu (bude počítán lepší vysledek)"
+                                        OnContent="Refly je kvůli zvolenému soutěžícímu (bude počítán vysledek z refly)" />
+                                    <UniformGrid
+                                        Margin="0,37,0,0"
+                                        Columns="2"
+                                        Rows="1">
+                                        <Button
+                                            Name="create_refly_group"
+                                            Height="55"
+                                            Margin="5,14,-405,14"
+                                            Click="create_refly_group_Click"
+                                            Content="Vytvořit refly pro finálové kolo"
+                                            Style="{DynamicResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
+                                    </UniformGrid>
+
+                                </Grid>
+
+                            </Controls:MetroHeader>
+
+                        </Grid>
+                        <Controls:MetroHeader
+                            x:Name="refly_nemuzebyt"
+                            Height="130"
+                            Margin="10,0,10,10"
+                            VerticalAlignment="Top"
+                            Header="Informace o opakovacím letu"
+                            HeaderStringFormat="Zvolená skupina: {0}">
+                            <Grid>
+                                <Label
+                                    Margin="10,0,10,60"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="{Binding BIND_DATA_OPAKOVACIHO_LETU}" />
+                                <Button
+                                    x:Name="delete_refly"
+                                    Margin="10,39,10,10"
+                                    Content="Zrušit refly" />
+
+                            </Grid>
+
+                        </Controls:MetroHeader>
+
+                    </StackPanel>
+
+
+
+
+
+                </Grid>
+            </Controls:Flyout>
 
             <Controls:Flyout
                 x:Name="scoreentry"
-                Height="405"
-                Margin="0,-0,0,0"
+                Height="415"
+                Margin="0,0,0,0"
                 Controls:HeaderedControlHelper.HeaderFontSize="13"
                 Controls:HeaderedControlHelper.HeaderMargin="20 0 50 0"
                 AnimateOpacity="True"
@@ -568,7 +940,7 @@
 
                 <Grid Background="{DynamicResource MahApps.Brushes.Gray10}">
                     <ItemsControl
-                        Height="93"
+                        Height="103"
                         Margin="0,0,677,0"
                         VerticalAlignment="Top"
                         IsTabStop="False"
@@ -634,7 +1006,7 @@
                         Rows="1">
 
                         <Controls:Tile
-                            Title="{Binding BIND_SELECTED_ROUND_DESC}"
+                            Title="{Binding BIND_SELECTED_FINAL_ROUND_DESC}"
                             Width="auto"
                             Height="36"
                             Margin="0,5,0,0"
@@ -657,7 +1029,7 @@
 
 
                         <Controls:Tile
-                            Title="{Binding BIND_SELECTED_GROUP_DESC}"
+                            Title="{Binding BIND_SELECTED_FINAL_GROUP_DESC}"
                             Width="auto"
                             Height="36"
                             Margin="5,5,0,0"
@@ -680,7 +1052,7 @@
 
 
                         <Controls:Tile
-                            Title="{Binding BIND_SELECTED_STARTPOINT, StringFormat='Startoviště : {0}'}"
+                            Title="{Binding BIND_SELECTED_FINAL_STARTPOINT, StringFormat='Startoviště : {0}'}"
                             Width="auto"
                             Height="36"
                             Margin="5,5,0,0"
@@ -887,7 +1259,7 @@
                     <ComboBox
                         Name="scoreentry_landing"
                         Width="Auto"
-                        Margin="218,142,8,225"
+                        Margin="218,142,8,235"
                         HorizontalContentAlignment="Center"
                         Controls:TextBoxHelper.ClearTextButton="False"
                         Controls:TextBoxHelper.SelectAllOnFocus="True"
@@ -907,7 +1279,7 @@
                     <ComboBox
                         Name="scoreentry_height"
                         Width="Auto"
-                        Margin="217,185,9,175"
+                        Margin="217,185,9,185"
                         HorizontalContentAlignment="Center"
                         Controls:TextBoxHelper.ClearTextButton="False"
                         Controls:TextBoxHelper.SelectAllOnFocus="True"
@@ -927,7 +1299,7 @@
                     <ComboBox
                         Name="scoreentry_penlocal"
                         Width="Auto"
-                        Margin="217,235,9,132"
+                        Margin="217,235,9,142"
                         HorizontalContentAlignment="Center"
                         Controls:TextBoxHelper.ClearTextButton="False"
                         Controls:TextBoxHelper.SelectAllOnFocus="True"
@@ -948,7 +1320,7 @@
                     <ComboBox
                         Name="scoreentry_penglobal"
                         Width="Auto"
-                        Margin="217,278,9,83"
+                        Margin="217,278,9,95"
                         HorizontalContentAlignment="Center"
                         Controls:TextBoxHelper.ClearTextButton="False"
                         Controls:TextBoxHelper.SelectAllOnFocus="True"
@@ -967,14 +1339,14 @@
 
                     <Label
                         x:Name="aktualscore"
-                        Margin="218,325,9,51"
+                        Margin="218,325,9,62"
                         HorizontalContentAlignment="Center"
                         Content="---"
                         RenderTransformOrigin="0.5,0.5" />
 
                     <Button
                         x:Name="scoreentry_save"
-                        Margin="217,358,10,2"
+                        Margin="217,358,10,10"
                         Click="scoreentry_save_Click"
                         Content="Hotovo" />
 

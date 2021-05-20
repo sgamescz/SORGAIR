@@ -17,6 +17,7 @@
     BorderThickness="3"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     Loaded="MetroWindow_Loaded"
+    
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -144,9 +145,10 @@
 
 
         <Grid
-            Width="1270"
-            Height="900"
-            Background="{DynamicResource MahApps.Brushes.ThemeBackground}">
+            Width="1290"
+            Height="920"
+            x:Name="main_master_grid"
+           >
 
             <Grid.Resources>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/HamburgerMenuTemplate.xaml" />

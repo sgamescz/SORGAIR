@@ -87,7 +87,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top">
                         <mah:Tile
-                            Title="Kateogire"
+                            Title="Kategorie"
                             Width="100"
                             Count="{Binding BIND_SQL_SOUTEZ_KATEGORIE}"
                             CountFontSize="25"

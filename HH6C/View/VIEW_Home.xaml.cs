@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
@@ -275,6 +267,18 @@ namespace WpfApp6.View
             VM.SQL_CLOSECONNECTION("RULES");
 
             VM.SQL_SAVESOUTEZDATA("ATTACH DATABASE '"+ directory + "/Data/config/rules.db'" + " AS rulesdb;");
+
+            VM.SQL_SAVESOUTEZDATA("delete from Sounds;");
+            VM.SQL_SAVESOUTEZDATA("delete from Soundlist;");
+            VM.SQL_SAVESOUTEZDATA("delete from landings;");
+            VM.SQL_SAVESOUTEZDATA("delete from penalisationsglobal;");
+            VM.SQL_SAVESOUTEZDATA("delete from penalisations;");
+            VM.SQL_SAVESOUTEZDATA("delete from rules;");
+            VM.SQL_SAVESOUTEZDATA("delete from bonuspoints;");
+            VM.SQL_SAVESOUTEZDATA("delete from sqlite_sequence;");
+
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisations(id, value, textvalue, delete_landing, delete_time, delete_all) values (0, 0, '---', 'False', 'False', 'False');");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisationsglobal(id, value, textvalue, delete_landing, delete_time, delete_all) values (0, 0, '---', 'False', 'False', 'False');");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisations(id, value, textvalue, delete_landing, delete_time, delete_all) SELECT P.id, P.value, P.textvalue, P.delete_landing, P.delete_time, P.delete_all FROM rulesdb.penalisations P where P.category = '"+ catidindb +"';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisationsglobal(id, value, textvalue, delete_landing, delete_time, delete_all) SELECT P.id, P.value, P.textvalue, P.delete_landing, P.delete_time, P.delete_all FROM rulesdb.penalisationsglobal P where P.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO landings(id, value, textvalue, lenght) SELECT L.id, L.value, L.textvalue, L.lenght FROM rulesdb.landings L where L.category = '" + catidindb + "';");
@@ -286,6 +290,10 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION + "' where item='Location';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE + "' where item='Date';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_NAME + "' where item='Name';");
+
+            VM.SQL_SAVESOUTEZDATA("update contest set value='999' where item='Matrix_score';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='999' where item='Matrix_score_final';");
+
             //VM.SQL_SAVESOUTEZDATA("delete from Groups;");
             // VM.SQL_SAVESOUTEZDATA("delete from Rounds;");
             //VM.SQL_SAVESOUTEZDATA("delete from Score;");
@@ -425,9 +433,9 @@ namespace WpfApp6.View
             {
                 VM.BIND_NEWCONTEST_CATEGORY_ONLINE = VM.MODEL_CONTESTS_CATEGORIES[categorylistforinternet.SelectedIndex].CATEGORY;
                 createonlinecontent.IsEnabled = true;
+                VM.FUNCTION_LOAD_CONTESTS_ONLINE(VM.BIND_NEWCONTEST_CATEGORY_ONLINE);
             }
 
-            VM.FUNCTION_LOAD_CONTESTS_ONLINE(VM.BIND_NEWCONTEST_CATEGORY_ONLINE);
         }
 
         private void listofcontestfrominternet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -438,9 +446,147 @@ namespace WpfApp6.View
                 VM.BIND_NEWCONTEST_DATE_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].DATE;
                 VM.BIND_NEWCONTEST_NAME_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].NAME;
                 VM.BIND_NEWCONTEST_LOCATION_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].LOCATION;
+                VM.BIND_NEWCONTEST_ID_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].FILENAME;
+
+            }
+        }
+
+        private void createonlinecontent_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+
+
+            string newdbname = RemoveDiacritics(RemoveDiacritics(VM.BIND_NEWCONTEST_NAME_ONLINE) + "_" + DateTime.Now.ToString("yyyy_MM_dd") + "_" + VM.BIND_NEWCONTEST_CATEGORY_ONLINE).ToLower();
+            Console.WriteLine("newdbname:" + newdbname);
+
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+            if (File.Exists(directory + "/Data/config/empty_" + VM.BIND_NEWCONTEST_CATEGORY_ONLINE + ".db"))
+            {
+                File.Copy(directory + "/Data/config/empty_" + VM.BIND_NEWCONTEST_CATEGORY_ONLINE + ".db", directory + "/Data/" + newdbname + ".db");
+            }
+            else
+            {
+                File.Copy(directory + "/Data/config/empty.db", directory + "/Data/" + newdbname + ".db");
+            }
+
+            string catidindb;
+
+            VM.SQL_OPENCONNECTION(newdbname);
+            //VM.SQL_OPENCONNECTION("RULES");
+            VM.SQL_OPENCONNECTION("RULES");
+            catidindb = VM.SQL_READSORGDATA("select id from rules where category = '" + VM.BIND_NEWCONTEST_CATEGORY_ONLINE + "'", "");
+            VM.SQL_CLOSECONNECTION("RULES");
+            VM.SQL_SAVESOUTEZDATA("delete from Sounds;");
+            VM.SQL_SAVESOUTEZDATA("delete from Soundlist;");
+            VM.SQL_SAVESOUTEZDATA("delete from landings;");
+            VM.SQL_SAVESOUTEZDATA("delete from penalisationsglobal;");
+            VM.SQL_SAVESOUTEZDATA("delete from penalisations;");
+            VM.SQL_SAVESOUTEZDATA("delete from rules;");
+            VM.SQL_SAVESOUTEZDATA("delete from bonuspoints;");
+            VM.SQL_SAVESOUTEZDATA("delete from sqlite_sequence;");
+
+            VM.SQL_SAVESOUTEZDATA("ATTACH DATABASE '" + directory + "/Data/config/rules.db'" + " AS rulesdb;");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisations(id, value, textvalue, delete_landing, delete_time, delete_all) values (0, 0, '---', 'False', 'False', 'False');");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisationsglobal(id, value, textvalue, delete_landing, delete_time, delete_all) values (0, 0, '---', 'False', 'False', 'False');");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisations(id, value, textvalue, delete_landing, delete_time, delete_all) SELECT P.id, P.value, P.textvalue, P.delete_landing, P.delete_time, P.delete_all FROM rulesdb.penalisations P where P.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO penalisationsglobal(id, value, textvalue, delete_landing, delete_time, delete_all) SELECT P.id, P.value, P.textvalue, P.delete_landing, P.delete_time, P.delete_all FROM rulesdb.penalisationsglobal P where P.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO landings(id, value, textvalue, lenght) SELECT L.id, L.value, L.textvalue, L.lenght FROM rulesdb.landings L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO Sounds(id, second, filename, filedesc) SELECT L.id, L.second, L.filename, L.filedesc FROM rulesdb.sounds L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO Soundlist(category, id, soundname) SELECT L.category, L.id , L.soundname FROM rulesdb.soundlist L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO rules SELECT * FROM rulesdb.rules where id = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("delete from users where id>0;");
+            VM.SQL_SAVESOUTEZDATA("update matrix set user='0';");
+            VM.SQL_SAVESOUTEZDATA("update score set userid='0';");
+            VM.SQL_SAVESOUTEZDATA("INSERT INTO bonuspoints(id, value) SELECT L.id, L.value FROM rulesdb.bonuspoints L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_CATEGORY_ONLINE + "' where item='Category';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION_ONLINE + "' where item='Location';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE_ONLINE + "' where item='Date';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_NAME_ONLINE + "' where item='Name';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='125478' where item='Matrix_score_final';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='125478' where item='Matrix_score';");
+
+
+
+            ///////////////
+
+            string[] mArrayOfcontests = new string[300];
+
+
+            string remoteUrl = "http://api.stoupak.cz/sorgair/2021/api_new_contestdetail.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+
+            String[] spearator = { "<br>" };
+            String[] strlist = result.Split(spearator, 100, StringSplitOptions.None);
+            foreach (String soutezici in strlist)
+            {
+                Console.WriteLine(soutezici);
+
+                String[] spearator_sub = { "|" };
+
+                if (soutezici.Length > 5)
+                {
+
+                    string _firstname = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[0];
+                    string _lastname = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[1];
+                    string _country = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[2];
+                    int _agecat = int.Parse(soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[3])-1;
+                    string _freq = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[4];
+                    string _chanel1 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[5];
+                    string _chanel2 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[6];
+                    string _failic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[7];
+                    string _naclic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[8];
+
+                    if (_freq.Contains("2,4")) { _freq = "0"; }
+                    if (_freq.Contains("35")) { _freq = "1"; }
+
+                    VM.SQL_SAVESOUTEZDATA("insert into users values (null,'" + _firstname + "', '" + _lastname + "', '" + _country + "', '" 
+                        + _agecat + "', '" + _freq + "', '" + _chanel1 + "', '" + _chanel2 + "' , '" + _failic + "', '" + _naclic + "', '' , 'False', '0', '0' , 0 );");
+
+
+                }
+
+
 
 
             }
+
+
+            ////////////////
+
+
+
+
+
+
+
+            VM.SQL_CLOSECONNECTION("SOUTEZ");
+
+            newcontest.IsOpen = false;
+            VM.FUNCTION_LOAD_CONTESTS_FILES();
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+            newcontesttab.SelectedIndex = 1;
+        }
+
+        private void Tile_Click_1(object sender, RoutedEventArgs e)
+        {
+            newcontesttab.SelectedIndex = 2;
+
         }
     }
 }

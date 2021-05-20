@@ -1013,35 +1013,35 @@
                     <DataGridTemplateColumn
                         x:Name="R6VISIBILITY"
                         Width="*"
-                        CellTemplate="{StaticResource DateTemplateR5}"
+                        CellTemplate="{StaticResource DateTemplateR6}"
                         Header="Kolo 6"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         x:Name="R7VISIBILITY"
                         Width="*"
-                        CellTemplate="{StaticResource DateTemplateR5}"
+                        CellTemplate="{StaticResource DateTemplateR7}"
                         Header="Kolo 7"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         x:Name="R8VISIBILITY"
                         Width="*"
-                        CellTemplate="{StaticResource DateTemplateR5}"
+                        CellTemplate="{StaticResource DateTemplateR8}"
                         Header="Kolo 8"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         x:Name="R9VISIBILITY"
                         Width="*"
-                        CellTemplate="{StaticResource DateTemplateR5}"
+                        CellTemplate="{StaticResource DateTemplateR9}"
                         Header="Kolo 9"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         x:Name="R10VISIBILITY"
                         Width="*"
-                        CellTemplate="{StaticResource DateTemplateR5}"
+                        CellTemplate="{StaticResource DateTemplateR10}"
                         Header="Kolo 10"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 

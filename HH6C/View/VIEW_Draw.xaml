@@ -74,51 +74,55 @@
 
     <StackPanel Margin="0,0,0,0">
         <StackPanel>
-            <TextBlock>
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{} Rounds:{0} Groups:{1} Startpoints:{2}">
-                        <Binding Path="BIND_SQL_SOUTEZ_ROUNDS" />
-                        <Binding Path="BIND_SQL_SOUTEZ_GROUPS" />
-                        <Binding Path="BIND_SQL_SOUTEZ_STARTPOINTS" />
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-            <ComboBox
-                x:Name="filewithmatrix"
-                Margin="10,0"
-                DisplayMemberPath="all"
-                ItemsSource="{Binding Listofmatrixes}"
-                SelectedIndex="{Binding Listofmatrixes_selectedindex}" />
-            <Grid>
+
+
+            <Grid Height="100">
                 <Controls:Tile
-                    x:Name="btn_importusersbymatrixfile"
-                    Title="Vytvořit nové rozlosování"
-                    Width="Auto"
-                    Height="65"
-                    Margin="10,3,190,3"
+                    x:Name="btn_draw_from_file"
+                    Title="Rozlosování z předvytvořená matice"
+                    Width="290"
+                    Height="Auto"
+                    Margin="10,10,0,10"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
-                    Click="btn_importusersbymatrixfile_Click"
-                    IsEnabled="{Binding CONTEST_LOCK}">
+                    Click="btn_draw_from_file_Click"
+                    IsEnabled="{Binding draw_from_file_enabled}">
                     <iconPacks:PackIconModern
                         Width="30"
                         Height="30"
-                        Margin="0,0,20,0"
+                        Margin="0,0,0,20"
                         Kind="DrawPixelFillGrid" />
                 </Controls:Tile>
+
+                <Controls:Tile
+                    x:Name="btn_draw_random"
+                    Title="SORG AIR rozlosováni"
+                    Width="305"
+                    Height="Auto"
+                    Margin="305,10,0,10"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Center"
+                    Click="btn_draw_random_Click"
+                    IsEnabled="{Binding CONTEST_LOCK}">
+                    <iconPacks:PackIconRPGAwesome
+                        Width="30"
+                        Height="30"
+                        Kind="PerspectiveDiceRandom" />
+                </Controls:Tile>
+
                 <Controls:Tile
                     x:Name="print_matrixpdf_btn"
                     Title=""
                     Width="85"
-                    Height="65"
-                    HorizontalContentAlignment="Center" 
-                    Margin="0,3,10,3"
+                    Height="Auto"
+                    Margin="0,10,10,10"
                     HorizontalAlignment="Right"
-                    Click="print_matrixpdf_btn_Click"
-                    >
+                    HorizontalContentAlignment="Center"
+                    Click="print_matrixpdf_btn_Click">
                     <iconPacks:PackIconBoxIcons
                         Width="20"
                         Height="20"
-                        Margin="0 0 10 0"
+                        Margin="0,0,10,0"
                         VerticalAlignment="Center"
                         Kind="SolidFilePdf" />
                 </Controls:Tile>
@@ -126,16 +130,15 @@
                     x:Name="print_matrix_pdf_btn"
                     Title=""
                     Width="85"
-                    Height="65"
-                    HorizontalContentAlignment="Center" 
-                    Margin="0,3,100,3"
+                    Height="Auto"
+                    Margin="0,10,100,10"
                     HorizontalAlignment="Right"
-                    Click="print_matrix_btn_Click"
-                    >
+                    HorizontalContentAlignment="Center"
+                    Click="print_matrix_btn_Click">
                     <iconPacks:PackIconBoxIcons
                         Width="20"
                         Height="20"
-                        Margin="0 0 10 0"
+                        Margin="0,0,10,0"
                         VerticalAlignment="Center"
                         Kind="LogosInternetExplorer" />
                 </Controls:Tile>
@@ -203,7 +206,7 @@
                                                                 Click="matrix_user_Click"
                                                                 Content="{Binding name}"
                                                                 Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
-                                                                Tag="{Binding startpoint}" />
+                                                                Tag="{Binding startpoint_data}" />
 
                                                         </StackPanel>
                                                         <!--  You Are missing this!  -->

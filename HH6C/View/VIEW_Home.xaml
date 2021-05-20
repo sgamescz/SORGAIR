@@ -236,7 +236,7 @@
                 AreAnimationsEnabled="True"
                 Header="Vytvoření nové soutěže"
                 IsModal="False"
-                IsOpen="True"
+                IsOpen="False"
                 Position="Bottom"
                 Theme="Adapt"
                 TitleVisibility="Collapsed">
@@ -299,6 +299,7 @@
 
 
                         <TabControl
+                            Name="newcontesttab"
                             Margin="0,0,0,0"
                             Controls:HeaderedControlHelper.HeaderFontSize="21"
                             Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
@@ -317,6 +318,7 @@
                                         Width="Auto"
                                         Height="Auto"
                                         Margin="10,105,372,10"
+                                        Click="Tile_Click"
                                         HorizontalTitleAlignment="Left"
                                         Style="{StaticResource ExtraLargeTileStyle}">
                                         <iconPacks:PackIconFontAwesome
@@ -330,6 +332,7 @@
                                         Width="Auto"
                                         Height="Auto"
                                         Margin="399,105,10,10"
+                                        Click="Tile_Click_1"
                                         HorizontalTitleAlignment="Left"
                                         Style="{StaticResource ExtraLargeTileStyle}">
                                         <iconPacks:PackIconIonicons
@@ -591,10 +594,14 @@
                                             Width="294"
                                             Height="94"
                                             Margin="3"
+                                            Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                                            Click="createonlinecontent_Click"
                                             IsEnabled="False"
-                                            Style="{StaticResource ExtraLargeTileStyle}"
-                                            Background="{DynamicResource MahApps.Brushes.AccentBase}">
-                                            <iconPacks:PackIconMaterial Kind="FileDownloadOutline"  Width="40" Height="40"/>
+                                            Style="{StaticResource ExtraLargeTileStyle}">
+                                            <iconPacks:PackIconMaterial
+                                                Width="40"
+                                                Height="40"
+                                                Kind="FileDownloadOutline" />
                                         </Controls:Tile>
                                     </WrapPanel>
 

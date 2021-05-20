@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfApp6.Model;
+using System.Net;
+using System.IO;
+using System.Net.Cache;
+
 
 namespace WpfApp6.View
 {
@@ -20,9 +14,61 @@ namespace WpfApp6.View
     /// </summary>
     public partial class Online : UserControl
     {
+        private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
+
         public Online()
         {
-            InitializeComponent();
+
+        InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            string[] mArrayOfcontests = new string[300];
+
+
+            string remoteUrl = "http://api.stoupak.cz/sorgair/2021/api_results_contestverify.php?id=1;";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+            Console.WriteLine(result);
+
+            String[] spearator = { "<br>" };
+            String[] strlist = result.Split(spearator, 100, StringSplitOptions.None);
+            foreach (String soutez in strlist)
+            {
+                Console.WriteLine(soutez);
+
+                String[] spearator_sub = { "|" };
+
+                if (soutez.Length > 5)
+                {
+                    //var contests = new MODEL_Contests_files()
+                    //{
+
+  //                      FILENAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[3],
+    //                    CATEGORY = BIND_NEWCONTEST_CATEGORY,
+      //                  NAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[0],
+        //                LOCATION = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[2],
+          //              DATE = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[1]
+            //        };
+              //      MODEL_CONTESTS_ONLINE.Add(contests);
+
+                }
+
+
+
+
+            }
+
         }
     }
 }
