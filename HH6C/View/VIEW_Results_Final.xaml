@@ -655,7 +655,7 @@
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Visible">
+                Visibility="Hidden">
 
                 <mah:ToggleSwitch
                     Width="110"
@@ -670,18 +670,24 @@
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
                 <mah:ToggleSwitch
-                    Width="100"
-                    Content="Bonus"
+                    Width="110"
+                    Content="AGECAT"
                     FontSize="12"
                     IsOn="True"
-                    Toggled="ToggleSwitch_Toggled" />
+                    Toggled="ToggleSwitchfinal_Toggled" />
+
                 <mah:ToggleSwitch
                     Width="100"
                     Content="G.PEN"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
-
+                <mah:ToggleSwitch
+                    Width="100"
+                    Content="Bonus"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
                     Width="115"
                     Content="Ztráta"
@@ -693,12 +699,12 @@
             <WrapPanel
                 Name="table_filter_complete"
                 Width="980"
-                Height="35"
+                Height="70"
                 Margin="10,0,0,10"
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Visible">
+                Visibility="Hidden">
 
                 <mah:ToggleSwitch
                     Name="p_stat"
@@ -711,6 +717,13 @@
                     Name="p_id"
                     Width="100"
                     Content="ID"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Name="p_agecat"
+                    Width="110"
+                    Content="AGECAT"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
@@ -775,7 +788,7 @@
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Finalresults}"
-                Visibility="Visible">
+                Visibility="Hidden">
 
                 <DataGrid.Columns>
 
@@ -802,6 +815,10 @@
                     <DataGridTextColumn
                         Binding="{Binding ID}"
                         Header="ID"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding AGECAT}"
+                        Header="AGECAT"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
                         Binding="{Binding GPEN}"
@@ -869,7 +886,7 @@
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Baseresults_Complete}"
-                Visibility="Visible">
+                Visibility="Hidden">
 
                 <DataGrid.Columns>
 
@@ -898,6 +915,11 @@
                         x:Name="FINAL_RESULTS_TABLE_ID"
                         Binding="{Binding ID}"
                         Header="ID"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_AGECAT"
+                        Binding="{Binding AGECAT}"
+                        Header="AGECAT"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
                         x:Name="FINAL_RESULTS_TABLE_GPEN_FINAL"

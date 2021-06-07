@@ -171,6 +171,7 @@ namespace WpfApp6.View
                 <th>Soutěžící</th>
                 <th class='visibility_{p_stat.IsOn}'>Stát</th>
                 <th class='visibility_{p_id.IsOn}'>ID</th>
+                <th class='visibility_{p_agecat.IsOn}'>AGECAT</th>
                 <th>Celkové scóre</th>
                 <th class='visibility_{p_gpen.IsOn}'>G.Pen</th>
                 <th class='visibility_{p_ztrata.IsOn}'>Ztráta</th>
@@ -197,6 +198,7 @@ namespace WpfApp6.View
     <td>@USERNAME</td>
     <td class='visibility_{p_stat.IsOn}'><img class='vlajka' src='@FLAG' /></td>
     <td class='visibility_{p_id.IsOn}'>@ID</td>
+    <td class='visibility_{p_agecat.IsOn}'>@AGECAT</td>
     <td>@SCORE</td>
     <td class='visibility_{p_gpen.IsOn}'>@GPEN</td>
     <td class='visibility_{p_ztrata.IsOn}'>@LOST</td>
@@ -226,6 +228,7 @@ namespace WpfApp6.View
                     html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players_Baseresults[i].PLAYERDATA);
                     html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", VM.Players_Baseresults[i].POSITION.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players_Baseresults[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players_Baseresults[i].AGECAT.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", VM.Players_Baseresults[i].PREPSCORE.ToString() );
                 html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", VM.Players_Baseresults[i].GPEN.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@LOST", VM.Players_Baseresults[i].PREPSCOREDIFF.ToString());

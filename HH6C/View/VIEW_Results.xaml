@@ -484,12 +484,20 @@
 
             <Grid Height="200">
 
+                <Label
+                    Margin="10,10,0,155"
+                    HorizontalContentAlignment="Center"
+                    Background="{DynamicResource MahApps.Brushes.Accent2}"
+                    VerticalContentAlignment="Center"
+                    FontWeight="Medium"
+                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}"
+                    Content="Výsledky zobrazit pro  🠗 🠗 X 🠗 🠗  kol" HorizontalAlignment="Left" Width="275" />
                 <mah:Tile
                     Name="results_users"
                     Title="Soutěžící"
                     Width="130"
                     Height="75"
-                    Margin="95,10,0,0"
+                    Margin="290,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Right"
@@ -507,7 +515,7 @@
                     Title="Týmy"
                     Width="125"
                     Height="75"
-                    Margin="315,10,0,0"
+                    Margin="565,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Right"
@@ -555,18 +563,19 @@
                 </Controls:Tile>
                 <Controls:Tile
                     x:Name="skrtej"
-                    Title=""
-                    Width="80"
+                    Title="Proškrtat"
+                    Width="135"
                     Height="Auto"
-                    Margin="230,10,0,115"
+                    Margin="425,10,0,115"
                     HorizontalAlignment="Left"
-                    HorizontalContentAlignment="Center"
+                    HorizontalContentAlignment="Right"
                     Click="skrtej_Click"
                     IsEnabled="{Binding BIND_SKRTEJ_ENABLED}">
+
                     <iconPacks:PackIconIonicons
                         Width="25"
                         Height="25"
-                        Margin="0,0,0,0"
+                        Margin="0,0,20,0"
                         VerticalAlignment="Center"
                         Kind="CutiOS" />
                 </Controls:Tile>
@@ -612,6 +621,14 @@
                         IsOn="True"
                         Toggled="ToggleSwitchfinal_Toggled" />
                     <mah:ToggleSwitch
+                        Name="p_agecat"
+                        Width="115"
+                        Content="AGECAT"
+                        FontSize="12"
+                        IsOn="True"
+                        Toggled="ToggleSwitchfinal_Toggled" />
+
+                    <mah:ToggleSwitch
                         Name="p_gpen"
                         Width="100"
                         Content="G.PEN"
@@ -631,16 +648,17 @@
                 <mah:NumericUpDown
                     x:Name="NUM_ROUNDS_IN_RESULTS"
                     Grid.Column="0"
-                    Width="80"
-                    Height="75"
-                    Margin="10,10,0,0"
+                    Width="275"
+                    Height="35"
+                    Margin="10,50,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     mah:TextBoxHelper.ClearTextButton="False"
                     ButtonsAlignment="Opposite"
-                    FontSize="13"
-                    FontWeight="Bold"
-                    Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
+                    FontSize="15"
+                    FontWeight="Heavy"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}"
                     Maximum="{Binding BIND_SQL_SOUTEZ_ROUNDS}"
                     Minimum="1"
                     SwitchUpDownButtons="True"
@@ -682,6 +700,10 @@
                     <DataGridTextColumn
                         Binding="{Binding ID}"
                         Header="ID"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding AGECAT}"
+                        Header="AGECAT"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
                         Binding="{Binding PREPSCORE}"

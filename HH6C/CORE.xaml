@@ -17,7 +17,6 @@
     BorderThickness="3"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     Loaded="MetroWindow_Loaded"
-    
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -145,10 +144,9 @@
 
 
         <Grid
-            Width="1290"
-            Height="920"
             x:Name="main_master_grid"
-           >
+            Width="1290"
+            Height="920">
 
             <Grid.Resources>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/HamburgerMenuTemplate.xaml" />
@@ -354,14 +352,22 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <Controls:TransitioningContentControl
-                                Grid.Row="0"
-                                Margin="20,5,-1,0"
-                                Background="{DynamicResource MahApps.Brushes.WhiteColor}"
-                                Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
-                                FontSize="24"
-                                Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                                Transition="RightReplace" />
+                            <Grid Grid.Row="0">
+                                <Controls:TransitioningContentControl
+                                    Margin="20,5,528,0"
+                                    Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
+                                    FontSize="24"
+                                    Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                    Transition="RightReplace" />
+
+                                <Label
+                                    Margin="527,0,0,0"
+                                    HorizontalContentAlignment="Right"
+                                    Content="{Binding BIND_CAS_DO_MENU}"
+                                    FontSize="20"
+                                    Foreground="{DynamicResource MahApps.Brushes.Gray1}" />
+                            </Grid>
+
 
 
                             <Controls:TransitioningContentControl

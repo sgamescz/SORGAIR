@@ -636,6 +636,12 @@ namespace WpfApp6.Model
             get { return _FLAG; }
             set { _FLAG = value; RaisePropertyChanged(nameof(FLAG)); }
         }
+        private string _AGECAT;
+        public string AGECAT
+        {
+            get { return _AGECAT; }
+            set { _AGECAT = value; RaisePropertyChanged(nameof(AGECAT)); }
+        }
 
 
 
@@ -1158,6 +1164,17 @@ namespace WpfApp6.Model
             get { return _TO_1000; }
             set { _TO_1000  = value; RaisePropertyChanged(nameof(TO_1000)); }
         }
+
+
+        private string _AGECAT;
+        public string AGECAT
+        {
+            get { return _AGECAT; }
+            set { _AGECAT = value; RaisePropertyChanged(nameof(AGECAT)); }
+        }
+
+
+
 
 
     }

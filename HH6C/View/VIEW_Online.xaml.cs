@@ -5,6 +5,11 @@ using WpfApp6.Model;
 using System.Net;
 using System.IO;
 using System.Net.Cache;
+using System.Linq;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
+using System.Threading.Tasks;
+
 
 
 namespace WpfApp6.View
@@ -25,6 +30,8 @@ namespace WpfApp6.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+
+            
 
             string[] mArrayOfcontests = new string[300];
 
@@ -68,6 +75,57 @@ namespace WpfApp6.View
 
 
             }
+
+        }
+
+      
+
+        private void newcontestid_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_GENERATE_RANDOM_STRING(8);
+        }
+
+
+        public static void UploadFileToFtp(string url, string filePath, string username, string password, string contestid)
+        {
+            
+            var fileName = Path.GetFileName(filePath);
+            var request = (FtpWebRequest)WebRequest.Create(url + "/__ID__" + contestid + "__NAME__"+ fileName);
+
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+            request.Credentials = new NetworkCredential(username, password);
+            request.UsePassive = true;
+            request.UseBinary = true;
+            request.KeepAlive = false;
+
+            using (var fileStream = File.OpenRead(filePath))
+            {
+                using (var requestStream = request.GetRequestStream())
+                {
+                    fileStream.CopyTo(requestStream);
+                    requestStream.Close();
+                }
+            }
+
+            var response = (FtpWebResponse)request.GetResponse();
+            Console.WriteLine("Upload done: {0}", response.StatusDescription);
+            response.Close();
+        }
+
+
+   
+
+        private async void uploaddb_Click(object sender, RoutedEventArgs e)
+        {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Odesílám", "Odesílá se soubor soutěže na stoupák");
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+            UploadFileToFtp("ftp://187428.w28.wedos.net", "Upload/"+ VM.BIND_SQL_SOUTEZ_DBFILE + ".db", "w187428_sorgairupload", "WU37pfeN", VM.CONTENT_RANDOM_ID);
+            controller.SetProgress(0.9);
+            await Task.Delay(300);
+            await controller.CloseAsync();
+            await currentWindow.ShowMessageAsync("Odeslání soutěže", "Data soutěže byly odeslány na stoupak.cz, díky!", MessageDialogStyle.Affirmative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
 
         }
     }

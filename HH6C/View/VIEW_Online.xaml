@@ -7,26 +7,111 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="800"
+    d:DesignWidth="1000"
     mc:Ignorable="d">
-    <Grid>
-        
-        <Controls:ToggleSwitch
-            x:Name="_switch"
-            Width="295"
-            Height="60"
-            Margin="10,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Foreground="{DynamicResource MahApps.Brushes.Accent}"
-            Header="Používat online SORG AIR systém"
-            OffContent="ne :("
-            IsOn="True"
-            OnContent="Ano"/>
 
-        <Button Margin="10,75,510,325" Click="Button_Click">
-            existuje už tato soutĚž?
-        </Button>
+    <Grid>
+
+        <Controls:MetroHeader Margin="10,10,10,535" Header="Nastavení online parametrů">
+            <Grid>
+                <Controls:Tile
+                    x:Name="contestid"
+                    Title="{Binding CONTENT_RANDOM_ID}"
+                    Width="340"
+                    Height="64"
+                    Margin="0,144,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center"
+                    HorizontalTitleAlignment="Center"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
+                    VerticalTitleAlignment="Center">
+                    <iconPacks:PackIconMaterial Margin="20,10,0,0" Kind="Identifier" />
+
+                </Controls:Tile>
+
+                <Controls:Tile
+                    x:Name="newcontestid"
+                    Width="75"
+                    Height="64"
+                    Margin="345,144,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    Click="newcontestid_Click"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}">
+                    <iconPacks:PackIconJamIcons
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="Repeat" />
+                </Controls:Tile>
+
+                <Controls:ToggleSwitch
+                    x:Name="_switch"
+                    Width="295"
+                    Height="60"
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                    Header="Používat online SORG AIR systém"
+                    IsOn="{Binding CONTENT_ONLINE_ENABLED}"
+                    OffContent="ne :("
+                    OnContent="Ano" />
+
+                <Button
+                    Width="545"
+                    Height="66"
+                    Margin="425,144,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="Button_Click"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
+                    Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
+                    Aktivovat online služby s dle zvoleného nastavení
+                </Button>
+
+                <Controls:ToggleSwitch
+                    Width="415"
+                    Height="64"
+                    Margin="10,75,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                    Header="Nastavení soukromí odesílaných výsledků"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
+                    IsOn="{Binding CONTENT_ONLINE_ENABLED}"
+                    OffContent="Data vidí pouze ten, kdo má ID kód"
+                    OnContent="Data jsou volně dostupné na internetu" />
+
+            </Grid>
+        </Controls:MetroHeader>
+        <Controls:MetroHeader Margin="10,273,10,272" Header="Odeslání výsledků">
+            <Grid>
+
+                <Controls:Tile
+                    x:Name="uploaddb"
+                    Title="Odeslat soutěž na stoupák"
+                    Width="225"
+                    Height="199"
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}" Click="uploaddb_Click">
+                    <iconPacks:PackIconTypicons
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="CloudStorage" />
+                </Controls:Tile>
+
+            </Grid>
+        </Controls:MetroHeader>
+
+
     </Grid>
 </UserControl>

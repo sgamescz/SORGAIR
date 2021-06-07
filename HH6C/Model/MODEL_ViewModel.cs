@@ -869,6 +869,8 @@ namespace WpfApp6.Model
             CONTEST_LOCK = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest  where item='islocked'",""));
 
 
+            CONTENT_RANDOM_ID = SQL_READSOUTEZDATA("select value from contest where item='CONTENT_RANDOM_ID'", "");
+
 
             BIND_IS_FINAL_FLIGHT_READY = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='isfinalflightready'", ""));
 
@@ -909,6 +911,20 @@ namespace WpfApp6.Model
         }
 
 
+        private string _BIND_CAS_DO_MENU = "";
+        public string BIND_CAS_DO_MENU
+        {
+            get
+            {
+                return _BIND_CAS_DO_MENU;
+            }
+
+            set
+            {
+                _BIND_CAS_DO_MENU = value; OnPropertyChanged("BIND_CAS_DO_MENU");
+            }
+        }
+
 
         public string BIND_LETOVYCAS_STRING
         {
@@ -933,7 +949,7 @@ namespace WpfApp6.Model
 
                     letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
                 }
-
+                //BIND_CAS_DO_MENU = letovycas;
                 return letovycas;
             }
 
@@ -1046,9 +1062,9 @@ namespace WpfApp6.Model
 
             set
             {
-
+                
                 BIND_PROGRESS_1 = value;
-                BIND_LETOVYCAS_value = value; OnPropertyChanged("BIND_LETOVYCAS"); OnPropertyChanged("BIND_LETOVYCAS_STRING");
+                BIND_LETOVYCAS_value = value; OnPropertyChanged("BIND_LETOVYCAS"); OnPropertyChanged("BIND_LETOVYCAS_STRING"); 
 
 
                 if (timer_main.Elapsed.Seconds != lastsecond & BIND_MAINTIME_ISRUNNING == true)
@@ -1095,6 +1111,7 @@ namespace WpfApp6.Model
 
                     }
                     Console.WriteLine("last_second_main_time:" + last_second_main_time);
+
                     Console.WriteLine("cas:" + _lastsecond);
                     DateTime xxx = DateTime.Parse(BIND_SQL_AUTO_PREPTIMESTART);
                     Console.WriteLine("datetime:" + ((xxx.Hour*60)+ xxx.Minute));
@@ -3179,7 +3196,7 @@ namespace WpfApp6.Model
         public string SQL_READSOUTEZDATA(string sqltext, string kamulozitvysledek)
         {
             int _results_autoincrement = 0;
-            double _results_scoreompare = 1000 * BIND_SQL_SOUTEZ_ROUNDS;
+            double _results_scoreompare = 1000 * (BIND_SQL_SOUTEZ_ROUNDS- BIND_SQL_SOUTEZ_DELETES);
 
             double _results_scoreompare_do_kola = 0;
 
@@ -3276,6 +3293,7 @@ namespace WpfApp6.Model
                             GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
                             PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare_final, 2).ToString("0.00"),
+                            AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
 
                             RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101  and refly='False'", ""),
                             RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101  and refly='False'", ""),
@@ -3321,7 +3339,9 @@ namespace WpfApp6.Model
                         {
                             POSITION = _results_autoincrement,
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
-                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
+                        AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
+
+                        PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
                         GPEN= sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
                         PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
@@ -3436,6 +3456,7 @@ namespace WpfApp6.Model
                             POSITION = _results_autoincrement,
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
+                            AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
 
                             RAWSCORE_BASE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore_base")),
                             PREPSCORE_BASE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_base")),
@@ -3444,6 +3465,7 @@ namespace WpfApp6.Model
                             GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
                             PREPSCOREDIFF_BASE = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_base")) - _results_scoreompare, 2).ToString("0.00"),
                             PREPSCOREDIFF_FINAL = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_fin")) - _results_scoreompare_final, 2).ToString("0.00"),
+
 
                             TO_1000 = Math.Round((sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_base")) / maxscorefor1000) *1000, 2).ToString("0.00"),
                             
@@ -3523,6 +3545,7 @@ namespace WpfApp6.Model
 
                         Players_Baseresults_Complete.Add(_Players_Baseresults_complete);
                         _results_scoreompare = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_base"));
+                        Console.WriteLine("_results_scoreompare" + _results_scoreompare);
                         _results_scoreompare_final = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_fin"));
                         vysledek = kamulozitvysledek;
 
@@ -3544,6 +3567,7 @@ namespace WpfApp6.Model
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("team")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
+
                             GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
                             PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare, 2).ToString("0.00"),
@@ -4439,12 +4463,20 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             if (BIND_SQL_AUDIO_COMPNUMBERS_PREP is true | BIND_SQL_AUDIO_COMPNUMBERS is true)
             {
-                clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create();
+                if (BIND_SQL_SOUTEZ_ROUNDSFINALE > 1)
+                {
+                    Console.WriteLine("BIND_SQL_SOUTEZ_ROUNDSFINALE " + BIND_SQL_SOUTEZ_ROUNDSFINALE);
+                    clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create();
+                }
             }
 
-            if (BIND_SQL_AUDIO_RNDGRPPREP is true | BIND_SQL_AUDIO_RNDGRPFLIGHT is true)
+            if (BIND_SQL_AUDIO_RNDGRPPREP is true | BIND_SQL_AUDIO_RNDGRPFLIGHT is true )
             {
-                clock_DYNAMIC_ROUNDGROUP_FINAL_NEXT_create();
+                if (BIND_SQL_SOUTEZ_ROUNDSFINALE > 1)
+                {
+                    Console.WriteLine("BIND_SQL_SOUTEZ_ROUNDSFINALE " + BIND_SQL_SOUTEZ_ROUNDSFINALE);
+                    clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create();
+                }
             }
 
 
@@ -4797,8 +4829,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_FINAL_PREP_start()
         {
-            clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create();
-            clock_DYNAMIC_ROUNDGROUP_FINAL_NEXT_create();
+            if (BIND_SQL_SOUTEZ_ROUNDSFINALE > 1)
+            {
+                clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create();
+                clock_DYNAMIC_ROUNDGROUP_FINAL_NEXT_create();
+            }
+
             clock_DYNAMIC_COMPETITORS_FINAL_ACTUAL_create();
             clock_DYNAMIC_ROUNDGROUP_FINAL_ACTUAL_create();
 
@@ -4975,6 +5011,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create()
         {
 
+            Console.WriteLine("clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create");
             byte[] fileContent;
 
             fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
@@ -5027,6 +5064,35 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void MAIN_TIME_TIMER_Tick(object sender, EventArgs e)
         {
                 BIND_LETOVYCAS = Convert.ToSingle(timer_main.Elapsed.TotalSeconds);
+
+
+
+
+
+            string letovycas;
+            var elapsed = timer_main.Elapsed;
+
+            if (BIND_TYPEOFCLOCK == "PRE_MAIN")
+            {
+                TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_MAX);
+                TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
+                TimeSpan rozdil = time_remaining.Subtract(totalsec);
+                letovycas = "Letový čas začne za: " + rozdil.ToString("mm':'ss':'ff");
+            }
+            else
+            {
+                TimeSpan time_remaining = TimeSpan.FromSeconds(MODEL_CONTEST_RULES[0].BASEROUNDMAXTIME);
+                TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
+                TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
+
+                letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+            }
+
+
+
+            BIND_CAS_DO_MENU = letovycas;
+            OnPropertyChanged("BIND_CAS_DO_MENU");
+
         }
 
         public void MAIN_FINAL_TIME_TIMER_Tick(object sender, EventArgs e)
@@ -6389,7 +6455,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (what == "users")
             {
                 Players_Baseresults.Clear();
-                SQL_READSOUTEZDATA("select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd <= "+ BIND_ROUNDS_IN_RESULTS + " and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " )) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " and s2.skrtacka='False' and s2.refly='False') overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc,overalrawscore desc", "get_baseresults_users");
+                SQL_READSOUTEZDATA("select ((select max(prep) from score s2 where s2.userid = s1.userid and rnd <= "+ BIND_ROUNDS_IN_RESULTS + " and skrtacka='True' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " )) skrtacka," +
+                    "((select sum(prep) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " )) overalscore," +
+                    " (select sum(raw) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " and s2.skrtacka='False' and s2.refly='False') overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " ) gpen,(select name from Agecategories where id=u.Agecat) agecatstring, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc,skrtacka desc", "get_baseresults_users");
                 if (BIND_SQL_SOUTEZ_ROUNDSFINALE_value == 0) { BIND_MENU_ENABLED_finale = false; BIND_MOVE_TO_FINAL_ROUNDS = false; } else { BIND_MOVE_TO_FINAL_ROUNDS = true; }
             }
 
@@ -6397,7 +6465,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 
                 Players_Baseresults_Complete.Clear();
-                SQL_READSOUTEZDATA("select ifnull(((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100)),0) overalscore_fin, ifnull((select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False'),0) overalrawscore_fin , ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False' ) +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base,  (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100 and skrtacka='False' and refly='False' ) overalrawscore_base , (select sum(pen2value) from score s2 where s2.userid = s1.userid  ) gpen,  s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore_fin desc, overalrawscore_fin desc, overalscore_base desc, overalrawscore_base desc", "get_baseresults_users_complete");
+                SQL_READSOUTEZDATA("select ifnull(" +
+                    "((select max(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='True' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100)),0) skrtacka_fin," +
+                    "ifnull(((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100)),0) overalscore_fin," +
+                    " ifnull((select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False'),0) overalrawscore_fin , " +
+                    "((select max(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='True' and refly='False' ) +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) skrtacka_base, " +
+                    "((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False' ) +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base, " +
+                    " (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100 and skrtacka='False' and refly='False' ) overalrawscore_base , (select sum(pen2value) from score s2 where s2.userid = s1.userid  ) gpen, (select name from Agecategories where id=u.Agecat) agecatstring, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore_fin desc, skrtacka_fin desc, overalscore_base desc, skrtacka_base desc", "get_baseresults_users_complete");
             }
 
 
@@ -6411,7 +6485,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (what == "final_users")
             {
                 Players_Finalresults.Clear();
-                SQL_READSOUTEZDATA(" select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd>100)) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') overalrawscore , ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False') +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base,  (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100 and skrtacka='False' and refly='False' ) overalrawscore_base, (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100 ) gpen, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc, overalrawscore desc, overalscore_base desc, overalrawscore_base desc  limit " + BIND_SQL_SOUTEZ_STARTPOINTSFINALE, "get_finalresults_users");
+                SQL_READSOUTEZDATA(" select ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd>100)) overalscore, (select sum(raw) from score s2 where s2.userid = s1.userid and rnd > 100 and skrtacka='False' and refly='False') overalrawscore , ((select sum(prep) from score s2 where s2.userid = s1.userid and rnd < 100 and skrtacka='False' and refly='False') +(select sum(pen2value) from score s2 where s2.userid = s1.userid  and rnd < 100  )) overalscore_base,  (select sum(raw) from score s2 where s2.userid = s1.userid  and rnd < 100 and skrtacka='False' and refly='False' ) overalrawscore_base, (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd > 100 ) gpen, (select name from Agecategories where id=u.Agecat) agecatstring, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc, overalrawscore desc, overalscore_base desc, overalrawscore_base desc  limit " + BIND_SQL_SOUTEZ_STARTPOINTSFINALE, "get_finalresults_users");
             }
 
 
@@ -6955,6 +7029,58 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             return vysledek;
 
         }
+
+
+
+        private string _CONTENT_RANDOM_ID;
+
+        public string CONTENT_RANDOM_ID
+        {
+            get { return _CONTENT_RANDOM_ID; }
+            set
+            {
+                _CONTENT_RANDOM_ID = value;
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='CONTENT_RANDOM_ID'");
+                OnPropertyChanged("CONTENT_RANDOM_ID");
+         
+            }
+        }
+
+
+        private bool _CONTENT_ONLINE_ENABLED;
+
+        public bool CONTENT_ONLINE_ENABLED
+        {
+            get { return _CONTENT_ONLINE_ENABLED; }
+            set
+            {
+                _CONTENT_ONLINE_ENABLED = value;
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='CONTENT_ONLINE_ENABLED'");
+                OnPropertyChanged("CONTENT_ONLINE_ENABLED");
+                if (_CONTENT_ONLINE_ENABLED is true & CONTENT_RANDOM_ID == "0")
+                {
+                    FUNCTION_GENERATE_RANDOM_STRING(8);
+                }
+            }
+        }
+
+        private static Random random = new Random();
+        public void FUNCTION_GENERATE_RANDOM_STRING(int length)
+        {
+
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var stringChars = new char[length];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            CONTENT_RANDOM_ID = new String(stringChars);
+
+        }
+
 
 
 

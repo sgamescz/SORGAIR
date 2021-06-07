@@ -261,7 +261,14 @@
 
             </mah:MetroHeader>
 
-            <mah:MetroHeader Margin="0,30,0,0" Header="Připojení a technické parametry" />
+            <mah:MetroHeader Margin="0,30,0,0" Header="Připojení a technické parametry" Height="282">
+                <Grid>
+                    <TextBox x:Name="serialport" Height="31" VerticalAlignment="Top" Margin="10,10,0,0" HorizontalAlignment="Left" Width="165">COM1</TextBox>
+                    <Button Margin="200,10,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="415" Click="Button_Click">Připojit</Button>
+                    <Button Margin="620,10,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Click="Button_Click_1">Odpojit</Button>
+                    <Button Margin="200,46,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="790" Click="Button_Click_2">Zapnout režim stopek</Button>
+                </Grid>
+            </mah:MetroHeader>
 
 
         </StackPanel>
