@@ -38,6 +38,39 @@
         </Style>
 
 
+        <Style x:Key="LargeTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="300" />
+        </Style>
+
+        <Style x:Key="ExtraLargeTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="347" />
+        </Style>
+
+        <Style x:Key="SmallTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+        <Style x:Key="extraSmallTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
     </UserControl.Resources>
 
 
@@ -555,97 +588,89 @@
 
         <StackPanel>
 
-            <Grid Height="90">
-
-                <mah:Tile
-                    Name="results_users"
-                    Title="Celkové výsledky soutěže"
-                    Width="225"
-                    Height="72"
-                    Margin="200,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Center"
-                    Click="results_users_Click">
-                    <iconPacks:PackIconFontAwesome
-                        Width="25"
-                        Height="25"
-                        Margin="0,0,0,20"
-                        VerticalAlignment="Center"
-                        Kind="TrophySolid" />
-                </mah:Tile>
-                <mah:Tile
-                    Name="results_final_users"
-                    Title="Výsledky finále"
-                    Width="185"
-                    Height="72"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Center"
-                    Click="results_final_users_Click"
-                    IsEnabled="{Binding BIND_MENU_ENABLED_finale}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="25"
-                        Height="25"
-                        Margin="0,0,0,20"
-                        VerticalAlignment="Center"
-                        Kind="MedalSolid" />
-                </mah:Tile>
+            <Grid Height="145">
+                <WrapPanel Margin="0,0,10,10">
+                    <mah:Tile
+                        Name="results_final_users"
+                        Title="Výsledky finále"
+                        VerticalContentAlignment="Center"
+                        Background="YellowGreen"
+                        Click="results_final_users_Click"
+                        IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
+                        Style="{StaticResource SmallTileStyle}">
+                        <iconPacks:PackIconFontAwesome
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Kind="MedalSolid" />
+                    </mah:Tile>
+                    <mah:Tile
+                        Name="results_users"
+                        Title="Celkové výsledky soutěže"
+                        VerticalContentAlignment="Center"
+                        Click="results_users_Click"
+                        Style="{StaticResource SmallTileStyle}">
+                        <iconPacks:PackIconFontAwesome
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Kind="TrophySolid" />
+                    </mah:Tile>
 
 
-                <mah:Tile
-                    Name="results_teams"
-                    Title="Celková pořadí týmů"
-                    Width="210"
-                    Height="72"
-                    Margin="430,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Center"
-                    Click="results_teams_Click">
-                    <iconPacks:PackIconOcticons
-                        Width="25"
-                        Height="25"
-                        Margin="0,0,0,20"
-                        VerticalAlignment="Center"
-                        Kind="Jersey" />
-                </mah:Tile>
 
-                <Controls:Tile
-                    x:Name="print_completeresultspdf_btn"
-                    Title=""
-                    Width="85"
-                    Height="Auto"
-                    Margin="0,10,10,10"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    Click="print_completeresultspdf_btn_Click">
-                    <iconPacks:PackIconBoxIcons
-                        Width="20"
-                        Height="20"
-                        Margin="0,0,0,0"
-                        VerticalAlignment="Center"
-                        Kind="SolidFilePdf" />
-                </Controls:Tile>
-                <Controls:Tile
-                    x:Name="print_completeresults_btn"
-                    Title=""
-                    Width="85"
-                    Height="Auto"
-                    Margin="0,10,100,10"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    Click="print_completeresults_btn_Click">
-                    <iconPacks:PackIconBoxIcons
-                        Width="20"
-                        Height="20"
-                        Margin="0,0,0,0"
-                        VerticalAlignment="Center"
-                        Kind="LogosInternetExplorer" />
-                </Controls:Tile>
+                    <mah:Tile
+                        Name="results_teams"
+                        Title="Celková pořadí týmů"
+                        VerticalContentAlignment="Center"
+                        Click="results_teams_Click"
+                        Style="{StaticResource SmallTileStyle}">
+                        <iconPacks:PackIconOcticons
+                            Width="25"
+                            Height="25"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Kind="Jersey" />
+                    </mah:Tile>
+                    <mah:Tile
+                        x:Name="print_finalresults_btn"
+                        Title="Tisk finálových výsledků"
+                        Margin="50,0,0,0"
+                        HorizontalContentAlignment="Center"
+                        Background="YellowGreen"
+                        Click="print_finalresults_btn_Click"
+                        IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
+                        Style="{StaticResource SmallTileStyle}">
+                        <iconPacks:PackIconBoxIcons
+                            Width="20"
+                            Height="20"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center"
+                            Kind="RegularPrinter" />
+                    </mah:Tile>
 
 
+
+
+
+                    <mah:Tile
+                        x:Name="print_completeresults_btn"
+                        Title="Tisk celkových výsledků"
+                        HorizontalContentAlignment="Center"
+                        Click="print_completeresults_btn_Click"
+                        Style="{StaticResource SmallTileStyle}">
+                        <iconPacks:PackIconBoxIcons
+                            Width="20"
+                            Height="20"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center"
+                            Kind="RegularPrinter" />
+                    </mah:Tile>
+
+
+                </WrapPanel>
             </Grid>
             <WrapPanel
                 Name="table_filter_final"
@@ -655,21 +680,38 @@
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Hidden">
+                Visibility="Visible">
 
                 <mah:ToggleSwitch
+                    Name="pf_stat"
                     Width="110"
                     Content="Stát"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
                 <mah:ToggleSwitch
+                    Name="pf_id"
                     Width="100"
                     Content="ID"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
                 <mah:ToggleSwitch
+                    Name="pf_natlic"
+                    Width="110"
+                    Content="NAT lic."
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitchfinal_Toggled" />
+                <mah:ToggleSwitch
+                    Name="pf_failic"
+                    Width="110"
+                    Content="FAI lic."
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitchfinal_Toggled" />
+                <mah:ToggleSwitch
+                    Name="pf_agecat"
                     Width="110"
                     Content="AGECAT"
                     FontSize="12"
@@ -677,18 +719,21 @@
                     Toggled="ToggleSwitchfinal_Toggled" />
 
                 <mah:ToggleSwitch
+                    Name="pf_gpen"
                     Width="100"
                     Content="G.PEN"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
                 <mah:ToggleSwitch
+                    Name="pf_bonus"
                     Width="100"
                     Content="Bonus"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
                 <mah:ToggleSwitch
+                    Name="pf_ztrata"
                     Width="115"
                     Content="Ztráta"
                     FontSize="12"
@@ -704,7 +749,7 @@
                 HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Hidden">
+                Visibility="Visible">
 
                 <mah:ToggleSwitch
                     Name="p_stat"
@@ -717,6 +762,20 @@
                     Name="p_id"
                     Width="100"
                     Content="ID"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Name="p_natlic"
+                    Width="110"
+                    Content="NAT lic."
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Name="p_failic"
+                    Width="110"
+                    Content="FAI lic."
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
@@ -778,6 +837,8 @@
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
 
+
+
             </WrapPanel>
             <DataGrid
                 x:Name="datagrid_vysledky_finalistu"
@@ -815,6 +876,14 @@
                     <DataGridTextColumn
                         Binding="{Binding ID}"
                         Header="ID"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding NATLIC}"
+                        Header="NAT lic."
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding FAILIC}"
+                        Header="FAI lic."
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
                         Binding="{Binding AGECAT}"
@@ -915,6 +984,16 @@
                         x:Name="FINAL_RESULTS_TABLE_ID"
                         Binding="{Binding ID}"
                         Header="ID"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_NATLIC"
+                        Binding="{Binding NATLIC}"
+                        Header="NAT lic."
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        x:Name="FINAL_RESULTS_TABLE_FAILIC"
+                        Binding="{Binding FAILIC}"
+                        Header="FAI lic."
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
                         x:Name="FINAL_RESULTS_TABLE_AGECAT"

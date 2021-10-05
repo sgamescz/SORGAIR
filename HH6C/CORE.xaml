@@ -17,6 +17,7 @@
     BorderThickness="3"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     Loaded="MetroWindow_Loaded"
+    Closing="core_Closing"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">

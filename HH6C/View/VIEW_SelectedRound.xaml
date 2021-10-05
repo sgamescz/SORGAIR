@@ -104,7 +104,7 @@
                     x:Name="preptimer_play"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Width="165"
+                    Width="98"
                     Height="36"
                     Margin="10,186,0,0"
                     HorizontalAlignment="Left"
@@ -122,12 +122,33 @@
                     </Rectangle>
                 </mah:Tile>
                 <mah:Tile
+                    x:Name="preptimer_pause"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Width="98"
+                    Height="36"
+                    Margin="113,186,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="preptimer_pase_Click"
+                    IsEnabled="{Binding BIND_PREPTIME_ISSTOPED}"
+                    TitleFontSize="12">
+                    <Rectangle
+                        Width="20"
+                        Height="20"
+                        Fill="{DynamicResource MahApps.Brushes.Gray1}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{iconPacks:BoxIcons Kind=RegularPauseCircle}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </mah:Tile>
+                <mah:Tile
                     x:Name="preptimer_stop"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Width="175"
+                    Width="139"
                     Height="36"
-                    Margin="180,186,0,0"
+                    Margin="216,186,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Click="preptimer_stop_Click"

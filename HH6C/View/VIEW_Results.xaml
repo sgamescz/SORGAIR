@@ -485,13 +485,15 @@
             <Grid Height="200">
 
                 <Label
+                    Width="275"
                     Margin="10,10,0,155"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
-                    Background="{DynamicResource MahApps.Brushes.Accent2}"
                     VerticalContentAlignment="Center"
+                    Background="YellowGreen"
+                    Content="Výsledky zobrazit pro  🠗 🠗 X 🠗 🠗  kol"
                     FontWeight="Medium"
-                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}"
-                    Content="Výsledky zobrazit pro  🠗 🠗 X 🠗 🠗  kol" HorizontalAlignment="Left" Width="275" />
+                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}" />
                 <mah:Tile
                     Name="results_users"
                     Title="Soutěžící"
@@ -528,38 +530,22 @@
                         VerticalAlignment="Center"
                         Kind="Jersey" />
                 </mah:Tile>
-
-                <Controls:Tile
-                    x:Name="print_baseresultspdf_btn"
-                    Title=""
-                    Width="85"
-                    Height="Auto"
-                    Margin="0,10,10,119"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    Click="print_baseresultspdf_btn_Click">
-                    <iconPacks:PackIconBoxIcons
-                        Width="20"
-                        Height="20"
-                        Margin="0,0,0,0"
-                        VerticalAlignment="Center"
-                        Kind="SolidFilePdf" />
-                </Controls:Tile>
                 <Controls:Tile
                     x:Name="print_baseresults_btn"
-                    Title=""
-                    Width="85"
+                    Title="Tisk"
+                    Width="112"
                     Height="Auto"
-                    Margin="0,10,100,119"
+                    Margin="0,10,0,119"
                     HorizontalAlignment="Right"
                     HorizontalContentAlignment="Center"
+                    Background="YellowGreen"
                     Click="print_baseresults_btn_Click">
                     <iconPacks:PackIconBoxIcons
                         Width="20"
                         Height="20"
                         Margin="0,0,0,0"
                         VerticalAlignment="Center"
-                        Kind="LogosInternetExplorer" />
+                        Kind="RegularPrinter" />
                 </Controls:Tile>
                 <Controls:Tile
                     x:Name="skrtej"
@@ -654,10 +640,10 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     mah:TextBoxHelper.ClearTextButton="False"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
                     ButtonsAlignment="Opposite"
                     FontSize="15"
                     FontWeight="Heavy"
-                    Background="{DynamicResource MahApps.Brushes.Accent4}"
                     Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}"
                     Maximum="{Binding BIND_SQL_SOUTEZ_ROUNDS}"
                     Minimum="1"

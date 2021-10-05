@@ -107,10 +107,22 @@ namespace WpfApp6
 
 
 
-        private void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            VM.SQL_CLOSECONNECTION("SORG");
-            VM.SQL_CLOSECONNECTION("SOUTEZ");
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to close?", "SORG AIR", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
+
+            else
+            {
+                VM.SQL_CLOSECONNECTION("SORG");
+                VM.SQL_CLOSECONNECTION("SOUTEZ");
+            }
+
+
+
         }
 
         private void CLICK_changeforeground(object sender, RoutedEventArgs e)

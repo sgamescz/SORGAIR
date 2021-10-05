@@ -292,6 +292,50 @@ namespace WpfApp6.Model
         }
 
 
+
+        string _HW_ATI = " ATI ";
+        public string HW_ATI
+        {
+            get { return _HW_ATI; }
+            set { _HW_ATI = value; OnPropertyChanged("HW_ATI"); }
+
+        }
+
+
+        string _HW_ATISN = " SN ";
+        public string HW_ATISN
+        {
+            get { return _HW_ATISN; }
+            set { _HW_ATISN = value; OnPropertyChanged("HW_ATISN"); }
+
+        }
+
+        string _HW_ATIMEM = " MEM ";
+        public string HW_ATIMEM
+        {
+            get { return _HW_ATIMEM; }
+            set { _HW_ATIMEM = value; OnPropertyChanged("HW_ATIMEM"); }
+
+        }
+
+        string _HW_ATIUPTIME = " UPTIME ";
+        public string HW_ATIUPTIME
+        {
+            get { return _HW_ATIUPTIME; }
+            set { _HW_ATIUPTIME = value; OnPropertyChanged("HW_ATIUPTIME"); }
+
+        }
+
+
+        Boolean _BINDING_HW_MENU_BASE = false;
+        public Boolean BINDING_HW_MENU_BASE
+        {
+            get { return _BINDING_HW_MENU_BASE; }
+            set { _BINDING_HW_MENU_BASE = value; OnPropertyChanged("BINDING_HW_MENU_BASE"); }
+
+        }
+
+
         public int _BINDING_selectedmenuindex = 0;
         public int BINDING_selectedmenuindex
         {
@@ -2837,7 +2881,12 @@ namespace WpfApp6.Model
 
             if (KTERADB == "SOUTEZ")
             {
-                DBSOUTEZ_Connection.Close();
+               if (DBSOUTEZ_Connection != null)
+                {
+                    DBSOUTEZ_Connection.Close();
+                }
+
+              
             }
 
             Console.WriteLine("SQL_OPENCONNECTION [CLOSE] : " + KTERADB);
@@ -3286,7 +3335,7 @@ namespace WpfApp6.Model
 
                         var _Players_results = new MODEL_Player_baseresults()
                         {
-                            POSITION = _results_autoincrement,
+                            POSITION = _results_autoincrement.ToString(),
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
@@ -3294,6 +3343,8 @@ namespace WpfApp6.Model
                             PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
                             PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare_final, 2).ToString("0.00"),
                             AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
+                            NATLIC = "asd",
+                            FAILIC = "bdd",
 
                             RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101  and refly='False'", ""),
                             RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=101  and refly='False'", ""),
@@ -3333,11 +3384,20 @@ namespace WpfApp6.Model
                         string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
                         var directory = System.IO.Path.GetDirectoryName(path);
 
+                        string tmp_hvezdickafinalisty;
 
+                        if (_results_autoincrement<= BIND_SQL_SOUTEZ_STARTPOINTSFINALE)
+                        {
+                            tmp_hvezdickafinalisty = "* ";
+                        }
+                        else
+                        {
+                            tmp_hvezdickafinalisty = "";
+                        }
 
                     var _Players_Baseresults = new MODEL_Player_baseresults()
                         {
-                            POSITION = _results_autoincrement,
+                            POSITION = tmp_hvezdickafinalisty + _results_autoincrement.ToString(),
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
                         AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
 
@@ -3457,6 +3517,8 @@ namespace WpfApp6.Model
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
                             AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
+                            NATLIC = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("naclic")),
+                            FAILIC = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("failic")),
 
                             RAWSCORE_BASE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore_base")),
                             PREPSCORE_BASE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore_base")),
@@ -3563,7 +3625,7 @@ namespace WpfApp6.Model
 
                         var _Players_Baseresults = new MODEL_Player_baseresults()
                         {
-                            POSITION = _results_autoincrement,
+                            POSITION = _results_autoincrement.ToString(),
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("teamid")),
                             PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("team")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
@@ -3663,14 +3725,14 @@ namespace WpfApp6.Model
                         }
                         else
                         {
-                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
                         }
 
                         wav_maintime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));  
 
                         maintimewaveout[i] = new WaveOutEvent();
                         maintimewaveout[i].Init(wav_maintime[i]);
-                        Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
                         
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -3705,14 +3767,14 @@ namespace WpfApp6.Model
                         }
                         else
                         {
-                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
                         }
 
                         wav_final_maintime[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
 
                         final_maintimewaveout[i] = new WaveOutEvent();
                         final_maintimewaveout[i].Init(wav_final_maintime[i]);
-                        Console.WriteLine("FINALNANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        Console.WriteLine("FINALNANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -3743,7 +3805,7 @@ namespace WpfApp6.Model
                         }
                         else
                         {
-                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
                         }
 
 
@@ -3751,7 +3813,7 @@ namespace WpfApp6.Model
 
                         preptimewaveout[i] = new WaveOutEvent();
                         preptimewaveout[i].Init(wav_preptime[i]);
-                        Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -3782,7 +3844,7 @@ namespace WpfApp6.Model
                         }
                         else
                         {
-                            fileContent = File.ReadAllBytes("Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
                         }
 
 
@@ -3790,7 +3852,7 @@ namespace WpfApp6.Model
 
                         final_preptimewaveout[i] = new WaveOutEvent();
                         final_preptimewaveout[i].Init(wav_final_preptime[i]);
-                        Console.WriteLine("NANAUDIO _ " + "Audio\\CZE\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -4541,28 +4603,28 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
             int i = 0;
-            byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\round.wav");
+            byte[] fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\round.wav");
             wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_actual[i].Position = 0;
             roundgroupwav_actual[i] = new WaveOutEvent();
             roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
             i = 1;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\"+ BIND_SELECTED_ROUND +".wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\"+ BIND_SELECTED_ROUND +".wav");
             wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_actual[i].Position = 0;
             roundgroupwav_actual[i] = new WaveOutEvent();
             roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
             i = 2;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\group.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\group.wav");
             wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_actual[i].Position = 0;
             roundgroupwav_actual[i] = new WaveOutEvent();
             roundgroupwav_actual[i].Init(wav_roundgroup_actual[i]);
 
             i = 3;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\"+ BIND_SELECTED_GROUP +".wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\"+ BIND_SELECTED_GROUP +".wav");
             wav_roundgroup_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_actual[i].Position = 0;
             roundgroupwav_actual[i] = new WaveOutEvent();
@@ -4608,27 +4670,27 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
             int i = 0;
-            byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\round.wav");
+            byte[] fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\round.wav");
             wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_next[i].Position = 0;
             roundgroupwav_next[i] = new WaveOutEvent();
             roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
             i = 1;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\" + _tmp_newround + ".wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + _tmp_newround + ".wav");
             wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_next[i].Position = 0;
             roundgroupwav_next[i] = new WaveOutEvent();
             roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
 
             i = 2;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\group.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\group.wav");
             wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_next[i].Position = 0;
             roundgroupwav_next[i] = new WaveOutEvent();
             roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
 
             i = 3;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\" + _tmp_newgroup + ".wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + _tmp_newgroup + ".wav");
             wav_roundgroup_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_next[i].Position = 0;
             roundgroupwav_next[i] = new WaveOutEvent();
@@ -4663,28 +4725,28 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
             int i = 0;
-            byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\final.wav");
+            byte[] fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\final.wav");
             wav_roundgroup_final_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_actual[i].Position = 0;
             roundgroupwav_final_actual[i] = new WaveOutEvent();
             roundgroupwav_final_actual[i].Init(wav_roundgroup_final_actual[i]);
 
             i = 1;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\" + BIND_SELECTED_FINAL_ROUND + ".wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + BIND_SELECTED_FINAL_ROUND + ".wav");
             wav_roundgroup_final_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_actual[i].Position = 0;
             roundgroupwav_final_actual[i] = new WaveOutEvent();
             roundgroupwav_final_actual[i].Init(wav_roundgroup_final_actual[i]);
 
             i = 2;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\---NONE---.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\---NONE---.wav");
             wav_roundgroup_final_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_actual[i].Position = 0;
             roundgroupwav_final_actual[i] = new WaveOutEvent();
             roundgroupwav_final_actual[i].Init(wav_roundgroup_final_actual[i]);
 
             i = 3;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\---NONE---.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\---NONE---.wav");
             wav_roundgroup_final_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_actual[i].Position = 0;
             roundgroupwav_final_actual[i] = new WaveOutEvent();
@@ -4729,27 +4791,27 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
             int i = 0;
-            byte[] fileContent = File.ReadAllBytes("Audio\\CZE\\final.wav");
+            byte[] fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\final.wav");
             wav_roundgroup_final_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_next[i].Position = 0;
             roundgroupwav_final_next[i] = new WaveOutEvent();
             roundgroupwav_final_next[i].Init(wav_roundgroup_final_next[i]);
             i = 1;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\" + _tmp_newround + ".wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + _tmp_newround + ".wav");
             wav_roundgroup_final_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_next[i].Position = 0;
             roundgroupwav_final_next[i] = new WaveOutEvent();
             roundgroupwav_final_next[i].Init(wav_roundgroup_final_next[i]);
 
             i = 2;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\---NONE---.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\---NONE---.wav");
             wav_roundgroup_final_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_next[i].Position = 0;
             roundgroupwav_final_next[i] = new WaveOutEvent();
             roundgroupwav_final_next[i].Init(wav_roundgroup_final_next[i]);
 
             i = 3;
-            fileContent = File.ReadAllBytes("Audio\\CZE\\---NONE---.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\---NONE---.wav");
             wav_roundgroup_final_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_roundgroup_final_next[i].Position = 0;
             roundgroupwav_final_next[i] = new WaveOutEvent();
@@ -4816,7 +4878,14 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
+        public void clock_PREP_pause()
+        {
+            PREP_TIME_TIMER.Start();
+            timer_prep.Start();
+            BIND_PREPTIME_ISRUNNING = true;
+            BIND_PREPTIME_ISSTOPED = false;
 
+        }
 
 
 
@@ -4867,7 +4936,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             byte[] fileContent;
 
-            fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\competitors.wav");
             wav_competitors_actual[0] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_competitors_actual[0].Position = 0;
             competitorswav_actual[0] = new WaveOutEvent();
@@ -4877,7 +4946,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\CZE\\"+ Players_Actual_Flying[x].ID + ".wav");
+                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\"+ Players_Actual_Flying[x].ID + ".wav");
                 wav_competitors_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_actual[i].Position = 0;
                 competitorswav_actual[i] = new WaveOutEvent();
@@ -4915,7 +4984,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             byte[] fileContent;
 
-            fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\competitors.wav");
             wav_competitors_next[0] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_competitors_next[0].Position = 0;
             competitorswav_next[0] = new WaveOutEvent();
@@ -4925,7 +4994,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\CZE\\" + users_id_for_sound[x] + ".wav");
+                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
+                Console.WriteLine("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
                 wav_competitors_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_next[i].Position = 0;
                 competitorswav_next[i] = new WaveOutEvent();
@@ -4965,7 +5035,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             byte[] fileContent;
 
-            fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\competitors.wav");
             wav_competitors_final_actual[0] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_competitors_final_actual[0].Position = 0;
             competitorswav_final_actual[0] = new WaveOutEvent();
@@ -4975,7 +5045,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Final_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\CZE\\" + Players_Actual_Final_Flying[x].ID + ".wav");
+                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + Players_Actual_Final_Flying[x].ID + ".wav");
                 wav_competitors_final_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_final_actual[i].Position = 0;
                 competitorswav_final_actual[i] = new WaveOutEvent();
@@ -5014,7 +5084,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Console.WriteLine("clock_DYNAMIC_COMPETITORS_FINAL_NEXT_create");
             byte[] fileContent;
 
-            fileContent = File.ReadAllBytes("Audio\\CZE\\competitors.wav");
+            fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\competitors.wav");
             wav_competitors_final_next[0] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
             wav_competitors_final_next[0].Position = 0;
             competitorswav_final_next[0] = new WaveOutEvent();
@@ -5024,7 +5094,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Final_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\CZE\\" + users_id_for_sound_final[x] + ".wav");
+                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound_final[x] + ".wav");
                 wav_competitors_final_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_final_next[i].Position = 0;
                 competitorswav_final_next[i] = new WaveOutEvent();
@@ -6710,16 +6780,18 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                     var dirx = new DirectoryInfo(dir);
                     var dirName = dirx.Name;
-
-                    i += 1;
-                    var _sndlst = new SoundList()
+                    if (dirName != "FUNKYMODE")
                     {
-                        Id = i,
-                        SoundName = dirName
-                    };
-                    BINDING_SoundList_languages.Add(_sndlst);
+                        i += 1;
+                        var _sndlst = new SoundList()
+                        {
+                            Id = i,
+                            SoundName = dirName
+                        };
+                        BINDING_SoundList_languages.Add(_sndlst);
+                        Console.WriteLine(dir);
+                    }
 
-                    Console.WriteLine(dir);
                 }
             }
             catch (Exception e)
@@ -6727,7 +6799,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
 
-
+            if (BINDING_SoundList_languages_index >= BINDING_SoundList_languages.Count())
+            {
+                BINDING_SoundList_languages_index = 0;
+            }
 
         }
 

@@ -189,7 +189,7 @@ namespace WpfApp6.View
           </table>";
 
             html_body_withrightdata = "";
-
+            Console.WriteLine(VM.Players_Baseresults.Count());
             for (int i = 0; i < VM.Players_Baseresults.Count(); i++)
             {
 

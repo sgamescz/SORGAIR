@@ -125,8 +125,8 @@ namespace WpfApp6.View
 
         private void results_teams_Click(object sender, RoutedEventArgs e)
         {
-            //VM.FUNCTION_RESULTS_LOADBASERESULTS("teams");
-            //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
+            VM.FUNCTION_RESULTS_LOADBASERESULTS("teams");
+            VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
         }
 
         private void results_final_users_Click(object sender, RoutedEventArgs e)
@@ -239,6 +239,15 @@ namespace WpfApp6.View
 
             html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
             html_main = html_main.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", VM.BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", VM.BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", VM.BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", VM.BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", VM.BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", VM.BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", VM.BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", VM.BIND_SQL_SOUTEZ_JURY1 + " | " + VM.BIND_SQL_SOUTEZ_JURY2 + " | " + VM.BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", VM.BIND_SQL_SOUTEZ_POCASI);
 
             html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
             string html_body_complete = "";
@@ -249,6 +258,8 @@ namespace WpfApp6.View
                 <th>Soutěžící</th>
                 <th class='visibility_{p_stat.IsOn}'>Stát</th>
                 <th class='visibility_{p_id.IsOn}'>ID</th>
+                <th class='visibility_{p_natlic.IsOn}'>NAT lic.</th>
+                <th class='visibility_{p_failic.IsOn}'>FAI lic.</th>
                 <th class='visibility_{p_agecat.IsOn}'>AGECAT</th>
                 <th class='visibility_{p_gpen.IsOn}'>G.Pen</th>
                 <th class='visibility_{p_fscore.IsOn}'>F.scóre</th>
@@ -285,6 +296,8 @@ namespace WpfApp6.View
     <td>@USERNAME</td>
     <td class='visibility_{p_stat.IsOn}'><img class='vlajka' src='@FLAG' /></td>
     <td class='visibility_{p_id.IsOn}'>@ID</td>
+    <td class='visibility_{p_natlic.IsOn}'>@NATLIC</td>
+    <td class='visibility_{p_failic.IsOn}'>@FAILIC</td>
     <td class='visibility_{p_agecat.IsOn}'>@AGECAT</td>
     <td class='visibility_{p_gpen.IsOn}'>@GPEN</td>
     <td class='visibility_{p_fscore.IsOn}'>@FINSCO</td>
@@ -324,6 +337,8 @@ namespace WpfApp6.View
                 html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players_Baseresults_Complete[i].PLAYERDATA);
                 html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", VM.Players_Baseresults_Complete[i].POSITION.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players_Baseresults_Complete[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players_Baseresults_Complete[i].NATLIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players_Baseresults_Complete[i].FAILIC.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players_Baseresults_Complete[i].AGECAT.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", VM.Players_Baseresults_Complete[i].GPEN.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", VM.Players_Baseresults_Complete[i].PREPSCORE_BASE.ToString());
@@ -363,17 +378,7 @@ namespace WpfApp6.View
 
             html_all = html_main.Replace("@BODY", html_body_complete);
 
-            if (output_type == "pdf")
-            {
-
-                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
-                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
-                doc.Save(directory + "/Print/" + template_name + ".pdf");
-                doc.Close();
-
-                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".pdf");
-            }
-
+         
 
             if (output_type == "html")
             {
@@ -390,6 +395,158 @@ namespace WpfApp6.View
 
 
         }
+
+        private void print_finalresultspdf_btn_Click(object sender, RoutedEventArgs e)
+        {
+            print_finalresults("resultsfinal", "pdf");
+        }
+
+        private void print_finalresults_btn_Click(object sender, RoutedEventArgs e)
+        {
+            print_finalresults("resultsfinal", "html");
+        }
+
+
+
+
+        private async void print_finalresults(string template_name, string output_type)
+        {
+
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Připravuji finálové výsledky k tisku");
+            await Task.Delay(300);
+            controller.SetProgress(0);
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+
+
+            Console.WriteLine("VM.Players_Finalresults.Count" + VM.Players_Finalresults.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
+            html_main = html_main.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", VM.BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", VM.BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", VM.BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", VM.BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", VM.BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", VM.BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", VM.BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", VM.BIND_SQL_SOUTEZ_JURY1 + " | " + VM.BIND_SQL_SOUTEZ_JURY2 + " | " + VM.BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", VM.BIND_SQL_SOUTEZ_POCASI);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+
+
+            html_body_complete = $@"<table>
+                <th>Pozice</th>
+                <th>Soutěžící</th>
+                <th class='visibility_{pf_stat.IsOn}'>Stát</th>
+                <th class='visibility_{pf_id.IsOn}'>ID</th>
+                <th class='visibility_{pf_natlic.IsOn}'>NAT lic.</th>
+                <th class='visibility_{pf_failic.IsOn}'>FAI lic.</th>
+                <th class='visibility_{pf_agecat.IsOn}'>AGECAT</th>
+                <th class='visibility_{pf_gpen.IsOn}'>G.Pen</th>
+                <th class='visibility_{p_fscore.IsOn}'>F.scóre</th>
+                <th class='visibility_{pf_ztrata.IsOn}'>F.Ztráta</th>
+                <th class='iam_{R1VISIBILITYFINAL.Visibility}'>F1</th>
+                <th class='iam_{R2VISIBILITYFINAL.Visibility}'>F2</th>
+                <th class='iam_{R3VISIBILITYFINAL.Visibility}'>F3</th>
+                <th class='iam_{R4VISIBILITYFINAL.Visibility}'>F4</th>
+                <th class='iam_{R5VISIBILITYFINAL.Visibility}'>F5</th>
+                @BODY
+          </table>";
+
+            html_body_withrightdata = "";
+
+            for (int i = 0; i < VM.Players_Finalresults.Count(); i++)
+            {
+
+                html_body = $@"<tr>
+    <td>@POSITION</td>
+    <td>@USERNAME</td>
+    <td class='visibility_{pf_stat.IsOn}'><img class='vlajka' src='@FLAG' /></td>
+    <td class='visibility_{pf_id.IsOn}'>@ID</td>
+    <td class='visibility_{pf_natlic.IsOn}'>@NATLIC</td>
+    <td class='visibility_{pf_failic.IsOn}'>@FAILIC</td>
+    <td class='visibility_{pf_agecat.IsOn}'>@AGECAT</td>
+    <td class='visibility_{pf_gpen.IsOn}'>@GPEN</td>
+    <td class='visibility_{p_fscore.IsOn}'>@FINSCO</td>
+    <td class='visibility_{pf_ztrata.IsOn}'>@FINLST</td>
+    <td class='iam_{R1VISIBILITYFINAL.Visibility} skrtacka{VM.Players_Finalresults[i].RND1RES_SKRTACKA}'>@F1</td>
+    <td class='iam_{R2VISIBILITYFINAL.Visibility} skrtacka{VM.Players_Finalresults[i].RND2RES_SKRTACKA}'>@F2</td>
+    <td class='iam_{R3VISIBILITYFINAL.Visibility} skrtacka{VM.Players_Finalresults[i].RND3RES_SKRTACKA}'>@F3</td>
+    <td class='iam_{R4VISIBILITYFINAL.Visibility} skrtacka{VM.Players_Finalresults[i].RND4RES_SKRTACKA}'>@F4</td>
+    <td class='iam_{R5VISIBILITYFINAL.Visibility} skrtacka{VM.Players_Finalresults[i].RND5RES_SKRTACKA}'>@F5</td>
+</tr>";
+
+
+                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players_Finalresults.Count()).ToString()));
+                Console.WriteLine(decimal.Divide(i, VM.Players_Finalresults.Count()));
+                await Task.Delay(100);
+                string tabulkaletu = "";
+
+
+
+
+                html_body_withrightdata = html_body_withrightdata + html_body;
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players_Finalresults[i].PLAYERDATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", VM.Players_Finalresults[i].POSITION.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players_Finalresults[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players_Finalresults[i].NATLIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players_Finalresults[i].FAILIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players_Finalresults[i].AGECAT.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", VM.Players_Finalresults[i].GPEN.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@F1", VM.Players_Finalresults[i].RND1RES_SCORE + "<br>" + VM.Players_Finalresults[i].RND1RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F2", VM.Players_Finalresults[i].RND2RES_SCORE + "<br>" + VM.Players_Finalresults[i].RND2RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F3", VM.Players_Finalresults[i].RND3RES_SCORE + "<br>" + VM.Players_Finalresults[i].RND3RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F4", VM.Players_Finalresults[i].RND4RES_SCORE + "<br>" + VM.Players_Finalresults[i].RND4RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F5", VM.Players_Finalresults[i].RND5RES_SCORE + "<br>" + VM.Players_Finalresults[i].RND5RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FINSCO", VM.Players_Finalresults[i].PREPSCORE.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FINLST", VM.Players_Finalresults[i].PREPSCOREDIFF.ToString());
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(VM.Players_Finalresults[i].FLAG);
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+            }
+            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
+
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+       
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + template_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".html");
+            }
+            await controller.CloseAsync();
+            await Task.Delay(300);
+
+
+
+        }
+
 
     }
 }

@@ -13,6 +13,7 @@ using System.IO;
 using System.Net.Cache;
 using System.Globalization;
 
+
 namespace WpfApp6.View
 {
     /// <summary>
@@ -31,7 +32,7 @@ namespace WpfApp6.View
             //DataContext = VM ;
         }
 
-
+        
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -52,6 +53,7 @@ namespace WpfApp6.View
 
             VM.FUNCTION_LOADCONTEST();
             VM.FUNCTION_LOAD_RULES();
+                        VM.FUNCTION_SOUND_LOADAUDIO_LANGUAGE();
 
             controller.SetProgress(0.3);
             controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_users));
@@ -71,7 +73,6 @@ namespace WpfApp6.View
             await Task.Delay(10);
 
             VM.FUNCTION_SOUND_LOADSOUNDLIST();
-            VM.FUNCTION_SOUND_LOADAUDIO_LANGUAGE();
 
 
             controller.SetProgress(0.8);

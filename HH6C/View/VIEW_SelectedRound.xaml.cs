@@ -899,5 +899,11 @@ znovalosovat:
 
             }
         }
+
+        private void preptimer_pase_Click(object sender, RoutedEventArgs e)
+        {
+
+            VM.clock_PREP_pause();
+        }
     }
 }

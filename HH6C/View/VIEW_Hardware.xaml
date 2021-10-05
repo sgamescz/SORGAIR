@@ -54,18 +54,22 @@
         <StackPanel>
 
 
-            <mah:ToggleSwitch
-                x:Name="usehardware"
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0,0,0,20"
-                HorizontalAlignment="Left"
+            <mah:Tile
+                            Title="Detekovat SORG AIR HW"
+                            Click="Button_Click_3"
                 HorizontalContentAlignment="Left"
-                ContentDirection="RightToLeft"
-                FontSize="12"
-                IsOn="False"
-                OffContent="Bez použití SORG AIR hardware"
-                OnContent="Používat SORG AIR hardware" />
+                VerticalTitleAlignment="Center"
+                HorizontalTitleAlignment="Center"
+                            IsEnabled="True"  Width="Auto" Height="79" Margin="3,3,680,3"
+                       >
+
+                <iconPacks:PackIconOcticons
+                                Width="40"
+                    Margin="10 0 0 0"
+                    Height="40"
+                                Kind="CircuitBoard" />
+            </mah:Tile>
+
 
             <mah:MetroHeader Margin="0" Header="Používaný hardware">
 
@@ -92,10 +96,11 @@
                     </Grid.RowDefinitions>
 
                     <ToggleButton
-                        Name="HWbasemodul"
+                        x:Name="HWbasemodul"
                         Grid.Row="0"
                         Grid.Column="0"
-                        IsEnabled="{Binding ElementName=usehardware, Path=IsOn, Mode=OneWay}"
+                        IsChecked="{Binding BINDING_HW_MENU_BASE}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
                         <Rectangle
                             Width="20"
@@ -112,13 +117,13 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Content="Základní modul"
-                        IsEnabled="{Binding ElementName=usehardware, Path=IsOn}" />
+                        IsEnabled="False" />
 
 
                     <ToggleButton
                         Grid.Row="1"
                         Grid.Column="0"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
 
                         <Rectangle
@@ -135,13 +140,13 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Content="Bezdrátové LED hodiny SORG"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}" />
+                        IsEnabled="false" />
 
 
                     <ToggleButton
                         Grid.Row="1"
                         Grid.Column="2"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
                         <Rectangle
                             Width="20"
@@ -157,13 +162,13 @@
                         Grid.Column="3"
                         VerticalAlignment="Center"
                         Content="Dálkové ovládání"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}" />
+                        IsEnabled="false" />
 
 
                     <ToggleButton
                         Grid.Row="2"
                         Grid.Column="2"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
                         <Rectangle
                             Width="20"
@@ -179,13 +184,13 @@
                         Grid.Column="3"
                         VerticalAlignment="Center"
                         Content="Bezdrátová čtečka výsledků"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}" />
+                        IsEnabled="false" />
 
 
                     <ToggleButton
                         Grid.Row="3"
                         Grid.Column="0"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
                         <Rectangle
                             Width="20"
@@ -201,13 +206,13 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Content="Informační stanice (TAGy) pro soutěžící"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}" />
+                        IsEnabled="false" />
 
 
                     <ToggleButton
                         Grid.Row="3"
                         Grid.Column="2"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
                         <Rectangle
                             Width="20"
@@ -223,14 +228,14 @@
                         Grid.Column="3"
                         VerticalAlignment="Center"
                         Content="Meteostanice"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}" />
+                        IsEnabled="false" />
 
 
 
                     <ToggleButton
                         Grid.Row="2"
                         Grid.Column="0"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}"
+                        IsEnabled="False"
                         Style="{StaticResource toglestyl}">
                         <Rectangle
                             Width="20"
@@ -246,7 +251,7 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Content="Bezdrátové mechanické hodiny"
-                        IsEnabled="{Binding ElementName=HWbasemodul, Path=IsChecked}" />
+                        IsEnabled="false" />
 
                 </Grid>
 
@@ -261,12 +266,16 @@
 
             </mah:MetroHeader>
 
-            <mah:MetroHeader Margin="0,30,0,0" Header="Připojení a technické parametry" Height="282">
+            <mah:MetroHeader Margin="0,30,0,0" Header="Připojení a technické parametry" Height="282" Visibility="Visible" >
                 <Grid>
-                    <TextBox x:Name="serialport" Height="31" VerticalAlignment="Top" Margin="10,10,0,0" HorizontalAlignment="Left" Width="165">COM1</TextBox>
-                    <Button Margin="200,10,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="415" Click="Button_Click">Připojit</Button>
-                    <Button Margin="620,10,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Click="Button_Click_1">Odpojit</Button>
-                    <Button Margin="200,46,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="790" Click="Button_Click_2">Zapnout režim stopek</Button>
+                    <TextBox x:Name="serialport" Height="31" VerticalAlignment="Top" Margin="10,10,0,0" HorizontalAlignment="Left" Width="165" TextChanged="serialport_TextChanged" Text="COM1"/>
+                    <Button Margin="200,10,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="415" Click="Button_Click" Content="Připojit"/>
+                    <Button Margin="620,10,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Click="Button_Click_1" Content="Odpojit"/>
+                    <Button Margin="200,46,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="790" Click="Button_Click_2" Content="Zapnout režim stopek"/>
+                    <Label Content="{Binding HW_ATI}" Margin="10,181,759,10"  Foreground="{DynamicResource MahApps.Brushes.Accent}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"/>
+                    <Label Content="{Binding HW_ATISN}" Margin="261,181,508,10"  Foreground="{DynamicResource MahApps.Brushes.Accent}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"/>
+                    <Label Content="{Binding HW_ATIMEM}" Margin="511,181,258,10"  Foreground="{DynamicResource MahApps.Brushes.Accent}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"/>
+                    <Label Content="{Binding HW_ATIUPTIME}" Margin="759,181,10,10"  Foreground="{DynamicResource MahApps.Brushes.Accent}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="1" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}"/>
                 </Grid>
             </mah:MetroHeader>
 

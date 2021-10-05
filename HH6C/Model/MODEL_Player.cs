@@ -282,8 +282,8 @@ namespace WpfApp6.Model
         }
 
 
-        private int _POSITION;
-        public int POSITION
+        private string _POSITION;
+        public string POSITION
         {
             get { return _POSITION; }
             set { _POSITION = value; RaisePropertyChanged(nameof(POSITION)); }
@@ -295,6 +295,23 @@ namespace WpfApp6.Model
         {
             get { return _ID; }
             set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+
+
+        private string _NATLIC;
+        public string NATLIC
+        {
+            get { return _NATLIC; }
+            set { _NATLIC = value; RaisePropertyChanged(nameof(NATLIC)); }
+        }
+
+
+        private string _FAILIC;
+        public string FAILIC
+        {
+            get { return _FAILIC; }
+            set { _FAILIC = value; RaisePropertyChanged(nameof(FAILIC)); }
         }
 
 
@@ -672,6 +689,23 @@ namespace WpfApp6.Model
             get { return _ID; }
             set { _ID = value; RaisePropertyChanged(nameof(ID)); }
         }
+
+
+        private string _NATLIC;
+        public string NATLIC
+        {
+            get { return _NATLIC; }
+            set { _NATLIC = value; RaisePropertyChanged(nameof(NATLIC)); }
+        }
+
+
+        private string _FAILIC;
+        public string FAILIC
+        {
+            get { return _FAILIC; }
+            set { _FAILIC = value; RaisePropertyChanged(nameof(FAILIC)); }
+        }
+
 
 
 
