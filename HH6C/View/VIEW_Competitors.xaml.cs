@@ -475,6 +475,7 @@ namespace WpfApp6.View
 
                 html_body_withrightdata = html_body;
 
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[i].ID.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
                 html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
                 html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
@@ -581,6 +582,7 @@ namespace WpfApp6.View
 
                     html_body_withrightdata = html_body;
 
+                    html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[i].ID.ToString());
                     html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
                     html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
                     html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
@@ -752,27 +754,16 @@ namespace WpfApp6.View
 
         }
 
-        private void print_to_pdf_Click(object sender, RoutedEventArgs e)
-        {
-            print_scorecards("scorecard_long", "pdf",1);
-        }
+      
 
         private void print_to_html_userslist_Click(object sender, RoutedEventArgs e)
         {
             print_userslist("html");
         }
 
-        private void print_to_pdf_userslist_Click(object sender, RoutedEventArgs e)
-        {
-            print_userslist("pdf");
+     
 
-        }
-
-        private void print_tx_pdf_cut_competitors_Click(object sender, RoutedEventArgs e)
-        {
-            print_scorecards_type2("scorecard_cut_competitors", "pdf");
-
-        }
+      
 
         private void print_to_html_cut_competitors_Click(object sender, RoutedEventArgs e)
         {
@@ -786,11 +777,7 @@ namespace WpfApp6.View
 
         }
 
-        private void print_to_pdf_cut_timekeepers_Click(object sender, RoutedEventArgs e)
-        {
-            print_scorecards("scorecard_cut_timekeepers", "pdf",2);
-
-        }
+      
     }
 
 

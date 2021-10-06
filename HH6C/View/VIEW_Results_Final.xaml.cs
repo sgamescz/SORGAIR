@@ -293,7 +293,7 @@ namespace WpfApp6.View
 
                 html_body = $@"<tr>
     <td>@POSITION</td>
-    <td>@USERNAME</td>
+    <td><a href='#USER_@ID'>@USERNAME</a></td>
     <td class='visibility_{p_stat.IsOn}'><img class='vlajka' src='@FLAG' /></td>
     <td class='visibility_{p_id.IsOn}'>@ID</td>
     <td class='visibility_{p_natlic.IsOn}'>@NATLIC</td>
