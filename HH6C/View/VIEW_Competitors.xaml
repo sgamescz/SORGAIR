@@ -1192,7 +1192,7 @@
                 AreAnimationsEnabled="True"
                 Header="Tisk karet / seznamu soutěžících "
                 IsModal="False"
-                IsOpen="True"
+                IsOpen="False"
                 Position="Right"
                 Theme="Adapt">
 
@@ -1335,14 +1335,15 @@
                                 Width="930"
                                 Height="75"
                                 Margin="8,175,0,0"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 VerticalContentAlignment="Top"
+                                Background="YellowGreen"
                                 Click="print_to_html_userslist_Click"
                                 HorizontalTitleAlignment="center"
                                 IsEnabled="True"
-                               Background="YellowGreen"
                                 TitleFontSize="12"
-                                VerticalTitleAlignment="Bottom" HorizontalAlignment="Left">
+                                VerticalTitleAlignment="Bottom">
 
                                 <iconPacks:PackIconBoxIcons
                                     Width="20"
