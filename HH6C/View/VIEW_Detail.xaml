@@ -6,13 +6,249 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:WpfApp6.View"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:model="clr-namespace:WpfApp6.Model"
+    d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
+    d:DesignHeight="750"
+    d:DesignWidth="1000"
     mc:Ignorable="d">
-    <Grid>
-        <Label Content="Tady budou statistiky jako gagarin, speciální kategorie, a průmerné délky letů nebo výšky" Margin="145,185,120,215"/>
+
+    <UserControl.Resources>
+        <Style x:Key="Body_Content_DataGrid_Centering" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid>
+                            <ContentPresenter VerticalAlignment="Center" />
+                            <ContentPresenter HorizontalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="CenterGridHeaderStyle"
+            BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}"
+            TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
+        </Style>
 
 
-    </Grid>
+        <Style x:Key="LargeTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="300" />
+        </Style>
+
+        <Style x:Key="ExtraLargeTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="14" />
+            <Setter Property="Width" Value="347" />
+        </Style>
+
+        <Style x:Key="SmallTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="115" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="Width" Value="135" />
+        </Style>
+
+        <Style x:Key="extraSmallTileStyle" TargetType="mah:Tile">
+            <Setter Property="Height" Value="85" />
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="CountFontSize" Value="18" />
+            <Setter Property="Width" Value="147" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <StackPanel>
+
+        <Grid Height="145">
+            <WrapPanel Margin="0,0,10,10">
+                <mah:Tile
+                    Name="results_final_users"
+                    Title="Přesnost přistání"
+                    VerticalContentAlignment="Center"
+                
+                    IsEnabled="True"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconMaterial
+                        Width="35"
+                        Height="35"
+                        Kind="BullseyeArrow" />
+                </mah:Tile>
+                <mah:Tile
+                    Name="results_users"
+                    Title="Průměrná doba letu"
+                    VerticalContentAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconModern Kind="Timer3"  Width="35" Height="35"/>
+                </mah:Tile>
+
+
+
+                <mah:Tile
+                    Name="results_teams"
+                    Title="Průměrná výška"
+                    VerticalContentAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconUnicons Kind="Rocket" Width="35" Height="35" />
+                </mah:Tile>
+
+                <mah:Tile
+                    x:Name="print_cxcompleteresults_btn"
+                    Title="Gagarin (max. výška)"
+                    HorizontalContentAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconFontAwesome Kind="UserAstronautSolid"  Width="35" Height="35"/>
+                </mah:Tile>
+
+                <mah:Tile
+                    x:Name="print_complsdeteresults_btn"
+                    Title="Nízkoletec (min.výška)"
+                    HorizontalContentAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconRPGAwesome Kind="HoleLadder"  Width="35" Height="35"/>
+                </mah:Tile>
+                <mah:Tile
+                    x:Name="print_finalresults_btn"
+                    Title="Čas vs výška"
+                    
+                    HorizontalContentAlignment="Center"
+              
+                    IsEnabled="True"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconForkAwesome Kind="PieChart" Width="35" Height="35"/>
+                </mah:Tile>
+
+
+
+
+
+                <mah:Tile
+                    x:Name="print_completeresults_btn"
+                    Title="počet poražených"
+                    HorizontalContentAlignment="Center"
+                    Style="{StaticResource SmallTileStyle}">
+                    <iconPacks:PackIconMaterial Kind="Pirate" Width="35" Height="35" />
+                </mah:Tile>
+
+             
+                
+
+            </WrapPanel>
+        </Grid>
+        <DataGrid
+            x:Name="datagrid_vysledky_finalistu"
+            Width="980"
+            Margin="10,0,0,0"
+            HorizontalAlignment="Left"
+            AutoGenerateColumns="False"
+            CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+            IsReadOnly="True"
+            ItemsSource="{Binding Players_statistics}"
+            Visibility="Visible">
+
+            <DataGrid.Columns>
+
+
+                <DataGridTextColumn
+                    Binding="{Binding POSITION}"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Header="Pozice"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding PLAYERDATA}"
+                    Header="Soutěžící"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                <DataGridTemplateColumn
+                    Width="*"
+                    Header="Stát"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+
+                <DataGridTextColumn
+                    Binding="{Binding ID}"
+                    Header="ID"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding NATLIC}"
+                    Header="NAT lic."
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding FAILIC}"
+                    Header="FAI lic."
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding AGECAT}"
+                    Header="AGECAT"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding GPEN}"
+                    Header="G.PEN"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding PREPSCORE}"
+                    FontWeight="Bold"
+                    Header="Celkové score"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Binding="{Binding PREPSCOREDIFF}"
+                    Header="Ztráta"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                <DataGridTemplateColumn
+                    x:Name="R1VISIBILITYFINAL"
+                    Width="*"
+                    Header="Finále 1"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                <DataGridTemplateColumn
+                    x:Name="R2VISIBILITYFINAL"
+                    Width="*"
+                    Header="Finále 2"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                <DataGridTemplateColumn
+                    x:Name="R3VISIBILITYFINAL"
+                    Width="*"
+                    Header="Finále 3"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                <DataGridTemplateColumn
+                    x:Name="R4VISIBILITYFINAL"
+                    Width="*"
+                    Header="Finále 4"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                <DataGridTemplateColumn
+                    x:Name="R5VISIBILITYFINAL"
+                    Width="*"
+                    Header="Finále 5"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+
+
+
+            </DataGrid.Columns>
+
+
+        </DataGrid>
+    </StackPanel>
+
+
 </UserControl>
