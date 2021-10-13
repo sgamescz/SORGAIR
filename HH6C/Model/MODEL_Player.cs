@@ -667,6 +667,177 @@ namespace WpfApp6.Model
 
 
 
+
+
+
+
+    public class MODEL_Player_statistics : MODEL_BaseClass
+    {
+        // Default constructor for Player
+        public MODEL_Player_statistics()
+        {
+        }
+
+
+        private string _POSITION;
+        public string POSITION
+        {
+            get { return _POSITION; }
+            set { _POSITION = value; RaisePropertyChanged(nameof(POSITION)); }
+        }
+
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+
+
+        private string _NATLIC;
+        public string NATLIC
+        {
+            get { return _NATLIC; }
+            set { _NATLIC = value; RaisePropertyChanged(nameof(NATLIC)); }
+        }
+
+
+        private string _FAILIC;
+        public string FAILIC
+        {
+            get { return _FAILIC; }
+            set { _FAILIC = value; RaisePropertyChanged(nameof(FAILIC)); }
+        }
+
+
+
+        private string _PLAYERDATA;
+        public string PLAYERDATA
+        {
+            get { return _PLAYERDATA; }
+            set { _PLAYERDATA = value; RaisePropertyChanged(nameof(PLAYERDATA)); }
+        }
+
+        private string _DATA;
+        public string DATA
+        {
+            get { return _DATA; }
+            set { _DATA = value; RaisePropertyChanged(nameof(DATA)); }
+        }
+
+        private string _DATA2;
+        public string DATA2
+        {
+            get { return _DATA2; }
+            set { _DATA2 = value; RaisePropertyChanged(nameof(DATA2)); }
+        }
+
+
+        private string _DATA3;
+        public string DATA3
+        {
+            get { return _DATA3; }
+            set { _DATA3 = value; RaisePropertyChanged(nameof(DATA3)); }
+        }
+
+
+
+        public Visibility _R1VISIBILITY;
+        public Visibility R1VISIBILITY
+        {
+            get { return _R1VISIBILITY; }
+            set { _R1VISIBILITY = value; RaisePropertyChanged(nameof(R1VISIBILITY)); }
+        }
+
+        public Visibility _R2VISIBILITY;
+        public Visibility R2VISIBILITY
+        {
+            get { return _R2VISIBILITY; }
+            set { _R2VISIBILITY = value; RaisePropertyChanged(nameof(R2VISIBILITY)); }
+        }
+
+        public Visibility _R3VISIBILITY;
+        public Visibility R3VISIBILITY
+        {
+            get { return _R3VISIBILITY; }
+            set { _R3VISIBILITY = value; RaisePropertyChanged(nameof(R3VISIBILITY)); }
+        }
+
+        public Visibility _R4VISIBILITY;
+        public Visibility R4VISIBILITY
+        {
+            get { return _R4VISIBILITY; }
+            set { _R4VISIBILITY = value; RaisePropertyChanged(nameof(R4VISIBILITY)); }
+        }
+
+        public Visibility _R5VISIBILITY;
+        public Visibility R5VISIBILITY
+        {
+            get { return _R5VISIBILITY; }
+            set { _R5VISIBILITY = value; RaisePropertyChanged(nameof(R5VISIBILITY)); }
+        }
+
+        public Visibility _R6VISIBILITY;
+        public Visibility R6VISIBILITY
+        {
+            get { return _R6VISIBILITY; }
+            set { _R6VISIBILITY = value; RaisePropertyChanged(nameof(R6VISIBILITY)); }
+        }
+
+        public Visibility _R7VISIBILITY;
+        public Visibility R7VISIBILITY
+        {
+            get { return _R7VISIBILITY; }
+            set { _R7VISIBILITY = value; RaisePropertyChanged(nameof(R7VISIBILITY)); }
+        }
+
+
+        public Visibility _R8VISIBILITY;
+        public Visibility R8VISIBILITY
+        {
+            get { return _R8VISIBILITY; }
+            set { _R8VISIBILITY = value; RaisePropertyChanged(nameof(R8VISIBILITY)); }
+        }
+
+        public Visibility _R9VISIBILITY;
+        public Visibility R9VISIBILITY
+        {
+            get { return _R9VISIBILITY; }
+            set { _R9VISIBILITY = value; RaisePropertyChanged(nameof(R9VISIBILITY)); }
+        }
+
+        public Visibility _R10VISIBILITY;
+        public Visibility R10VISIBILITY
+        {
+            get { return _R10VISIBILITY; }
+            set { _R10VISIBILITY = value; RaisePropertyChanged(nameof(R10VISIBILITY)); }
+        }
+
+
+
+
+
+        private string _FLAG;
+        public string FLAG
+        {
+            get { return _FLAG; }
+            set { _FLAG = value; RaisePropertyChanged(nameof(FLAG)); }
+        }
+        private string _AGECAT;
+        public string AGECAT
+        {
+            get { return _AGECAT; }
+            set { _AGECAT = value; RaisePropertyChanged(nameof(AGECAT)); }
+        }
+
+
+
+
+    }
+
+
     public class MODEL_Player_baseresults_complete : MODEL_BaseClass
     {
         // Default constructor for Player

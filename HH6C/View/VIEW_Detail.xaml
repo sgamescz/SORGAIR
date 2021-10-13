@@ -28,6 +28,19 @@
             </Setter>
         </Style>
 
+
+        <DataTemplate x:Key="DateTemplateFLAG">
+            <StackPanel>
+                <Image
+                    Width="30"
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="{Binding FLAG}"
+                    Stretch="None" />
+            </StackPanel>
+        </DataTemplate>
+
         <Style
             x:Key="CenterGridHeaderStyle"
             BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}"
@@ -80,7 +93,7 @@
                     Name="results_final_users"
                     Title="Přesnost přistání"
                     VerticalContentAlignment="Center"
-                
+                    Click="results_final_users_Click"
                     IsEnabled="True"
                     Style="{StaticResource SmallTileStyle}">
                     <iconPacks:PackIconMaterial
@@ -93,7 +106,10 @@
                     Title="Průměrná doba letu"
                     VerticalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconModern Kind="Timer3"  Width="35" Height="35"/>
+                    <iconPacks:PackIconModern
+                        Width="35"
+                        Height="35"
+                        Kind="Timer3" />
                 </mah:Tile>
 
 
@@ -102,8 +118,12 @@
                     Name="results_teams"
                     Title="Průměrná výška"
                     VerticalContentAlignment="Center"
+                    Click="results_teams_Click"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconUnicons Kind="Rocket" Width="35" Height="35" />
+                    <iconPacks:PackIconUnicons
+                        Width="35"
+                        Height="35"
+                        Kind="Rocket" />
                 </mah:Tile>
 
                 <mah:Tile
@@ -111,7 +131,10 @@
                     Title="Gagarin (max. výška)"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconFontAwesome Kind="UserAstronautSolid"  Width="35" Height="35"/>
+                    <iconPacks:PackIconFontAwesome
+                        Width="35"
+                        Height="35"
+                        Kind="UserAstronautSolid" />
                 </mah:Tile>
 
                 <mah:Tile
@@ -119,17 +142,21 @@
                     Title="Nízkoletec (min.výška)"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconRPGAwesome Kind="HoleLadder"  Width="35" Height="35"/>
+                    <iconPacks:PackIconRPGAwesome
+                        Width="35"
+                        Height="35"
+                        Kind="HoleLadder" />
                 </mah:Tile>
                 <mah:Tile
                     x:Name="print_finalresults_btn"
                     Title="Čas vs výška"
-                    
                     HorizontalContentAlignment="Center"
-              
                     IsEnabled="True"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconForkAwesome Kind="PieChart" Width="35" Height="35"/>
+                    <iconPacks:PackIconForkAwesome
+                        Width="35"
+                        Height="35"
+                        Kind="PieChart" />
                 </mah:Tile>
 
 
@@ -141,11 +168,14 @@
                     Title="počet poražených"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconMaterial Kind="Pirate" Width="35" Height="35" />
+                    <iconPacks:PackIconMaterial
+                        Width="35"
+                        Height="35"
+                        Kind="Pirate" />
                 </mah:Tile>
 
-             
-                
+
+
 
             </WrapPanel>
         </Grid>
@@ -167,7 +197,7 @@
                     Binding="{Binding POSITION}"
                     FontSize="16"
                     FontWeight="Bold"
-                    Header="Pozice"
+                    Header="Pořadí"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
                     Binding="{Binding PLAYERDATA}"
@@ -175,71 +205,34 @@
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                 <DataGridTemplateColumn
-                    Width="*"
+                    CellTemplate="{StaticResource DateTemplateFLAG}"
                     Header="Stát"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
-
 
                 <DataGridTextColumn
                     Binding="{Binding ID}"
                     Header="ID"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
-                    Binding="{Binding NATLIC}"
-                    Header="NAT lic."
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn
-                    Binding="{Binding FAILIC}"
-                    Header="FAI lic."
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn
                     Binding="{Binding AGECAT}"
-                    Header="AGECAT"
+                    Header="Záznamů"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
-                    Binding="{Binding GPEN}"
-                    Header="G.PEN"
+                    Width="*"
+                    Binding="{Binding DATA}"
+                    Header="Průměr"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
-                    Binding="{Binding PREPSCORE}"
-                    FontWeight="Bold"
-                    Header="Celkové score"
+                    Width="*"
+                    Binding="{Binding DATA2}"
+                    Header="Suma"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
-                    Binding="{Binding PREPSCOREDIFF}"
-                    Header="Ztráta"
+                    Width="*"
+                    Binding="{Binding DATA3}"
+                    Header="Hodnoty"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
-                <DataGridTemplateColumn
-                    x:Name="R1VISIBILITYFINAL"
-                    Width="*"
-                    Header="Finále 1"
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
-                <DataGridTemplateColumn
-                    x:Name="R2VISIBILITYFINAL"
-                    Width="*"
-                    Header="Finále 2"
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
-                <DataGridTemplateColumn
-                    x:Name="R3VISIBILITYFINAL"
-                    Width="*"
-                    Header="Finále 3"
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
-                <DataGridTemplateColumn
-                    x:Name="R4VISIBILITYFINAL"
-                    Width="*"
-                    Header="Finále 4"
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-
-                <DataGridTemplateColumn
-                    x:Name="R5VISIBILITYFINAL"
-                    Width="*"
-                    Header="Finále 5"
-                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
 
 

@@ -28,5 +28,16 @@ namespace WpfApp6.View
             InitializeComponent();
         }
 
+        private void results_teams_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_averageheights");
+
+        }
+
+        private void results_final_users_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_averagelandings");
+
+        }
     }
 }
