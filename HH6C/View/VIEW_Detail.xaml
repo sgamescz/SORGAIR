@@ -72,6 +72,11 @@
             <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
             <Setter Property="TitleFontSize" Value="12" />
             <Setter Property="Width" Value="135" />
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="LimeGreen" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="extraSmallTileStyle" TargetType="mah:Tile">
@@ -87,13 +92,15 @@
 
     <StackPanel>
 
-        <Grid Height="145">
+        <Grid Height="161">
             <WrapPanel Margin="0,0,10,10">
+                <StackPanel Width="990" Orientation="Horizontal">
+
                 <mah:Tile
-                    Name="results_final_users"
+                    Name="statistics_landing"
                     Title="Přesnost přistání"
                     VerticalContentAlignment="Center"
-                    Click="results_final_users_Click"
+                    Click="statistics_landing_Click"
                     IsEnabled="True"
                     Style="{StaticResource SmallTileStyle}">
                     <iconPacks:PackIconMaterial
@@ -102,10 +109,10 @@
                         Kind="BullseyeArrow" />
                 </mah:Tile>
                 <mah:Tile
-                    Name="results_users"
+                    Name="statistics_flighttime"
                     Title="Průměrná doba letu"
                     VerticalContentAlignment="Center"
-                    Style="{StaticResource SmallTileStyle}">
+                    Style="{StaticResource SmallTileStyle}" Click="statistics_flighttime_Click">
                     <iconPacks:PackIconModern
                         Width="35"
                         Height="35"
@@ -115,10 +122,10 @@
 
 
                 <mah:Tile
-                    Name="results_teams"
+                    Name="statistics_averageheight"
                     Title="Průměrná výška"
                     VerticalContentAlignment="Center"
-                    Click="results_teams_Click"
+                    Click="statistics_averageheight_Click"
                     Style="{StaticResource SmallTileStyle}">
                     <iconPacks:PackIconUnicons
                         Width="35"
@@ -127,10 +134,10 @@
                 </mah:Tile>
 
                 <mah:Tile
-                    x:Name="print_cxcompleteresults_btn"
+                    x:Name="statistics_maxheight"
                     Title="Gagarin (max. výška)"
                     HorizontalContentAlignment="Center"
-                    Style="{StaticResource SmallTileStyle}">
+                    Style="{StaticResource SmallTileStyle}" Click="statistics_maxheight_Click">
                     <iconPacks:PackIconFontAwesome
                         Width="35"
                         Height="35"
@@ -138,21 +145,18 @@
                 </mah:Tile>
 
                 <mah:Tile
-                    x:Name="print_complsdeteresults_btn"
-                    Title="Nízkoletec (min.výška)"
+                    x:Name="statistics_minheight"
+                    Title="Krtek (min.výška)"
                     HorizontalContentAlignment="Center"
-                    Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconRPGAwesome
-                        Width="35"
-                        Height="35"
-                        Kind="HoleLadder" />
-                </mah:Tile>
+                    Style="{StaticResource SmallTileStyle}" Click="statistics_minheight_Click">
+                        <iconPacks:PackIconFileIcons Kind="Digdag" Width="35" Height="35"/>
+                    </mah:Tile>
                 <mah:Tile
-                    x:Name="print_finalresults_btn"
+                    x:Name="statistics_timevsheight"
                     Title="Čas vs výška"
                     HorizontalContentAlignment="Center"
                     IsEnabled="True"
-                    Style="{StaticResource SmallTileStyle}">
+                    Style="{StaticResource SmallTileStyle}" Click="statistics_timevsheight_Click">
                     <iconPacks:PackIconForkAwesome
                         Width="35"
                         Height="35"
@@ -164,15 +168,20 @@
 
 
                 <mah:Tile
-                    x:Name="print_completeresults_btn"
+                    x:Name="statistics_enemykiled"
                     Title="počet poražených"
                     HorizontalContentAlignment="Center"
-                    Style="{StaticResource SmallTileStyle}">
+                    Style="{StaticResource SmallTileStyle}" Click="statistics_enemykiled_Click">
                     <iconPacks:PackIconMaterial
                         Width="35"
                         Height="35"
                         Kind="Pirate" />
                 </mah:Tile>
+                </StackPanel>
+                <StackPanel Width="990">
+                    <Button></Button>
+                </StackPanel>
+
 
 
 
@@ -180,7 +189,7 @@
             </WrapPanel>
         </Grid>
         <DataGrid
-            x:Name="datagrid_vysledky_finalistu"
+            x:Name="datagrid_statistiky"
             Width="980"
             Margin="10,0,0,0"
             HorizontalAlignment="Left"
@@ -214,23 +223,43 @@
                     Header="ID"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
-                    Binding="{Binding AGECAT}"
-                    Header="Záznamů"
+                    Binding="{Binding RECORDS}"
+                    Header="RECORDS"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding DATA}"
-                    Header="Průměr"
+                    Header="DATA"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding DATAstr}"
+                    Header="DATAstr"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding DATA2}"
-                    Header="Suma"
+                    Header="DATA2"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding DATA2str}"
+                    Header="DATA2str"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding DATA3}"
-                    Header="Hodnoty"
+                    Header="DATA3"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding DATA3str}"
+                    Header="DATA3str"
+                    HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding DATA4}"
+                    Header="DATA4"
                     HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
 

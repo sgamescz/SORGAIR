@@ -711,6 +711,12 @@ namespace WpfApp6.Model
             set { _FAILIC = value; RaisePropertyChanged(nameof(FAILIC)); }
         }
 
+        private string _RECORDS;
+        public string RECORDS
+        {
+            get { return _RECORDS; }
+            set { _RECORDS = value; RaisePropertyChanged(nameof(RECORDS)); }
+        }
 
 
         private string _PLAYERDATA;
@@ -720,103 +726,58 @@ namespace WpfApp6.Model
             set { _PLAYERDATA = value; RaisePropertyChanged(nameof(PLAYERDATA)); }
         }
 
-        private string _DATA;
-        public string DATA
+        private decimal _DATA;
+        public decimal DATA
         {
             get { return _DATA; }
             set { _DATA = value; RaisePropertyChanged(nameof(DATA)); }
         }
 
-        private string _DATA2;
-        public string DATA2
+        private decimal _DATA2;
+        public decimal DATA2
         {
             get { return _DATA2; }
             set { _DATA2 = value; RaisePropertyChanged(nameof(DATA2)); }
         }
 
 
-        private string _DATA3;
-        public string DATA3
+        private decimal _DATA3;
+        public decimal DATA3
         {
             get { return _DATA3; }
             set { _DATA3 = value; RaisePropertyChanged(nameof(DATA3)); }
         }
 
 
-
-        public Visibility _R1VISIBILITY;
-        public Visibility R1VISIBILITY
+        private string _DATAstr;
+        public string DATAstr
         {
-            get { return _R1VISIBILITY; }
-            set { _R1VISIBILITY = value; RaisePropertyChanged(nameof(R1VISIBILITY)); }
+            get { return _DATAstr; }
+            set { _DATAstr = value; RaisePropertyChanged(nameof(DATAstr)); }
         }
 
-        public Visibility _R2VISIBILITY;
-        public Visibility R2VISIBILITY
+        private string _DATA2str;
+        public string DATA2str
         {
-            get { return _R2VISIBILITY; }
-            set { _R2VISIBILITY = value; RaisePropertyChanged(nameof(R2VISIBILITY)); }
-        }
-
-        public Visibility _R3VISIBILITY;
-        public Visibility R3VISIBILITY
-        {
-            get { return _R3VISIBILITY; }
-            set { _R3VISIBILITY = value; RaisePropertyChanged(nameof(R3VISIBILITY)); }
-        }
-
-        public Visibility _R4VISIBILITY;
-        public Visibility R4VISIBILITY
-        {
-            get { return _R4VISIBILITY; }
-            set { _R4VISIBILITY = value; RaisePropertyChanged(nameof(R4VISIBILITY)); }
-        }
-
-        public Visibility _R5VISIBILITY;
-        public Visibility R5VISIBILITY
-        {
-            get { return _R5VISIBILITY; }
-            set { _R5VISIBILITY = value; RaisePropertyChanged(nameof(R5VISIBILITY)); }
-        }
-
-        public Visibility _R6VISIBILITY;
-        public Visibility R6VISIBILITY
-        {
-            get { return _R6VISIBILITY; }
-            set { _R6VISIBILITY = value; RaisePropertyChanged(nameof(R6VISIBILITY)); }
-        }
-
-        public Visibility _R7VISIBILITY;
-        public Visibility R7VISIBILITY
-        {
-            get { return _R7VISIBILITY; }
-            set { _R7VISIBILITY = value; RaisePropertyChanged(nameof(R7VISIBILITY)); }
+            get { return _DATA2str; }
+            set { _DATA2str = value; RaisePropertyChanged(nameof(DATA2str)); }
         }
 
 
-        public Visibility _R8VISIBILITY;
-        public Visibility R8VISIBILITY
+        private string _DATA3str;
+        public string DATA3str
         {
-            get { return _R8VISIBILITY; }
-            set { _R8VISIBILITY = value; RaisePropertyChanged(nameof(R8VISIBILITY)); }
-        }
-
-        public Visibility _R9VISIBILITY;
-        public Visibility R9VISIBILITY
-        {
-            get { return _R9VISIBILITY; }
-            set { _R9VISIBILITY = value; RaisePropertyChanged(nameof(R9VISIBILITY)); }
-        }
-
-        public Visibility _R10VISIBILITY;
-        public Visibility R10VISIBILITY
-        {
-            get { return _R10VISIBILITY; }
-            set { _R10VISIBILITY = value; RaisePropertyChanged(nameof(R10VISIBILITY)); }
+            get { return _DATA3str; }
+            set { _DATA3str = value; RaisePropertyChanged(nameof(DATA3str)); }
         }
 
 
-
+        private string _DATA4;
+        public string DATA4
+        {
+            get { return _DATA4; }
+            set { _DATA4 = value; RaisePropertyChanged(nameof(DATA4)); }
+        }
 
 
         private string _FLAG;
