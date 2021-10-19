@@ -3459,7 +3459,7 @@ namespace WpfApp6.Model
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("rawmaxheight")),
                             DATA2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("summaxheight")),
                             DATA3 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("averagemaxheight")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
               
 
@@ -3493,7 +3493,7 @@ namespace WpfApp6.Model
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("minheight")),
                             DATA2str = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("sumprep")),
                             DATA3 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("podil")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select height || '/' || prep from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select height || '/' || prep from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -3604,7 +3604,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATAstr = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("totaltime")),
                             DATA2str = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("averagetime")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select strftime('%M:%S',time    ('00:00:00', (minutes*60+seconds) || ' seconds')) from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select strftime('%M:%S',time    ('00:00:00', (minutes*60+seconds) || ' seconds')) from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -3638,7 +3638,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("height")),
                             DATA2 =sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sumheight")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid"))," | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid"))," | "),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
                         };
@@ -3669,7 +3669,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATA = sqlite_datareader.GetDecimal (sqlite_datareader.GetOrdinal("pristani")),
                             DATA2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sumpristani")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) from score where prep > 0  and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -6841,11 +6841,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select time(sum((minutes*60+seconds)), 'unixepoch') totaltime," +
-" time(sum(minutes * 60 + seconds) / (select count(rnd) from score where userid = s1.userid), 'unixepoch') averagetime," +
-" (select count(rnd) from score where userid = s1.userid) zaznamu," +
+" time(sum(minutes * 60 + seconds) / (select count(rnd) from score where userid = s1.userid  and prep > 0 ), 'unixepoch') averagetime," +
+" (select count(rnd) from score where userid = s1.userid  and prep > 0 ) zaznamu," +
 " u.Firstname," +
 " u.Lastname, u.id userid" +
-" from Score s1 left join users U on S1.userid = U.id where s1.userid > 0  group by userid order by totaltime desc", "get_statistics_flighttime");
+" from Score s1 left join users U on S1.userid = U.id where s1.userid > 0  and prep > 0  group by userid order by totaltime desc", "get_statistics_flighttime");
             }
 
 
@@ -6853,13 +6853,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid," +
-" (select count(userid) from score where height > 0 and userid = s1.userid) zaznamu," +
-" ifnull((select max(s1.height) from Score where height > 0  and userid = s1.userid),0) rawmaxheight," +
-" ifnull((select sum(s1.height) from Score where height > 0  and userid = s1.userid),0) summaxheight," +
-" ifnull((select sum(s1.height) from Score where height > 0  and userid = s1.userid) / (select count(rnd)from Score where height > 0  and userid = s1.userid),0) averagemaxheight," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid) zaznamu," +
+" ifnull((select max(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid),0) rawmaxheight," +
+" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid),0) summaxheight," +
+" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid) / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid),0) averagemaxheight," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  group by s1.userid order by rawmaxheight DESC", "get_statistics_maxheights");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  group by s1.userid order by rawmaxheight DESC", "get_statistics_maxheights");
             }
 
 
@@ -6867,16 +6867,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid, time(sum((minutes*60+seconds)), 'unixepoch') totaltime," +
-" (select count(userid) from score where height > 0 and userid = s1.userid) zaznamu," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid) zaznamu," +
 " (select sum(minutes * 60 + seconds)) totaltimesec," +
-" ifnull((select sum(height) from score where height > 0 and userid = s1.userid),0) sumheight," +
-" ifnull(time(((select sum(minutes * 60 + seconds) from score where height > 0 and userid = s1.userid) / (select count(rnd)from Score where height > 0  and userid = s1.userid)),  'unixepoch' ),'99:99:99') prumernycasnakolo," +
-" ifnull(CAST(((select sum(height) from score where height > 0 and userid = s1.userid) / (select count(rnd)from Score where height > 0  and userid = s1.userid)) as REAL),999.99) prumernavyskanakolo," +
-" ifnull(round(CAST((select sum(height) from score where height > 0 and userid = s1.userid) as REAL) / (CAST((select sum(minutes * 60 + seconds) from score where height > 0 and userid = s1.userid) as REAL)) * 600,2),999.99) na10minutjetreba," +
-" ifnull(time(round(CAST((select sum(minutes * 60 + seconds) from score where height > 0 and userid = s1.userid) / CAST((select sum(height) from score where height > 0 and userid = s1.userid) as REAL) as REAL) * 100, 2), 'unixepoch'),'00:00:00') ze100metrunalita," +
+" ifnull((select sum(height) from score where height > 0  and prep > 0  and userid = s1.userid),0) sumheight," +
+" ifnull(time(((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid) / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid)),  'unixepoch' ),'99:99:99') prumernycasnakolo," +
+" ifnull(CAST(((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid) / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid)) as REAL),999.99) prumernavyskanakolo," +
+" ifnull(round(CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid) as REAL) / (CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid) as REAL)) * 600,2),999.99) na10minutjetreba," +
+" ifnull(time(round(CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid) / CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid) as REAL) as REAL) * 100, 2), 'unixepoch'),'00:00:00') ze100metrunalita," +
 " u.Firstname," +
 " u.Lastname " +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  group by s1.userid order by na10minutjetreba ASC", "get_statistics_timevsheight");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  group by s1.userid order by na10minutjetreba ASC", "get_statistics_timevsheight");
             }
 
 
@@ -6886,14 +6886,14 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid,"+
-" (select count(userid) from score where height > 0 and userid = s1.userid) zaznamu," +
-" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and userid = s1.userid)), 2), 0) rawminheight," +
-" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and userid = s1.userid)), 2),0) minheight," +
-" (ifnull((select sum(height) from score where height > 0 and userid = s1.userid), 0) || ' / ' || ifnull((select sum(prep) from score where height > 0 and userid = s1.userid),0)) sumprep," +
-" ifnull(round((select sum(prep) from score where height > 0 and userid = s1.userid) / (select sum(height) from score where height > 0 and userid = s1.userid),2),0) podil," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid) zaznamu," +
+" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2), 0) rawminheight," +
+" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2),0) minheight," +
+" (ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid), 0) || ' / ' || ifnull((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid),0)) sumprep," +
+" ifnull(round((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid) / (select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid),2),0) podil," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0 group by s1.userid order by podil desc ", "get_statistics_minheights");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 group by s1.userid order by podil desc ", "get_statistics_minheights");
             }
 
 
@@ -6901,13 +6901,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid,"+
-                    " (select count(userid) from score where height > 0 and userid = s1.userid) zaznamu," +
-                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and userid = s1.userid)), 2), 9999) rawheight," +
-                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and userid = s1.userid)), 2),0) height," +
-                    " ifnull((select sum(height) from score where height > 0 and userid = s1.userid),0) sumheight," +
+                    " (select count(userid) from score where height > 0 and userid = s1.userid  and prep > 0 ) zaznamu," +
+                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2), 9999) rawheight," +
+                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2),0) height," +
+                    " ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid),0) sumheight," +
                     " u.Firstname," +
                     " u.Lastname" +
-                    " from Score s1 left join users U on S1.userid = U.id where userid > 0  group by s1.userid order by rawheight ASC", "get_statistics_averageheights");
+                    " from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  group by s1.userid order by rawheight ASC", "get_statistics_averageheights");
             }
 
             if (what == "statistics_averagelandings")
@@ -6915,12 +6915,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 Players_statistics.Clear();
 
                 SQL_READSOUTEZDATA("select s1.userid,"+
-"(select count(userid) from score where userid = s1.userid and userid>0) zaznamu," +
-" ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 group by userid), 2) pristani," +
-" (select sum(landing) from score where userid = s1.userid and userid>0)  sumpristani," +
+"(select count(userid) from score where userid = s1.userid and userid>0 and prep>0) zaznamu," +
+" ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 and prep > 0 group by userid), 2) pristani," +
+" (select sum(landing) from score where userid = s1.userid and userid>0  and prep > 0 )  sumpristani," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0 and entered is 'True' group by s1.userid order by pristani DESC", "get_statistics_averagelandings");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0 and entered is 'True'  and prep > 0  group by s1.userid order by pristani DESC", "get_statistics_averagelandings");
 
             }
 
