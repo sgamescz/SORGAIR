@@ -59,37 +59,48 @@ namespace WpfApp6
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
             VM.BIND_VERZE_SORGU = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
             VM.FUNCTION_LOAD_CONTESTS_FILES();
-            Thread test = new Thread(new ThreadStart(thread2));
-            test.Start();
+            Thread get_version = new Thread(new ThreadStart(thread_getsorgversion));
+            get_version.Start();
+            Thread get_news = new Thread(new ThreadStart(thread_getnewscount));
+            get_news.Start();
 
         }
 
-        public void thread2()
+        public void thread_getsorgversion()
         {
-            try
-            {
+            Thread.Sleep(2000);
+            string remoteUrl = "http://sorgair.com/api/version.php";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+            Console.WriteLine(result);
 
 
-                string remoteUrl = "http://sorgair.com/api/version.php";
-                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
-                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-                HttpWebRequest.DefaultCachePolicy = policy;
+            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
 
-                httpRequest.CachePolicy = policy;
-                WebResponse response = httpRequest.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                string result = reader.ReadToEnd();
-                Console.WriteLine(result);
+        }
+
+        public void thread_getnewscount()
+        {
+            Thread.Sleep(2500);
+            string remoteUrl = "http://sorgair.com/api/news.php";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+            Console.WriteLine(result);
 
 
-                this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
-
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            this.Invoke(() => VM.BIND_NEWS_COUNT = result);
 
         }
 

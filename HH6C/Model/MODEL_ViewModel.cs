@@ -1704,24 +1704,47 @@ namespace WpfApp6.Model
 
         }
 
-        
-        private string _BIND_NEWS_COUNT = SORGAIR.Properties.Lang.Lang.home_newscount + " : 4";
+        public string _BIND_NEWS_COUNT_NEEDUPDATE = "-";
+
+        public string BIND_NEWS_COUNT_NEEDUPDATE
+        {
+            get
+            {
+                return _BIND_NEWS_COUNT_NEEDUPDATE;
+            }
+
+            set
+            {
+                _BIND_NEWS_COUNT_NEEDUPDATE = value; OnPropertyChanged("BIND_NEWS_COUNT_NEEDUPDATE");
+            }
+
+        }
+
+        private string _BIND_NEWS_COUNT = "Checking";
         public string BIND_NEWS_COUNT
         {
             get
             {
-                return SORGAIR.Properties.Lang.Lang.home_newscount + " : 0";
+                return SORGAIR.Properties.Lang.Lang.home_newscount + " : " + _BIND_NEWS_COUNT;
             }
 
             set
             {
                 _BIND_NEWS_COUNT = value; OnPropertyChanged("BIND_NEWS_COUNT");
+                if (_BIND_NEWS_COUNT == "0")
+                {
+                    BIND_NEWS_COUNT_NEEDUPDATE = "0";
+                }
+                else
+                {
+                    BIND_NEWS_COUNT_NEEDUPDATE = "1";
+                }
             }
 
         }
 
 
-        private string _BIND_VERZE_SORGU_LAST = SORGAIR.Properties.Lang.Lang.home_actualversionis + " : 0.0.2.3";
+        private string _BIND_VERZE_SORGU_LAST = "Checking...";
         public string BIND_VERZE_SORGU_LAST
         {
             get
@@ -1743,14 +1766,17 @@ namespace WpfApp6.Model
         {
             get
             {
+                _BIND_VERZE_SORGU_NEEDUPDATE = "1";
+
                 if (_BIND_VERZE_SORGU_LAST == _BIND_VERZE_SORGU)
                 {
                     _BIND_VERZE_SORGU_NEEDUPDATE = "0";
                 }
-                else
+                if (_BIND_VERZE_SORGU_LAST == "Checking...")
                 {
-                    _BIND_VERZE_SORGU_NEEDUPDATE = "1";
+                    _BIND_VERZE_SORGU_NEEDUPDATE = "-";
                 }
+
 
                 return _BIND_VERZE_SORGU_NEEDUPDATE;
             }
@@ -1765,7 +1791,7 @@ namespace WpfApp6.Model
 
 
 
-        private string _BIND_VERZE_SORGU;
+        private string _BIND_VERZE_SORGU = " Checking...";
         public string BIND_VERZE_SORGU
         {
             get
@@ -3262,8 +3288,16 @@ namespace WpfApp6.Model
             }
 
 
+            if (delimiter.Length > 0)
+            {
+                return vysledek.Remove(vysledek.Length - (delimiter.Length));
 
-            return vysledek.Remove(vysledek.Length - (delimiter.Length));
+            }
+            else
+            {
+                return vysledek;
+
+            }
         }
 
 
@@ -3511,6 +3545,47 @@ namespace WpfApp6.Model
                         vysledek = kamulozitvysledek;
 
                     }
+
+                    
+
+                    if (kamulozitvysledek == "get_statistics_enemykiled")
+                    {
+
+
+                        string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                        var directory = System.IO.Path.GetDirectoryName(path);
+
+                        int score = 0;
+
+                        for (int x = 1; x < BIND_SQL_SOUTEZ_ROUNDS; x++)
+                        {
+                            for (int y = 1; y < BIND_SQL_SOUTEZ_GROUPS; y++)
+                            {
+                                score = score + int.Parse(SQL_READSOUTEZDATA_GETALL("select cast(ifnull(count(userid),0) as text) from score where rnd="+x+" and grp="+y+ " and prep <= (select prep from score where rnd=" + x + " and grp=" + y + " and userid=" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + ")", ""));
+                            }   
+                        }
+
+
+                        var _Players_statistics = new MODEL_Player_statistics()
+                        {
+                            POSITION = _results_autoincrement.ToString(),
+                            ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("lastname")) + " " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("firstname")),
+                            FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
+                            DATA = score
+
+                        };
+
+
+
+
+                        Players_statistics.Add(_Players_statistics);
+                        vysledek = kamulozitvysledek;
+
+                    }
+
+
+
 
                     if (kamulozitvysledek == "get_statistics_flighttime")
                     {
@@ -6755,6 +6830,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_RESULTS_LOADBASERESULTS(string what)
 
         {
+
+            if (what == "statistics_enemykiled")
+            {
+                Players_statistics.Clear();
+                SQL_READSOUTEZDATA("select Firstname, Lastname, id userid from users where id > 0 ", "get_statistics_enemykiled");
+            }
 
             if (what == "statistics_flighttime")
             {

@@ -309,6 +309,7 @@ namespace WpfApp6.View
 
             }
 
+            Console.WriteLine("skrtacky zapsany");
             udelej_zobrazeni_vysledku();
 
         }

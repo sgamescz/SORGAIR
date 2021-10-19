@@ -40,8 +40,7 @@ namespace SORGAIR
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("BIND_POCETSOUTEZICICHMENU" + VM.BIND_POCETSOUTEZICICHMENU);
-
+            
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var directory = System.IO.Path.GetDirectoryName(path);
 

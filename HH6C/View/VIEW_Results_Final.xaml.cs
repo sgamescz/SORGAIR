@@ -106,11 +106,11 @@ namespace WpfApp6.View
 
 
                 string tmp_kolo_pro_skracku;
-                for (int i = 0; i < VM.Players_Baseresults.Count(); i++)
+                for (int i = 0; i < VM.Players.Count(); i++)
                 {
 
-                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players_Baseresults[i].ID + " and skrtacka='False' and rnd < 100 ", "");
-                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players_Baseresults[i].ID);
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
+                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }
 

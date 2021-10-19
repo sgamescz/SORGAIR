@@ -98,7 +98,25 @@ namespace WpfApp6.View
 
 
 
-        public void thread2()
+        public void thread_getsorgversion()
+        {
+            string remoteUrl = "http://sorgair.com/api/version.php";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+            Console.WriteLine(result);
+
+
+            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+
+        }
+
+        public void thread_getnewscount()
         {
 
             string remoteUrl = "http://sorgair.com/api/version.php";
@@ -116,11 +134,14 @@ namespace WpfApp6.View
             this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
 
         }
+
+
         public void download_news(object sender, RoutedEventArgs e)
         {
 
-            Thread test = new Thread(new ThreadStart(thread2));
+            Thread test = new Thread(new ThreadStart(thread_getsorgversion));
             test.Start();
+            
             //VM.FUNCTION_LOAD_MATRIX_FILES();
 
 

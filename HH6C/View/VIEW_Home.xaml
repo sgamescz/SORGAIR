@@ -28,11 +28,30 @@
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
                     <Setter Property="BadgeBackground" Value="Red" />
                 </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
+                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                </DataTrigger>
 
             </Style.Triggers>
 
         </Style>
 
+        <Style x:Key="badgenewsstyl" TargetType="{x:Type Controls:Badged}">
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="0">
+                    <Setter Property="BadgeBackground" Value="Green" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
+                    <Setter Property="BadgeBackground" Value="Red" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
+                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                </DataTrigger>
+
+            </Style.Triggers>
+
+        </Style>
 
 
 
@@ -101,6 +120,8 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Badge="{Binding BIND_NEWS_COUNT}"
+            Style="{StaticResource badgenewsstyl}"
+            Tag="{Binding BIND_NEWS_COUNT_NEEDUPDATE}"
             BadgePlacementMode="Top">
             <Button Click="Button_Click_5">
 
