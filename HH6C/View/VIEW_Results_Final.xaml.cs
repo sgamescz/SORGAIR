@@ -202,204 +202,48 @@ namespace WpfApp6.View
             }
 
         }
-
-        private void print_completeresultspdf_btn_Click(object sender, RoutedEventArgs e)
-        {
-            print_completeresults("resultscomplete", "pdf");
-        }
-
+ 
         private void print_completeresults_btn_Click(object sender, RoutedEventArgs e)
         {
-            print_completeresults("resultscomplete", "html");
+
+           
+
+            string[] visibility = {
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True"
+            };
+
+
+            VM.print_completeresults("frame_with_contest_info", "data_empty", "print_complete_resuls", "WHAT333", "html", visibility );
         }
 
 
 
-        private async void print_completeresults(string template_name, string output_type)
-        {
-
-
-
-            var currentWindow = this.TryFindParent<MetroWindow>();
-            var controller = await currentWindow.ShowProgressAsync("Generuji", "Připravuji celkové výsledky k tisku");
-            await Task.Delay(300);
-            controller.SetProgress(0);
-
-
-            string html_main;
-            string html_body;
-            string html_body_withrightdata;
-
-
-            Console.WriteLine("VM.Players.Count" + VM.Players.Count);
-
-            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var directory = System.IO.Path.GetDirectoryName(path);
-
-
-            html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
-            html_main = html_main.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
-            html_main = html_main.Replace("@ORGANISATOR", VM.BIND_SQL_SOUTEZ_CLUB);
-            html_main = html_main.Replace("@PLACE", VM.BIND_SQL_SOUTEZ_LOKACE);
-            html_main = html_main.Replace("@DATE", VM.BIND_SQL_SOUTEZ_DATUM);
-            html_main = html_main.Replace("@CONTESTNUMBER", VM.BIND_SQL_SOUTEZ_SMCRID);
-            html_main = html_main.Replace("@CATEGORY", VM.BIND_SQL_SOUTEZ_KATEGORIE);
-            html_main = html_main.Replace("@DIRECTOR", VM.BIND_SQL_SOUTEZ_DIRECTOR);
-            html_main = html_main.Replace("@HEADJURY", VM.BIND_SQL_SOUTEZ_HEADJURY);
-            html_main = html_main.Replace("@SUBJURY", VM.BIND_SQL_SOUTEZ_JURY1 + " | " + VM.BIND_SQL_SOUTEZ_JURY2 + " | " + VM.BIND_SQL_SOUTEZ_JURY3);
-            html_main = html_main.Replace("@WEATHER", VM.BIND_SQL_SOUTEZ_POCASI);
-
-            html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
-            string html_body_complete = "";
-
-
-            html_body_complete = $@"<table>
-                <th>Pozice</th>
-                <th>Soutěžící</th>
-                <th class='visibility_{p_stat.IsOn}'>Stát</th>
-                <th class='visibility_{p_id.IsOn}'>ID</th>
-                <th class='visibility_{p_natlic.IsOn}'>NAT lic.</th>
-                <th class='visibility_{p_failic.IsOn}'>FAI lic.</th>
-                <th class='visibility_{p_agecat.IsOn}'>AGECAT</th>
-                <th class='visibility_{p_gpen.IsOn}'>G.Pen</th>
-                <th class='visibility_{p_fscore.IsOn}'>F.scóre</th>
-                <th class='visibility_{p_fztrata.IsOn}'>F.Ztráta</th>
-                <th class='iam_{R1VISIBILITYFINAL_FR.Visibility}'>F1</th>
-                <th class='iam_{R2VISIBILITYFINAL_FR.Visibility}'>F2</th>
-                <th class='iam_{R3VISIBILITYFINAL_FR.Visibility}'>F3</th>
-                <th class='iam_{R4VISIBILITYFINAL_FR.Visibility}'>F4</th>
-                <th class='iam_{R5VISIBILITYFINAL_FR.Visibility}'>F5</th>
-                <th class='visibility_{p_bonus.IsOn}'>Bonus</th>
-                <th class='visibility_{p_1000.IsOn}'>1000</th>
-                <th class='visibility_{p_zscore.IsOn}'>Z.scóre</th>
-                <th class='visibility_{p_zztrata.IsOn}'>Z.Ztráta</th>
-                <th class='iam_{R1VISIBILITY.Visibility}'>Kolo1</th>
-                <th class='iam_{R2VISIBILITY.Visibility}'>Kolo 2</th>
-                <th class='iam_{R3VISIBILITY.Visibility}'>Kolo 3</th>
-                <th class='iam_{R4VISIBILITY.Visibility}'>Kolo 4</th>
-                <th class='iam_{R5VISIBILITY.Visibility}'>Kolo 5</th>
-                <th class='iam_{R6VISIBILITY.Visibility}'>Kolo 6</th>
-                <th class='iam_{R7VISIBILITY.Visibility}'>Kolo 7</th>
-                <th class='iam_{R8VISIBILITY.Visibility}'>Kolo 8</th>
-                <th class='iam_{R9VISIBILITY.Visibility}'>Kolo 9</th>
-                <th class='iam_{R10VISIBILITY.Visibility}'>Kolo 10</th>
-                @BODY
-          </table>";
-
-            html_body_withrightdata = "";
-
-            for (int i = 0; i < VM.Players_Baseresults_Complete.Count(); i++)
-            {
-
-                html_body = $@"<tr>
-    <td>@POSITION</td>
-    <td><a href='#USER_@ID'>@USERNAME</a></td>
-    <td class='visibility_{p_stat.IsOn}'><img class='vlajka' src='@FLAG' /></td>
-    <td class='visibility_{p_id.IsOn}'>@ID</td>
-    <td class='visibility_{p_natlic.IsOn}'>@NATLIC</td>
-    <td class='visibility_{p_failic.IsOn}'>@FAILIC</td>
-    <td class='visibility_{p_agecat.IsOn}'>@AGECAT</td>
-    <td class='visibility_{p_gpen.IsOn}'>@GPEN</td>
-    <td class='visibility_{p_fscore.IsOn}'>@FINSCO</td>
-    <td class='visibility_{p_fztrata.IsOn}'>@FINLST</td>
-    <td class='iam_{R1VISIBILITYFINAL_FR.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND1RES_SKRTACKA_F}'>@F1</td>
-    <td class='iam_{R2VISIBILITYFINAL_FR.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND2RES_SKRTACKA_F}'>@F2</td>
-    <td class='iam_{R3VISIBILITYFINAL_FR.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND3RES_SKRTACKA_F}'>@F3</td>
-    <td class='iam_{R4VISIBILITYFINAL_FR.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND4RES_SKRTACKA_F}'>@F4</td>
-    <td class='iam_{R5VISIBILITYFINAL_FR.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND5RES_SKRTACKA_F}'>@F5</td>
-    <td class='visibility_{p_bonus.IsOn}'>@BONUS</td>
-    <td class='visibility_{p_1000.IsOn}'>@1000</td>
-    <td class='visibility_{p_zscore.IsOn}'>@SCORE</td>
-    <td class='visibility_{p_zztrata.IsOn}'>@LOST</td>
-    <td class='iam_{R1VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='iam_{R2VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND2RES_SKRTACKA}'>@R2</td>
-    <td class='iam_{R3VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND3RES_SKRTACKA}'>@R3</td>
-    <td class='iam_{R4VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND4RES_SKRTACKA}'>@R4</td>
-    <td class='iam_{R5VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND5RES_SKRTACKA}'>@R5</td>
-    <td class='iam_{R6VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND6RES_SKRTACKA}'>@R6</td>
-    <td class='iam_{R7VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND7RES_SKRTACKA}'>@R7</td>
-    <td class='iam_{R8VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND8RES_SKRTACKA}'>@R8</td>
-    <td class='iam_{R9VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND9RES_SKRTACKA}'>@R9</td>
-    <td class='iam_{R10VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults_Complete[i].RND10RES_SKRTACKA}'>@R10</td>
-</tr>";
-
-
-                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
-                Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
-                await Task.Delay(100);
-                string tabulkaletu = "";
-
-
-
-
-                html_body_withrightdata = html_body_withrightdata + html_body;
-
-                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players_Baseresults_Complete[i].PLAYERDATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", VM.Players_Baseresults_Complete[i].POSITION.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players_Baseresults_Complete[i].ID.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players_Baseresults_Complete[i].NATLIC.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players_Baseresults_Complete[i].FAILIC.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players_Baseresults_Complete[i].AGECAT.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", VM.Players_Baseresults_Complete[i].GPEN.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", VM.Players_Baseresults_Complete[i].PREPSCORE_BASE.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@LOST", VM.Players_Baseresults_Complete[i].PREPSCOREDIFF_BASE.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@R1X", VM.Players_Baseresults_Complete[i].RND1RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND1RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R2", VM.Players_Baseresults_Complete[i].RND2RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND2RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R3", VM.Players_Baseresults_Complete[i].RND3RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND3RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R4", VM.Players_Baseresults_Complete[i].RND4RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND4RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R5", VM.Players_Baseresults_Complete[i].RND5RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND5RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R6", VM.Players_Baseresults_Complete[i].RND6RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND6RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R7", VM.Players_Baseresults_Complete[i].RND7RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND7RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R8", VM.Players_Baseresults_Complete[i].RND8RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND8RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R9", VM.Players_Baseresults_Complete[i].RND9RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND9RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R10", VM.Players_Baseresults_Complete[i].RND10RES_SCORE + "<br>" + VM.Players_Baseresults_Complete[i].RND10RES_DATA);
-
-                html_body_withrightdata = html_body_withrightdata.Replace("@F1", VM.Players_Baseresults_Complete[i].RND1RES_SCORE_F + "<br>" + VM.Players_Baseresults_Complete[i].RND1RES_DATA_F);
-                html_body_withrightdata = html_body_withrightdata.Replace("@F2", VM.Players_Baseresults_Complete[i].RND2RES_SCORE_F + "<br>" + VM.Players_Baseresults_Complete[i].RND2RES_DATA_F);
-                html_body_withrightdata = html_body_withrightdata.Replace("@F3", VM.Players_Baseresults_Complete[i].RND3RES_SCORE_F + "<br>" + VM.Players_Baseresults_Complete[i].RND3RES_DATA_F);
-                html_body_withrightdata = html_body_withrightdata.Replace("@F4", VM.Players_Baseresults_Complete[i].RND4RES_SCORE_F + "<br>" + VM.Players_Baseresults_Complete[i].RND4RES_DATA_F);
-                html_body_withrightdata = html_body_withrightdata.Replace("@F5", VM.Players_Baseresults_Complete[i].RND5RES_SCORE_F + "<br>" + VM.Players_Baseresults_Complete[i].RND5RES_DATA_F);
-                html_body_withrightdata = html_body_withrightdata.Replace("@FINSCO", VM.Players_Baseresults_Complete[i].PREPSCORE_FINAL.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@FINLST", VM.Players_Baseresults_Complete[i].PREPSCOREDIFF_FINAL.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@BONUS", VM.Players_Baseresults_Complete[i].BONUS_POINTS.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@1000", VM.Players_Baseresults_Complete[i].TO_1000.ToString());
-
-
-
-
-                byte[] imageArray = System.IO.File.ReadAllBytes(VM.Players_Baseresults_Complete[i].FLAG);
-                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
-                Console.WriteLine(base64ImageRepresentation);
-                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
-            }
-            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
-
-
-
-            html_all = html_main.Replace("@BODY", html_body_complete);
-
-         
-
-            if (output_type == "html")
-            {
-
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + template_name + ".html"))
-                {
-                    file.WriteLine(html_all);
-                }
-                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".html");
-            }
-            await controller.CloseAsync();
-            await Task.Delay(300);
-
-
-
-        }
-
-        private void print_finalresultspdf_btn_Click(object sender, RoutedEventArgs e)
-        {
-            print_finalresults("resultsfinal", "pdf");
-        }
 
         private void print_finalresults_btn_Click(object sender, RoutedEventArgs e)
         {

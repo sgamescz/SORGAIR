@@ -10,6 +10,7 @@ using System.Globalization;
 using NAudio.Wave;
 using System.Net.Cache;
 using System.Net;
+using System.Text;
 
 
 
@@ -53,7 +54,7 @@ namespace WpfApp6.Model
     public class MODEL_ViewModel : INotifyPropertyChanged
     {
 
-
+        string memoryprint = "";
 
         //System.Windows.Media.MediaPlayer[] SoundDB = new System.Windows.Media.MediaPlayer[100];
         WaveOutEvent[] maintimewaveout = new WaveOutEvent[300];
@@ -2050,6 +2051,23 @@ namespace WpfApp6.Model
 
 
 
+        private int _BIND_ROUNDS_IN_STATISTICS = 1;
+        public int BIND_ROUNDS_IN_STATISTICS
+        {
+            get { return _BIND_ROUNDS_IN_STATISTICS; }
+
+            set
+            {
+                _BIND_ROUNDS_IN_STATISTICS = value;
+                OnPropertyChanged("BIND_ROUNDS_IN_STATISTICS");
+
+
+            }
+        }
+
+
+
+
 
 
         public int BIND_SQL_SOUTEZ_ROUNDS
@@ -3266,7 +3284,7 @@ namespace WpfApp6.Model
 
 
 
-        public string SQL_READSOUTEZDATA_GETALL(string sqltext, string delimiter)
+        public string SQL_READSOUTEZDATA_GETALL(string sqltext, string delimiter,string arraydelimiter, int pocetsloupcu, string starttag, string endtag)
         {
             Console.WriteLine("SQL_READSOUTEZDATA_ALL [SQL] : " + sqltext );
             string vysledek = "";
@@ -3278,7 +3296,21 @@ namespace WpfApp6.Model
                 sqlite_datareader = command.ExecuteReader();
                 while (sqlite_datareader.Read())
                 { 
+                if (pocetsloupcu == 1) { 
                 vysledek = vysledek + sqlite_datareader.GetString(0) + delimiter;
+                    }
+                    else
+                    {
+                        string multivysledek = "";
+                        for (int x = 0; x < pocetsloupcu; x++)
+                        {
+                            string obalovac = "";
+                            if (x == 0) { obalovac = "'"; } 
+                            multivysledek = multivysledek + obalovac + sqlite_datareader.GetString(x) + obalovac + arraydelimiter;
+                            
+                        }
+                        vysledek = vysledek + starttag + (multivysledek.Remove(multivysledek.Length - (arraydelimiter.Length))) + endtag + delimiter;
+                    }
                 }
             }
 
@@ -3459,7 +3491,7 @@ namespace WpfApp6.Model
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("rawmaxheight")),
                             DATA2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("summaxheight")),
                             DATA3 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("averagemaxheight")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
               
 
@@ -3493,7 +3525,7 @@ namespace WpfApp6.Model
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("minheight")),
                             DATA2str = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("sumprep")),
                             DATA3 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("podil")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select height || '/' || prep from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select height || '/' || prep from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -3561,7 +3593,7 @@ namespace WpfApp6.Model
                         {
                             for (int y = 1; y < BIND_SQL_SOUTEZ_GROUPS; y++)
                             {
-                                score = score + int.Parse(SQL_READSOUTEZDATA_GETALL("select cast(ifnull(count(userid),0) as text) from score where rnd="+x+" and grp="+y+ " and prep <= (select prep from score where rnd=" + x + " and grp=" + y + " and userid=" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + ")", ""));
+                                score = score + int.Parse(SQL_READSOUTEZDATA_GETALL("select cast(ifnull(count(userid),0) as text) from score where rnd="+x+" and grp="+y+ " and prep <= (select prep from score where rnd=" + x + " and grp=" + y + " and userid=" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + ")","|", "",1, "", ""));
                             }   
                         }
 
@@ -3604,7 +3636,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATAstr = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("totaltime")),
                             DATA2str = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("averagetime")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select strftime('%M:%S',time    ('00:00:00', (minutes*60+seconds) || ' seconds')) from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select strftime('%M:%S',time    ('00:00:00', (minutes*60+seconds) || ' seconds')) from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -3638,7 +3670,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("height")),
                             DATA2 =sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sumheight")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid"))," | "),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid"))," | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
                         };
@@ -3669,8 +3701,8 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATA = sqlite_datareader.GetDecimal (sqlite_datareader.GetOrdinal("pristani")),
                             DATA2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sumpristani")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) from score where prep > 0  and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | "),
-                            RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) from score where prep > 0  and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
+                            RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString() 
 
 
 
@@ -6841,11 +6873,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select time(sum((minutes*60+seconds)), 'unixepoch') totaltime," +
-" time(sum(minutes * 60 + seconds) / (select count(rnd) from score where userid = s1.userid  and prep > 0 ), 'unixepoch') averagetime," +
-" (select count(rnd) from score where userid = s1.userid  and prep > 0 ) zaznamu," +
+" time(sum(minutes * 60 + seconds) / (select count(rnd) from score where userid = s1.userid  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "), 'unixepoch') averagetime," +
+" (select count(rnd) from score where userid = s1.userid  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
 " u.Firstname," +
 " u.Lastname, u.id userid" +
-" from Score s1 left join users U on S1.userid = U.id where s1.userid > 0  and prep > 0  group by userid order by totaltime desc", "get_statistics_flighttime");
+" from Score s1 left join users U on S1.userid = U.id where s1.userid > 0  and prep > 0 and rnd <= "+ BIND_ROUNDS_IN_STATISTICS +" group by userid order by totaltime desc", "get_statistics_flighttime");
             }
 
 
@@ -6853,13 +6885,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid," +
-" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid) zaznamu," +
-" ifnull((select max(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid),0) rawmaxheight," +
-" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid),0) summaxheight," +
-" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid) / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid),0) averagemaxheight," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
+" ifnull((select max(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) rawmaxheight," +
+" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) summaxheight," +
+" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) averagemaxheight," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  group by s1.userid order by rawmaxheight DESC", "get_statistics_maxheights");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by rawmaxheight DESC", "get_statistics_maxheights");
             }
 
 
@@ -6867,16 +6899,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid, time(sum((minutes*60+seconds)), 'unixepoch') totaltime," +
-" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid) zaznamu," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
 " (select sum(minutes * 60 + seconds)) totaltimesec," +
-" ifnull((select sum(height) from score where height > 0  and prep > 0  and userid = s1.userid),0) sumheight," +
-" ifnull(time(((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid) / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid)),  'unixepoch' ),'99:99:99') prumernycasnakolo," +
-" ifnull(CAST(((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid) / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid)) as REAL),999.99) prumernavyskanakolo," +
-" ifnull(round(CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid) as REAL) / (CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid) as REAL)) * 600,2),999.99) na10minutjetreba," +
-" ifnull(time(round(CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid) / CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid) as REAL) as REAL) * 100, 2), 'unixepoch'),'00:00:00') ze100metrunalita," +
+" ifnull((select sum(height) from score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) sumheight," +
+" ifnull(time(((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")),  'unixepoch' ),'99:99:99') prumernycasnakolo," +
+" ifnull(CAST(((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")) as REAL),999.99) prumernavyskanakolo," +
+" ifnull(round(CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") as REAL) / (CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") as REAL)) * 600,2),999.99) na10minutjetreba," +
+" ifnull(time(round(CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") as REAL) as REAL) * 100, 2), 'unixepoch'),'00:00:00') ze100metrunalita," +
 " u.Firstname," +
 " u.Lastname " +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  group by s1.userid order by na10minutjetreba ASC", "get_statistics_timevsheight");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "  group by s1.userid order by na10minutjetreba ASC", "get_statistics_timevsheight");
             }
 
 
@@ -6886,14 +6918,14 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid,"+
-" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid) zaznamu," +
-" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2), 0) rawminheight," +
-" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2),0) minheight," +
-" (ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid), 0) || ' / ' || ifnull((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid),0)) sumprep," +
-" ifnull(round((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid) / (select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid),2),0) podil," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
+" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2), 0) rawminheight," +
+" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2),0) minheight," +
+" (ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "), 0) || ' / ' || ifnull((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0)) sumprep," +
+" ifnull(round((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),2),0) podil," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 group by s1.userid order by podil desc ", "get_statistics_minheights");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by podil desc ", "get_statistics_minheights");
             }
 
 
@@ -6901,13 +6933,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid,"+
-                    " (select count(userid) from score where height > 0 and userid = s1.userid  and prep > 0 ) zaznamu," +
-                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2), 9999) rawheight," +
-                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid)), 2),0) height," +
-                    " ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid),0) sumheight," +
+                    " (select count(userid) from score where height > 0 and userid = s1.userid  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
+                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2), 9999) rawheight," +
+                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2),0) height," +
+                    " ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) sumheight," +
                     " u.Firstname," +
                     " u.Lastname" +
-                    " from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  group by s1.userid order by rawheight ASC", "get_statistics_averageheights");
+                    " from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by rawheight ASC", "get_statistics_averageheights");
             }
 
             if (what == "statistics_averagelandings")
@@ -6915,12 +6947,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 Players_statistics.Clear();
 
                 SQL_READSOUTEZDATA("select s1.userid,"+
-"(select count(userid) from score where userid = s1.userid and userid>0 and prep>0) zaznamu," +
-" ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 and prep > 0 group by userid), 2) pristani," +
-" (select sum(landing) from score where userid = s1.userid and userid>0  and prep > 0 )  sumpristani," +
+"(select count(userid) from score where userid = s1.userid and userid>0 and prep>0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
+" ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by userid ), 2) pristani," +
+" (select sum(landing) from score where userid = s1.userid and userid>0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")  sumpristani," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0 and entered is 'True'  and prep > 0  group by s1.userid order by pristani DESC", "get_statistics_averagelandings");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0 and entered is 'True'  and prep > 0  and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by pristani DESC", "get_statistics_averagelandings");
 
             }
 
@@ -7563,5 +7595,808 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region printing
+
+     
+
+
+        private static readonly Random getrandom = new Random();
+
+
+        public async void print_basicresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
+        {
+
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            string html_all;
+
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8);
+            string html_body_complete = "";
+
+
+            html_body_complete = $@"<table>
+                <th>Pozice</th>
+                <th>Soutěžící</th>
+                <th class='visibility_{visibility[0]}'>Stát</th>
+                <th class='visibility_{visibility[1]}'>ID</th>
+                <th class='visibility_{visibility[2]}'>AGECAT</th>
+                <th>Celkové scóre</th>
+                <th class='visibility_{visibility[3]}'>G.Pen</th>
+                <th class='visibility_{visibility[4]}'>Ztráta</th>
+                <th class='iam_{visibility[5]}'>Kolo1</th>
+                <th class='iam_{visibility[6]}'>Kolo 2</th>
+                <th class='iam_{visibility[7]}'>Kolo 3</th>
+                <th class='iam_{visibility[8]}'>Kolo 4</th>
+                <th class='iam_{visibility[9]}'>Kolo 5</th>
+                <th class='iam_{visibility[10]}'>Kolo 6</th>
+                <th class='iam_{visibility[11]}'>Kolo 7</th>
+                <th class='iam_{visibility[12]}'>Kolo 8</th>
+                <th class='iam_{visibility[13]}'>Kolo 9</th>
+                <th class='iam_{visibility[14]}'>Kolo 10</th>
+                @BODY
+          </table>";
+
+            html_body_withrightdata = "";
+            Console.WriteLine(Players_Baseresults.Count());
+            for (int i = 0; i < Players_Baseresults.Count(); i++)
+            {
+
+                html_body = $@"<tr>
+    <td>@POSITION</td>
+    <td>@USERNAME</td>
+    <td class='visibility_{visibility[0]}'><img class='vlajka' src='@FLAG' /></td>
+    <td class='visibility_{visibility[1]}'>@ID</td>
+    <td class='visibility_{visibility[2]}'>@AGECAT</td>
+    <td>@SCORE</td>
+    <td class='visibility_{visibility[3]}'>@GPEN</td>
+    <td class='visibility_{visibility[4]}'>@LOST</td>
+    <td class='iam_{visibility[5]} skrtacka{Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
+    <td class='iam_{visibility[6]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2</td>
+    <td class='iam_{visibility[7]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3</td>
+    <td class='iam_{visibility[8]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4</td>
+    <td class='iam_{visibility[9]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5</td>
+    <td class='iam_{visibility[10]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6</td>
+    <td class='iam_{visibility[11]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7</td>
+    <td class='iam_{visibility[12]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8</td>
+    <td class='iam_{visibility[13]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9</td>
+    <td class='iam_{visibility[14]} skrtacka{Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10</td>
+</tr>";
+                string tabulkaletu = "";
+
+
+
+
+                html_body_withrightdata = html_body_withrightdata + html_body;
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", Players_Baseresults[i].PLAYERDATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", Players_Baseresults[i].POSITION.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", Players_Baseresults[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", Players_Baseresults[i].AGECAT.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", Players_Baseresults[i].PREPSCORE.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", Players_Baseresults[i].GPEN.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@LOST", Players_Baseresults[i].PREPSCOREDIFF.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@R1X", Players_Baseresults[i].RND1RES_SCORE + "<br>" + Players_Baseresults[i].RND1RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R2", Players_Baseresults[i].RND2RES_SCORE + "<br>" + Players_Baseresults[i].RND2RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R3", Players_Baseresults[i].RND3RES_SCORE + "<br>" + Players_Baseresults[i].RND3RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R4", Players_Baseresults[i].RND4RES_SCORE + "<br>" + Players_Baseresults[i].RND4RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R5", Players_Baseresults[i].RND5RES_SCORE + "<br>" + Players_Baseresults[i].RND5RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R6", Players_Baseresults[i].RND6RES_SCORE + "<br>" + Players_Baseresults[i].RND6RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R7", Players_Baseresults[i].RND7RES_SCORE + "<br>" + Players_Baseresults[i].RND7RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R8", Players_Baseresults[i].RND8RES_SCORE + "<br>" + Players_Baseresults[i].RND8RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R9", Players_Baseresults[i].RND9RES_SCORE + "<br>" + Players_Baseresults[i].RND9RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R10", Players_Baseresults[i].RND10RES_SCORE + "<br>" + Players_Baseresults[i].RND10RES_DATA);
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(Players_Baseresults[i].FLAG);
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+            }
+
+            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
+
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+
+                memoryprint = memoryprint + html_all;
+            }
+
+        }
+
+        public async void print_completeresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
+        {
+
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            string html_all;
+
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8);
+            string html_body_complete = "";
+
+
+            html_body_complete = $@"<table>
+                <th>Pozice</th>
+                <th>Soutěžící</th>
+                <th class='visibility_{visibility[0]}'>Stát</th>
+                <th class='visibility_{visibility[1]}'>ID</th>
+                <th class='visibility_{visibility[2]}'>NAT lic.</th>
+                <th class='visibility_{visibility[3]}'>FAI lic.</th>
+                <th class='visibility_{visibility[4]}'>AGECAT</th>
+                <th class='visibility_{visibility[5]}'>G.Pen</th>
+                <th class='visibility_{visibility[6]}'>F.scóre</th>
+                <th class='visibility_{visibility[7]}'>F.Ztráta</th>
+                <th class='iam_{visibility[8]}'>F1</th>
+                <th class='iam_{visibility[9]}'>F2</th>
+                <th class='iam_{visibility[10]}'>F3</th>
+                <th class='iam_{visibility[11]}'>F4</th>
+                <th class='iam_{visibility[12]}'>F5</th>
+                <th class='visibility_{visibility[13]}'>Bonus</th>
+                <th class='visibility_{visibility[14]}'>1000</th>
+                <th class='visibility_{visibility[15]}'>Z.scóre</th>
+                <th class='visibility_{visibility[16]}'>Z.Ztráta</th>
+                <th class='iam_{visibility[17]}'>Kolo1</th>
+                <th class='iam_{visibility[18]}'>Kolo 2</th>
+                <th class='iam_{visibility[19]}'>Kolo 3</th>
+                <th class='iam_{visibility[20]}'>Kolo 4</th>
+                <th class='iam_{visibility[21]}'>Kolo 5</th>
+                <th class='iam_{visibility[22]}'>Kolo 6</th>
+                <th class='iam_{visibility[23]}'>Kolo 7</th>
+                <th class='iam_{visibility[24]}'>Kolo 8</th>
+                <th class='iam_{visibility[25]}'>Kolo 9</th>
+                <th class='iam_{visibility[26]}'>Kolo 10</th>
+                @BODY
+          </table>";
+
+            html_body_withrightdata = "";
+
+            for (int i = 0; i < Players_Baseresults_Complete.Count(); i++)
+            {
+
+                html_body = $@"<tr>
+    <td>@POSITION</td>
+    <td><a href='#USER_@ID'>@USERNAME</a></td>
+    <td class='visibility_{visibility[0]}'><img class='vlajka' src='@FLAG' /></td>
+    <td class='visibility_{visibility[1]}'>@ID</td>
+    <td class='visibility_{visibility[2]}'>@NATLIC</td>
+    <td class='visibility_{visibility[3]}'>@FAILIC</td>
+    <td class='visibility_{visibility[4]}'>@AGECAT</td>
+    <td class='visibility_{visibility[5]}'>@GPEN</td>
+    <td class='visibility_{visibility[6]}'>@FINSCO</td>
+    <td class='visibility_{visibility[7]}'>@FINLST</td>
+    <td class='iam_{visibility[8]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA_F}'>@F1</td>
+    <td class='iam_{visibility[9]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA_F}'>@F2</td>
+    <td class='iam_{visibility[10]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA_F}'>@F3</td>
+    <td class='iam_{visibility[11]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA_F}'>@F4</td>
+    <td class='iam_{visibility[12]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA_F}'>@F5</td>
+    <td class='visibility_{visibility[13]}'>@BONUS</td>
+    <td class='visibility_{visibility[14]}'>@1000</td>
+    <td class='visibility_{visibility[15]}'>@SCORE</td>
+    <td class='visibility_{visibility[16]}'>@LOST</td>
+    <td class='iam_{visibility[17]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA}'>@R1X</td>
+    <td class='iam_{visibility[18]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA}'>@R2</td>
+    <td class='iam_{visibility[19]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA}'>@R3</td>
+    <td class='iam_{visibility[20]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA}'>@R4</td>
+    <td class='iam_{visibility[21]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA}'>@R5</td>
+    <td class='iam_{visibility[22]} skrtacka{Players_Baseresults_Complete[i].RND6RES_SKRTACKA}'>@R6</td>
+    <td class='iam_{visibility[23]} skrtacka{Players_Baseresults_Complete[i].RND7RES_SKRTACKA}'>@R7</td>
+    <td class='iam_{visibility[24]} skrtacka{Players_Baseresults_Complete[i].RND8RES_SKRTACKA}'>@R8</td>
+    <td class='iam_{visibility[25]} skrtacka{Players_Baseresults_Complete[i].RND9RES_SKRTACKA}'>@R9</td>
+    <td class='iam_{visibility[26]} skrtacka{Players_Baseresults_Complete[i].RND10RES_SKRTACKA}'>@R10</td>
+</tr>";
+
+                string tabulkaletu = "";
+
+
+
+
+                html_body_withrightdata = html_body_withrightdata + html_body;
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", Players_Baseresults_Complete[i].PLAYERDATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", Players_Baseresults_Complete[i].POSITION.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", Players_Baseresults_Complete[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", Players_Baseresults_Complete[i].NATLIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", Players_Baseresults_Complete[i].FAILIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", Players_Baseresults_Complete[i].AGECAT.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", Players_Baseresults_Complete[i].GPEN.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", Players_Baseresults_Complete[i].PREPSCORE_BASE.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@LOST", Players_Baseresults_Complete[i].PREPSCOREDIFF_BASE.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@R1X", Players_Baseresults_Complete[i].RND1RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND1RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R2", Players_Baseresults_Complete[i].RND2RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND2RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R3", Players_Baseresults_Complete[i].RND3RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND3RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R4", Players_Baseresults_Complete[i].RND4RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND4RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R5", Players_Baseresults_Complete[i].RND5RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND5RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R6", Players_Baseresults_Complete[i].RND6RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND6RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R7", Players_Baseresults_Complete[i].RND7RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND7RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R8", Players_Baseresults_Complete[i].RND8RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND8RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R9", Players_Baseresults_Complete[i].RND9RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND9RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R10", Players_Baseresults_Complete[i].RND10RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND10RES_DATA);
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@F1", Players_Baseresults_Complete[i].RND1RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND1RES_DATA_F);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F2", Players_Baseresults_Complete[i].RND2RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND2RES_DATA_F);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F3", Players_Baseresults_Complete[i].RND3RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND3RES_DATA_F);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F4", Players_Baseresults_Complete[i].RND4RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND4RES_DATA_F);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F5", Players_Baseresults_Complete[i].RND5RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND5RES_DATA_F);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FINSCO", Players_Baseresults_Complete[i].PREPSCORE_FINAL.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FINLST", Players_Baseresults_Complete[i].PREPSCOREDIFF_FINAL.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@BONUS", Players_Baseresults_Complete[i].BONUS_POINTS.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@1000", Players_Baseresults_Complete[i].TO_1000.ToString());
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(Players_Baseresults_Complete[i].FLAG);
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+            }
+            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
+
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+
+                memoryprint = memoryprint + html_all;
+            }
+
+        }
+
+
+        public async void print_statistics(string frame_template_name, string data_emplate_name, string file_name, string graph_name, string what_string, string output_type, string[] headers, string[] visibility)
+        {
+
+
+
+            string html_all;
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            Console.WriteLine(graph_name);
+            
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+
+
+            // html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+            //html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+
+
+            html_body_complete = $@"<table>
+                <th>{headers[0]}</th>
+                <th>{headers[1]}</th>
+                <th>{headers[2]}</th>
+                <th>{headers[3]}</th>
+                <th>{headers[4]}</th>
+    <th class='visibility_{visibility[0]}'>{headers[5]}</td>
+    <th class='visibility_{visibility[1]}'>{headers[6]}</td>
+    <th class='visibility_{visibility[2]}'>{headers[7]}</td>
+    <th class='visibility_{visibility[3]}'>{headers[8]}</td>
+    <th class='visibility_{visibility[4]}'>{headers[9]}</td>
+    <th class='visibility_{visibility[5]}'>{headers[10]}</td>
+    <th class='visibility_{visibility[6]}'>{headers[11]}</td>
+    @BODY
+          </table>";
+
+            html_body_withrightdata = "";
+            Console.WriteLine(Players_statistics.Count());
+            for (int i = 0; i < Players_statistics.Count(); i++)
+            {
+
+
+
+
+                html_body = $@"<tr>
+    <td>@POSITION</td>
+    <td>@USERNAME</td>
+    <td><img class='vlajka' src='@FLAG' /></td>
+    <td>@ID</td>
+    <td>@RECORDS</td>
+    <td class='visibility_{visibility[0]}'>@DATA_</td>
+    <td class='visibility_{visibility[1]}'>@DATASTR_</td>
+    <td class='visibility_{visibility[2]}'>@DATA2_</td>
+    <td class='visibility_{visibility[3]}'>@DATA2STR_</td>
+    <td class='visibility_{visibility[4]}'>@DATA3_</td>
+    <td class='visibility_{visibility[5]}'>@DATA3STR_</td>
+    <td class='visibility_{visibility[6]}'>@DATA4_</td>
+</tr>";
+
+
+           
+
+
+
+
+                html_body_withrightdata = html_body_withrightdata + html_body;
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", Players_statistics[i].POSITION.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", Players_statistics[i].PLAYERDATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", Players_statistics[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@RECORDS", Players_statistics[i].RECORDS.ToString());
+
+
+                if (Players_statistics[i].DATA != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATA_", Players_statistics[i].DATA.ToString()); }
+
+                if (Players_statistics[i].DATAstr != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATASTR_", Players_statistics[i].DATAstr.ToString()); }
+
+                if (Players_statistics[i].DATA2 != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATA2_", Players_statistics[i].DATA2.ToString()); }
+
+                if (Players_statistics[i].DATA2str != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATA2STR_", Players_statistics[i].DATA2str.ToString()); }
+
+                if (Players_statistics[i].DATA3 != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATA3_", Players_statistics[i].DATA3.ToString()); }
+
+                if (Players_statistics[i].DATA3str != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATA3STR_", Players_statistics[i].DATA3str.ToString()); }
+
+
+                if (Players_statistics[i].DATA4 != null)
+                { html_body_withrightdata = html_body_withrightdata.Replace("@DATA4_", Players_statistics[i].DATA4.ToString()); }
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(Players_statistics[i].FLAG);
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+            }
+            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
+
+
+            if (graph_name == "statistics_landing")
+            {
+                string datadografu = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) || \" bodů \", cast(count(landing) as text) from score where userid > 0 and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by landing", ",", ",", 2, "[", "]");
+                Console.WriteLine(datadografu);
+                html_body_complete = html_body_complete +
+                    vytvor_graf_google("Poměr přistání v soutěží", "xnone", datadografu, "ColumnChart", "['xx', 'Počet']");
+            }
+
+
+            if (graph_name == "statistics_flighttime")
+            {
+                string datadografu = SQL_READSOUTEZDATA_GETALL("select cast('kolo:' || rnd as text), cast (max((minutes*60)+seconds) as text), cast(min((minutes*60)+seconds) as text), cast((sum(((minutes*60)+seconds)) )/(count(rnd))as text) from Score where rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and minutes >0 and seconds >0 group by rnd ", ",", ",", 4, "[", "]");
+                Console.WriteLine(datadografu);
+                html_body_complete = html_body_complete +
+                    vytvor_graf_google("Max / min / avg. letové časy", "xnone", datadografu, "AreaChart", "['kolo', 'max', 'min', 'average']") +
+                    vytvor_graf_google("Max / min / avg. letové časy", "xnone", datadografu, "ColumnChart", "['kolo', 'max', 'min', 'average']");
+            }
+
+
+            // vytvor_graf_chart("scatter") +
+            //                vytvor_graf_google_line() +
+
+
+
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+                
+                memoryprint = memoryprint + html_all;
+            }
+
+
+
+        }
+
+        public void print_memory_to_file(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
+        {
+
+
+
+
+
+            string html_all;
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+            html_main = html_main.Replace("@WHAT", what_string);
+
+
+
+            // html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8);
+
+
+
+
+
+
+            html_all = html_main.Replace("@BODY", memoryprint);
+
+
+
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/"+ file_name+".html"))
+            {
+                file.WriteLine(html_all);
+            }
+            System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            memoryprint = "";
+
+        }
+
+        private string vytvor_graf_chart(string typgrafu)
+        {
+            string graf = $@"
+<canvas id='myChart1' style='width:100%;max-width:700px'></canvas>
+
+
+<script>
+    var xValues = [50,60,70,80,90,100,110,120,130,140,150];
+    var yValues = [7,8,8,9,9,9,10,11,14,14,15];
+    
+    new Chart('myChart1', {{
+      type: 'line',
+      data: {{
+        labels: xValues,
+        datasets: [{{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: 'rgba(0,0,255,1.0)',
+          borderColor: 'rgba(0,0,255,0.1)',
+          data: yValues
+        }}]
+      }},
+      options: {{
+        legend: {{display: false}},
+        scales: {{
+          yAxes: [{{ticks: {{min: 6, max:16}}}}],
+        }}
+      }}
+    }});
+    </script>
+<br><br><hr><br><br>
+";
+
+
+
+
+
+
+            return graf;
+        }
+
+
+
+
+
+        private string vytvor_graf_google_line()
+        {
+            string graf = $@"
+<div id='myChart2' style='width:100%; height:500px;'></div>
+
+<script>
+google.charts.load('current',{{packages:['corechart']}});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {{
+// Set Data
+var data = google.visualization.arrayToDataTable([
+ ['Category', 'Amount', 'prumer', '200', 'max'],
+  [1,20,30,200,358],
+  [2,14,18,200,358],
+  [3,15,80,200,358]
+],false);
+
+
+
+// Set Options
+var options = {{
+  title: 'House Prices vs. Size',
+  hAxis: {{title: 'kolo'}},
+  vAxis: {{title: 'výška v metrech'}},
+  legend: 'none'
+}};
+// Draw
+var chart = new google.visualization.LineChart(document.getElementById('myChart2'));
+chart.draw(data, options);
+}}
+</script>
+<br><br><hr><br><br>
+
+";
+
+
+
+
+
+
+            return graf;
+        }
+
+
+        public static int GetRandomNumber(int min, int max)
+        {
+            lock (getrandom) // synchronize
+            {
+                return getrandom.Next(min, max);
+            }
+        }
+
+
+
+        private string vytvor_graf_google(string nazev_grafu, string zobrazit_legendu, string datadografu, string typgrafu, string sloupce)
+        {
+
+            int divrandom = GetRandomNumber(1, 100000);
+
+            string graf = $@"
+<div id='{divrandom}' style='width:100%; height:500px;'></div>
+
+<script>
+google.charts.load('current',{{packages:['corechart']}});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {{
+// Set Data
+ var data = google.visualization.arrayToDataTable([
+          {sloupce},
+        {datadografu}
+        ]);
+
+ var options = {{
+        legend: '{zobrazit_legendu}',
+        pieSliceText: 'label',
+pieHole: 0.5,
+        title: '{nazev_grafu}',
+        pieStartAngle: 100,
+      }};
+
+
+// Draw
+
+ var chart = new google.visualization.{typgrafu}(document.getElementById('{divrandom}'));
+chart.draw(data, options);
+}}
+</script>
+<br><br><hr><br><br>
+
+";
+
+
+
+
+
+
+            return graf;
+        }
+
+
+  #endregion  
+    
     }
+
+
+
+
+
 }

@@ -650,11 +650,6 @@
                             VerticalAlignment="Center"
                             Kind="RegularPrinter" />
                     </mah:Tile>
-
-
-
-
-
                     <mah:Tile
                         x:Name="print_completeresults_btn"
                         Title="Tisk celkových výsledků"

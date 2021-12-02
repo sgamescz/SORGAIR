@@ -92,95 +92,137 @@
 
     <StackPanel>
 
-        <Grid Height="161">
-            <WrapPanel Margin="0,0,10,10">
-                <StackPanel Width="990" Orientation="Horizontal">
+        <Grid Height="181" >
+            <WrapPanel Margin="0,0,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="990">
+                <StackPanel Width="975" Orientation="Horizontal">
 
-                <mah:Tile
+                    <mah:Tile
                     Name="statistics_landing"
                     Title="Přesnost přistání"
                     VerticalContentAlignment="Center"
                     Click="statistics_landing_Click"
                     IsEnabled="True"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconMaterial
+                        <iconPacks:PackIconMaterial
                         Width="35"
                         Height="35"
                         Kind="BullseyeArrow" />
-                </mah:Tile>
-                <mah:Tile
+                    </mah:Tile>
+                    <mah:Tile
                     Name="statistics_flighttime"
                     Title="Průměrná doba letu"
                     VerticalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}" Click="statistics_flighttime_Click">
-                    <iconPacks:PackIconModern
+                        <iconPacks:PackIconModern
                         Width="35"
                         Height="35"
                         Kind="Timer3" />
-                </mah:Tile>
+                    </mah:Tile>
 
 
 
-                <mah:Tile
+                    <mah:Tile
                     Name="statistics_averageheight"
                     Title="Průměrná výška"
                     VerticalContentAlignment="Center"
                     Click="statistics_averageheight_Click"
                     Style="{StaticResource SmallTileStyle}">
-                    <iconPacks:PackIconUnicons
+                        <iconPacks:PackIconUnicons
                         Width="35"
                         Height="35"
                         Kind="Rocket" />
-                </mah:Tile>
+                    </mah:Tile>
 
-                <mah:Tile
+                    <mah:Tile
                     x:Name="statistics_maxheight"
                     Title="Gagarin (max. výška)"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}" Click="statistics_maxheight_Click">
-                    <iconPacks:PackIconFontAwesome
+                        <iconPacks:PackIconFontAwesome
                         Width="35"
                         Height="35"
                         Kind="UserAstronautSolid" />
-                </mah:Tile>
+                    </mah:Tile>
 
-                <mah:Tile
+                    <mah:Tile
                     x:Name="statistics_minheight"
                     Title="Krtek (min.výška)"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}" Click="statistics_minheight_Click">
                         <iconPacks:PackIconFileIcons Kind="Digdag" Width="35" Height="35"/>
                     </mah:Tile>
-                <mah:Tile
+                    <mah:Tile
                     x:Name="statistics_timevsheight"
                     Title="Čas vs výška"
                     HorizontalContentAlignment="Center"
                     IsEnabled="True"
                     Style="{StaticResource SmallTileStyle}" Click="statistics_timevsheight_Click">
-                    <iconPacks:PackIconForkAwesome
+                        <iconPacks:PackIconForkAwesome
                         Width="35"
                         Height="35"
                         Kind="PieChart" />
-                </mah:Tile>
+                    </mah:Tile>
 
 
 
 
 
-                <mah:Tile
+                    <mah:Tile
                     x:Name="statistics_enemykiled"
                     Title="počet poražených"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}" Click="statistics_enemykiled_Click">
-                    <iconPacks:PackIconMaterial
+                        <iconPacks:PackIconMaterial
                         Width="35"
                         Height="35"
                         Kind="Pirate" />
-                </mah:Tile>
+                    </mah:Tile>
                 </StackPanel>
-                <StackPanel Width="990">
-                    <Button></Button>
-                </StackPanel>
+                <Grid Width="987" Height="57">
+                    <mah:NumericUpDown
+                    x:Name="NUM_ROUNDS_IN_RESULTS"
+                    Grid.Column="0"
+                    Width="275"
+                    HorizontalAlignment="Right"
+                    mah:TextBoxHelper.ClearTextButton="False"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    ButtonsAlignment="Opposite"
+                    FontSize="15"
+                    FontWeight="Heavy"
+                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}"
+                    Maximum="{Binding BIND_SQL_SOUTEZ_ROUNDS}"
+                    Minimum="1"
+                    SwitchUpDownButtons="True"
+                    TextAlignment="Center"
+                    Value="{Binding BIND_ROUNDS_IN_STATISTICS}" Margin="0,10,283,10" />
+
+
+                    <Label
+                    Width="275"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Right"
+                    VerticalContentAlignment="Center"
+                  
+                    Content="Zobrazit statistiky až do kola : "
+                    FontWeight="Medium"
+                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}" Margin="0,10,563,10" />
+
+                    <mah:Tile
+                        x:Name="print_statistics_btn"
+                        Title="Tisk zobrazené statistiky"
+                         Style="{StaticResource SmallTileStyle}" Width="148" Height="Auto"
+                        Background="YellowGreen" Margin="709,10,0,10" HorizontalAlignment="Left" HorizontalTitleAlignment="Right" HorizontalContentAlignment="Right" Click="print_statistics_btn_Click"                     >
+
+                    </mah:Tile>
+                    <mah:Tile
+                        x:Name="print_statistics_btnall"
+                        Title="Tisk zobrazené statistiky"
+                         Style="{StaticResource SmallTileStyle}" Width="115" Height="Auto"
+                        Background="YellowGreen" Margin="862,10,0,10" HorizontalAlignment="Left" HorizontalTitleAlignment="Right" HorizontalContentAlignment="Right" Click="print_statistics_btnall_Click"                     >
+
+                    </mah:Tile>
+                </Grid>
+
 
 
 

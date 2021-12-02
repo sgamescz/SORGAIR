@@ -124,166 +124,59 @@ namespace WpfApp6.View
 
         }
 
-        private void print_baseresults_btn_Click(object sender, RoutedEventArgs e)
+        private async void print_baseresults_btn_Click(object sender, RoutedEventArgs e)
         {
-            print_baseresults("resultsbase", "html");
-        }
-
-        private void print_baseresultspdf_btn_Click(object sender, RoutedEventArgs e)
-        {
-            print_baseresults("resultsbase", "pdf");
-        }
-
-
-
-
-        private async void print_baseresults(string template_name, string output_type)
-        {
-
-
 
             var currentWindow = this.TryFindParent<MetroWindow>();
             var controller = await currentWindow.ShowProgressAsync("Generuji", "Připravuji výsledky k tisku");
+            controller.SetProgress(0.1);
             await Task.Delay(300);
-            controller.SetProgress(0);
 
 
-            string html_main;
-            string html_body;
-            string html_body_withrightdata;
+            string[] visibility = {
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True"
+            };
 
 
-            Console.WriteLine("VM.Players.Count" + VM.Players.Count);
-
-            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var directory = System.IO.Path.GetDirectoryName(path);
+            VM.print_basicresults("frame_small_info", "data_empty", "print_basic_resuls", "WHAT222", "html", visibility);
 
 
-            html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
-            html_main = html_main.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
-
-            html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
-            string html_body_complete = "";
-
-
-            html_body_complete = $@"<table>
-                <th>Pozice</th>
-                <th>Soutěžící</th>
-                <th class='visibility_{p_stat.IsOn}'>Stát</th>
-                <th class='visibility_{p_id.IsOn}'>ID</th>
-                <th class='visibility_{p_agecat.IsOn}'>AGECAT</th>
-                <th>Celkové scóre</th>
-                <th class='visibility_{p_gpen.IsOn}'>G.Pen</th>
-                <th class='visibility_{p_ztrata.IsOn}'>Ztráta</th>
-                <th class='iam_{R1VISIBILITY.Visibility}'>Kolo1</th>
-                <th class='iam_{R2VISIBILITY.Visibility}'>Kolo 2</th>
-                <th class='iam_{R3VISIBILITY.Visibility}'>Kolo 3</th>
-                <th class='iam_{R4VISIBILITY.Visibility}'>Kolo 4</th>
-                <th class='iam_{R5VISIBILITY.Visibility}'>Kolo 5</th>
-                <th class='iam_{R6VISIBILITY.Visibility}'>Kolo 6</th>
-                <th class='iam_{R7VISIBILITY.Visibility}'>Kolo 7</th>
-                <th class='iam_{R8VISIBILITY.Visibility}'>Kolo 8</th>
-                <th class='iam_{R9VISIBILITY.Visibility}'>Kolo 9</th>
-                <th class='iam_{R10VISIBILITY.Visibility}'>Kolo 10</th>
-                @BODY
-          </table>";
-
-            html_body_withrightdata = "";
-            Console.WriteLine(VM.Players_Baseresults.Count());
-            for (int i = 0; i < VM.Players_Baseresults.Count(); i++)
-            {
-
-                html_body = $@"<tr>
-    <td>@POSITION</td>
-    <td>@USERNAME</td>
-    <td class='visibility_{p_stat.IsOn}'><img class='vlajka' src='@FLAG' /></td>
-    <td class='visibility_{p_id.IsOn}'>@ID</td>
-    <td class='visibility_{p_agecat.IsOn}'>@AGECAT</td>
-    <td>@SCORE</td>
-    <td class='visibility_{p_gpen.IsOn}'>@GPEN</td>
-    <td class='visibility_{p_ztrata.IsOn}'>@LOST</td>
-    <td class='iam_{R1VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='iam_{R2VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2</td>
-    <td class='iam_{R3VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3</td>
-    <td class='iam_{R4VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4</td>
-    <td class='iam_{R5VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5</td>
-    <td class='iam_{R6VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6</td>
-    <td class='iam_{R7VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7</td>
-    <td class='iam_{R8VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8</td>
-    <td class='iam_{R9VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9</td>
-    <td class='iam_{R10VISIBILITY.Visibility} skrtacka{VM.Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10</td>
-</tr>";
-
-
-                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
-                Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
-                await Task.Delay(100);
-                string tabulkaletu = "";
-
-            
-
-
-                    html_body_withrightdata = html_body_withrightdata + html_body;
-
-                    html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players_Baseresults[i].PLAYERDATA);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", VM.Players_Baseresults[i].POSITION.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players_Baseresults[i].ID.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players_Baseresults[i].AGECAT.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", VM.Players_Baseresults[i].PREPSCORE.ToString() );
-                html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", VM.Players_Baseresults[i].GPEN.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@LOST", VM.Players_Baseresults[i].PREPSCOREDIFF.ToString());
-                html_body_withrightdata = html_body_withrightdata.Replace("@R1X", VM.Players_Baseresults[i].RND1RES_SCORE+ "<br>" + VM.Players_Baseresults[i].RND1RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R2", VM.Players_Baseresults[i].RND2RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND2RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R3", VM.Players_Baseresults[i].RND3RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND3RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R4", VM.Players_Baseresults[i].RND4RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND4RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R5", VM.Players_Baseresults[i].RND5RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND5RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R6", VM.Players_Baseresults[i].RND6RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND6RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R7", VM.Players_Baseresults[i].RND7RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND7RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R8", VM.Players_Baseresults[i].RND8RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND8RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R9", VM.Players_Baseresults[i].RND9RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND9RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R10", VM.Players_Baseresults[i].RND10RES_SCORE + "<br>" + VM.Players_Baseresults[i].RND10RES_DATA);
-
-
-
-
-                byte[] imageArray = System.IO.File.ReadAllBytes(VM.Players_Baseresults[i].FLAG);
-                    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
-                    Console.WriteLine(base64ImageRepresentation);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
-            }
-            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
-
-
-
-            html_all = html_main.Replace("@BODY", html_body_complete);
-
-            if (output_type == "pdf")
-            {
-
-                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
-                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(html_all);
-                doc.Save(directory + "/Print/" + template_name + ".pdf");
-                doc.Close();
-
-                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".pdf");
-            }
-
-
-            if (output_type == "html")
-            {
-
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + template_name + ".html"))
-                {
-                    file.WriteLine(html_all);
-                }
-                System.Diagnostics.Process.Start(directory + "/Print/" + template_name + ".html");
-            }
+            controller.SetProgress(0.7);
+            await Task.Delay(300);
             await controller.CloseAsync();
             await Task.Delay(300);
 
 
 
+
         }
+
 
         private void skrtej_Click(object sender, RoutedEventArgs e)
         {
