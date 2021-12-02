@@ -184,14 +184,14 @@ namespace WpfApp6.View
                             uniqueStringsid.Add(VM.Players[i].ID.ToString());
                         }
 
-                        for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
-                        {
+                      
 
                             //MessageBox.Show("zadávam:" + g);
 
-                            for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                        for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                        {
+                            for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
                             {
-
                                 int _id = 0;
                                 if (uniqueStringsid.Count > 0)
                                 {
@@ -209,10 +209,11 @@ namespace WpfApp6.View
                                 {
                                     VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id + "), entered='False' where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
                                 }
+
+                                controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
+                                await Task.Delay(1);
                             }
 
-                            controller.SetMessage("Placing Round / Group:" + r + "/" + g);
-                            await Task.Delay(1);
 
                             //MessageBox.Show("zadáno:" + g);
 
