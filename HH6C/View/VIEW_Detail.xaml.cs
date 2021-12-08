@@ -296,6 +296,14 @@ namespace WpfApp6.View
             controller.SetProgress(0.5);
 
 
+            ////////////////////////////
+            ///
+            VM.print_userslist("frame_empty", "data_userlist", "print_userlist", "Seznam soutěžících", "memory");
+
+
+            //////////////////////////////////////////////
+            ///
+
             string[] headers = {
             "Pořadí",
             "Soutěžící",

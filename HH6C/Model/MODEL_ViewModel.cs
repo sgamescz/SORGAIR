@@ -3322,7 +3322,15 @@ namespace WpfApp6.Model
 
             if (delimiter.Length > 0)
             {
-                return vysledek.Remove(vysledek.Length - (delimiter.Length));
+                if ( vysledek.Length >= delimiter.Length){
+                    return vysledek.Remove(vysledek.Length - (delimiter.Length));
+                }
+                else
+                {
+                    return vysledek;
+                }
+
+
 
             }
             else
@@ -7643,6 +7651,114 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         private static readonly Random getrandom = new Random();
 
+        public async void print_userslist(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
+        {
+
+
+
+            string html_main;
+            string html_body = "";
+            string html_body_withrightdata;
+            string html_all;
+
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+
+
+
+            html_main = html_main.Replace("@BODY", "<table>@BODY</table>");
+            
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8); ;
+            string html_body_complete = "";
+
+            for (int i = 0; i < Players.Count(); i++)
+            {
+
+
+                html_body_withrightdata = html_body;
+                Console.WriteLine(html_body_withrightdata);
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", Players[i].LASTNAME + " " + Players[i].FIRSTNAME);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+                html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", Players[i].COUNTRY);
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", Players[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", Players[i].FAILIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", Players[i].AGECAT);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", Players[i].CLUB);
+                html_body_withrightdata = html_body_withrightdata.Replace("@PAID", Players[i].PAIDSTR);
+                html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", Players[i].FREQ);
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + Players[i].COUNTRY + ".png");
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+
+                html_body_complete = html_body_complete + html_body_withrightdata;
+
+            }
+
+            html_body_complete = html_body_complete + "</table>";
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+
+                memoryprint = memoryprint + html_all;
+            }
+
+        }
 
         public async void print_basicresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
         {
