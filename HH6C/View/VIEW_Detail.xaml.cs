@@ -495,6 +495,13 @@ namespace WpfApp6.View
 
 
             VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Základní výsledky", "memory", visibility);
+
+
+
+
+
+            VM.print_matrix("frame_empty", "data_matrix", "print_basic_resuls", "Rozlosování", "memory");
+
             // VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_maxheights");
             // VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
 

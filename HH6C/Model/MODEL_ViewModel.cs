@@ -8173,6 +8173,121 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
         }
+        public async void print_matrix(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
+        {
+
+
+
+            string html_all;
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+
+
+            // html_main = File.ReadAllText(directory + "/Print_templates/" + template_name + "_frame.html", Encoding.UTF8);
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+            //html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
+            string html_body_complete = "";
+            html_body_complete = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8);
+
+            string tabulkaletu = "";
+
+            for (int x = 1; x < BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+            {
+                tabulkaletu = tabulkaletu + $@"
+                    Kolo : {x}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th></th>";
+
+                for (int s = 1; s < BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                {
+                    tabulkaletu = tabulkaletu + "<th>Startoviště:" + s + " </th>";
+
+                }
+
+                tabulkaletu = tabulkaletu + "</tr>";
+
+                for (int g = 1; g < BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                {
+                    tabulkaletu = tabulkaletu + "<tr><td class='gray'>Skupina: " + g + "</td>";
+                    for (int stp = 1; stp < BIND_SQL_SOUTEZ_STARTPOINTS + 1; stp++)
+                    {
+                        string kdo = SQL_READSOUTEZDATA("select Lastname || ' ' || Firstname from matrix M left join users U on M.user = U.ID where rnd=" + x.ToString() + " and grp=" + g.ToString() + " and stp=" + stp.ToString() + " ; ", "");
+                        tabulkaletu = tabulkaletu + "<td>" + kdo + "</td>";
+
+                    }
+                }
+
+
+                tabulkaletu = tabulkaletu + "</tr></tbody></table>";
+            }
+
+
+
+
+
+
+            html_body_complete = html_body_complete.Replace("@DATA", tabulkaletu);
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+
+                memoryprint = memoryprint + html_all;
+            }
+
+
+
+        }
 
         public void print_memory_to_file(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
         {
