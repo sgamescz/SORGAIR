@@ -135,8 +135,10 @@ namespace WpfApp6.Model
 
         string[] barva = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
         string[] pozadi = new string[] { "Light", "Dark" };
+
+        public string typpozadi = "";
         int pouzitabarva = 1;
-        int pouzitepozadi = 1;
+        public int pouzitepozadi = 1;
 
 
         int last_second_prep_time = 0;

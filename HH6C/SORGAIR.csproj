@@ -275,8 +275,8 @@
     <Compile Include="Model\MODEL_Team.cs" />
     <Compile Include="Model\MODEL_Player.cs" />
     <Compile Include="Model\MODEL_ViewModel.cs" />
-    <Compile Include="Print.xaml.cs">
-      <DependentUpon>Print.xaml</DependentUpon>
+    <Compile Include="News.xaml.cs">
+      <DependentUpon>News.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Lang\Lang.en-US.Designer.cs">
       <DependentUpon>Lang.en-US.resx</DependentUpon>
@@ -358,7 +358,7 @@
       <DependentUpon>CORE.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Print.xaml">
+    <Page Include="News.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

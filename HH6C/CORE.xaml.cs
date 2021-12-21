@@ -58,6 +58,7 @@ namespace WpfApp6
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
             VM.BIND_VERZE_SORGU = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+            Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString());
             VM.FUNCTION_LOAD_CONTESTS_FILES();
             Thread get_version = new Thread(new ThreadStart(thread_getsorgversion));
             get_version.Start();
@@ -88,7 +89,10 @@ namespace WpfApp6
         public void thread_getnewscount()
         {
             Thread.Sleep(2500);
-            string remoteUrl = "http://sorgair.com/api/news.php";
+            string tmp_verze = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+            tmp_verze = tmp_verze.Replace(".", "");
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze;
+            Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;

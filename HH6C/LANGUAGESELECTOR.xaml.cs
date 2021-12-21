@@ -34,7 +34,12 @@ namespace SORGAIR
             InitializeComponent();
             VM.SQL_OPENCONNECTION("SORG");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
+            VM.typpozadi = VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "");
+            Console.WriteLine(VM.typpozadi);
+            Console.WriteLine("xx");
+
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
+            VM.SQL_CLOSECONNECTION("SORG");
 
         }
 

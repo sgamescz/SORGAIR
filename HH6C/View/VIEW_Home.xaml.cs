@@ -100,6 +100,12 @@ namespace WpfApp6.View
 
         public void thread_getsorgversion()
         {
+            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = "Checking...");
+            this.Invoke(() => VM.BIND_NEWS_COUNT = "Checking...");
+            this.Invoke(() => VM.BIND_NEWS_COUNT_NEEDUPDATE = "-");
+            
+
+            Thread.Sleep(2000);
             string remoteUrl = "http://sorgair.com/api/version.php";
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -119,7 +125,11 @@ namespace WpfApp6.View
         public void thread_getnewscount()
         {
 
-            string remoteUrl = "http://sorgair.com/api/version.php";
+            Thread.Sleep(2500);
+            string tmp_verze = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+            tmp_verze = tmp_verze.Replace(".", "");
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze;
+            Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;
@@ -131,7 +141,7 @@ namespace WpfApp6.View
             Console.WriteLine(result);
 
 
-            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+            this.Invoke(() => VM.BIND_NEWS_COUNT = result);
 
         }
 
@@ -139,9 +149,13 @@ namespace WpfApp6.View
         public void download_news(object sender, RoutedEventArgs e)
         {
 
-            Thread test = new Thread(new ThreadStart(thread_getsorgversion));
-            test.Start();
+            Thread version = new Thread(new ThreadStart(thread_getsorgversion));
+            version.Start();
             
+            Thread news = new Thread(new ThreadStart(thread_getnewscount));
+            news.Start();
+
+
             //VM.FUNCTION_LOAD_MATRIX_FILES();
 
 
@@ -445,7 +459,7 @@ namespace WpfApp6.View
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            Window printwindow = new SORGAIR.Print();
+            Window printwindow = new SORGAIR.News();
             printwindow.Show();
         }
 
