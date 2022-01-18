@@ -520,10 +520,6 @@ namespace WpfApp6.View
          
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("users");
-        }
 
         private void scoreentry_minutes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

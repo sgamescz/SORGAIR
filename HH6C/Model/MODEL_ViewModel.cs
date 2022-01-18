@@ -3344,7 +3344,7 @@ namespace WpfApp6.Model
 
 
 
-        public string SQL_READSOUTEZDATA(string sqltext, string kamulozitvysledek)
+        public string SQL_READSOUTEZDATA(string sqltext, string kamulozitvysledek, int xto_round=0)
         {
             int _results_autoincrement = 0;
             double _results_scoreompare = 1000 * (BIND_SQL_SOUTEZ_ROUNDS- BIND_SQL_SOUTEZ_DELETES);
@@ -3501,7 +3501,7 @@ namespace WpfApp6.Model
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("rawmaxheight")),
                             DATA2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("summaxheight")),
                             DATA3 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("averagemaxheight")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and rnd <= " + xto_round + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
               
 
@@ -3535,7 +3535,7 @@ namespace WpfApp6.Model
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("minheight")),
                             DATA2str = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("sumprep")),
                             DATA3 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("podil")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select height || '/' || prep from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select height || '/' || prep from score where prep > 0 and rnd <= " + xto_round + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -3646,7 +3646,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATAstr = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("totaltime")),
                             DATA2str = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("averagetime")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select strftime('%M:%S',time    ('00:00:00', (minutes*60+seconds) || ' seconds')) from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select strftime('%M:%S',time    ('00:00:00', (minutes*60+seconds) || ' seconds')) from score where prep > 0 and rnd <= " + xto_round + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
 
@@ -3680,7 +3680,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATA = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("height")),
                             DATA2 =sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sumheight")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid"))," | ", "", 1, "", ""),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(height as text) from score where prep > 0 and rnd <= " + xto_round + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid"))," | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString()
 
                         };
@@ -3711,7 +3711,7 @@ namespace WpfApp6.Model
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png",
                             DATA = sqlite_datareader.GetDecimal (sqlite_datareader.GetOrdinal("pristani")),
                             DATA2 = sqlite_datareader.GetDecimal(sqlite_datareader.GetOrdinal("sumpristani")),
-                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) from score where prep > 0  and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
+                            DATA4 = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) from score where prep > 0  and rnd <= " + xto_round + " and userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), " | ", "", 1, "", ""),
                             RECORDS = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("zaznamu")).ToString() 
 
 
@@ -6869,7 +6869,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public void FUNCTION_RESULTS_LOADBASERESULTS(string what)
+        public void FUNCTION_RESULTS_LOAD_RESULTS(string what ,int to_round)
 
         {
 
@@ -6883,11 +6883,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select time(sum((minutes*60+seconds)), 'unixepoch') totaltime," +
-" time(sum(minutes * 60 + seconds) / (select count(rnd) from score where userid = s1.userid  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "), 'unixepoch') averagetime," +
-" (select count(rnd) from score where userid = s1.userid  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
+" time(sum(minutes * 60 + seconds) / (select count(rnd) from score where userid = s1.userid  and prep > 0 and rnd <= " + to_round + "), 'unixepoch') averagetime," +
+" (select count(rnd) from score where userid = s1.userid  and prep > 0 and rnd <= " + to_round + ") zaznamu," +
 " u.Firstname," +
 " u.Lastname, u.id userid" +
-" from Score s1 left join users U on S1.userid = U.id where s1.userid > 0  and prep > 0 and rnd <= "+ BIND_ROUNDS_IN_STATISTICS +" group by userid order by totaltime desc", "get_statistics_flighttime");
+" from Score s1 left join users U on S1.userid = U.id where s1.userid > 0  and prep > 0 and rnd <= "+ to_round + " group by userid order by totaltime desc", "get_statistics_flighttime",to_round);
             }
 
 
@@ -6895,13 +6895,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid," +
-" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
-" ifnull((select max(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) rawmaxheight," +
-" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) summaxheight," +
-" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) averagemaxheight," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") zaznamu," +
+" ifnull((select max(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + "),0) rawmaxheight," +
+" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + "),0) summaxheight," +
+" ifnull((select sum(s1.height) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + "),0) averagemaxheight," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by rawmaxheight DESC", "get_statistics_maxheights");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + to_round + " group by s1.userid order by rawmaxheight DESC", "get_statistics_maxheights", to_round);
             }
 
 
@@ -6909,16 +6909,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid, time(sum((minutes*60+seconds)), 'unixepoch') totaltime," +
-" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") zaznamu," +
 " (select sum(minutes * 60 + seconds)) totaltimesec," +
-" ifnull((select sum(height) from score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) sumheight," +
-" ifnull(time(((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")),  'unixepoch' ),'99:99:99') prumernycasnakolo," +
-" ifnull(CAST(((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")) as REAL),999.99) prumernavyskanakolo," +
-" ifnull(round(CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") as REAL) / (CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") as REAL)) * 600,2),999.99) na10minutjetreba," +
-" ifnull(time(round(CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") as REAL) as REAL) * 100, 2), 'unixepoch'),'00:00:00') ze100metrunalita," +
+" ifnull((select sum(height) from score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + "),0) sumheight," +
+" ifnull(time(((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ")),  'unixepoch' ),'99:99:99') prumernycasnakolo," +
+" ifnull(CAST(((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") / (select count(rnd)from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ")) as REAL),999.99) prumernavyskanakolo," +
+" ifnull(round(CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") as REAL) / (CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") as REAL)) * 600,2),999.99) na10minutjetreba," +
+" ifnull(time(round(CAST((select sum(minutes * 60 + seconds) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") / CAST((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") as REAL) as REAL) * 100, 2), 'unixepoch'),'00:00:00') ze100metrunalita," +
 " u.Firstname," +
 " u.Lastname " +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "  group by s1.userid order by na10minutjetreba ASC", "get_statistics_timevsheight");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + to_round + "  group by s1.userid order by na10minutjetreba ASC", "get_statistics_timevsheight");
             }
 
 
@@ -6928,14 +6928,14 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid,"+
-" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
-" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2), 0) rawminheight," +
-" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2),0) minheight," +
-" (ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "), 0) || ' / ' || ifnull((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0)) sumprep," +
-" ifnull(round((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") / (select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),2),0) podil," +
+" (select count(userid) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") zaznamu," +
+" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ")), 2), 0) rawminheight," +
+" ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ")), 2),0) minheight," +
+" (ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + "), 0) || ' / ' || ifnull((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + "),0)) sumprep," +
+" ifnull(round((select sum(prep) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + ") / (select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + "),2),0) podil," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by podil desc ", "get_statistics_minheights");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0  and rnd <= " + to_round + " group by s1.userid order by podil desc ", "get_statistics_minheights",to_round);
             }
 
 
@@ -6943,13 +6943,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
                 SQL_READSOUTEZDATA("select s1.userid,"+
-                    " (select count(userid) from score where height > 0 and userid = s1.userid  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
-                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2), 9999) rawheight," +
-                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")), 2),0) height," +
-                    " ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_STATISTICS + "),0) sumheight," +
+                    " (select count(userid) from score where height > 0 and userid = s1.userid  and prep > 0 and rnd <= " + to_round + ") zaznamu," +
+                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ")), 2), 9999) rawheight," +
+                    " ifnull(round(sum(CAST(s1.height as REAL) / (select CAST(count(rnd) as REAL) from Score where height > 0  and prep > 0  and userid = s1.userid and rnd <= " + to_round + ")), 2),0) height," +
+                    " ifnull((select sum(height) from score where height > 0  and prep > 0 and userid = s1.userid and rnd <= " + to_round + "),0) sumheight," +
                     " u.Firstname," +
                     " u.Lastname" +
-                    " from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by rawheight ASC", "get_statistics_averageheights");
+                    " from Score s1 left join users U on S1.userid = U.id where userid > 0  and prep > 0 and rnd <= " + to_round + " group by s1.userid order by rawheight ASC", "get_statistics_averageheights",to_round);
             }
 
             if (what == "statistics_averagelandings")
@@ -6957,12 +6957,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 Players_statistics.Clear();
 
                 SQL_READSOUTEZDATA("select s1.userid,"+
-"(select count(userid) from score where userid = s1.userid and userid>0 and prep>0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ") zaznamu," +
-" ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by userid ), 2) pristani," +
-" (select sum(landing) from score where userid = s1.userid and userid>0  and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + ")  sumpristani," +
+"(select count(userid) from score where userid = s1.userid and userid>0 and prep>0 and rnd <= " + to_round + ") zaznamu," +
+" ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 and prep > 0 and rnd <= " + to_round + " group by userid ), 2) pristani," +
+" (select sum(landing) from score where userid = s1.userid and userid>0  and prep > 0 and rnd <= " + to_round + ")  sumpristani," +
 " u.Firstname," +
 " u.Lastname" +
-" from Score s1 left join users U on S1.userid = U.id where userid > 0 and entered is 'True'  and prep > 0  and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by s1.userid order by pristani DESC", "get_statistics_averagelandings");
+" from Score s1 left join users U on S1.userid = U.id where userid > 0 and entered is 'True'  and prep > 0  and rnd <= " + to_round + " group by s1.userid order by pristani DESC", "get_statistics_averagelandings",to_round);
 
             }
 
@@ -6970,9 +6970,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (what == "users")
             {
                 Players_Baseresults.Clear();
-                SQL_READSOUTEZDATA("select ((select max(prep) from score s2 where s2.userid = s1.userid and rnd <= "+ BIND_ROUNDS_IN_RESULTS + " and skrtacka='True' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " )) skrtacka," +
-                    "((select sum(prep) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " )) overalscore," +
-                    " (select sum(raw) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " and s2.skrtacka='False' and s2.refly='False') overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + BIND_ROUNDS_IN_RESULTS + " ) gpen,(select name from Agecategories where id=u.Agecat) agecatstring, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc,skrtacka desc", "get_baseresults_users");
+                SQL_READSOUTEZDATA("select ((select max(prep) from score s2 where s2.userid = s1.userid and rnd <= "+ to_round + " and skrtacka='True' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + to_round + " )) skrtacka," +
+                    "((select sum(prep) from score s2 where s2.userid = s1.userid and rnd <= " + to_round + " and skrtacka='False' and refly='False') + (select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + to_round + " )) overalscore," +
+                    " (select sum(raw) from score s2 where s2.userid = s1.userid and rnd <= " + to_round + " and s2.skrtacka='False' and s2.refly='False') overalrawscore ,(select sum(pen2value) from score s2 where s2.userid = s1.userid and rnd <= " + to_round + " ) gpen,(select name from Agecategories where id=u.Agecat) agecatstring, s1.*,u.* from score s1 left join users U on S1.userid = U.id where userid>0 group by userid order by overalscore desc,skrtacka desc", "get_baseresults_users");
                 if (BIND_SQL_SOUTEZ_ROUNDSFINALE_value == 0) { BIND_MENU_ENABLED_finale = false; BIND_MOVE_TO_FINAL_ROUNDS = false; } else { BIND_MOVE_TO_FINAL_ROUNDS = true; }
             }
 
@@ -7809,6 +7809,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             string html_body_complete = "";
 
 
+
             html_body_complete = $@"<table>
                 <th>Pozice</th>
                 <th>Soutěžící</th>
@@ -7818,16 +7819,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th>Celkové scóre</th>
                 <th class='visibility_{visibility[3]}'>G.Pen</th>
                 <th class='visibility_{visibility[4]}'>Ztráta</th>
-                <th class='iam_{visibility[5]}'>Kolo1</th>
-                <th class='iam_{visibility[6]}'>Kolo 2</th>
-                <th class='iam_{visibility[7]}'>Kolo 3</th>
-                <th class='iam_{visibility[8]}'>Kolo 4</th>
-                <th class='iam_{visibility[9]}'>Kolo 5</th>
-                <th class='iam_{visibility[10]}'>Kolo 6</th>
-                <th class='iam_{visibility[11]}'>Kolo 7</th>
-                <th class='iam_{visibility[12]}'>Kolo 8</th>
-                <th class='iam_{visibility[13]}'>Kolo 9</th>
-                <th class='iam_{visibility[14]}'>Kolo 10</th>
+                <th class='visibility_{visibility[5]}'>Kolo1</th>
+                <th class='visibility_{visibility[6]}'>Kolo 2</th>
+                <th class='visibility_{visibility[7]}'>Kolo 3</th>
+                <th class='visibility_{visibility[8]}'>Kolo 4</th>
+                <th class='visibility_{visibility[9]}'>Kolo 5</th>
+                <th class='visibility_{visibility[10]}'>Kolo 6</th>
+                <th class='visibility_{visibility[11]}'>Kolo 7</th>
+                <th class='visibility_{visibility[12]}'>Kolo 8</th>
+                <th class='visibility_{visibility[13]}'>Kolo 9</th>
+                <th class='visibility_{visibility[14]}'>Kolo 10</th>
                 @BODY
           </table>";
 
@@ -7845,16 +7846,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
     <td>@SCORE</td>
     <td class='visibility_{visibility[3]}'>@GPEN</td>
     <td class='visibility_{visibility[4]}'>@LOST</td>
-    <td class='iam_{visibility[5]} skrtacka{Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='iam_{visibility[6]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2</td>
-    <td class='iam_{visibility[7]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3</td>
-    <td class='iam_{visibility[8]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4</td>
-    <td class='iam_{visibility[9]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5</td>
-    <td class='iam_{visibility[10]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6</td>
-    <td class='iam_{visibility[11]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7</td>
-    <td class='iam_{visibility[12]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8</td>
-    <td class='iam_{visibility[13]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9</td>
-    <td class='iam_{visibility[14]} skrtacka{Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10</td>
+    <td class='visibility_{visibility[5]} skrtacka{Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
+    <td class='visibility_{visibility[6]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2</td>
+    <td class='visibility_{visibility[7]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3</td>
+    <td class='visibility_{visibility[8]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4</td>
+    <td class='visibility_{visibility[9]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5</td>
+    <td class='visibility_{visibility[10]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6</td>
+    <td class='visibility_{visibility[11]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7</td>
+    <td class='visibility_{visibility[12]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8</td>
+    <td class='visibility_{visibility[13]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9</td>
+    <td class='visibility_{visibility[14]} skrtacka{Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10</td>
 </tr>";
                 string tabulkaletu = "";
 
@@ -7975,25 +7976,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th class='visibility_{visibility[5]}'>G.Pen</th>
                 <th class='visibility_{visibility[6]}'>F.scóre</th>
                 <th class='visibility_{visibility[7]}'>F.Ztráta</th>
-                <th class='iam_{visibility[8]}'>F1</th>
-                <th class='iam_{visibility[9]}'>F2</th>
-                <th class='iam_{visibility[10]}'>F3</th>
-                <th class='iam_{visibility[11]}'>F4</th>
-                <th class='iam_{visibility[12]}'>F5</th>
+                <th class='visibility_{visibility[8]}'>F1</th>
+                <th class='visibility_{visibility[9]}'>F2</th>
+                <th class='visibility_{visibility[10]}'>F3</th>
+                <th class='visibility_{visibility[11]}'>F4</th>
+                <th class='visibility_{visibility[12]}'>F5</th>
                 <th class='visibility_{visibility[13]}'>Bonus</th>
                 <th class='visibility_{visibility[14]}'>1000</th>
                 <th class='visibility_{visibility[15]}'>Z.scóre</th>
                 <th class='visibility_{visibility[16]}'>Z.Ztráta</th>
-                <th class='iam_{visibility[17]}'>Kolo1</th>
-                <th class='iam_{visibility[18]}'>Kolo 2</th>
-                <th class='iam_{visibility[19]}'>Kolo 3</th>
-                <th class='iam_{visibility[20]}'>Kolo 4</th>
-                <th class='iam_{visibility[21]}'>Kolo 5</th>
-                <th class='iam_{visibility[22]}'>Kolo 6</th>
-                <th class='iam_{visibility[23]}'>Kolo 7</th>
-                <th class='iam_{visibility[24]}'>Kolo 8</th>
-                <th class='iam_{visibility[25]}'>Kolo 9</th>
-                <th class='iam_{visibility[26]}'>Kolo 10</th>
+                <th class='visibility_{visibility[17]}'>Kolo1</th>
+                <th class='visibility_{visibility[18]}'>Kolo 2</th>
+                <th class='visibility_{visibility[19]}'>Kolo 3</th>
+                <th class='visibility_{visibility[20]}'>Kolo 4</th>
+                <th class='visibility_{visibility[21]}'>Kolo 5</th>
+                <th class='visibility_{visibility[22]}'>Kolo 6</th>
+                <th class='visibility_{visibility[23]}'>Kolo 7</th>
+                <th class='visibility_{visibility[24]}'>Kolo 8</th>
+                <th class='visibility_{visibility[25]}'>Kolo 9</th>
+                <th class='visibility_{visibility[26]}'>Kolo 10</th>
                 @BODY
           </table>";
 
@@ -8013,25 +8014,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
     <td class='visibility_{visibility[5]}'>@GPEN</td>
     <td class='visibility_{visibility[6]}'>@FINSCO</td>
     <td class='visibility_{visibility[7]}'>@FINLST</td>
-    <td class='iam_{visibility[8]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA_F}'>@F1</td>
-    <td class='iam_{visibility[9]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA_F}'>@F2</td>
-    <td class='iam_{visibility[10]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA_F}'>@F3</td>
-    <td class='iam_{visibility[11]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA_F}'>@F4</td>
-    <td class='iam_{visibility[12]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA_F}'>@F5</td>
+    <td class='visibility_{visibility[8]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA_F}'>@F1</td>
+    <td class='visibility_{visibility[9]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA_F}'>@F2</td>
+    <td class='visibility_{visibility[10]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA_F}'>@F3</td>
+    <td class='visibility_{visibility[11]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA_F}'>@F4</td>
+    <td class='visibility_{visibility[12]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA_F}'>@F5</td>
     <td class='visibility_{visibility[13]}'>@BONUS</td>
     <td class='visibility_{visibility[14]}'>@1000</td>
     <td class='visibility_{visibility[15]}'>@SCORE</td>
     <td class='visibility_{visibility[16]}'>@LOST</td>
-    <td class='iam_{visibility[17]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='iam_{visibility[18]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA}'>@R2</td>
-    <td class='iam_{visibility[19]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA}'>@R3</td>
-    <td class='iam_{visibility[20]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA}'>@R4</td>
-    <td class='iam_{visibility[21]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA}'>@R5</td>
-    <td class='iam_{visibility[22]} skrtacka{Players_Baseresults_Complete[i].RND6RES_SKRTACKA}'>@R6</td>
-    <td class='iam_{visibility[23]} skrtacka{Players_Baseresults_Complete[i].RND7RES_SKRTACKA}'>@R7</td>
-    <td class='iam_{visibility[24]} skrtacka{Players_Baseresults_Complete[i].RND8RES_SKRTACKA}'>@R8</td>
-    <td class='iam_{visibility[25]} skrtacka{Players_Baseresults_Complete[i].RND9RES_SKRTACKA}'>@R9</td>
-    <td class='iam_{visibility[26]} skrtacka{Players_Baseresults_Complete[i].RND10RES_SKRTACKA}'>@R10</td>
+    <td class='visibility_{visibility[17]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA}'>@R1X</td>
+    <td class='visibility_{visibility[18]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA}'>@R2</td>
+    <td class='visibility_{visibility[19]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA}'>@R3</td>
+    <td class='visibility_{visibility[20]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA}'>@R4</td>
+    <td class='visibility_{visibility[21]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA}'>@R5</td>
+    <td class='visibility_{visibility[22]} skrtacka{Players_Baseresults_Complete[i].RND6RES_SKRTACKA}'>@R6</td>
+    <td class='visibility_{visibility[23]} skrtacka{Players_Baseresults_Complete[i].RND7RES_SKRTACKA}'>@R7</td>
+    <td class='visibility_{visibility[24]} skrtacka{Players_Baseresults_Complete[i].RND8RES_SKRTACKA}'>@R8</td>
+    <td class='visibility_{visibility[25]} skrtacka{Players_Baseresults_Complete[i].RND9RES_SKRTACKA}'>@R9</td>
+    <td class='visibility_{visibility[26]} skrtacka{Players_Baseresults_Complete[i].RND10RES_SKRTACKA}'>@R10</td>
 </tr>";
 
                 string tabulkaletu = "";
@@ -8106,6 +8107,153 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
+        public async void print_final_results(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
+        {
+
+
+
+            string html_main;
+            string html_body;
+            string html_body_withrightdata;
+            string html_all;
+
+
+            Console.WriteLine("Players_Finalresults.Count" + Players_Finalresults.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8);
+            string html_body_complete = "";
+
+
+            html_body_complete = $@"<table>
+                <th>Pozice</th>
+                <th>Soutěžící</th>
+                <th class='visibility_{visibility[0]}'>Stát</th>
+                <th class='visibility_{visibility[1]}'>ID</th>
+                <th class='visibility_{visibility[2]}'>NAT lic.</th>
+                <th class='visibility_{visibility[3]}'>FAI lic.</th>
+                <th class='visibility_{visibility[4]}'>AGECAT</th>
+                <th class='visibility_{visibility[5]}'>G.Pen</th>
+                <th class='visibility_{visibility[6]}'>F.scóre</th>
+                <th class='visibility_{visibility[7]}'>F.Ztráta</th>
+                <th class='iam_{visibility[8]}'>F1</th>
+                <th class='iam_{visibility[9]}'>F2</th>
+                <th class='iam_{visibility[10]}'>F3</th>
+                <th class='iam_{visibility[11]}'>F4</th>
+                <th class='iam_{visibility[12]}'>F5</th>
+
+                @BODY
+          </table>";
+
+            html_body_withrightdata = "";
+
+            for (int i = 0; i < Players_Finalresults.Count(); i++)
+            {
+
+                html_body = $@"<tr>
+    <td>@POSITION</td>
+    <td><a href='#USER_@ID'>@USERNAME</a></td>
+    <td class='visibility_{visibility[0]}'><img class='vlajka' src='@FLAG' /></td>
+    <td class='visibility_{visibility[1]}'>@ID</td>
+    <td class='visibility_{visibility[2]}'>@NATLIC</td>
+    <td class='visibility_{visibility[3]}'>@FAILIC</td>
+    <td class='visibility_{visibility[4]}'>@AGECAT</td>
+    <td class='visibility_{visibility[5]}'>@GPEN</td>
+    <td class='visibility_{visibility[6]}'>@FINSCO</td>
+    <td class='visibility_{visibility[7]}'>@FINLST</td>
+    <td class='visibility_{visibility[8]} skrtacka{Players_Finalresults[i].RND1RES_SKRTACKA}'>@F1</td>
+    <td class='visibility_{visibility[9]} skrtacka{Players_Finalresults[i].RND2RES_SKRTACKA}'>@F2</td>
+    <td class='visibility_{visibility[10]} skrtacka{Players_Finalresults[i].RND3RES_SKRTACKA}'>@F3</td>
+    <td class='visibility_{visibility[11]} skrtacka{Players_Finalresults[i].RND4RES_SKRTACKA}'>@F4</td>
+    <td class='visibility_{visibility[12]} skrtacka{Players_Finalresults[i].RND5RES_SKRTACKA}'>@F5</td>
+
+</tr>";
+
+                string tabulkaletu = "";
+
+
+
+
+                html_body_withrightdata = html_body_withrightdata + html_body;
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", Players_Finalresults[i].PLAYERDATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@POSITION", Players_Finalresults[i].POSITION.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", Players_Finalresults[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", Players_Finalresults[i].NATLIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", Players_Finalresults[i].FAILIC.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", Players_Finalresults[i].AGECAT.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", Players_Finalresults[i].GPEN.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@F1", Players_Finalresults[i].RND1RES_SCORE + "<br>" + Players_Finalresults[i].RND1RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F2", Players_Finalresults[i].RND2RES_SCORE + "<br>" + Players_Finalresults[i].RND2RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F3", Players_Finalresults[i].RND3RES_SCORE + "<br>" + Players_Finalresults[i].RND3RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F4", Players_Finalresults[i].RND4RES_SCORE + "<br>" + Players_Finalresults[i].RND4RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@F5", Players_Finalresults[i].RND5RES_SCORE + "<br>" + Players_Finalresults[i].RND5RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FINSCO", Players_Finalresults[i].PREPSCORE.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@FINLST", Players_Finalresults[i].PREPSCOREDIFF.ToString());
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(Players_Finalresults[i].FLAG);
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+            }
+            html_body_complete = html_body_complete.Replace("@BODY", html_body_withrightdata);
+
+
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+
+                memoryprint = memoryprint + html_all;
+            }
+
+        }
 
         public async void print_statistics(string frame_template_name, string data_emplate_name, string file_name, string graph_name, string what_string, string output_type, string[] headers, string[] visibility)
         {

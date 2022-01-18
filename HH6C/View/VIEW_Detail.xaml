@@ -210,15 +210,8 @@
                     <mah:Tile
                         x:Name="print_statistics_btn"
                         Title="Tisk zobrazené statistiky"
-                         Style="{StaticResource SmallTileStyle}" Width="148" Height="Auto"
+                         Style="{StaticResource SmallTileStyle}" Width="268" Height="Auto"
                         Background="YellowGreen" Margin="709,10,0,10" HorizontalAlignment="Left" HorizontalTitleAlignment="Right" HorizontalContentAlignment="Right" Click="print_statistics_btn_Click"                     >
-
-                    </mah:Tile>
-                    <mah:Tile
-                        x:Name="print_statistics_btnall"
-                        Title="Tisk zobrazené statistiky"
-                         Style="{StaticResource SmallTileStyle}" Width="115" Height="Auto"
-                        Background="YellowGreen" Margin="862,10,0,10" HorizontalAlignment="Left" HorizontalTitleAlignment="Right" HorizontalContentAlignment="Right" Click="print_statistics_btnall_Click"                     >
 
                     </mah:Tile>
                 </Grid>

@@ -480,7 +480,8 @@
         </Grid.Resources>
 
 
-        <StackPanel>
+        <StackPanel >
+            
 
             <Grid Height="200">
 
@@ -516,6 +517,7 @@
                     Name="results_teams"
                     Title="Týmy"
                     Width="125"
+                    IsEnabled="False"
                     Height="75"
                     Margin="565,10,0,0"
                     HorizontalAlignment="Left"

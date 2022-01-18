@@ -44,9 +44,12 @@
 
         </Style>
 
+
+
+        
         <Style
             x:Key="typss"
-            BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Dark}"
+            BasedOn="{StaticResource MahApps.Styles.Button.Dialogs.Accent }"
             TargetType="{x:Type Button}">
             <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent}" />
             <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Black}" />
@@ -73,7 +76,7 @@
 
 
     <StackPanel Margin="0,0,0,0">
-        <StackPanel Height="87" Background="red" Orientation="Horizontal">
+        <StackPanel Height="87" Orientation="Horizontal">
                 <Controls:Tile
                     x:Name="btn_draw_from_file"
                     Title="Rozlosování z předvytvořená matice"
@@ -158,28 +161,23 @@
                                                     <DataTemplate>
                                                         <StackPanel>
 
-                                                            <Button
-                                                                Width="Auto"
-                                                                Height="35"
-                                                                Margin="5,5,5,0"
-                                                                HorizontalAlignment="Stretch"
-                                                                Background="{DynamicResource MahApps.Brushes.Accent4}"
-                                                                Content="{Binding startpoint}"
-                                                                ContentStringFormat="Startoviště: {0}"
-                                                                Foreground="{DynamicResource MahApps.Brushes.Badged.Foreground}"
-                                                                Style="{StaticResource MahApps.Styles.Button.Flat}" />
 
-                                                            <Button
-                                                                x:Name="matrix_user"
-                                                                Width="Auto"
-                                                                Height="35"
+
+                                                            <Button x:Name="matrix_user"
+                                                                    Width="auto"
+                                                                    Style="{StaticResource typss}"
+                                                                    Height="40"
                                                                 Margin="5,0,5,10"
-                                                                HorizontalAlignment="Stretch"
                                                                 Background="{DynamicResource MahApps.Brushes.Accent}"
+                                                                    Foreground="{DynamicResource MahApps.Brushes.Badged.Foreground }"
                                                                 Click="matrix_user_Click"
-                                                                Content="{Binding name}"
-                                                                Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
-                                                                Tag="{Binding startpoint_data}" />
+
+                                                                    
+                                                                Tag="{Binding startpoint_data}">
+                                                                <TextBlock Text="{Binding name}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                            </Button>
+                                                            
+                                                            
 
                                                         </StackPanel>
                                                         <!--  You Are missing this!  -->

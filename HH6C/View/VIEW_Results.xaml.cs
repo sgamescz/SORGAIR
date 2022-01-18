@@ -70,7 +70,11 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("users");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_ROUNDS_IN_RESULTS);
+
+            //dataGrid_clasic_results.Columns[11].Width = new 
+            //      DataGridLength(1, DataGridLengthUnitType.SizeToHeader);
+
         }
         private void results_users_Click(object sender, RoutedEventArgs e)
         {
@@ -82,7 +86,7 @@ namespace WpfApp6.View
 
         private void results_teams_Click(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("teams");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("teams", VM.BIND_ROUNDS_IN_RESULTS);
             //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
 
         }
@@ -134,37 +138,41 @@ namespace WpfApp6.View
 
 
             string[] visibility = {
+                "False",
+                "False", 
+                "False",
                 "True",
                 "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True"
+                "kolo1",
+                "kolo2",
+                "kolo3",
+                "kolo4",
+                "kolo5",
+                "kolo6",
+                "k7",
+                "k8",
+                "k9",
+                "k10"
             };
 
+            if (p_stat.IsOn is true) { visibility[0] = "True"; } else { visibility[0] = "False"; }
+            if (p_id.IsOn is true) { visibility[1] = "True"; } else { visibility[1] = "False"; }
+            if (p_agecat.IsOn is true) { visibility[2] = "True"; } else { visibility[2] = "False"; }
+            if (p_gpen.IsOn is true) { visibility[3] = "True"; } else { visibility[3] = "False"; }
+            if (p_ztrata.IsOn is true) { visibility[4] = "True"; } else { visibility[4] = "False"; }
+            if (1 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[5] = "True"; } else { visibility[5] = "False"; }
+            if (2 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[6] = "True"; } else { visibility[6] = "False"; }
+            if (3 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[7] = "True"; } else { visibility[7] = "False"; }
+            if (4 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[8] = "True"; } else { visibility[8] = "False"; }
+            if (5 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[9] = "True"; } else { visibility[9] = "False"; }
+            if (6 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[10] = "True"; } else { visibility[10] = "False"; }
+            if (7 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[11] = "True"; } else { visibility[11] = "False"; }
+            if (8 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[12] = "True"; } else { visibility[12] = "False"; }
+            if (9 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[13] = "True"; } else { visibility[13] = "False"; }
+            if (10 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[14] = "True"; } else { visibility[14] = "False"; }
 
-            VM.print_basicresults("frame_small_info", "data_empty", "print_basic_resuls", "WHAT222", "html", visibility);
+
+            VM.print_basicresults("frame_small_info", "data_empty", "print_basic_resuls", "Základní výsledky", "html", visibility);
 
 
             controller.SetProgress(0.7);

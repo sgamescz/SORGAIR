@@ -71,7 +71,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[9].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_averagelandings");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_ROUNDS_IN_STATISTICS);
             await Task.Delay(300);
             controller.SetProgress(0.9);
             await controller.CloseAsync();
@@ -109,7 +109,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_averageheights");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_ROUNDS_IN_STATISTICS);
 
 
 
@@ -144,7 +144,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_maxheights");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_ROUNDS_IN_STATISTICS);
 
         }
 
@@ -170,7 +170,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
 
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_minheights");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_ROUNDS_IN_STATISTICS);
         }
 
         private void statistics_timevsheight_Click(object sender, RoutedEventArgs e)
@@ -194,12 +194,12 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_timevsheight");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_ROUNDS_IN_STATISTICS);
         }
 
         private void statistics_enemykiled_Click(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_enemykiled");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_enemykiled", VM.BIND_ROUNDS_IN_STATISTICS);
         }
 
         private async void statistics_flighttime_Click(object sender, RoutedEventArgs e)
@@ -231,7 +231,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_flighttime");
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_ROUNDS_IN_STATISTICS);
 
 
 
@@ -245,7 +245,7 @@ namespace WpfApp6.View
         private async void print_statistics_btn_Click(object sender, RoutedEventArgs e)
         {
             var currentWindow = this.TryFindParent<MetroWindow>();
-            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím velmi zajmavou statistiku");
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím zajmavou statistiku");
             controller.SetProgress(0);
             await Task.Delay(300);
             controller.SetProgress(0.5);
@@ -266,7 +266,6 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Header.ToString(),
             datagrid_statistiky.Columns[11].Header.ToString()};
 
-
             string[] visibility = {
                 datagrid_statistiky.Columns[5].Visibility.ToString(),
                 datagrid_statistiky.Columns[6].Visibility.ToString(),
@@ -279,7 +278,7 @@ namespace WpfApp6.View
 
 
             //VM.print_statistics("statistics_" + zvolenypohled, "statistics_" + zvolenypohled, "html", headers, visibility);
-            VM.print_statistics("frame_with_contest_info", "data_empty", "print_complete_resuls", "statistics_" + zvolenypohled,"NECO", "html", headers, visibility);
+            VM.print_statistics("frame_small_info", "data_empty", "print_statistics_"+ zvolenypohled, "statistics_" + zvolenypohled,"NECO:"+ zvolenypohled, "html", headers, visibility);
 
             await Task.Delay(300);
             controller.SetProgress(0.9);
@@ -289,242 +288,7 @@ namespace WpfApp6.View
 
         private async void print_statistics_btnall_Click(object sender, RoutedEventArgs e)
         {
-            var currentWindow = this.TryFindParent<MetroWindow>();
-            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím velmi zajmavou statistiku");
-            controller.SetProgress(0);
-            await Task.Delay(300);
-            controller.SetProgress(0.5);
-
-
-            ////////////////////////////
-            ///
-            VM.print_userslist("frame_empty", "data_userlist", "print_userlist", "Seznam soutěžících", "memory");
-
-
-            //////////////////////////////////////////////
-            ///
-
-            string[] headers = {
-            "Pořadí",
-            "Soutěžící",
-            "Stát",
-            "ID",
-            "Záznamů",
-            "ø Průměr",
-            "---",
-            "Σ Suma",
-            "---",
-            "---",
-            "---",
-            "Hodnoty"
-            };
-
-            string[] visibility = {
-                "Visible",
-               "Hidden",
-                "Visible",
-                "Hidden",
-                "Hidden",
-                "Hidden",
-                "Visible"
-            };
-
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_averagelandings");
-            //VM.print_statistics("statistics_c_landing", "statistics_landing", "memory", headers, visibility);
-            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_landing", "Přistání", "memory", headers, visibility);
-            
-            ///////////////////////////////////////////////////////////
-            
-
-            datagrid_statistiky.Columns[4].Header = "Záznamů";
-            datagrid_statistiky.Columns[5].Header = "---";
-            datagrid_statistiky.Columns[6].Header = "Σ Celková doba";
-            datagrid_statistiky.Columns[7].Header = "---";
-            datagrid_statistiky.Columns[8].Header = "ø Průměr kola";
-            datagrid_statistiky.Columns[9].Header = "---";
-            datagrid_statistiky.Columns[10].Header = "---";
-            datagrid_statistiky.Columns[11].Header = "Hodnoty";
-
-            datagrid_statistiky.Columns[4].Visibility = Visibility.Visible;
-            datagrid_statistiky.Columns[5].Visibility = Visibility.Hidden;
-            datagrid_statistiky.Columns[6].Visibility = Visibility.Visible;
-            datagrid_statistiky.Columns[7].Visibility = Visibility.Hidden;
-            datagrid_statistiky.Columns[8].Visibility = Visibility.Visible;
-            datagrid_statistiky.Columns[9].Visibility = Visibility.Hidden;
-            datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
-            datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
-
-            headers = new string[] {
-            "Pořadí",
-            "Soutěžící",
-            "Stát",
-            "ID",
-            "Záznamů",
-            "---",
-            "Σ Celková doba",
-            "---",
-            "ø Průměr kola",
-            "---",
-            "---",
-            "Hodnoty"
-            };
-
-            visibility = new string[]{
-               "Hidden",
-                "Visible",
-                "Hidden",
-                "Visible",
-                "Hidden",
-                "Hidden",
-                "Visible"
-            };
-
-
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_flighttime");
-            //VM.print_statistics("statistics_c_flighttime", "statistics_flighttime", "memory", headers, visibility);
-            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_flighttime", "Letový čas", "memory", headers, visibility);
-
-
-
-
-            ///////////////////////////////////////////////////////////
-
-
-
-            headers = new string[] {
-            "Pořadí",
-            "Soutěžící",
-            "Stát",
-            "ID",
-            "Záznamů",
-            "ø Průměr",
-            "---",
-            "Σ Suma",
-            "---",
-            "---",
-            "---",
-            "Hodnoty"
-            };
-
-            visibility = new string[]{
-               "Visible",
-                "Hidden",
-                "Visible",
-                "Hidden",
-                "Hidden",
-                "Hidden",
-                "Visible"
-            };
-
-
-
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_averageheights");
-            //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
-
-            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_averageheights", "Průměrná výška", "memory", headers, visibility);
-
-
-            ///////////////////////////////////////////////////////////
-
-
-
-
-            visibility = new string[] {
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True"
-            };
-
-
-            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls","Celkové výsledky", "memory", visibility);
-
-
-
-            ///////////////////////////////////////////////////////////
-
-
-
-
-            VM.FUNCTION_RESULTS_LOADBASERESULTS("users");
-
-            visibility = new string[] {
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True",
-                "True"
-            };
-
-
-            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Základní výsledky", "memory", visibility);
-
-
-
-
-
-            VM.print_matrix("frame_empty", "data_matrix", "print_basic_resuls", "Rozlosování", "memory");
-
-            // VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_maxheights");
-            // VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
-
-            //VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_minheights");
-            //VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
-
-            //VM.FUNCTION_RESULTS_LOADBASERESULTS("statistics_timevsheight");
-            //VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
-
-            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_overview", "CMPLSRES", "html");
-
-
-            await Task.Delay(300);
-            controller.SetProgress(0.9);
-            await controller.CloseAsync();
+         
         }
     }
 }

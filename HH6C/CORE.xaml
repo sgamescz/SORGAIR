@@ -316,7 +316,7 @@
 
                         <Controls:HamburgerMenuIconItem IsEnabled="{Binding BIND_MENU_ENABLED_detailyastatistiky}" Label="{x:Static language:Lang.menu_detailstatistics}">
                             <Controls:HamburgerMenuIconItem.Icon>
-                                <iconPacks:PackIconSimpleIcons Kind="Quantopian" />
+                                <iconPacks:PackIconTypicons Kind="ZoomOutline" />
                             </Controls:HamburgerMenuIconItem.Icon>
                             <Controls:HamburgerMenuIconItem.Tag>
                                 <v:Detail />

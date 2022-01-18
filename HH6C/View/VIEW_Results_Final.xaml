@@ -588,81 +588,117 @@
 
         <StackPanel>
 
-            <Grid Height="145">
-                <WrapPanel Margin="0,0,10,10">
+            <Grid >
+                <WrapPanel Margin="0,0,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="990">
+                    <StackPanel Orientation="Horizontal">
+                        
+                    
                     <mah:Tile
                         Name="results_final_users"
                         Title="Výsledky finále"
+                                                Height="100"
+
                         VerticalContentAlignment="Center"
                         Background="YellowGreen"
                         Click="results_final_users_Click"
                         IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
-                        Style="{StaticResource SmallTileStyle}">
+                        Style="{StaticResource SmallTileStyle}" Width="300">
                         <iconPacks:PackIconFontAwesome
                             Width="35"
                             Height="35"
-                            Margin="0,0,0,20"
+                            Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             Kind="MedalSolid" />
                     </mah:Tile>
                     <mah:Tile
                         Name="results_users"
-                        Title="Celkové výsledky soutěže"
+                                                Height="100"
+
+                        Title="Celkové výsledky"
                         VerticalContentAlignment="Center"
                         Click="results_users_Click"
-                        Style="{StaticResource SmallTileStyle}">
+                        Style="{StaticResource SmallTileStyle}" Width="300">
                         <iconPacks:PackIconFontAwesome
                             Width="35"
                             Height="35"
-                            Margin="0,0,0,20"
+                            Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             Kind="TrophySolid" />
                     </mah:Tile>
 
-
-
-                    <mah:Tile
+                        <mah:Tile
                         Name="results_teams"
                         Title="Celková pořadí týmů"
+                        IsEnabled="False"
+                                                Height="100"
+
                         VerticalContentAlignment="Center"
                         Click="results_teams_Click"
                         Style="{StaticResource SmallTileStyle}">
-                        <iconPacks:PackIconOcticons
+                            <iconPacks:PackIconOcticons
                             Width="25"
                             Height="25"
                             Margin="0,0,0,20"
                             VerticalAlignment="Center"
                             Kind="Jersey" />
-                    </mah:Tile>
+                        </mah:Tile>
+                        
+                    </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+
+       
                     <mah:Tile
                         x:Name="print_finalresults_btn"
                         Title="Tisk finálových výsledků"
-                        Margin="50,0,0,0"
+                        Width="300"
+                        Height="80"
                         HorizontalContentAlignment="Center"
                         Background="YellowGreen"
                         Click="print_finalresults_btn_Click"
                         IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
                         Style="{StaticResource SmallTileStyle}">
+                        
                         <iconPacks:PackIconBoxIcons
-                            Width="20"
-                            Height="20"
-                            Margin="0,0,0,0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,0,20"
                             VerticalAlignment="Center"
                             Kind="RegularPrinter" />
                     </mah:Tile>
                     <mah:Tile
                         x:Name="print_completeresults_btn"
-                        Title="Tisk celkových výsledků"
+                        Title="Tisk oficiální výsledovky"
+                        Width="300"
+                                                Height="80"
+
                         HorizontalContentAlignment="Center"
                         Click="print_completeresults_btn_Click"
                         Style="{StaticResource SmallTileStyle}">
                         <iconPacks:PackIconBoxIcons
-                            Width="20"
-                            Height="20"
-                            Margin="0,0,0,0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,0,20"
                             VerticalAlignment="Center"
                             Kind="RegularPrinter" />
                     </mah:Tile>
+
+                        <mah:Tile
+                        x:Name="print_sorgairresults_btn"
+                        Title="Tisk SORG_AIR výsledovky"
+                        Width="300"
+                                                Height="80"
+
+                        HorizontalContentAlignment="Center"
+                        Click="print_sorgairresults_btn_Click"
+                        Style="{StaticResource SmallTileStyle}"
+                            Background="{DynamicResource MahApps.Brushes.Accent}"
+                            >
+                            <iconPacks:PackIconFontisto Kind="AreaChart"  Width="32" Height="32" Margin="0 0 0 20"/>
+                            
+                        </mah:Tile>
+            
+                    </StackPanel>
 
 
                 </WrapPanel>

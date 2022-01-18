@@ -355,6 +355,10 @@ namespace WpfApp6.View
                         System.Console.WriteLine($"<{udaj}>");
                     }
 
+                    var controller = await currentWindow.ShowProgressAsync("Přesouvám", "Přesouvám zvolené soutěžící");
+                    await Task.Delay(300);
+                    controller.SetProgress(0);
+
 
                     //VM.SQL_SAVESOUTEZDATA("update score set grp=" + udaje[1] + ",stp=" + udaje[2] + " where userid=" + udaje2[3] + " and rnd=" + udaje[0]);
                     //VM.SQL_SAVESOUTEZDATA("update score set grp=" + udaje2[1] + ",stp=" + udaje2[2] + " where userid=" + udaje[3] + " and rnd=" + udaje2[0]);
@@ -365,6 +369,7 @@ namespace WpfApp6.View
                     string entered1 = VM.SQL_READSOUTEZDATA("select entered from score  where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2] + ";","");
                     string entered2 = VM.SQL_READSOUTEZDATA("select entered from score where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2] + ";", "");
 
+                    controller.SetProgress(0.1);
 
                     VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje2[3] + " where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
                     VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje[3] + " where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
@@ -372,13 +377,16 @@ namespace WpfApp6.View
                     VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje[3] + ", entered = '"+ entered1 +"' where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
 
 
-                   
+                    controller.SetProgress(0.6);
+
 
 
 
                     VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
                     matrix_switch_user2 = "";
                     matrix_switch_user1 = "";
+
+                    controller.SetProgress(0.7);
 
 
                     if ((VM.BIND_SELECTED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_SELECTED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje2[1].ToString())))
@@ -412,8 +420,12 @@ namespace WpfApp6.View
                     {
                         Console.WriteLine("nepřekreslovat");
                     }
+
+                    controller.SetProgress(1);
+                    controller.CloseAsync();
                 }
             }
+
 
 
             Console.WriteLine("matrix_switch {0}  / {1} ", matrix_switch_user1, matrix_switch_user2);
