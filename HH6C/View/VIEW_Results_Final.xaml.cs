@@ -119,7 +119,7 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete",99);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete",99,false);
 
         }
 
@@ -152,7 +152,7 @@ namespace WpfApp6.View
             table_filter_complete.Visibility = Visibility.Collapsed;
             table_filter_final.Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("final_users",99);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("final_users",99,false);
         }
 
         private void ToggleSwitch_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -351,7 +351,7 @@ namespace WpfApp6.View
             #region Základní výsledky
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_SQL_SOUTEZ_ROUNDS );
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_SQL_SOUTEZ_ROUNDS,false );
 
             visibility = new string[] {
                 "True",
@@ -411,6 +411,36 @@ namespace WpfApp6.View
 
 
             #region celkové výsledky
+
+
+
+
+
+            VM._ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = true;
+
+            VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
+
+            for (int s = 0; s < VM.BIND_SQL_SOUTEZ_DELETES; s++)
+            {
+
+
+                string tmp_kolo_pro_skracku;
+                for (int i = 0; i < VM.Players.Count(); i++)
+                {
+
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
+                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
+
+                }
+
+            }
+
+
+
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, false);
+
+
 
 
             visibility = new string[] {
@@ -520,9 +550,9 @@ namespace WpfApp6.View
                 "Visible"
             };
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_SQL_SOUTEZ_ROUNDS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_SQL_SOUTEZ_ROUNDS,true);
             //VM.print_statistics("statistics_c_landing", "statistics_landing", "memory", headers, visibility);
-            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_landing", "Přistání", "memory", headers, visibility);
+            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_landing", "Přistání", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
 
             ///////////////////////////////////////////////////////////
             #endregion
@@ -556,9 +586,9 @@ namespace WpfApp6.View
             };
 
             
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_SQL_SOUTEZ_ROUNDS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_SQL_SOUTEZ_ROUNDS,false);
             //VM.print_statistics("statistics_c_flighttime", "statistics_flighttime", "memory", headers, visibility);
-            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_flighttime", "Letový čas", "memory", headers, visibility);
+            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_flighttime", "Letový čas", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
 
             #endregion
 
@@ -592,30 +622,133 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_SQL_SOUTEZ_ROUNDS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_SQL_SOUTEZ_ROUNDS,false);
             //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
 
-            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_averageheights", "Průměrná výška", "memory", headers, visibility);
+            VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_averageheights", "Průměrná výška", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
+            #endregion
+
+
+
+            #region max vyska
+
+
+
+
+            headers = new string[] {
+            "Pořadí",
+            "Soutěžící",
+            "Stát",
+            "ID",
+            "Záznamů",
+            "↑ Max výška",
+            "---",
+            "Σ Celková výška",
+            "---",
+            "ø Průměr",
+            "---",
+            "Hodnoty"
+            };
+
+            visibility = new string[]{
+               "Visible",
+                "Hidden",
+                "Visible",
+                "Hidden",
+                "Visible",
+                "Hidden",
+                "Visible"
+            };
+
+
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_SQL_SOUTEZ_ROUNDS, false);
+            //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
+
+            VM.print_statistics("frame_empty", "data_empty", "print_statistics_maxheights", "statistics_maxheights", "Gagarin (max.výška)", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
+            #endregion
+
+
+            #region min vyska
+
+
+
+
+
+            headers = new string[] {
+            "Pořadí",
+            "Soutěžící",
+            "Stát",
+            "ID",
+            "Záznamů",
+            "Minimální výška",
+            "Σ Celková doba",
+            "---",
+            "Σ výšky / Σ bodů",
+            "Bodů za metr",
+            "---",
+            "Hodnoty"
+            };
+
+            visibility = new string[]{
+                "Visible",
+                "Hidden",
+                "Hidden",
+                "Visible",
+                "Visible",
+                "Hidden",
+                "Visible"
+            };
+
+
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_SQL_SOUTEZ_ROUNDS, false);
+            //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
+
+            VM.print_statistics("frame_empty", "data_empty", "print_statistics_minheights", "statistics_minheights", "Krtek (min.výška)", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
+            #endregion
+
+
+            #region čas vs výška
+
+
+
+            headers = new string[] {
+            "Pořadí",
+            "Soutěžící",
+            "Stát",
+            "ID",
+            "Záznamů",
+            "Minimální výška",
+            "ø čas v kole",
+            "ø výška v kole",
+            "Σ výšky / Σ bodů",
+            "na 10 minut\nje třeba metrů",
+            "---",
+            "Ze 100 metrů"
+            };
+
+            visibility = new string[]{
+                "Hidden",
+                "Visible",
+                "Visible",
+                "Hidden",
+                "Visible",
+                "Hidden",
+                "Visible"
+            };
+
+
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_SQL_SOUTEZ_ROUNDS, false);
+            //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
+
+            VM.print_statistics("frame_empty", "data_empty", "print_statistics_timevsheights", "statistics_timevsheights", "Čas vs. výška", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
             #endregion
 
 
 
 
-
-
-
-
-
-
-
-            // VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights");
-            // VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
-
-            //VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights");
-            //VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
-
-            //VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight");
-            //VM.print_statistics("statistics_flighttime", "statistics_flighttime", "memory", headers, visibility);
 
             VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_overview", "CMPLSRES", "html");
 

@@ -71,7 +71,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[9].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_ROUNDS_IN_STATISTICS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_ROUNDS_IN_STATISTICS,false);
             await Task.Delay(300);
             controller.SetProgress(0.9);
             await controller.CloseAsync();
@@ -109,7 +109,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_ROUNDS_IN_STATISTICS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
 
 
 
@@ -123,7 +123,7 @@ namespace WpfApp6.View
 
         private void statistics_maxheight_Click(object sender, RoutedEventArgs e)
         {
-
+            zvolenypohled = "maxheights";
 
 
             datagrid_statistiky.Columns[4].Header = "Záznamů";
@@ -144,13 +144,13 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_ROUNDS_IN_STATISTICS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
 
         }
 
         private void statistics_minheight_Click(object sender, RoutedEventArgs e)
         {
-
+            zvolenypohled = "minheights";
             datagrid_statistiky.Columns[4].Header = "Záznamů";
             datagrid_statistiky.Columns[5].Header = "Minimální výška";
             datagrid_statistiky.Columns[6].Header = "Σ Celková doba";
@@ -170,12 +170,12 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_ROUNDS_IN_STATISTICS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
         }
 
         private void statistics_timevsheight_Click(object sender, RoutedEventArgs e)
         {
-
+            zvolenypohled = "timevsheight";
             datagrid_statistiky.Columns[4].Header = "Záznamů";
             datagrid_statistiky.Columns[5].Header = "Minimální výška";
             datagrid_statistiky.Columns[6].Header = "ø čas v kole";
@@ -194,12 +194,13 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_ROUNDS_IN_STATISTICS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_ROUNDS_IN_STATISTICS, false);
         }
 
         private void statistics_enemykiled_Click(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_enemykiled", VM.BIND_ROUNDS_IN_STATISTICS);
+            zvolenypohled = "killedenemies";
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_enemykiled", VM.BIND_ROUNDS_IN_STATISTICS, false);
         }
 
         private async void statistics_flighttime_Click(object sender, RoutedEventArgs e)
@@ -231,7 +232,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_ROUNDS_IN_STATISTICS);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_ROUNDS_IN_STATISTICS,false);
 
 
 
@@ -276,9 +277,48 @@ namespace WpfApp6.View
                 datagrid_statistiky.Columns[11].Visibility.ToString()
             };
 
+            if (zvolenypohled == "landing")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_landing", "statistics_landing", "Přistání", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+            if (zvolenypohled == "flighttime")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_flighttime", "statistics_flighttime", "Letový čas", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+
+            if (zvolenypohled == "averageheights")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_averageheights", "statistics_averageheights", "Průměrné výšky", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+            if (zvolenypohled == "maxheights")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_maxheights", "statistics_maxheights", "Gagarin (max.výška)", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+
+            if (zvolenypohled == "minheights")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_minheights", "statistics_minheights", "Krtek (min.výška)", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+
+            if (zvolenypohled == "timevsheight")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_timevsheights", "statistics_timevsheights", "Čas vs. výška", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+
+            if (zvolenypohled == "killedenemies")
+            {
+                VM.print_statistics("frame_small_info", "data_empty", "print_statistics_killedenemies", "statistics_killedenemies", "Počet poražených soupeřů", "html", headers, visibility, VM.BIND_ROUNDS_IN_STATISTICS);
+            }
+
+            //VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_ROUNDS_IN_STATISTICS, true);
 
             //VM.print_statistics("statistics_" + zvolenypohled, "statistics_" + zvolenypohled, "html", headers, visibility);
-            VM.print_statistics("frame_small_info", "data_empty", "print_statistics_"+ zvolenypohled, "statistics_" + zvolenypohled,"NECO:"+ zvolenypohled, "html", headers, visibility);
 
             await Task.Delay(300);
             controller.SetProgress(0.9);

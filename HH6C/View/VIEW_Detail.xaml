@@ -169,6 +169,7 @@
 
                     <mah:Tile
                     x:Name="statistics_enemykiled"
+                        IsEnabled="False"
                     Title="počet poražených"
                     HorizontalContentAlignment="Center"
                     Style="{StaticResource SmallTileStyle}" Click="statistics_enemykiled_Click">

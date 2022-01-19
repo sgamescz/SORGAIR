@@ -5988,6 +5988,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public ObservableCollection<MODEL_Player_selected> Player_Selected { get; set; } = new ObservableCollection<MODEL_Player_selected>();
         public ObservableCollection<MODEL_Player_selected> Player_Selected_Roundlist { get; set; } = new ObservableCollection<MODEL_Player_selected>();
         public ObservableCollection<MODEL_Player_baseresults> Players_Baseresults { get; set; } = new ObservableCollection<MODEL_Player_baseresults>();
+        public ObservableCollection<MODEL_Player_baseresults> PRINT_Players_Baseresults { get; set; } = new ObservableCollection<MODEL_Player_baseresults>();
         public ObservableCollection<MODEL_Player_baseresults_complete> Players_Baseresults_Complete { get; set; } = new ObservableCollection<MODEL_Player_baseresults_complete>();
         public ObservableCollection<MODEL_Player_baseresults> Players_Finalresults { get; set; } = new ObservableCollection<MODEL_Player_baseresults>();
 
@@ -6869,7 +6870,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public void FUNCTION_RESULTS_LOAD_RESULTS(string what ,int to_round)
+        public void FUNCTION_RESULTS_LOAD_RESULTS(string what ,int to_round, bool is_print)
 
         {
 
@@ -6956,7 +6957,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
                 Players_statistics.Clear();
 
-                SQL_READSOUTEZDATA("select s1.userid,"+
+
+        SQL_READSOUTEZDATA("select s1.userid,"+
 "(select count(userid) from score where userid = s1.userid and userid>0 and prep>0 and rnd <= " + to_round + ") zaznamu," +
 " ROUND(cast(sum(s1.landing) as REAL) / (select count(rnd) from Score where userid = s1.userid and userid>0 and prep > 0 and rnd <= " + to_round + " group by userid ), 2) pristani," +
 " (select sum(landing) from score where userid = s1.userid and userid>0  and prep > 0 and rnd <= " + to_round + ")  sumpristani," +
@@ -8255,7 +8257,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
-        public async void print_statistics(string frame_template_name, string data_emplate_name, string file_name, string graph_name, string what_string, string output_type, string[] headers, string[] visibility)
+        public async void print_statistics(string frame_template_name, string data_emplate_name, string file_name, string graph_name, string what_string, string output_type, string[] headers, string[] visibility, int to_round)
         {
 
 
@@ -8391,7 +8393,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             if (graph_name == "statistics_landing")
             {
-                string datadografu = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) || \" bodů \", cast(count(landing) as text) from score where userid > 0 and prep > 0 and rnd <= " + BIND_ROUNDS_IN_STATISTICS + " group by landing", ",", ",", 2, "[", "]");
+                string datadografu = SQL_READSOUTEZDATA_GETALL("select cast(landing as text) || \" bodů \", cast(count(landing) as text) from score where userid > 0 and prep > 0 and rnd <= " + to_round  + " group by landing", ",", ",", 2, "[", "]");
                 Console.WriteLine(datadografu);
                 html_body_complete = html_body_complete +
                     vytvor_graf_google("Poměr přistání v soutěží", "xnone", datadografu, "ColumnChart", "['xx', 'Počet']");
@@ -8400,7 +8402,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             if (graph_name == "statistics_flighttime")
             {
-                string datadografu = SQL_READSOUTEZDATA_GETALL("select cast('kolo:' || rnd as text), cast (max((minutes*60)+seconds) as text), cast(min((minutes*60)+seconds) as text), cast((sum(((minutes*60)+seconds)) )/(count(rnd))as text) from Score where rnd <= " + BIND_ROUNDS_IN_STATISTICS + " and minutes >0 and seconds >0 group by rnd ", ",", ",", 4, "[", "]");
+                string datadografu = SQL_READSOUTEZDATA_GETALL("select cast('kolo:' || rnd as text), cast (max((minutes*60)+seconds) as text), cast(min((minutes*60)+seconds) as text), cast((sum(((minutes*60)+seconds)) )/(count(rnd))as text) from Score where rnd <= " + to_round  + " and minutes >0 and seconds >0 group by rnd ", ",", ",", 4, "[", "]");
                 Console.WriteLine(datadografu);
                 html_body_complete = html_body_complete +
                     vytvor_graf_google("Max / min / avg. letové časy", "xnone", datadografu, "AreaChart", "['kolo', 'max', 'min', 'average']") +

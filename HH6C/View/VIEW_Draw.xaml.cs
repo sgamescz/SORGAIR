@@ -435,7 +435,7 @@ namespace WpfApp6.View
 
         private void print_matrix_btn_Click(object sender, RoutedEventArgs e)
         {
-            VM.print_matrix("frame_with_contest_info", "data_matrix", "print_basic_resuls", "Rozlosování", "html");
+            VM.print_matrix("frame_small_info", "data_matrix", "print_matrix", "Rozlosování", "html");
         }
 
 
