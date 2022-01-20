@@ -443,6 +443,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang.en-US.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Lang\Lang.cs-CZ.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

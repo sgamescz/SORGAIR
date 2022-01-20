@@ -52,8 +52,16 @@ namespace SORGAIR
 
 
 
-            string tmp_verze = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-            tmp_verze = tmp_verze.Replace(".", "");
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);
+
+            string tmp_verze = major +  minor + build + revision;
+
             Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi);
             test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi);
            

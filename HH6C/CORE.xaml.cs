@@ -57,7 +57,20 @@ namespace WpfApp6
             VM.SQL_OPENCONNECTION("SORG");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
-            VM.BIND_VERZE_SORGU = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+
+
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major .ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor .ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build .ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision .ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);   
+
+
+            Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString().PadLeft(2, '0'));
+
+            VM.BIND_VERZE_SORGU = major + "." + minor + "." + build + "." + revision;
             Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString());
             VM.FUNCTION_LOAD_CONTESTS_FILES();
             Thread get_version = new Thread(new ThreadStart(thread_getsorgversion));
@@ -89,8 +102,18 @@ namespace WpfApp6
         public void thread_getnewscount()
         {
             Thread.Sleep(2500);
-            string tmp_verze = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-            tmp_verze = tmp_verze.Replace(".", "");
+
+
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);
+
+
+            string tmp_verze = major + minor + build + revision;
             string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze;
             Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
