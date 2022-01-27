@@ -83,6 +83,7 @@ namespace WpfApp6.View
         private void newcontestid_Click(object sender, RoutedEventArgs e)
         {
             VM.FUNCTION_GENERATE_RANDOM_STRING(8);
+            generateQRcode(sender ,e);
         }
 
 
@@ -128,5 +129,42 @@ namespace WpfApp6.View
             await currentWindow.ShowMessageAsync("Odeslání soutěže", "Data soutěže byly odeslány na stoupak.cz, díky!", MessageDialogStyle.Affirmative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
 
         }
+
+        private void generateQRcode(object sender, RoutedEventArgs e)
+        {
+
+            QRCoder.QRCodeGenerator qrGenerator = new QRCoder.QRCodeGenerator();
+            QRCoder.QRCodeData qrCodeData = qrGenerator.CreateQrCode(VM.CONTENT_ONLINE_URL, QRCoder.QRCodeGenerator.ECCLevel.Q);
+            QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
+            System.Drawing.Bitmap  qrCodeImage = qrCode.GetGraphic(20);
+
+            QRIMG.Source = ConvertBitmap(qrCodeImage);
+            var SigBase64 = "";
+            using (var ms = new MemoryStream())
+            {
+                using (var bitmap = new System.Drawing.Bitmap(qrCodeImage))
+                {
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    SigBase64  = Convert.ToBase64String(ms.GetBuffer()); //Get Base64
+                }
+            }
+
+
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage ConvertBitmap(System.Drawing.Bitmap bitmap)
+        {
+            MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
+            image.BeginInit();
+            ms.Seek(0, SeekOrigin.Begin);
+            image.StreamSource = ms;
+            image.EndInit();
+
+            return image;
+        }
+
+
     }
 }

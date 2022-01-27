@@ -12,15 +12,22 @@
     mc:Ignorable="d">
 
     <Grid>
+        <StackPanel Orientation="Vertical">
+            <Controls:MetroHeader  Header="Nastavení online parametrů" Height="588">
+                <Grid Margin="0,0,0,4">
+                    <TextBox Name="sorgairurl" Margin="435,273,20,0" IsEnabled="{Binding CONTENT_ONLINE_ENABLED}" Text="{Binding CONTENT_ONLINE_URL}" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Height="64" VerticalAlignment="Top"/>
 
-        <Controls:MetroHeader Margin="10,10,10,535" Header="Nastavení online parametrů">
-            <Grid>
-                <Controls:Tile
+                    <TextBlock  TextWrapping="Wrap" Text="Tato sekce slouží pro nastavení možnosti odesílat nejen celkové, ale  
+i průběžné výsledky na internet (konkrétně na web sorgair.com). Kdokoliv tak bude mít možnost sledovat průběh soutěže nebo výsledky například ve svém mobilu již během 
+zapisování výsledků nebo ihned po skončení soutěže." Margin="10,10,0,0"  Height="58" VerticalAlignment="Top" HorizontalAlignment="Left" Width="960"/>
+
+
+                    <Controls:Tile
                     x:Name="contestid"
                     Title="{Binding CONTENT_RANDOM_ID}"
                     Width="340"
                     Height="64"
-                    Margin="0,144,0,0"
+                    Margin="10,204,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Left"
@@ -28,90 +35,190 @@
                     HorizontalTitleAlignment="Center"
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
                     VerticalTitleAlignment="Center">
-                    <iconPacks:PackIconMaterial Margin="20,10,0,0" Kind="Identifier" />
+                        <iconPacks:PackIconMaterial Margin="20,10,0,0" Kind="Identifier" />
 
-                </Controls:Tile>
+                    </Controls:Tile>
 
-                <Controls:Tile
+                    <Controls:Tile
                     x:Name="newcontestid"
                     Width="75"
                     Height="64"
-                    Margin="345,144,0,0"
+                    Margin="355,204,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
                     Click="newcontestid_Click"
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}">
-                    <iconPacks:PackIconJamIcons
+                        <iconPacks:PackIconJamIcons
                         Width="30"
                         Height="30"
                         Margin="0,5,0,0"
                         Kind="Repeat" />
-                </Controls:Tile>
+                    </Controls:Tile>
 
-                <Controls:ToggleSwitch
+                    <Controls:ToggleSwitch
                     x:Name="_switch"
                     Width="295"
                     Height="60"
-                    Margin="10,10,0,0"
-                    HorizontalAlignment="Left"
+                    Margin="10,70,0,0"
                     VerticalAlignment="Top"
                     Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                    Header="Používat online SORG AIR systém"
+                    Header="Zveřejnit výsledky na internetu"
                     IsOn="{Binding CONTENT_ONLINE_ENABLED}"
-                    OffContent="ne :("
+                    OffContent="Ne"
                     OnContent="Ano" />
 
-                <Button
-                    Width="545"
-                    Height="66"
-                    Margin="425,144,0,0"
-                    HorizontalAlignment="Left"
+                    <Button
+                    Height="64"
+                    Margin="435,204,20,0"
                     VerticalAlignment="Top"
                     Click="Button_Click"
+                        Foreground="{DynamicResource MahApps.Brushes.SystemControlForegroundChromeWhite }"
+                        Background="{DynamicResource MahApps.Brushes.Accent2}"
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
                     Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
-                    Aktivovat online služby s dle zvoleného nastavení
-                </Button>
+                        Aktivovat online výsledky s tímto ID na webu sorgair.com
+                    </Button>
 
-                <Controls:ToggleSwitch
+                    <Controls:ToggleSwitch
                     Width="415"
                     Height="64"
-                    Margin="10,75,0,0"
-                    HorizontalAlignment="Left"
+                    Margin="10,135,0,0"
                     VerticalAlignment="Top"
                     Foreground="{DynamicResource MahApps.Brushes.Accent}"
                     Header="Nastavení soukromí odesílaných výsledků"
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
-                    IsOn="{Binding CONTENT_ONLINE_ENABLED}"
+                    IsOn="{Binding CONTENT_ONLINE_PUBLIC}"
                     OffContent="Data vidí pouze ten, kdo má ID kód"
                     OnContent="Data jsou volně dostupné na internetu" />
-
-            </Grid>
-        </Controls:MetroHeader>
-        <Controls:MetroHeader Margin="10,273,10,272" Header="Odeslání výsledků">
-            <Grid>
-
-                <Controls:Tile
-                    x:Name="uploaddb"
-                    Title="Odeslat soutěž na stoupák"
-                    Width="225"
-                    Height="199"
-                    Margin="10,10,0,0"
+                    <Controls:Tile
+                    x:Name="newcontestid_Copy"
+                    Width="75"
+                    Height="64"
+                    Margin="355,273,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
-                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}" Click="uploaddb_Click">
-                    <iconPacks:PackIconTypicons
+                    Click="newcontestid_Click"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}">
+                        <iconPacks:PackIconJamIcons
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="Scissors"  />
+                    </Controls:Tile>
+                    <Controls:Tile
+                    x:Name="newcontyestid_Copy"
+                    Width="75"
+                    Height="196"
+                    Margin="355,342,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    Click="newcontestid_Click"
+                    IsEnabled="{Binding CONTENT_ONLINE_ENABLED}">
+                        <iconPacks:PackIconJamIcons
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="Printer"  />
+                    </Controls:Tile>
+
+                    <Grid Background="{DynamicResource MahApps.Brushes.Selected.Foreground }" Margin="435,342,20,10">
+                        <Image x:Name="QRIMG" Height="180"  Margin="182,8,183,8" />
+                    </Grid>
+
+                    <Controls:Tile
+                        x:Name="contestid_Copy"
+                        Title="Adresa soutěže "
+                        Width="340"
+                        Height="64"
+                        Margin="10,273,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        HorizontalTitleAlignment="Center"
+                        IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
+                        VerticalTitleAlignment="Center">
+                        <iconPacks:PackIconMaterial Margin="20,5,0,0" Width="30" Height="30" Kind="Web" />
+
+                    </Controls:Tile>
+
+
+                    <Controls:Tile
+                        x:Name="contesxctid_Copy"
+                        Title="QR kód"
+                        Width="340"
+                        Height="196"
+                        Margin="10,342,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        HorizontalTitleAlignment="Center"
+                        IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
+                        VerticalTitleAlignment="Center">
+                        <iconPacks:PackIconBoxIcons Margin="20,5,0,0" Width="30" Height="30" Kind="RegularQrScan" />
+                    </Controls:Tile>
+
+                </Grid>
+            </Controls:MetroHeader>
+            <Controls:MetroHeader  Header="Odeslání výsledovek">
+                <Grid>
+
+                    <Controls:Tile
+                    x:Name="uploaddb"
+                    Title="Odeslat soutěž na stoupák"
+                    Width="225"
+                    Height="162"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource MahApps.Brushes.Accent2}"
+                     Click="uploaddb_Click">
+                        <iconPacks:PackIconTypicons
                         Width="30"
                         Height="30"
                         Margin="0,5,0,0"
                         Kind="CloudStorage" />
-                </Controls:Tile>
+                    </Controls:Tile>
 
-            </Grid>
-        </Controls:MetroHeader>
-
+                    <Controls:Tile
+                    x:Name="sendtosmcr"
+                    Title="Odeslat výsledovku na SMČR"
+                    Width="225"
+                    Height="162"
+                    Margin="240,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource MahApps.Brushes.Accent}"
+                    >
+                        <iconPacks:PackIconFontAwesome
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="PaperPlaneRegular" />
+                    </Controls:Tile>
+                    <Controls:Tile
+                    x:Name="sendviaemail"
+                    Title="Odeslat výsledovku emailem"
+                    Width="225"
+                    Height="162"
+                    Margin="470,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource MahApps.Brushes.Accent3}"
+                    >
+                        <iconPacks:PackIconFontisto
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="Email" />
+                    </Controls:Tile>
+                </Grid>
+            </Controls:MetroHeader>
+        </StackPanel>
 
     </Grid>
 </UserControl>

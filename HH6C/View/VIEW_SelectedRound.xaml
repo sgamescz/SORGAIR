@@ -327,6 +327,8 @@
                                 IsTabStop="False"
                                 Style="{StaticResource MahApps.Styles.Button.MetroSquare.Accent}"
                                 Tag="{Binding STARTPOINT}" />
+
+
                             <Button
                                 Height="25"
                                 Margin="5,5,5,0"

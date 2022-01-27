@@ -121,8 +121,18 @@ namespace WpfApp6.View
 
         }
 
-        private void statistics_maxheight_Click(object sender, RoutedEventArgs e)
+        private async void statistics_maxheight_Click(object sender, RoutedEventArgs e)
         {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím velmi zajmavou statistiku");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+
+
+       
+            
+            
             zvolenypohled = "maxheights";
 
 
@@ -143,13 +153,25 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[9].Visibility = Visibility.Visible;
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
+            controller.SetProgress(0.7);
+
 
             VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
 
+            await Task.Delay(300);
+            controller.SetProgress(0.9);
+            await controller.CloseAsync();
         }
 
-        private void statistics_minheight_Click(object sender, RoutedEventArgs e)
+        private async void statistics_minheight_Click(object sender, RoutedEventArgs e)
         {
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím velmi zajmavou statistiku");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+
             zvolenypohled = "minheights";
             datagrid_statistiky.Columns[4].Header = "Záznamů";
             datagrid_statistiky.Columns[5].Header = "Minimální výška";
@@ -169,12 +191,25 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-
+            controller.SetProgress(0.7);
             VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
+
+            await Task.Delay(300);
+            controller.SetProgress(0.9);
+            await controller.CloseAsync();
+
         }
 
-        private void statistics_timevsheight_Click(object sender, RoutedEventArgs e)
+        private async void statistics_timevsheight_Click(object sender, RoutedEventArgs e)
         {
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím velmi zajmavou statistiku");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+
+
             zvolenypohled = "timevsheight";
             datagrid_statistiky.Columns[4].Header = "Záznamů";
             datagrid_statistiky.Columns[5].Header = "Minimální výška";
@@ -193,14 +228,33 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[9].Visibility = Visibility.Visible;
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
-
+            controller.SetProgress(0.7);
             VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_ROUNDS_IN_STATISTICS, false);
+
+            await Task.Delay(300);
+            controller.SetProgress(0.9);
+            await controller.CloseAsync();
+
         }
 
-        private void statistics_enemykiled_Click(object sender, RoutedEventArgs e)
+        private async void statistics_enemykiled_Click(object sender, RoutedEventArgs e)
         {
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Vytvářím velmi zajmavou statistiku");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+
             zvolenypohled = "killedenemies";
+            controller.SetProgress(0.7);
             VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_enemykiled", VM.BIND_ROUNDS_IN_STATISTICS, false);
+
+
+            await Task.Delay(300);
+            controller.SetProgress(0.9);
+            await controller.CloseAsync();
+
         }
 
         private async void statistics_flighttime_Click(object sender, RoutedEventArgs e)
