@@ -52,6 +52,18 @@ namespace WpfApp6.View
             R9VISIBILITY.Visibility = Visibility.Hidden;
             R10VISIBILITY.Visibility = Visibility.Hidden;
 
+            R11VISIBILITY.Visibility = Visibility.Hidden;
+            R12VISIBILITY.Visibility = Visibility.Hidden;
+            R13VISIBILITY.Visibility = Visibility.Hidden;
+            R14VISIBILITY.Visibility = Visibility.Hidden;
+            R15VISIBILITY.Visibility = Visibility.Hidden;
+            R16VISIBILITY.Visibility = Visibility.Hidden;
+            R17VISIBILITY.Visibility = Visibility.Hidden;
+            R18VISIBILITY.Visibility = Visibility.Hidden;
+            R19VISIBILITY.Visibility = Visibility.Hidden;
+            R20VISIBILITY.Visibility = Visibility.Hidden;
+
+
 
             for (int i = 1; i < VM.BIND_ROUNDS_IN_RESULTS + 1; i++)
             {
@@ -65,6 +77,18 @@ namespace WpfApp6.View
                 if (i == 8) { R8VISIBILITY.Visibility = Visibility.Visible; }
                 if (i == 9) { R9VISIBILITY.Visibility = Visibility.Visible; }
                 if (i == 10) { R10VISIBILITY.Visibility = Visibility.Visible; }
+
+                if (i == 11) { R11VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 12) { R12VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 13) { R13VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 14) { R14VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 15) { R15VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 16) { R16VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 17) { R17VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 18) { R18VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 19) { R19VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 20) { R20VISIBILITY.Visibility = Visibility.Visible; }
+
             }
 
 
@@ -152,7 +176,17 @@ namespace WpfApp6.View
                 "k7",
                 "k8",
                 "k9",
-                "k10"
+                "k10",
+                "kolo11",
+                "kolo12",
+                "kolo13",
+                "kolo14",
+                "kolo15",
+                "kolo16",
+                "k17",
+                "k18",
+                "k19",
+                "k20"
             };
 
             if (p_stat.IsOn is true) { visibility[0] = "True"; } else { visibility[0] = "False"; }
@@ -170,6 +204,17 @@ namespace WpfApp6.View
             if (8 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[12] = "True"; } else { visibility[12] = "False"; }
             if (9 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[13] = "True"; } else { visibility[13] = "False"; }
             if (10 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[14] = "True"; } else { visibility[14] = "False"; }
+
+            if (11 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[15] = "True"; } else { visibility[15] = "False"; }
+            if (12 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[16] = "True"; } else { visibility[16] = "False"; }
+            if (13 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[17] = "True"; } else { visibility[17] = "False"; }
+            if (14 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[18] = "True"; } else { visibility[18] = "False"; }
+            if (15 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[19] = "True"; } else { visibility[19] = "False"; }
+            if (16 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[20] = "True"; } else { visibility[20] = "False"; }
+            if (17 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[21] = "True"; } else { visibility[21] = "False"; }
+            if (18 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[22] = "True"; } else { visibility[22] = "False"; }
+            if (19 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[23] = "True"; } else { visibility[23] = "False"; }
+            if (20 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[24] = "True"; } else { visibility[24] = "False"; }
 
 
             VM.print_basicresults("frame_small_info", "data_empty", "print_basic_resuls", "Základní výsledky", "html", visibility);

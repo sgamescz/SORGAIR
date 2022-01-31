@@ -1708,40 +1708,82 @@ namespace WpfApp6.Model
 
         }
 
-        public string _BIND_NEWS_COUNT_NEEDUPDATE = "-";
+        public string _BIND_NEWS_COUNT_NEXT_NEEDUPDATE = "-";
 
-        public string BIND_NEWS_COUNT_NEEDUPDATE
+        public string BIND_NEWS_COUNT_NEXT_NEEDUPDATE
         {
             get
             {
-                return _BIND_NEWS_COUNT_NEEDUPDATE;
+                return _BIND_NEWS_COUNT_NEXT_NEEDUPDATE;
             }
 
             set
             {
-                _BIND_NEWS_COUNT_NEEDUPDATE = value; OnPropertyChanged("BIND_NEWS_COUNT_NEEDUPDATE");
+                _BIND_NEWS_COUNT_NEXT_NEEDUPDATE = value; OnPropertyChanged("BIND_NEWS_COUNT_NEXT_NEEDUPDATE");
             }
 
         }
 
-        private string _BIND_NEWS_COUNT = "Checking";
-        public string BIND_NEWS_COUNT
+
+        public string _BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE = "-";
+
+        public string BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE
         {
             get
             {
-                return SORGAIR.Properties.Lang.Lang.home_newscount + " : " + _BIND_NEWS_COUNT;
+                return _BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE;
             }
 
             set
             {
-                _BIND_NEWS_COUNT = value; OnPropertyChanged("BIND_NEWS_COUNT");
-                if (_BIND_NEWS_COUNT == "0")
+                _BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE = value; OnPropertyChanged("BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE");
+            }
+
+        }
+
+
+
+        private string _BIND_NEWS_COUNT_ACTUAL = "Checking";
+        public string BIND_NEWS_COUNT_ACTUAL
+        {
+            get
+            {
+                return SORGAIR.Properties.Lang.Lang.home_newscount + " : " + _BIND_NEWS_COUNT_ACTUAL;
+            }
+
+            set
+            {
+                _BIND_NEWS_COUNT_ACTUAL = value; OnPropertyChanged("BIND_NEWS_COUNT_ACTUAL");
+                if (_BIND_NEWS_COUNT_ACTUAL == "0")
                 {
-                    BIND_NEWS_COUNT_NEEDUPDATE = "0";
+                    BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE = "0";
                 }
                 else
                 {
-                    BIND_NEWS_COUNT_NEEDUPDATE = "1";
+                    BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE = "1";
+                }
+            }
+
+        }
+
+        private string _BIND_NEWS_COUNT_NEXT = "Checking";
+        public string BIND_NEWS_COUNT_NEXT
+        {
+            get
+            {
+                return SORGAIR.Properties.Lang.Lang.home_newscount + " : " + _BIND_NEWS_COUNT_NEXT;
+            }
+
+            set
+            {
+                _BIND_NEWS_COUNT_NEXT = value; OnPropertyChanged("BIND_NEWS_COUNT_NEXT");
+                if (_BIND_NEWS_COUNT_NEXT == "0")
+                {
+                    BIND_NEWS_COUNT_NEXT_NEEDUPDATE = "0";
+                }
+                else
+                {
+                    BIND_NEWS_COUNT_NEXT_NEEDUPDATE = "1";
                 }
             }
 
@@ -3797,6 +3839,50 @@ namespace WpfApp6.Model
                         RND10RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
                         RND10RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
 
+
+
+
+                        RND11RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=11 and refly='False'", ""),
+                        RND11RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=11 and refly='False'", ""),
+                        RND11RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=11 and refly='False'", ""),
+
+                        RND12RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=12 and refly='False'", ""),
+                        RND12RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=12 and refly='False'", ""),
+                        RND12RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=12 and refly='False'", ""),
+
+                        RND13RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=13 and refly='False'", ""),
+                        RND13RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=13 and refly='False'", ""),
+                        RND13RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=13 and refly='False'", ""),
+
+                        RND14RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=14 and refly='False'", ""),
+                        RND14RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=14 and refly='False'", ""),
+                        RND14RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=14 and refly='False'", ""),
+
+                        RND15RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=15 and refly='False'", ""),
+                        RND15RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=15 and refly='False'", ""),
+                        RND15RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=15 and refly='False'", ""),
+
+                        RND16RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=16 and refly='False'", ""),
+                        RND16RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=16 and refly='False'", ""),
+                        RND16RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=16 and refly='False'", ""),
+
+                        RND17RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=17 and refly='False'", ""),
+                        RND17RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=17 and refly='False'", ""),
+                        RND17RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=17 and refly='False'", ""),
+
+                        RND18RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=18 and refly='False'", ""),
+                        RND18RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=18 and refly='False'", ""),
+                        RND18RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=18 and refly='False'", ""),
+
+                        RND19RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=19 and refly='False'", ""),
+                        RND19RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=19 and refly='False'", ""),
+                        RND19RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=19 and refly='False'", ""),
+
+                        RND20RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=20 and refly='False'", ""),
+                        RND20RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=20 and refly='False'", ""),
+                        RND20RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=20 and refly='False'", ""),
+
+
                         FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png"
 
                         };
@@ -3945,6 +4031,47 @@ namespace WpfApp6.Model
                             RND10RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' | G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
                             RND10RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' | '||landing||' | '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
                             RND10RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=10 and refly='False'", ""),
+
+                            RND11RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=11 and refly='False'", ""),
+                            RND11RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=11 and refly='False'", ""),
+                            RND11RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=11 and refly='False'", ""),
+
+                            RND12RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=12 and refly='False'", ""),
+                            RND12RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=12 and refly='False'", ""),
+                            RND12RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=12 and refly='False'", ""),
+
+                            RND13RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=13 and refly='False'", ""),
+                            RND13RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=13 and refly='False'", ""),
+                            RND13RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=13 and refly='False'", ""),
+
+                            RND14RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=14 and refly='False'", ""),
+                            RND14RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=14 and refly='False'", ""),
+                            RND14RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=14 and refly='False'", ""),
+
+                            RND15RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=15 and refly='False'", ""),
+                            RND15RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=15 and refly='False'", ""),
+                            RND15RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=15 and refly='False'", ""),
+
+                            RND16RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=16 and refly='False'", ""),
+                            RND16RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=16 and refly='False'", ""),
+                            RND16RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=16 and refly='False'", ""),
+
+                            RND17RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=17 and refly='False'", ""),
+                            RND17RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=17 and refly='False'", ""),
+                            RND17RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=17 and refly='False'", ""),
+
+                            RND18RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=18 and refly='False'", ""),
+                            RND18RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=18 and refly='False'", ""),
+                            RND18RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=18 and refly='False'", ""),
+
+                            RND19RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=19 and refly='False'", ""),
+                            RND19RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=19 and refly='False'", ""),
+                            RND19RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=19 and refly='False'", ""),
+
+                            RND20RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=20 and refly='False'", ""),
+                            RND20RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=20 and refly='False'", ""),
+                            RND20RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=20 and refly='False'", ""),
+
 
 
                             FLAG = directory + "/flags/" + SQL_READSOUTEZDATA("select country from users where id = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")), "") + ".png"
@@ -7857,7 +7984,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th>Celkové scóre</th>
                 <th class='visibility_{visibility[3]}'>G.Pen</th>
                 <th class='visibility_{visibility[4]}'>Ztráta</th>
-                <th class='visibility_{visibility[5]}'>Kolo1</th>
+                <th class='visibility_{visibility[5]}'>Kolo 1</th>
                 <th class='visibility_{visibility[6]}'>Kolo 2</th>
                 <th class='visibility_{visibility[7]}'>Kolo 3</th>
                 <th class='visibility_{visibility[8]}'>Kolo 4</th>
@@ -7867,6 +7994,21 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th class='visibility_{visibility[12]}'>Kolo 8</th>
                 <th class='visibility_{visibility[13]}'>Kolo 9</th>
                 <th class='visibility_{visibility[14]}'>Kolo 10</th>
+
+
+                <th class='visibility_{visibility[15]}'>Kolo 11</th>
+                <th class='visibility_{visibility[16]}'>Kolo 12</th>
+                <th class='visibility_{visibility[17]}'>Kolo 13</th>
+                <th class='visibility_{visibility[18]}'>Kolo 14</th>
+                <th class='visibility_{visibility[19]}'>Kolo 15</th>
+                <th class='visibility_{visibility[20]}'>Kolo 16</th>
+                <th class='visibility_{visibility[21]}'>Kolo 17</th>
+                <th class='visibility_{visibility[22]}'>Kolo 18</th>
+                <th class='visibility_{visibility[23]}'>Kolo 19</th>
+                <th class='visibility_{visibility[24]}'>Kolo 20</th>
+
+
+
                 @BODY
           </table>";
 
@@ -7885,15 +8027,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
     <td class='visibility_{visibility[3]}'>@GPEN</td>
     <td class='visibility_{visibility[4]}'>@LOST</td>
     <td class='visibility_{visibility[5]} skrtacka{Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='visibility_{visibility[6]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2</td>
-    <td class='visibility_{visibility[7]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3</td>
-    <td class='visibility_{visibility[8]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4</td>
-    <td class='visibility_{visibility[9]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5</td>
-    <td class='visibility_{visibility[10]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6</td>
-    <td class='visibility_{visibility[11]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7</td>
-    <td class='visibility_{visibility[12]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8</td>
-    <td class='visibility_{visibility[13]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9</td>
+    <td class='visibility_{visibility[6]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2X</td>
+    <td class='visibility_{visibility[7]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3X</td>
+    <td class='visibility_{visibility[8]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4X</td>
+    <td class='visibility_{visibility[9]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5X</td>
+    <td class='visibility_{visibility[10]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6X</td>
+    <td class='visibility_{visibility[11]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7X</td>
+    <td class='visibility_{visibility[12]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8X</td>
+    <td class='visibility_{visibility[13]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9X</td>
     <td class='visibility_{visibility[14]} skrtacka{Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10</td>
+    <td class='visibility_{visibility[15]} skrtacka{Players_Baseresults[i].RND11RES_SKRTACKA}'>@R11</td>
+    <td class='visibility_{visibility[16]} skrtacka{Players_Baseresults[i].RND12RES_SKRTACKA}'>@R12</td>
+    <td class='visibility_{visibility[17]} skrtacka{Players_Baseresults[i].RND13RES_SKRTACKA}'>@R13</td>
+    <td class='visibility_{visibility[18]} skrtacka{Players_Baseresults[i].RND14RES_SKRTACKA}'>@R14</td>
+    <td class='visibility_{visibility[19]} skrtacka{Players_Baseresults[i].RND15RES_SKRTACKA}'>@R15</td>
+    <td class='visibility_{visibility[20]} skrtacka{Players_Baseresults[i].RND16RES_SKRTACKA}'>@R16</td>
+    <td class='visibility_{visibility[21]} skrtacka{Players_Baseresults[i].RND17RES_SKRTACKA}'>@R17</td>
+    <td class='visibility_{visibility[22]} skrtacka{Players_Baseresults[i].RND18RES_SKRTACKA}'>@R18</td>
+    <td class='visibility_{visibility[23]} skrtacka{Players_Baseresults[i].RND19RES_SKRTACKA}'>@R19</td>
+    <td class='visibility_{visibility[24]} skrtacka{Players_Baseresults[i].RND20RES_SKRTACKA}'>@R20</td>
 </tr>";
                 string tabulkaletu = "";
 
@@ -7910,15 +8062,27 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", Players_Baseresults[i].GPEN.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@LOST", Players_Baseresults[i].PREPSCOREDIFF.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@R1X", Players_Baseresults[i].RND1RES_SCORE + "<br>" + Players_Baseresults[i].RND1RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R2", Players_Baseresults[i].RND2RES_SCORE + "<br>" + Players_Baseresults[i].RND2RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R3", Players_Baseresults[i].RND3RES_SCORE + "<br>" + Players_Baseresults[i].RND3RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R4", Players_Baseresults[i].RND4RES_SCORE + "<br>" + Players_Baseresults[i].RND4RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R5", Players_Baseresults[i].RND5RES_SCORE + "<br>" + Players_Baseresults[i].RND5RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R6", Players_Baseresults[i].RND6RES_SCORE + "<br>" + Players_Baseresults[i].RND6RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R7", Players_Baseresults[i].RND7RES_SCORE + "<br>" + Players_Baseresults[i].RND7RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R8", Players_Baseresults[i].RND8RES_SCORE + "<br>" + Players_Baseresults[i].RND8RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R9", Players_Baseresults[i].RND9RES_SCORE + "<br>" + Players_Baseresults[i].RND9RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R2X", Players_Baseresults[i].RND2RES_SCORE + "<br>" + Players_Baseresults[i].RND2RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R3X", Players_Baseresults[i].RND3RES_SCORE + "<br>" + Players_Baseresults[i].RND3RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R4X", Players_Baseresults[i].RND4RES_SCORE + "<br>" + Players_Baseresults[i].RND4RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R5X", Players_Baseresults[i].RND5RES_SCORE + "<br>" + Players_Baseresults[i].RND5RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R6X", Players_Baseresults[i].RND6RES_SCORE + "<br>" + Players_Baseresults[i].RND6RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R7X", Players_Baseresults[i].RND7RES_SCORE + "<br>" + Players_Baseresults[i].RND7RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R8X", Players_Baseresults[i].RND8RES_SCORE + "<br>" + Players_Baseresults[i].RND8RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R9X", Players_Baseresults[i].RND9RES_SCORE + "<br>" + Players_Baseresults[i].RND9RES_DATA);
                 html_body_withrightdata = html_body_withrightdata.Replace("@R10", Players_Baseresults[i].RND10RES_SCORE + "<br>" + Players_Baseresults[i].RND10RES_DATA);
+
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@R11", Players_Baseresults[i].RND11RES_SCORE + "<br>" + Players_Baseresults[i].RND11RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R12", Players_Baseresults[i].RND12RES_SCORE + "<br>" + Players_Baseresults[i].RND12RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R13", Players_Baseresults[i].RND13RES_SCORE + "<br>" + Players_Baseresults[i].RND13RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R14", Players_Baseresults[i].RND14RES_SCORE + "<br>" + Players_Baseresults[i].RND14RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R15", Players_Baseresults[i].RND15RES_SCORE + "<br>" + Players_Baseresults[i].RND15RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R16", Players_Baseresults[i].RND16RES_SCORE + "<br>" + Players_Baseresults[i].RND16RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R17", Players_Baseresults[i].RND17RES_SCORE + "<br>" + Players_Baseresults[i].RND17RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R18", Players_Baseresults[i].RND18RES_SCORE + "<br>" + Players_Baseresults[i].RND18RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R19", Players_Baseresults[i].RND19RES_SCORE + "<br>" + Players_Baseresults[i].RND19RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R20", Players_Baseresults[i].RND20RES_SCORE + "<br>" + Players_Baseresults[i].RND20RES_DATA);
 
 
 
@@ -8023,7 +8187,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th class='visibility_{visibility[14]}'>1000</th>
                 <th class='visibility_{visibility[15]}'>Z.scóre</th>
                 <th class='visibility_{visibility[16]}'>Z.Ztráta</th>
-                <th class='visibility_{visibility[17]}'>Kolo1</th>
+                <th class='visibility_{visibility[17]}'>Kolo 1</th>
                 <th class='visibility_{visibility[18]}'>Kolo 2</th>
                 <th class='visibility_{visibility[19]}'>Kolo 3</th>
                 <th class='visibility_{visibility[20]}'>Kolo 4</th>
@@ -8033,6 +8197,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th class='visibility_{visibility[24]}'>Kolo 8</th>
                 <th class='visibility_{visibility[25]}'>Kolo 9</th>
                 <th class='visibility_{visibility[26]}'>Kolo 10</th>
+                <th class='visibility_{visibility[27]}'>Kolo 11</th>
+                <th class='visibility_{visibility[28]}'>Kolo 12</th>
+                <th class='visibility_{visibility[29]}'>Kolo 13</th>
+                <th class='visibility_{visibility[30]}'>Kolo 14</th>
+                <th class='visibility_{visibility[31]}'>Kolo 15</th>
+                <th class='visibility_{visibility[32]}'>Kolo 16</th>
+                <th class='visibility_{visibility[33]}'>Kolo 17</th>
+                <th class='visibility_{visibility[34]}'>Kolo 18</th>
+                <th class='visibility_{visibility[35]}'>Kolo 19</th>
+                <th class='visibility_{visibility[36]}'>Kolo 20</th>
                 @BODY
           </table>";
 
@@ -8062,15 +8236,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
     <td class='visibility_{visibility[15]}'>@SCORE</td>
     <td class='visibility_{visibility[16]}'>@LOST</td>
     <td class='visibility_{visibility[17]} skrtacka{Players_Baseresults_Complete[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='visibility_{visibility[18]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA}'>@R2</td>
-    <td class='visibility_{visibility[19]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA}'>@R3</td>
-    <td class='visibility_{visibility[20]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA}'>@R4</td>
-    <td class='visibility_{visibility[21]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA}'>@R5</td>
-    <td class='visibility_{visibility[22]} skrtacka{Players_Baseresults_Complete[i].RND6RES_SKRTACKA}'>@R6</td>
-    <td class='visibility_{visibility[23]} skrtacka{Players_Baseresults_Complete[i].RND7RES_SKRTACKA}'>@R7</td>
-    <td class='visibility_{visibility[24]} skrtacka{Players_Baseresults_Complete[i].RND8RES_SKRTACKA}'>@R8</td>
-    <td class='visibility_{visibility[25]} skrtacka{Players_Baseresults_Complete[i].RND9RES_SKRTACKA}'>@R9</td>
+    <td class='visibility_{visibility[18]} skrtacka{Players_Baseresults_Complete[i].RND2RES_SKRTACKA}'>@R2X</td>
+    <td class='visibility_{visibility[19]} skrtacka{Players_Baseresults_Complete[i].RND3RES_SKRTACKA}'>@R3X</td>
+    <td class='visibility_{visibility[20]} skrtacka{Players_Baseresults_Complete[i].RND4RES_SKRTACKA}'>@R4X</td>
+    <td class='visibility_{visibility[21]} skrtacka{Players_Baseresults_Complete[i].RND5RES_SKRTACKA}'>@R5X</td>
+    <td class='visibility_{visibility[22]} skrtacka{Players_Baseresults_Complete[i].RND6RES_SKRTACKA}'>@R6X</td>
+    <td class='visibility_{visibility[23]} skrtacka{Players_Baseresults_Complete[i].RND7RES_SKRTACKA}'>@R7X</td>
+    <td class='visibility_{visibility[24]} skrtacka{Players_Baseresults_Complete[i].RND8RES_SKRTACKA}'>@R8X</td>
+    <td class='visibility_{visibility[25]} skrtacka{Players_Baseresults_Complete[i].RND9RES_SKRTACKA}'>@R9X</td>
     <td class='visibility_{visibility[26]} skrtacka{Players_Baseresults_Complete[i].RND10RES_SKRTACKA}'>@R10</td>
+    <td class='visibility_{visibility[27]} skrtacka{Players_Baseresults_Complete[i].RND11RES_SKRTACKA}'>@R11</td>
+    <td class='visibility_{visibility[28]} skrtacka{Players_Baseresults_Complete[i].RND12RES_SKRTACKA}'>@R12</td>
+    <td class='visibility_{visibility[29]} skrtacka{Players_Baseresults_Complete[i].RND13RES_SKRTACKA}'>@R13</td>
+    <td class='visibility_{visibility[30]} skrtacka{Players_Baseresults_Complete[i].RND14RES_SKRTACKA}'>@R14</td>
+    <td class='visibility_{visibility[31]} skrtacka{Players_Baseresults_Complete[i].RND15RES_SKRTACKA}'>@R15</td>
+    <td class='visibility_{visibility[32]} skrtacka{Players_Baseresults_Complete[i].RND16RES_SKRTACKA}'>@R16</td>
+    <td class='visibility_{visibility[33]} skrtacka{Players_Baseresults_Complete[i].RND17RES_SKRTACKA}'>@R17</td>
+    <td class='visibility_{visibility[34]} skrtacka{Players_Baseresults_Complete[i].RND18RES_SKRTACKA}'>@R18</td>
+    <td class='visibility_{visibility[35]} skrtacka{Players_Baseresults_Complete[i].RND19RES_SKRTACKA}'>@R19</td>
+    <td class='visibility_{visibility[36]} skrtacka{Players_Baseresults_Complete[i].RND20RES_SKRTACKA}'>@R20</td>
 </tr>";
 
                 string tabulkaletu = "";
@@ -8090,15 +8274,27 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", Players_Baseresults_Complete[i].PREPSCORE_BASE.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@LOST", Players_Baseresults_Complete[i].PREPSCOREDIFF_BASE.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@R1X", Players_Baseresults_Complete[i].RND1RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND1RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R2", Players_Baseresults_Complete[i].RND2RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND2RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R3", Players_Baseresults_Complete[i].RND3RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND3RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R4", Players_Baseresults_Complete[i].RND4RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND4RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R5", Players_Baseresults_Complete[i].RND5RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND5RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R6", Players_Baseresults_Complete[i].RND6RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND6RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R7", Players_Baseresults_Complete[i].RND7RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND7RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R8", Players_Baseresults_Complete[i].RND8RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND8RES_DATA);
-                html_body_withrightdata = html_body_withrightdata.Replace("@R9", Players_Baseresults_Complete[i].RND9RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND9RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R2X", Players_Baseresults_Complete[i].RND2RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND2RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R3X", Players_Baseresults_Complete[i].RND3RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND3RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R4X", Players_Baseresults_Complete[i].RND4RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND4RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R5X", Players_Baseresults_Complete[i].RND5RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND5RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R6X", Players_Baseresults_Complete[i].RND6RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND6RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R7X", Players_Baseresults_Complete[i].RND7RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND7RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R8X", Players_Baseresults_Complete[i].RND8RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND8RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R9X", Players_Baseresults_Complete[i].RND9RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND9RES_DATA);
                 html_body_withrightdata = html_body_withrightdata.Replace("@R10", Players_Baseresults_Complete[i].RND10RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND10RES_DATA);
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@R11", Players_Baseresults_Complete[i].RND11RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND11RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R12", Players_Baseresults_Complete[i].RND12RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND12RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R13", Players_Baseresults_Complete[i].RND13RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND13RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R14", Players_Baseresults_Complete[i].RND14RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND14RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R15", Players_Baseresults_Complete[i].RND15RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND15RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R16", Players_Baseresults_Complete[i].RND16RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND16RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R17", Players_Baseresults_Complete[i].RND17RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND17RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R18", Players_Baseresults_Complete[i].RND18RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND18RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R19", Players_Baseresults_Complete[i].RND19RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND19RES_DATA);
+                html_body_withrightdata = html_body_withrightdata.Replace("@R20", Players_Baseresults_Complete[i].RND20RES_SCORE + "<br>" + Players_Baseresults_Complete[i].RND20RES_DATA);
+
 
                 html_body_withrightdata = html_body_withrightdata.Replace("@F1", Players_Baseresults_Complete[i].RND1RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND1RES_DATA_F);
                 html_body_withrightdata = html_body_withrightdata.Replace("@F2", Players_Baseresults_Complete[i].RND2RES_SCORE_F + "<br>" + Players_Baseresults_Complete[i].RND2RES_DATA_F);
@@ -8201,13 +8397,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th class='visibility_{visibility[3]}'>FAI lic.</th>
                 <th class='visibility_{visibility[4]}'>AGECAT</th>
                 <th class='visibility_{visibility[5]}'>G.Pen</th>
-                <th class='visibility_{visibility[6]}'>F.scóre</th>
-                <th class='visibility_{visibility[7]}'>F.Ztráta</th>
-                <th class='iam_{visibility[8]}'>F1</th>
-                <th class='iam_{visibility[9]}'>F2</th>
-                <th class='iam_{visibility[10]}'>F3</th>
-                <th class='iam_{visibility[11]}'>F4</th>
-                <th class='iam_{visibility[12]}'>F5</th>
+                <th>Celkové score</th>
+                <th class='visibility_{visibility[6]}'>Ztráta</th>
+                <th class='visibility_{visibility[7]}'>F1</th>
+                <th class='visibility_{visibility[8]}'>F2</th>
+                <th class='visibility_{visibility[9]}'>F3</th>
+                <th class='visibility_{visibility[10]}'>F4</th>
+                <th class='visibility_{visibility[11]}'>F5</th>
 
                 @BODY
           </table>";
@@ -8226,13 +8422,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
     <td class='visibility_{visibility[3]}'>@FAILIC</td>
     <td class='visibility_{visibility[4]}'>@AGECAT</td>
     <td class='visibility_{visibility[5]}'>@GPEN</td>
-    <td class='visibility_{visibility[6]}'>@FINSCO</td>
-    <td class='visibility_{visibility[7]}'>@FINLST</td>
-    <td class='visibility_{visibility[8]} skrtacka{Players_Finalresults[i].RND1RES_SKRTACKA}'>@F1</td>
-    <td class='visibility_{visibility[9]} skrtacka{Players_Finalresults[i].RND2RES_SKRTACKA}'>@F2</td>
-    <td class='visibility_{visibility[10]} skrtacka{Players_Finalresults[i].RND3RES_SKRTACKA}'>@F3</td>
-    <td class='visibility_{visibility[11]} skrtacka{Players_Finalresults[i].RND4RES_SKRTACKA}'>@F4</td>
-    <td class='visibility_{visibility[12]} skrtacka{Players_Finalresults[i].RND5RES_SKRTACKA}'>@F5</td>
+    <td>@FINSCO</td>
+    <td class='visibility_{visibility[6]}'>@FINLST</td>
+    <td class='visibility_{visibility[7]} skrtacka{Players_Finalresults[i].RND1RES_SKRTACKA}'>@F1</td>
+    <td class='visibility_{visibility[8]} skrtacka{Players_Finalresults[i].RND2RES_SKRTACKA}'>@F2</td>
+    <td class='visibility_{visibility[9]} skrtacka{Players_Finalresults[i].RND3RES_SKRTACKA}'>@F3</td>
+    <td class='visibility_{visibility[10]} skrtacka{Players_Finalresults[i].RND4RES_SKRTACKA}'>@F4</td>
+    <td class='visibility_{visibility[11]} skrtacka{Players_Finalresults[i].RND5RES_SKRTACKA}'>@F5</td>
 
 </tr>";
 

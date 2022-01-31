@@ -322,7 +322,7 @@
                         ButtonsAlignment="Opposite"
                         InterceptManualEnter="False"
                         IsEnabled="{Binding CONTEST_LOCK}"
-                        Maximum="10"
+                        Maximum="20"
                         Minimum="1"
                         SwitchUpDownButtons="True"
                         TextAlignment="Center"

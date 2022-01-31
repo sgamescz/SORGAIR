@@ -21,7 +21,7 @@ namespace SORGAIR
     /// <summary>
     /// Interakční logika pro Print.xaml
     /// </summary>
-    public partial class News : MetroWindow
+    public partial class News_actual : MetroWindow
     {
 
         string html_main;
@@ -30,7 +30,7 @@ namespace SORGAIR
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
 
 
-        public News()
+        public News_actual()
         {
             this.DataContext = new MODEL_ViewModel();
 
@@ -62,8 +62,8 @@ namespace SORGAIR
 
             string tmp_verze = major +  minor + build + revision;
 
-            Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&onlyactual=false");
-            test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&onlyactual=false");
+            Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&onlyactual=true");
+            test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&onlyactual=true");
            
 
             

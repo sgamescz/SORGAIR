@@ -284,6 +284,9 @@
     <Compile Include="Model\MODEL_Team.cs" />
     <Compile Include="Model\MODEL_Player.cs" />
     <Compile Include="Model\MODEL_ViewModel.cs" />
+    <Compile Include="News_actual.xaml.cs">
+      <DependentUpon>News_actual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="News.xaml.cs">
       <DependentUpon>News.xaml</DependentUpon>
     </Compile>
@@ -367,6 +370,10 @@
       <DependentUpon>CORE.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="News_actual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="News.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

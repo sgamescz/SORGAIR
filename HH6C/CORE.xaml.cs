@@ -75,8 +75,10 @@ namespace WpfApp6
             VM.FUNCTION_LOAD_CONTESTS_FILES();
             Thread get_version = new Thread(new ThreadStart(thread_getsorgversion));
             get_version.Start();
-            Thread get_news = new Thread(new ThreadStart(thread_getnewscount));
-            get_news.Start();
+            Thread get_news_actual = new Thread(new ThreadStart(thread_getnewscount_actual));
+            get_news_actual.Start();
+            Thread get_news_next = new Thread(new ThreadStart(thread_getnewscount_next));
+            get_news_next.Start();
 
         }
 
@@ -99,7 +101,7 @@ namespace WpfApp6
 
         }
 
-        public void thread_getnewscount()
+        public void thread_getnewscount_actual()
         {
             Thread.Sleep(2500);
 
@@ -114,7 +116,7 @@ namespace WpfApp6
 
 
             string tmp_verze = major + minor + build + revision;
-            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze;
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&onlyactual=true";
             Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -127,10 +129,44 @@ namespace WpfApp6
             Console.WriteLine(result);
 
 
-            this.Invoke(() => VM.BIND_NEWS_COUNT = result);
+            this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL = result);
 
         }
 
+
+
+
+        public void thread_getnewscount_next()
+        {
+            Thread.Sleep(2500);
+
+
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);
+
+
+            string tmp_verze = major + minor + build + revision;
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&onlyactual=false";
+            Console.WriteLine(remoteUrl);
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+            Console.WriteLine(result);
+
+
+            this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT = result);
+
+        }
 
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)

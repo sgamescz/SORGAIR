@@ -1,5 +1,5 @@
 ﻿<Controls:MetroWindow
-    x:Class="SORGAIR.News"
+    x:Class="SORGAIR.News_actual"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:WpfApp6.Model"
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-    Title="SORG AIR News"
+    Title="SORG AIR actual News"
     Width="1161"
     Height="634"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -45,7 +45,7 @@
                     HorizontalAlignment="Center"
                     FontSize="24"
                     Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                    Text="Novinky a informace v nových verzích " />
+                    Text="Informace a novinky vztahující se k mé aktuální verzi" />
                 <WebBrowser x:Name="test" Grid.Row="1" />
             </Grid>
         </Border>

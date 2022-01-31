@@ -101,9 +101,11 @@ namespace WpfApp6.View
         public void thread_getsorgversion()
         {
             this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = "Checking...");
-            this.Invoke(() => VM.BIND_NEWS_COUNT = "Checking...");
-            this.Invoke(() => VM.BIND_NEWS_COUNT_NEEDUPDATE = "-");
-            
+            this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL = "Checking...");
+            this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT = "Checking...");
+            this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT_NEEDUPDATE = "-");
+            this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE = "-");
+
 
             Thread.Sleep(2000);
             string remoteUrl = "http://sorgair.com/api/version.php";
@@ -122,13 +124,22 @@ namespace WpfApp6.View
 
         }
 
-        public void thread_getnewscount()
+        public void thread_getnewscount_next()
         {
 
             Thread.Sleep(2500);
-            string tmp_verze = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-            tmp_verze = tmp_verze.Replace(".", "");
-            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze;
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);
+
+
+            string tmp_verze = major + minor + build + revision;
+
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&onlyactual=false";
             Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -141,10 +152,41 @@ namespace WpfApp6.View
             Console.WriteLine(result);
 
 
-            this.Invoke(() => VM.BIND_NEWS_COUNT = result);
+            this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT = result);
 
         }
 
+
+        public void thread_getnewscount_actual()
+        {
+
+            Thread.Sleep(2500);
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);
+
+
+            string tmp_verze = major + minor + build + revision;
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze +"&onlyactual=true";
+            Console.WriteLine(remoteUrl);
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+            Console.WriteLine(result);
+
+
+            this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL = result);
+
+        }
 
         public void download_news(object sender, RoutedEventArgs e)
         {
@@ -152,9 +194,11 @@ namespace WpfApp6.View
             Thread version = new Thread(new ThreadStart(thread_getsorgversion));
             version.Start();
             
-            Thread news = new Thread(new ThreadStart(thread_getnewscount));
-            news.Start();
+            Thread newsnext = new Thread(new ThreadStart(thread_getnewscount_next));
+            newsnext.Start();
 
+            Thread newsactual = new Thread(new ThreadStart(thread_getnewscount_actual));
+            newsactual.Start();
 
             //VM.FUNCTION_LOAD_MATRIX_FILES();
 
@@ -457,11 +501,18 @@ namespace WpfApp6.View
             }
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
+        private void Button_Click_next(object sender, RoutedEventArgs e)
         {
             Window printwindow = new SORGAIR.News();
             printwindow.Show();
         }
+
+        private void Button_Click_actual(object sender, RoutedEventArgs e)
+        {
+            Window printwindowact = new SORGAIR.News_actual();
+            printwindowact.Show();
+        }
+
 
         private void categorylistforinternet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

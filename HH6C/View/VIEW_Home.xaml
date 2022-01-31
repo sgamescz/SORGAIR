@@ -23,36 +23,51 @@
             <Style.Triggers>
 
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="0">
-                    <Setter Property="BadgeBackground" Value="Green" />
+                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
                     <Setter Property="BadgeBackground" Value="Red" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
-                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                    <Setter Property="BadgeBackground" Value="Gray" />
                 </DataTrigger>
 
             </Style.Triggers>
 
         </Style>
 
-        <Style x:Key="badgenewsstyl" TargetType="{x:Type Controls:Badged}">
+        <Style x:Key="badgenewnextsstyl" TargetType="{x:Type Controls:Badged}">
             <Style.Triggers>
 
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="0">
-                    <Setter Property="BadgeBackground" Value="Green" />
+                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
                     <Setter Property="BadgeBackground" Value="Red" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
-                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                    <Setter Property="BadgeBackground" Value="Gray"  />
                 </DataTrigger>
 
             </Style.Triggers>
 
         </Style>
+        <Style x:Key="badgenewactualsstyl" TargetType="{x:Type Controls:Badged}">
+            <Style.Triggers>
 
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="0">
+                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="1">
+                    <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
+                    <Setter Property="BadgeBackground" Value="Gray"  />
+                </DataTrigger>
+
+            </Style.Triggers>
+
+        </Style>
 
 
 
@@ -119,23 +134,39 @@
             Margin="0,0,95,10"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Badge="{Binding BIND_NEWS_COUNT}"
-            Style="{StaticResource badgenewsstyl}"
-            Tag="{Binding BIND_NEWS_COUNT_NEEDUPDATE}"
+            Badge="{Binding BIND_NEWS_COUNT_NEXT}"
+            Style="{StaticResource badgenewnextsstyl}"
+            Tag="{Binding BIND_NEWS_COUNT_NEXT_NEEDUPDATE}"
             BadgePlacementMode="Top">
-            <Button Click="Button_Click_5">
+            <Button Click="Button_Click_next" >
 
-                <iconPacks:PackIconModern
+                <iconPacks:PackIconBootstrapIcons
                     Width="20"
                     Height="20"
-                    Kind="NewspaperCreate" />
+                    Kind="CloudArrowUp" />
+            </Button>
+        </Controls:Badged>
+        <Controls:Badged
+            Width="110"
+            Height="45"
+            Margin="0,0,210,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Badge="{Binding BIND_NEWS_COUNT_ACTUAL}"
+            Tag="{Binding BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE}"
+            Style="{StaticResource badgenewactualsstyl}"
+            BadgePlacementMode="Top">
+            <Button Click="Button_Click_actual"  >
+                <iconPacks:PicolIcons
+                    Width="20"
+                    Height="20"
+                    Kind="News"      />
 
             </Button>
         </Controls:Badged>
 
-
         <Controls:Badged
-            Margin="490,605,210,10"
+            Margin="375,605,325,10"
             Badge="{Binding BIND_VERZE_SORGU_LAST}"
             BadgePlacementMode="Top"
             Style="{StaticResource badgeversionstyl}"

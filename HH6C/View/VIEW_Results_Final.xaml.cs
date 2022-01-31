@@ -66,6 +66,16 @@ namespace WpfApp6.View
             R9VISIBILITY.Visibility = Visibility.Hidden;
             R10VISIBILITY.Visibility = Visibility.Hidden;
 
+            R11VISIBILITY.Visibility = Visibility.Hidden;
+            R12VISIBILITY.Visibility = Visibility.Hidden;
+            R13VISIBILITY.Visibility = Visibility.Hidden;
+            R14VISIBILITY.Visibility = Visibility.Hidden;
+            R15VISIBILITY.Visibility = Visibility.Hidden;
+            R16VISIBILITY.Visibility = Visibility.Hidden;
+            R17VISIBILITY.Visibility = Visibility.Hidden;
+            R18VISIBILITY.Visibility = Visibility.Hidden;
+            R19VISIBILITY.Visibility = Visibility.Hidden;
+            R20VISIBILITY.Visibility = Visibility.Hidden;
 
             for (int i = 1; i < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; i++)
             {
@@ -79,6 +89,18 @@ namespace WpfApp6.View
                 if (i == 8) { R8VISIBILITY.Visibility = Visibility.Visible; }
                 if (i == 9) { R9VISIBILITY.Visibility = Visibility.Visible; }
                 if (i == 10) { R10VISIBILITY.Visibility = Visibility.Visible; }
+
+                if (i == 11) { R11VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 12) { R12VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 13) { R13VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 14) { R14VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 15) { R15VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 16) { R16VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 17) { R17VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 18) { R18VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 19) { R19VISIBILITY.Visibility = Visibility.Visible; }
+                if (i == 20) { R20VISIBILITY.Visibility = Visibility.Visible; }
+
             }
 
 
@@ -235,7 +257,17 @@ namespace WpfApp6.View
                 "True",
                 "True",
                 "True",
-                "True"
+                "True",
+                "kolo11",
+                "kolo12",
+                "kolo13",
+                "kolo14",
+                "kolo15",
+                "kolo16",
+                "k17",
+                "k18",
+                "k19",
+                "k20"
             };
 
 
@@ -277,7 +309,16 @@ namespace WpfApp6.View
             if (9 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[25] = "True"; } else { visibility[25] = "False"; }
             if (10 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[26] = "True"; } else { visibility[26] = "False"; }
 
-
+            if (11 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[27] = "True"; } else { visibility[27] = "False"; }
+            if (12 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[28] = "True"; } else { visibility[28] = "False"; }
+            if (13 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[29] = "True"; } else { visibility[29] = "False"; }
+            if (14 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[30] = "True"; } else { visibility[30] = "False"; }
+            if (15 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[31] = "True"; } else { visibility[31] = "False"; }
+            if (16 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[32] = "True"; } else { visibility[32] = "False"; }
+            if (17 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[33] = "True"; } else { visibility[33] = "False"; }
+            if (18 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[34] = "True"; } else { visibility[34] = "False"; }
+            if (19 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[35] = "True"; } else { visibility[35] = "False"; }
+            if (20 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[36] = "True"; } else { visibility[36] = "False"; }
 
             VM.print_completeresults("frame_with_contest_info", "data_empty", "print_complete_resuls", "Celkové výsledky soutěže", "html", visibility );
         }
@@ -319,6 +360,23 @@ namespace WpfApp6.View
                 "True",
                 "True"
             };
+
+
+
+            if (pf_stat.IsOn is true) { visibility[0] = "True"; } else { visibility[0] = "False"; }
+            if (pf_id.IsOn is true) { visibility[1] = "True"; } else { visibility[1] = "False"; }
+            if (pf_natlic.IsOn is true) { visibility[2] = "True"; } else { visibility[2] = "False"; }
+            if (pf_failic.IsOn is true) { visibility[3] = "True"; } else { visibility[3] = "False"; }
+            if (pf_agecat.IsOn is true) { visibility[4] = "True"; } else { visibility[4] = "False"; }
+            if (pf_gpen.IsOn is true) { visibility[5] = "True"; } else { visibility[5] = "False"; }
+            if (pf_ztrata.IsOn is true) { visibility[6] = "True"; } else { visibility[6] = "False"; }
+
+
+            if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[7] = "True"; } else { visibility[7] = "False"; }
+            if (2 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[8] = "True"; } else { visibility[8] = "False"; }
+            if (3 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[9] = "True"; } else { visibility[9] = "False"; }
+            if (4 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[10] = "True"; } else { visibility[10] = "False"; }
+            if (5 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[11] = "True"; } else { visibility[11] = "False"; }
 
 
             VM.print_final_results("frame_small_info", "data_empty", "print_complete_resuls", "Výsledky finále", "html", visibility);
@@ -470,6 +528,16 @@ namespace WpfApp6.View
                 "True",
                 "True",
                 "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
+                "True",
                 "True"
             };
 
@@ -512,6 +580,17 @@ namespace WpfApp6.View
             if (9 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[25] = "True"; } else { visibility[25] = "False"; }
             if (10 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[26] = "True"; } else { visibility[26] = "False"; }
 
+
+            if (11 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[27] = "True"; } else { visibility[27] = "False"; }
+            if (12 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[28] = "True"; } else { visibility[28] = "False"; }
+            if (13 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[29] = "True"; } else { visibility[29] = "False"; }
+            if (14 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[30] = "True"; } else { visibility[30] = "False"; }
+            if (15 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[31] = "True"; } else { visibility[31] = "False"; }
+            if (16 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[32] = "True"; } else { visibility[32] = "False"; }
+            if (17 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[33] = "True"; } else { visibility[33] = "False"; }
+            if (18 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[34] = "True"; } else { visibility[34] = "False"; }
+            if (19 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[35] = "True"; } else { visibility[35] = "False"; }
+            if (20 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[36] = "True"; } else { visibility[36] = "False"; }
 
 
 
