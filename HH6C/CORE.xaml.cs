@@ -116,7 +116,7 @@ namespace WpfApp6
 
 
             string tmp_verze = major + minor + build + revision;
-            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&onlyactual=true";
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&type=actual_and_older";
             Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -151,7 +151,7 @@ namespace WpfApp6
 
 
             string tmp_verze = major + minor + build + revision;
-            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&onlyactual=false";
+            string remoteUrl = "http://sorgair.com/api/news.php?version=" + tmp_verze + "&type=newest_than_actual";
             Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);

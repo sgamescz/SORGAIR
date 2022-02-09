@@ -35,6 +35,7 @@
             TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}" />
+            <Setter Property="Width" Value="auto" />
         </Style>
 
 
@@ -48,7 +49,7 @@
             <DataTemplate x:Key="DateTemplateR1">
 
 
-                <StackPanel Height="40">
+                <StackPanel Height="40" >
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontWeight="Bold"
@@ -631,9 +632,9 @@
                 </StackPanel>
             </DataTemplate>
 
-            
-            
-                        <DataTemplate x:Key="DateTemplateR15">
+
+
+            <DataTemplate x:Key="DateTemplateR15">
 
 
                 <StackPanel Height="40">
@@ -897,10 +898,10 @@
         </Grid.Resources>
 
 
-        <StackPanel >
-            
+        <StackPanel>
 
-            <Grid Height="200">
+
+            <Grid Height="200" Name="maingrid">
 
                 <Label
                     Width="275"
@@ -1003,10 +1004,8 @@
                 </mah:Tile>
                 <WrapPanel
                     Name="table_filter_final"
-                    Width="980"
                     Height="35"
-                    Margin="10,90,0,75"
-                    HorizontalAlignment="Left"
+                    Margin="10,90,-1,75"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
                     Orientation="Horizontal"
                     Visibility="Visible">
@@ -1070,13 +1069,13 @@
                     TextAlignment="Center"
                     Value="{Binding BIND_ROUNDS_IN_RESULTS}" />
             </Grid>
-            <DataGrid
+
+
+            <DataGrid Background="red"
                 x:Name="dataGrid_clasic_results"
-                Width="980"
-                Margin="10,0,0,0"
+                Margin="0,0,0,0"
                 HorizontalAlignment="Left"
                 AutoGenerateColumns="False"
-                CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Baseresults}">
 
@@ -1087,6 +1086,8 @@
                         Binding="{Binding POSITION}"
                         FontSize="16"
                         FontWeight="Bold"
+                        Width="auto"
+                        
                         Header="Pozice"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
                     <DataGridTextColumn
@@ -1095,7 +1096,7 @@
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
-                        Width="*"
+                        Width="auto"
                         CellTemplate="{StaticResource DateTemplateFLAG}"
                         Header="Stát"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
@@ -1127,6 +1128,7 @@
                     <DataGridTemplateColumn
                         x:Name="R1VISIBILITY"
                         Width="*"
+                        
                         CellTemplate="{StaticResource DateTemplateR1}"
                         Header="Kolo 1"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
@@ -1141,13 +1143,15 @@
                     <DataGridTemplateColumn
                         x:Name="R3VISIBILITY"
                         Width="*"
+                        
                         CellTemplate="{StaticResource DateTemplateR3}"
                         Header="Kolo 3"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
                         x:Name="R4VISIBILITY"
-                        Width="*"
+                                                Width="*"
+
                         CellTemplate="{StaticResource DateTemplateR4}"
                         Header="Kolo 4"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
@@ -1155,6 +1159,7 @@
                     <DataGridTemplateColumn
                         x:Name="R5VISIBILITY"
                         Width="*"
+
                         CellTemplate="{StaticResource DateTemplateR5}"
                         Header="Kolo 5"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
@@ -1162,6 +1167,7 @@
                     <DataGridTemplateColumn
                         x:Name="R6VISIBILITY"
                         Width="*"
+
                         CellTemplate="{StaticResource DateTemplateR6}"
                         Header="Kolo 6"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />

@@ -71,7 +71,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[9].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_ROUNDS_IN_STATISTICS,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_ROUNDS_IN_STATISTICS,99);
             await Task.Delay(300);
             controller.SetProgress(0.9);
             await controller.CloseAsync();
@@ -109,7 +109,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_ROUNDS_IN_STATISTICS, 99);
 
 
 
@@ -156,7 +156,7 @@ namespace WpfApp6.View
             controller.SetProgress(0.7);
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_ROUNDS_IN_STATISTICS, 99);
 
             await Task.Delay(300);
             controller.SetProgress(0.9);
@@ -192,7 +192,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
             controller.SetProgress(0.7);
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_ROUNDS_IN_STATISTICS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_ROUNDS_IN_STATISTICS, 99);
 
             await Task.Delay(300);
             controller.SetProgress(0.9);
@@ -229,7 +229,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
             controller.SetProgress(0.7);
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_ROUNDS_IN_STATISTICS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_ROUNDS_IN_STATISTICS, 99);
 
             await Task.Delay(300);
             controller.SetProgress(0.9);
@@ -248,7 +248,7 @@ namespace WpfApp6.View
 
             zvolenypohled = "killedenemies";
             controller.SetProgress(0.7);
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_enemykiled", VM.BIND_ROUNDS_IN_STATISTICS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_enemykiled", VM.BIND_ROUNDS_IN_STATISTICS, 99);
 
 
             await Task.Delay(300);
@@ -286,7 +286,7 @@ namespace WpfApp6.View
             datagrid_statistiky.Columns[10].Visibility = Visibility.Hidden;
             datagrid_statistiky.Columns[11].Visibility = Visibility.Visible;
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_ROUNDS_IN_STATISTICS,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_ROUNDS_IN_STATISTICS,99);
 
 
 

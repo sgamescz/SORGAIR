@@ -62,8 +62,8 @@ namespace SORGAIR
 
             string tmp_verze = major +  minor + build + revision;
 
-            Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&onlyactual=false");
-            test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&onlyactual=false");
+            Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&type=newest_than_actual");
+            test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&type=newest_than_actual");
            
 
             

@@ -40,6 +40,7 @@ namespace WpfApp6.View
 
         private void udelej_zobrazeni_vysledku()
         {
+            dataGrid_clasic_results.Width = maingrid.ActualWidth;
 
             R1VISIBILITY.Visibility = Visibility.Hidden;
             R2VISIBILITY.Visibility = Visibility.Hidden;
@@ -94,7 +95,7 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_ROUNDS_IN_RESULTS,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_ROUNDS_IN_RESULTS,99);
 
             //dataGrid_clasic_results.Columns[11].Width = new 
             //      DataGridLength(1, DataGridLengthUnitType.SizeToHeader);
@@ -110,7 +111,7 @@ namespace WpfApp6.View
 
         private void results_teams_Click(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("teams", VM.BIND_ROUNDS_IN_RESULTS,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("teams", VM.BIND_ROUNDS_IN_RESULTS,99);
             //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
 
         }

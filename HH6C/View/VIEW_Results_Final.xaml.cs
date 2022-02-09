@@ -47,6 +47,7 @@ namespace WpfApp6.View
 
         private void results_users_Click(object sender, RoutedEventArgs e)
         {
+            datagrid_vysledky_celkove.Width = maingrid.ActualWidth;
 
 
             R1VISIBILITYFINAL_FR.Visibility = Visibility.Hidden;
@@ -140,8 +141,9 @@ namespace WpfApp6.View
 
 
 
+            
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete",99,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete",99, Convert.ToInt32(VM.BINDING_SELECTED_AGECAT_ID));
 
         }
 
@@ -173,12 +175,13 @@ namespace WpfApp6.View
             datagrid_vysledky_finalistu.Visibility = Visibility.Visible;
             table_filter_complete.Visibility = Visibility.Collapsed;
             table_filter_final.Visibility = Visibility.Visible;
-
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("final_users",99,false);
+            datagrid_vysledky_finalistu.Width = maingrid.ActualWidth;
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("final_users",99,99);
         }
 
         private void ToggleSwitch_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            Console.Write("xxx");
         }
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
@@ -409,7 +412,7 @@ namespace WpfApp6.View
             #region Základní výsledky
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_SQL_SOUTEZ_ROUNDS,false );
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_SQL_SOUTEZ_ROUNDS, 99);
 
             visibility = new string[] {
                 "True",
@@ -459,6 +462,16 @@ namespace WpfApp6.View
             if (9 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[13] = "True"; } else { visibility[13] = "False"; }
             if (10 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[14] = "True"; } else { visibility[14] = "False"; }
 
+            if (11 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[15] = "True"; } else { visibility[15] = "False"; }
+            if (12 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[16] = "True"; } else { visibility[16] = "False"; }
+            if (13 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[17] = "True"; } else { visibility[17] = "False"; }
+            if (14 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[18] = "True"; } else { visibility[18] = "False"; }
+            if (15 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[19] = "True"; } else { visibility[19] = "False"; }
+            if (16 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[20] = "True"; } else { visibility[20] = "False"; }
+            if (17 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[21] = "True"; } else { visibility[21] = "False"; }
+            if (18 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[22] = "True"; } else { visibility[22] = "False"; }
+            if (19 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[23] = "True"; } else { visibility[23] = "False"; }
+            if (20 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[24] = "True"; } else { visibility[24] = "False"; }
 
 
 
@@ -496,7 +509,7 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, Convert.ToInt32(VM.BINDING_SELECTED_AGECAT_ID));
 
 
 
@@ -629,7 +642,7 @@ namespace WpfApp6.View
                 "Visible"
             };
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_SQL_SOUTEZ_ROUNDS,true);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averagelandings", VM.BIND_SQL_SOUTEZ_ROUNDS,99);
             //VM.print_statistics("statistics_c_landing", "statistics_landing", "memory", headers, visibility);
             VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_landing", "Přistání", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
 
@@ -665,7 +678,7 @@ namespace WpfApp6.View
             };
 
             
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_SQL_SOUTEZ_ROUNDS,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_flighttime", VM.BIND_SQL_SOUTEZ_ROUNDS,99);
             //VM.print_statistics("statistics_c_flighttime", "statistics_flighttime", "memory", headers, visibility);
             VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_flighttime", "Letový čas", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
 
@@ -701,7 +714,7 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_SQL_SOUTEZ_ROUNDS,false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_averageheights", VM.BIND_SQL_SOUTEZ_ROUNDS,99);
             //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
 
             VM.print_statistics("frame_empty", "data_empty", "print_complete_resuls", "statistics_averageheights", "Průměrná výška", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
@@ -741,7 +754,7 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_SQL_SOUTEZ_ROUNDS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_maxheights", VM.BIND_SQL_SOUTEZ_ROUNDS, 99);
             //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
 
             VM.print_statistics("frame_empty", "data_empty", "print_statistics_maxheights", "statistics_maxheights", "Gagarin (max.výška)", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
@@ -781,7 +794,7 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_SQL_SOUTEZ_ROUNDS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_minheights", VM.BIND_SQL_SOUTEZ_ROUNDS, 99);
             //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
 
             VM.print_statistics("frame_empty", "data_empty", "print_statistics_minheights", "statistics_minheights", "Krtek (min.výška)", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
@@ -819,12 +832,11 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_SQL_SOUTEZ_ROUNDS, false);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("statistics_timevsheight", VM.BIND_SQL_SOUTEZ_ROUNDS, 99);
             //VM.print_statistics("statistics_c_averageheights", "statistics_averageheights", "memory", headers, visibility);
 
             VM.print_statistics("frame_empty", "data_empty", "print_statistics_timevsheights", "statistics_timevsheights", "Čas vs. výška", "memory", headers, visibility, VM.BIND_SQL_SOUTEZ_ROUNDS);
             #endregion
-
 
 
 
@@ -836,6 +848,26 @@ namespace WpfApp6.View
             controller.SetProgress(0.9);
             await controller.CloseAsync();
 
+        }
+
+
+
+        void selectMeDropDownButton_TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                var value = ((TextBlock)e.Source).DataContext;
+                Console.WriteLine(value);
+
+                VM.BINDING_SELECTED_AGECAT = value.ToString();
+            }
+        }
+
+
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("sdasdasd");
         }
     }
 }

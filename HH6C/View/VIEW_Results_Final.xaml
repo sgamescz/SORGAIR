@@ -988,8 +988,8 @@
 
                 </StackPanel>
             </DataTemplate>
-            
-            
+
+
             <DataTemplate x:Key="DateTemplateFLAG">
                 <StackPanel>
                     <Image
@@ -1005,14 +1005,14 @@
         </Grid.Resources>
 
 
-        <StackPanel>
+        <StackPanel Background="Orange">
 
-            <Grid >
+            <Grid Background="red" Name="maingrid" Margin="10,0,10,0">
                 <WrapPanel Margin="0,0,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="990">
                     <StackPanel Orientation="Horizontal">
-                        
-                    
-                    <mah:Tile
+
+
+                        <mah:Tile
                         Name="results_final_users"
                         Title="Výsledky finále"
                                                 Height="100"
@@ -1022,38 +1022,61 @@
                         Click="results_final_users_Click"
                         IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
                         Style="{StaticResource SmallTileStyle}" Width="300">
-                        <iconPacks:PackIconFontAwesome
+                            <iconPacks:PackIconFontAwesome
                             Width="35"
                             Height="35"
                             Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             Kind="MedalSolid" />
-                    </mah:Tile>
-                    <mah:Tile
+                        </mah:Tile>
+                        <mah:Tile
                         Name="results_users"
-                                                Height="100"
+                            Height="100"
 
                         Title="Celkové výsledky"
                         VerticalContentAlignment="Center"
                         Click="results_users_Click"
                         Style="{StaticResource SmallTileStyle}" Width="300">
-                        <iconPacks:PackIconFontAwesome
+                            <iconPacks:PackIconFontAwesome
                             Width="35"
                             Height="35"
                             Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             Kind="TrophySolid" />
-                    </mah:Tile>
+                        </mah:Tile>
+
+
+                        <mah:DropDownButton Content="{Binding BINDING_SELECTED_AGECAT}" 
+                                            Orientation="Vertical" 
+                                            Margin="2 0 0 0"
+                                            Background="{DynamicResource MahApps.Brushes.Accent3}" 
+                                            Foreground="White" 
+                                            Width="300"
+                                            Height="100"
+                                            ItemsSource="{Binding agecatitems}" 
+                                            >
+
+
+                            <mah:DropDownButton.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"  MouseDown="selectMeDropDownButton_TextBlock_MouseDown" />
+                                </DataTemplate>
+                            </mah:DropDownButton.ItemTemplate>
+                            <mah:DropDownButton.Icon>
+                                <iconPacks:PackIconUnicons Kind="ChatBubbleUser" Width="30" Height="30"/>
+                            </mah:DropDownButton.Icon>
+                        </mah:DropDownButton>
 
                         <mah:Tile
                         Name="results_teams"
                         Title="Celková pořadí týmů"
+                            Visibility="Collapsed"
                         IsEnabled="False"
                                                 Height="100"
 
                         VerticalContentAlignment="Center"
                         Click="results_teams_Click"
-                        Style="{StaticResource SmallTileStyle}">
+                        Style="{StaticResource SmallTileStyle}" Width="81">
                             <iconPacks:PackIconOcticons
                             Width="25"
                             Height="25"
@@ -1061,13 +1084,13 @@
                             VerticalAlignment="Center"
                             Kind="Jersey" />
                         </mah:Tile>
-                        
+
                     </StackPanel>
 
-        <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
 
-       
-                    <mah:Tile
+
+                        <mah:Tile
                         x:Name="print_finalresults_btn"
                         Title="Tisk finálových výsledků"
                         Width="300"
@@ -1077,15 +1100,15 @@
                         Click="print_finalresults_btn_Click"
                         IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
                         Style="{StaticResource SmallTileStyle}">
-                        
-                        <iconPacks:PackIconBoxIcons
+
+                            <iconPacks:PackIconBoxIcons
                             Width="32"
                             Height="32"
                             Margin="0,0,0,20"
                             VerticalAlignment="Center"
                             Kind="RegularPrinter" />
-                    </mah:Tile>
-                    <mah:Tile
+                        </mah:Tile>
+                        <mah:Tile
                         x:Name="print_completeresults_btn"
                         Title="Tisk oficiální výsledovky"
                         Width="300"
@@ -1094,13 +1117,13 @@
                         HorizontalContentAlignment="Center"
                         Click="print_completeresults_btn_Click"
                         Style="{StaticResource SmallTileStyle}">
-                        <iconPacks:PackIconBoxIcons
+                            <iconPacks:PackIconBoxIcons
                             Width="32"
                             Height="32"
                             Margin="0,0,0,20"
                             VerticalAlignment="Center"
                             Kind="RegularPrinter" />
-                    </mah:Tile>
+                        </mah:Tile>
 
                         <mah:Tile
                         x:Name="print_sorgairresults_btn"
@@ -1114,53 +1137,51 @@
                             Background="{DynamicResource MahApps.Brushes.Accent}"
                             >
                             <iconPacks:PackIconFontisto Kind="AreaChart"  Width="32" Height="32" Margin="0 0 0 20"/>
-                            
+
                         </mah:Tile>
-            
+
                     </StackPanel>
 
 
                 </WrapPanel>
             </Grid>
-            <WrapPanel
+            <Grid Background="red"  Margin="10,0,10,0" >
+                <WrapPanel
                 Name="table_filter_final"
-                Width="980"
-                Height="71"
-                Margin="10,0,0,10"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,10"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
                 Visibility="Visible">
 
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_stat"
                     Width="110"
                     Content="Stát"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_id"
                     Width="100"
                     Content="ID"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_natlic"
                     Width="110"
                     Content="NAT lic."
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_failic"
                     Width="110"
                     Content="FAI lic."
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_agecat"
                     Width="110"
                     Content="AGECAT"
@@ -1168,21 +1189,21 @@
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
 
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_gpen"
                     Width="100"
                     Content="G.PEN"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_bonus"
                     Width="100"
                     Content="Bonus"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="pf_ztrata"
                     Width="115"
                     Content="Ztráta"
@@ -1190,81 +1211,79 @@
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
 
-            </WrapPanel>
-            <WrapPanel
+                </WrapPanel>
+                <WrapPanel
                 Name="table_filter_complete"
-                Width="980"
                 Height="72"
-                Margin="10,0,0,10"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,10"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
                 Visibility="Visible">
 
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_stat"
                     Width="110"
                     Content="Stát"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_id"
                     Width="100"
                     Content="ID"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_natlic"
                     Width="110"
                     Content="NAT lic."
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_failic"
                     Width="110"
                     Content="FAI lic."
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_agecat"
                     Width="110"
                     Content="AGECAT"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_gpen"
                     Width="100"
                     Content="G.PEN"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_fscore"
                     Width="115"
                     Content="F.Score"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_fztrata"
                     Width="115"
                     Content="F.Ztráta"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_bonus"
                     Width="100"
                     Content="Bonus"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_1000"
                     Width="100"
                     Content="1000"
@@ -1272,14 +1291,14 @@
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
 
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_zscore"
                     Width="110"
                     Content="Z.Score"
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
-                <mah:ToggleSwitch
+                    <mah:ToggleSwitch
                     Name="p_zztrata"
                     Width="110"
                     Content="Z.Ztráta"
@@ -1289,7 +1308,9 @@
 
 
 
-            </WrapPanel>
+                </WrapPanel>
+            </Grid>
+          
             <DataGrid
                 x:Name="datagrid_vysledky_finalistu"
                 Width="980"
