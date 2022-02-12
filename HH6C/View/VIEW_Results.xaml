@@ -955,7 +955,7 @@
                     Title="Tisk"
                     Width="112"
                     Height="75"
-                    Margin="0,10,0,115"
+                    Margin="0,10,10,115"
                     HorizontalAlignment="Right"
                     HorizontalContentAlignment="Center"
                     Background="YellowGreen"
@@ -1005,7 +1005,7 @@
                 <WrapPanel
                     Name="table_filter_final"
                     Height="35"
-                    Margin="10,90,-1,75"
+                    Margin="10,90,10,75"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
                     Orientation="Horizontal"
                     Visibility="Visible">
@@ -1071,11 +1071,12 @@
             </Grid>
 
 
-            <DataGrid Background="red"
+            <DataGrid 
                 x:Name="dataGrid_clasic_results"
                 Margin="0,0,0,0"
                 HorizontalAlignment="Left"
                 AutoGenerateColumns="False"
+                      Visibility="Hidden"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Baseresults}">
 

@@ -52,6 +52,13 @@ namespace WpfApp6.View
             controller.SetProgress(0.5);
 
 
+            datagrid_statistiky.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_statistiky.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
+
+
             datagrid_statistiky.Columns[4].Header = "Záznamů";
             datagrid_statistiky.Columns[5].Header = "ø Průměr";
             datagrid_statistiky.Columns[6].Header = "---";
@@ -87,6 +94,11 @@ namespace WpfApp6.View
             controller.SetProgress(0);
             await Task.Delay(300);
             controller.SetProgress(0.5);
+            datagrid_statistiky.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_statistiky.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
 
 
 
@@ -129,10 +141,15 @@ namespace WpfApp6.View
             await Task.Delay(300);
             controller.SetProgress(0.5);
 
+            datagrid_statistiky.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_statistiky.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
 
-       
-            
-            
+
+
+
             zvolenypohled = "maxheights";
 
 
@@ -171,6 +188,11 @@ namespace WpfApp6.View
             controller.SetProgress(0);
             await Task.Delay(300);
             controller.SetProgress(0.5);
+            datagrid_statistiky.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_statistiky.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
 
             zvolenypohled = "minheights";
             datagrid_statistiky.Columns[4].Header = "Záznamů";
@@ -208,6 +230,11 @@ namespace WpfApp6.View
             controller.SetProgress(0);
             await Task.Delay(300);
             controller.SetProgress(0.5);
+            datagrid_statistiky.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_statistiky.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
 
 
             zvolenypohled = "timevsheight";
@@ -265,6 +292,11 @@ namespace WpfApp6.View
             controller.SetProgress(0);
             await Task.Delay(300);
             controller.SetProgress(0.5);
+            datagrid_statistiky.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_statistiky.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
 
 
 

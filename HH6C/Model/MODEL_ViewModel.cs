@@ -775,7 +775,7 @@ namespace WpfApp6.Model
         }
 
 
-        public string _Function_global_resizemode = "Fill";
+        public string _Function_global_resizemode = "None";
         public string Function_global_resizemode
         {
             get { 
@@ -4229,10 +4229,9 @@ namespace WpfApp6.Model
 
                     if (kamulozitvysledek == "get_contest_sound_main")
                     {
-                        Console.WriteLine("get_contest_sound_main");
+                        //Console.WriteLine("get_contest_sound_main");
 
                         int i = MODEL_CONTEST_SOUNDS_MAIN.Count;
-                        Console.WriteLine("ABCDE:" + i);
                         byte[] fileContent;
 
                         if (sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) == "---FUNKY---")
@@ -4253,7 +4252,7 @@ namespace WpfApp6.Model
 
                         maintimewaveout[i] = new WaveOutEvent();
                         maintimewaveout[i].Init(wav_maintime[i]);
-                        Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        //Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
                         
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -4265,13 +4264,13 @@ namespace WpfApp6.Model
                             TODEL = 0
                         };
 
-                        Console.WriteLine("add to MODEL_CONTEST_SOUNDS_MAIN:" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("second")));
+                        //Console.WriteLine("add to MODEL_CONTEST_SOUNDS_MAIN:" + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("second")));
                         MODEL_CONTEST_SOUNDS_MAIN.Add(_sound);
                     }
 
                     if (kamulozitvysledek == "get_contest_sound_final_main")
                     {
-                        Console.WriteLine("get_contest_sound_final_main");
+                        //Console.WriteLine("get_contest_sound_final_main");
 
                         int i = MODEL_CONTEST_SOUNDS_FINAL_MAIN.Count;
 
@@ -4295,7 +4294,7 @@ namespace WpfApp6.Model
 
                         final_maintimewaveout[i] = new WaveOutEvent();
                         final_maintimewaveout[i].Init(wav_final_maintime[i]);
-                        Console.WriteLine("FINALNANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        //Console.WriteLine("FINALNANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -4314,7 +4313,7 @@ namespace WpfApp6.Model
 
                     if (kamulozitvysledek == "get_contest_sound_prep")
                     {
-                        Console.WriteLine("get_contest_sound_prep");
+                        //Console.WriteLine("get_contest_sound_prep");
 
                         int i = MODEL_CONTEST_SOUNDS_PREP.Count;
 
@@ -4334,7 +4333,7 @@ namespace WpfApp6.Model
 
                         preptimewaveout[i] = new WaveOutEvent();
                         preptimewaveout[i].Init(wav_preptime[i]);
-                        Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        //Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {
@@ -4353,7 +4352,7 @@ namespace WpfApp6.Model
 
                     if (kamulozitvysledek == "get_contest_sound_final_prep")
                     {
-                        Console.WriteLine("get_contest_sound_final_prep");
+                        //Console.WriteLine("get_contest_sound_final_prep");
 
                         int i = MODEL_CONTEST_SOUNDS_FINAL_PREP.Count;
 
@@ -4373,7 +4372,7 @@ namespace WpfApp6.Model
 
                         final_preptimewaveout[i] = new WaveOutEvent();
                         final_preptimewaveout[i].Init(wav_final_preptime[i]);
-                        Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
+                        //Console.WriteLine("NANAUDIO _ " + "Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("filename")) + ".wav");
 
                         var _sound = new MODEL_CATEGORY_LANDING()
                         {

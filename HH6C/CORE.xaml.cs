@@ -225,6 +225,10 @@ namespace WpfApp6
                 if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
                     Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", RegVal, RegistryValueKind.DWord);
 
+            Console.WriteLine("aaa");
+            VM.Function_global_resizemode = "None";
+            main_master_grid.Width = this.ActualWidth;
+            main_master_grid.Height = this.ActualHeight;
 
         }
 
@@ -248,12 +252,12 @@ namespace WpfApp6
            if (VM.Function_global_resizemode != "Fill")
             {
 
-
+                VM.Function_global_resizemode = "None";
                 main_master_grid.Width = this.ActualWidth;
                 main_master_grid.Height = this.ActualHeight;
 
             }
-
+            Console.WriteLine("aaa");
         }
 
 
@@ -268,17 +272,19 @@ namespace WpfApp6
         private void CLICK_resizemode(object sender, RoutedEventArgs e)
         {
 
-            if (VM.Function_global_resizemode == "Uniform")
+            if (VM.Function_global_resizemode == "None")
             {
                 VM.Function_global_resizemode = "Fill";
             }
             else
             {
-                VM.Function_global_resizemode = "Uniform";
-                main_master_grid.Width = this.Width;
-                main_master_grid.Height = this.Height;
+                VM.Function_global_resizemode = "None";
+                main_master_grid.Width = this.ActualWidth ;
+                main_master_grid.Height = this.ActualHeight;
 
             }
         }
+
+     
     }
 }

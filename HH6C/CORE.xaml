@@ -363,9 +363,11 @@
 
                                 <Label
                                     Margin="527,0,0,0"
+                                  
                                     HorizontalContentAlignment="Right"
                                     Content="{Binding BIND_CAS_DO_MENU}"
                                     FontSize="20"
+                                   
                                     Foreground="{DynamicResource MahApps.Brushes.Gray1}" />
                             </Grid>
 

@@ -38,10 +38,19 @@ namespace WpfApp6.View
             }
         }
 
-        private void udelej_zobrazeni_vysledku()
+        private async void udelej_zobrazeni_vysledku()
         {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Sestavuji, počítám, třídím...");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+            dataGrid_clasic_results.Width = 0;
+            maingrid.UpdateLayout();
+            await Task.Delay(500);
             dataGrid_clasic_results.Width = maingrid.ActualWidth;
-
+            dataGrid_clasic_results.Visibility = Visibility.Visible;
+            await Task.Delay(300);
             R1VISIBILITY.Visibility = Visibility.Hidden;
             R2VISIBILITY.Visibility = Visibility.Hidden;
             R3VISIBILITY.Visibility = Visibility.Hidden;
@@ -99,6 +108,11 @@ namespace WpfApp6.View
 
             //dataGrid_clasic_results.Columns[11].Width = new 
             //      DataGridLength(1, DataGridLengthUnitType.SizeToHeader);
+
+            controller.SetProgress(0.9);
+            await Task.Delay(300);
+            await controller.CloseAsync();
+
 
         }
         private void results_users_Click(object sender, RoutedEventArgs e)

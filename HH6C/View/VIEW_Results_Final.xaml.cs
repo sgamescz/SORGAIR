@@ -45,9 +45,22 @@ namespace WpfApp6.View
             }
         }
 
-        private void results_users_Click(object sender, RoutedEventArgs e)
+        private async void results_users_Click(object sender, RoutedEventArgs e)
         {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Sestavuji, počítám, třídím...");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+            datagrid_vysledky_finalistu.Width = 0;
+            datagrid_vysledky_celkove.Width = 0;
+            maingrid.UpdateLayout();
+            mainstack.UpdateLayout();
+            await Task.Delay(500);
+            
+
             datagrid_vysledky_celkove.Width = maingrid.ActualWidth;
+            await Task.Delay(300);
 
 
             R1VISIBILITYFINAL_FR.Visibility = Visibility.Hidden;
@@ -118,6 +131,8 @@ namespace WpfApp6.View
             datagrid_vysledky_finalistu.Visibility = Visibility.Collapsed;
             table_filter_complete.Visibility = Visibility.Visible;
             table_filter_final.Visibility = Visibility.Collapsed;
+            controller.SetProgress(0.7);
+            await Task.Delay(300);
 
 
             VM._ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = true;
@@ -140,10 +155,14 @@ namespace WpfApp6.View
             }
 
 
+            controller.SetProgress(0.8);
 
-            
+
 
             VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete",99, Convert.ToInt32(VM.BINDING_SELECTED_AGECAT_ID));
+            controller.SetProgress(0.9);
+            await Task.Delay(300);
+            await controller.CloseAsync();
 
         }
 
@@ -153,8 +172,22 @@ namespace WpfApp6.View
             //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
         }
 
-        private void results_final_users_Click(object sender, RoutedEventArgs e)
+        private async void results_final_users_Click(object sender, RoutedEventArgs e)
         {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Sestavuji, počítám, třídím...");
+            controller.SetProgress(0);
+            await Task.Delay(300);
+            controller.SetProgress(0.5);
+
+            datagrid_vysledky_finalistu.Width = 0;
+            datagrid_vysledky_celkove.Width = 0;
+            maingrid.UpdateLayout();
+            mainstack.UpdateLayout();
+            await Task.Delay(500);
+            datagrid_vysledky_finalistu.Width = maingrid.ActualWidth;
+
+
             R1VISIBILITYFINAL.Visibility = Visibility.Hidden;
             R2VISIBILITYFINAL.Visibility = Visibility.Hidden;
             R3VISIBILITYFINAL.Visibility = Visibility.Hidden;
@@ -175,8 +208,13 @@ namespace WpfApp6.View
             datagrid_vysledky_finalistu.Visibility = Visibility.Visible;
             table_filter_complete.Visibility = Visibility.Collapsed;
             table_filter_final.Visibility = Visibility.Visible;
-            datagrid_vysledky_finalistu.Width = maingrid.ActualWidth;
+            controller.SetProgress(0.8);
+            await Task.Delay(300);
+
             VM.FUNCTION_RESULTS_LOAD_RESULTS("final_users",99,99);
+            controller.SetProgress(0.9);
+            await Task.Delay(300);
+            await controller.CloseAsync();
         }
 
         private void ToggleSwitch_MouseDoubleClick(object sender, MouseButtonEventArgs e)

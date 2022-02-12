@@ -1005,9 +1005,9 @@
         </Grid.Resources>
 
 
-        <StackPanel Background="Orange">
+        <StackPanel x:Name="mainstack">
 
-            <Grid Background="red" Name="maingrid" Margin="10,0,10,0">
+            <Grid Name="maingrid" Margin="10,0,20,0">
                 <WrapPanel Margin="0,0,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="990">
                     <StackPanel Orientation="Horizontal">
 
@@ -1145,13 +1145,14 @@
 
                 </WrapPanel>
             </Grid>
-            <Grid Background="red"  Margin="10,0,10,0" >
+           
                 <WrapPanel
                 Name="table_filter_final"
-                Margin="10,0,10,10"
+                Width="970"
+                    HorizontalAlignment="Left"
                 Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Visible">
+                Visibility="Hidden">
 
                     <mah:ToggleSwitch
                     Name="pf_stat"
@@ -1215,10 +1216,13 @@
                 <WrapPanel
                 Name="table_filter_complete"
                 Height="72"
-                Margin="10,0,10,10"
-                Background="{DynamicResource MahApps.Brushes.Accent4}"
+                    Margin="10,0,0,10"
+                    HorizontalAlignment="Left"
+                    Width="970"
+
+                    Background="{DynamicResource MahApps.Brushes.Accent4}"
                 Orientation="Horizontal"
-                Visibility="Visible">
+                Visibility="Hidden">
 
                     <mah:ToggleSwitch
                     Name="p_stat"
@@ -1309,12 +1313,12 @@
 
 
                 </WrapPanel>
-            </Grid>
+           
           
             <DataGrid
                 x:Name="datagrid_vysledky_finalistu"
                 Width="980"
-                Margin="10,0,0,0"
+                Margin="10,10,0,0"
                 HorizontalAlignment="Left"
                 AutoGenerateColumns="False"
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
@@ -1426,7 +1430,7 @@
                 CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Baseresults_Complete}"
-                Visibility="Visible" >
+                Visibility="Hidden" >
 
                 <DataGrid.Columns>
 
