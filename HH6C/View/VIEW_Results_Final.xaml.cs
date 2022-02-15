@@ -444,6 +444,9 @@ namespace WpfApp6.View
             VM.print_userslist("frame_empty", "data_userlist", "print_userlist", "Seznam soutěžících", "memory");
 
 
+            VM.print_userstatistics("frame_empty", "data_userstatistics", "print_userstatistics", "Statistiky uživatelů", "memory");
+
+
             VM.print_matrix("frame_empty", "data_matrix", "print_basic_resuls", "Rozlosování", "memory");
 
 
@@ -879,7 +882,7 @@ namespace WpfApp6.View
 
 
 
-            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_overview", "CMPLSRES", "html");
+            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_overview", "Kompletní SORG AIR výstup", "html");
 
 
             await Task.Delay(300);

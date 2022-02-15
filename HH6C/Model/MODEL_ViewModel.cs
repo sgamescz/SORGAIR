@@ -7868,7 +7868,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         private static readonly Random getrandom = new Random();
 
-        public async void print_userslist(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
+        public void print_userslist(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
         {
 
 
@@ -7977,7 +7977,120 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
-        public async void print_basicresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
+
+
+        public void print_userstatistics(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
+        {
+
+
+
+            string html_main;
+            string html_body = "";
+            string html_body_withrightdata;
+            string html_all;
+
+
+            Console.WriteLine("Players.Count" + Players.Count);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+
+
+            html_main = File.ReadAllText(directory + "/Print_templates/" + frame_template_name + ".html", Encoding.UTF8);
+
+
+            string tmp_style = File.ReadAllText(directory + "/Print_templates/_style.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@STYLE", tmp_style);
+            string tmp_zahlavi = File.ReadAllText(directory + "/Print_templates/_zahlavi.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@ZAHLAVI", tmp_zahlavi);
+            string tmp_hlavicka = File.ReadAllText(directory + "/Print_templates/_hlavicka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@HLAVICKA", tmp_hlavicka);
+            string tmp_paticka = File.ReadAllText(directory + "/Print_templates/_paticka.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@PATICKA", tmp_paticka);
+            string tmp_logo = File.ReadAllText(directory + "/Print_templates/_logo.dat", Encoding.UTF8);
+            html_main = html_main.Replace("@LOGO", tmp_logo);
+
+            html_main = html_main.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@ORGANISATOR", BIND_SQL_SOUTEZ_CLUB);
+            html_main = html_main.Replace("@PLACE", BIND_SQL_SOUTEZ_LOKACE);
+            html_main = html_main.Replace("@DATE", BIND_SQL_SOUTEZ_DATUM);
+            html_main = html_main.Replace("@CONTESTNUMBER", BIND_SQL_SOUTEZ_SMCRID);
+            html_main = html_main.Replace("@WHAT", what_string);
+            html_main = html_main.Replace("@CATEGORY", BIND_SQL_SOUTEZ_KATEGORIE);
+            html_main = html_main.Replace("@DIRECTOR", BIND_SQL_SOUTEZ_DIRECTOR);
+            html_main = html_main.Replace("@HEADJURY", BIND_SQL_SOUTEZ_HEADJURY);
+            html_main = html_main.Replace("@SUBJURY", BIND_SQL_SOUTEZ_JURY1 + " | " + BIND_SQL_SOUTEZ_JURY2 + " | " + BIND_SQL_SOUTEZ_JURY3);
+            html_main = html_main.Replace("@WEATHER", BIND_SQL_SOUTEZ_POCASI);
+
+
+
+            html_main = html_main.Replace("@BODY", "@BODY");
+
+
+            html_body = File.ReadAllText(directory + "/Print_templates/" + data_emplate_name + ".html", Encoding.UTF8); ;
+            string html_body_complete = "";
+
+
+            for (int i = 0; i < Players.Count(); i++)
+            {
+
+
+                html_body_withrightdata = html_body;
+                Console.WriteLine(html_body_withrightdata);
+
+                html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", Players[i].LASTNAME + " " + Players[i].FIRSTNAME);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", BIND_SQL_SOUTEZ_NAZEV + " - " + BIND_SQL_SOUTEZ_KATEGORIE);
+                html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", Players[i].COUNTRY);
+                html_body_withrightdata = html_body_withrightdata.Replace("@ID", Players[i].ID.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", Players[i].NACLIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", Players[i].FAILIC);
+                html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", Players[i].AGECAT);
+                html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", Players[i].CLUB);
+                html_body_withrightdata = html_body_withrightdata.Replace("@PAID", Players[i].PAIDSTR);
+                html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", Players[i].FREQ);
+
+
+
+
+                byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + Players[i].COUNTRY + ".png");
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                Console.WriteLine(base64ImageRepresentation);
+                html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+
+                html_body_complete = html_body_complete + html_body_withrightdata;
+
+            }
+
+            html_body_complete = html_body_complete + "</table>";
+
+            html_all = html_main.Replace("@BODY", html_body_complete);
+
+
+
+            if (output_type == "html")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+            }
+
+
+            if (output_type == "memory")
+            {
+
+                memoryprint = memoryprint + html_all;
+            }
+
+        }
+
+
+        public void print_basicresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
         {
 
 
@@ -8701,9 +8814,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             }
 
 
-            if (graph_name == "statistics_maxheights")
+            if (graph_name == "statistics_maxheightsXXXX")
             {
+
                 html_body_complete = html_body_complete + "<img src='data: image / png; base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA + f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAB9iSURBVHja7N15kFyFfeDxX19zSjMadB9ICF2AkLBAEohT4jRgE8AugwETp5JNVbyVeDebqiR2nKydw7mP8tqbTW2t1wYTB2J8httgc8lICIzuAyGh + 54Zaa6evvYPA2sDBoHU3dM9n8 +/ NP26f69H79vvvX4vUSqVAgAYXpJGAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAQAAAAAIAABAAAIAAAAAEAAAIAABAAAAAAgAAEAAAQC1LGwG1ZMGdt95oCgxFL379m98xBQQAlMGUxedOuf6f / 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' />";
+
             }
 
 
