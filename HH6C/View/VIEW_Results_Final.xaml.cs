@@ -47,7 +47,24 @@ namespace WpfApp6.View
 
         private async void results_users_Click(object sender, RoutedEventArgs e)
         {
+            int pocetnesenioru = Convert.ToInt32(VM.SQL_READSOUTEZDATA("select count(U.ID) from users U where agecat > 0", ""));
+
+            Console.WriteLine("pocetnesenioru " + pocetnesenioru);
+            
             var currentWindow = this.TryFindParent<MetroWindow>();
+
+            if (VM.BINDING_SELECTED_AGECAT_ID == 99)
+            {
+
+                var result = await currentWindow.ShowMessageAsync("Věkové kategorie", "Je 3 a více soutěžících v neseniorské věkové kategorii. " +
+                    "Měl bys vyhlásit výsledky zvláště dle věkových kategorií a nikoliv společnou pro všechny."
+                    , MessageDialogStyle.Affirmative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
+
+            }
+
+
+
+
             var controller = await currentWindow.ShowProgressAsync("Generuji", "Sestavuji, počítám, třídím...");
             controller.SetProgress(0);
             await Task.Delay(300);
@@ -265,11 +282,11 @@ namespace WpfApp6.View
             }
 
         }
- 
+
         private void print_completeresults_btn_Click(object sender, RoutedEventArgs e)
         {
 
-           
+
 
             string[] visibility = {
                 "True",
@@ -324,7 +341,7 @@ namespace WpfApp6.View
             if (p_fscore.IsOn is true) { visibility[7] = "True"; } else { visibility[7] = "False"; }
 
 
-            if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE ) { visibility[8] = "True"; } else { visibility[8] = "False"; }
+            if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[8] = "True"; } else { visibility[8] = "False"; }
             if (2 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[9] = "True"; } else { visibility[9] = "False"; }
             if (3 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[10] = "True"; } else { visibility[10] = "False"; }
             if (4 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[11] = "True"; } else { visibility[11] = "False"; }
@@ -339,7 +356,7 @@ namespace WpfApp6.View
 
 
 
-            if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDS ) { visibility[17] = "True"; } else { visibility[17] = "False"; }
+            if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[17] = "True"; } else { visibility[17] = "False"; }
             if (2 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[18] = "True"; } else { visibility[18] = "False"; }
             if (3 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[19] = "True"; } else { visibility[19] = "False"; }
             if (4 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[20] = "True"; } else { visibility[20] = "False"; }
@@ -361,7 +378,31 @@ namespace WpfApp6.View
             if (19 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[35] = "True"; } else { visibility[35] = "False"; }
             if (20 <= VM.BIND_SQL_SOUTEZ_ROUNDS) { visibility[36] = "True"; } else { visibility[36] = "False"; }
 
-            VM.print_completeresults("frame_with_contest_info", "data_empty", "print_complete_resuls", "Celkové výsledky soutěže", "html", visibility );
+            //VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, Convert.ToInt32(VM.BINDING_SELECTED_AGECAT_ID));
+            //VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "bind", "memory", visibility);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 99);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", VM.agecatitems[0], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 0);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", VM.agecatitems[1], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 1);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", VM.agecatitems[2], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 2);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", VM.agecatitems[3], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+
+            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_resuls", "all from memory", "html");
+
         }
 
 
@@ -550,10 +591,6 @@ namespace WpfApp6.View
 
 
 
-            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, Convert.ToInt32(VM.BINDING_SELECTED_AGECAT_ID));
-
-
-
 
             visibility = new string[] {
                 "True",
@@ -649,7 +686,26 @@ namespace WpfApp6.View
 
 
 
-            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Celkové výsledky", "memory", visibility);
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 99);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Celkové výsledky - " + VM.agecatitems[0], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 0);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Celkové výsledky - " + VM.agecatitems[1], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 1);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Celkové výsledky - " + VM.agecatitems[2], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
+            VM.FUNCTION_RESULTS_LOAD_RESULTS("users_complete", 99, 2);
+            VM.print_completeresults("frame_empty", "data_empty", "print_complete_resuls", "Celkové výsledky - " + VM.agecatitems[3], "memory", visibility);
+
+            System.Threading.Thread.Sleep(50);
+
 
 
             #endregion
