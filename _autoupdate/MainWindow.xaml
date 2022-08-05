@@ -1,0 +1,21 @@
+﻿<Controls:MetroWindow
+    x:Class="_autoupdate.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="SORG AIR - Autoupdate"
+    Width="619"
+    Height="158"
+        Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
+    GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+    BorderThickness="3"
+    ResizeMode="NoResize"
+    Loaded="Button_Click"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    WindowStartupLocation="CenterScreen">
+
+
+    <Grid>
+        <ProgressBar Margin="24,10,21,0" BorderBrush="Black" BorderThickness="1" Name="copyprogress" Height="54" VerticalAlignment="Top" ></ProgressBar>
+        <Label Margin="35,79,21,0" Name="copytext" Content="---" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="47" VerticalAlignment="Top"></Label>
+    </Grid>
+</Controls:MetroWindow>

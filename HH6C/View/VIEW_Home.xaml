@@ -46,7 +46,7 @@
                     <Setter Property="BadgeBackground" Value="Red" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
-                    <Setter Property="BadgeBackground" Value="Gray"  />
+                    <Setter Property="BadgeBackground" Value="Gray" />
                 </DataTrigger>
 
             </Style.Triggers>
@@ -62,7 +62,7 @@
                     <Setter Property="BadgeBackground" Value="{DynamicResource MahApps.Brushes.Accent}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="-">
-                    <Setter Property="BadgeBackground" Value="Gray"  />
+                    <Setter Property="BadgeBackground" Value="Gray" />
                 </DataTrigger>
 
             </Style.Triggers>
@@ -135,10 +135,11 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Badge="{Binding BIND_NEWS_COUNT_NEXT}"
+            BadgePlacementMode="Top"
+            IsEnabled="{Binding BINDING_IS_INTERNET}"
             Style="{StaticResource badgenewnextsstyl}"
-            Tag="{Binding BIND_NEWS_COUNT_NEXT_NEEDUPDATE}"
-            BadgePlacementMode="Top">
-            <Button Click="Button_Click_next" >
+            Tag="{Binding BIND_NEWS_COUNT_NEXT_NEEDUPDATE}">
+            <Button Click="Button_Click_next">
 
                 <iconPacks:PackIconBootstrapIcons
                     Width="20"
@@ -153,14 +154,15 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Badge="{Binding BIND_NEWS_COUNT_ACTUAL}"
-            Tag="{Binding BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE}"
+            BadgePlacementMode="Top"
+            IsEnabled="{Binding BINDING_IS_INTERNET}"
             Style="{StaticResource badgenewactualsstyl}"
-            BadgePlacementMode="Top">
-            <Button Click="Button_Click_actual"  >
+            Tag="{Binding BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE}">
+            <Button Click="Button_Click_actual">
                 <iconPacks:PicolIcons
                     Width="20"
                     Height="20"
-                    Kind="News"      />
+                    Kind="News" />
 
             </Button>
         </Controls:Badged>
@@ -169,6 +171,7 @@
             Margin="375,605,325,10"
             Badge="{Binding BIND_VERZE_SORGU_LAST}"
             BadgePlacementMode="Top"
+            IsEnabled="{Binding BINDING_IS_INTERNET}"
             Style="{StaticResource badgeversionstyl}"
             Tag="{Binding BIND_VERZE_SORGU_NEEDUPDATE}">
             <Button Click="download_news" Content="{Binding BIND_VERZE_SORGU}" />
@@ -176,11 +179,11 @@
 
 
         <TextBlock
-            Height="35"
-            Margin="10,126,-10,0"
+            Height="54"
+            Margin="10,126,21,0"
             VerticalAlignment="Top"
             FontSize="14"
-            Text="Testovací verze SORG AIR 2021 určena pouze pro testování a další vývoj"
+            Text="Děkujeme, že používáte SORG AIR pro svou soutěž.&#x0a;V případě dotazů nebo námětů navštivte www.sorgair.com nebo pište na info@sorgair.com"
             TextAlignment="Center" />
         <Grid Margin="0,180,0,260">
 
@@ -527,7 +530,7 @@
                                     <ListBox
                                         Name="categorylistforinternet"
                                         Width="197"
-                                        Height="372"
+                                        Height="226"
                                         Margin="10,35,0,0"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Top"
@@ -559,6 +562,52 @@
 
                                     </ListBox>
 
+                                    <Label
+                                        Height="30"
+                                        Margin="10,266,544,0"
+                                        VerticalAlignment="Top"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Content="Zvol zdroj"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
+
+
+                                    <ListBox
+                                        Name="internetcalendarsource"
+                                        Width="197"
+                                        Height="106"
+                                        Margin="10,301,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                                        BorderThickness="1"
+                                        ItemsSource="{Binding MODEL_CONTESTS_CALENDARSOURCES}"
+                                        SelectionChanged="categorylistforinternet_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+
+
+
+
+                                                    <TextBlock
+                                                        Grid.Column="0"
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="12"
+                                                        FontWeight="Normal"
+                                                        Text="{Binding CATEGORY}" />
+
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                    </ListBox>
 
 
                                     <ListBox
@@ -573,8 +622,9 @@
                                                 <Grid Margin="0,2">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="1.5*" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="1.5*" />
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="1*" />
                                                     </Grid.ColumnDefinitions>
 
 
@@ -584,6 +634,7 @@
                                                     <TextBlock Grid.Column="0" Text="{Binding NAME}" />
                                                     <TextBlock Grid.Column="1" Text="{Binding LOCATION}" />
                                                     <TextBlock Grid.Column="2" Text="{Binding DATE}" />
+                                                    <TextBlock Grid.Column="3" Text="{Binding COMPETITORS}" />
 
                                                 </Grid>
                                             </DataTemplate>

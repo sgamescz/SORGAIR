@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
-
 using MahApps.Metro.Controls;
 using System.Data.SQLite;
 using WpfApp6.View;
@@ -47,8 +46,8 @@ namespace WpfApp6
             //SORGAIR.Properties.Settings.Default.Save();
             this.DataContext = new MODEL_ViewModel();
             var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
-            
-        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
+
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
 
 
             Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -59,13 +58,13 @@ namespace WpfApp6
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
 
 
-            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major .ToString().PadLeft(2, '0');
-            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor .ToString().PadLeft(2, '0');
-            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build .ToString().PadLeft(2, '0');
-            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision .ToString().PadLeft(2, '0');
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
 
             Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            Console.WriteLine(major + "." + minor + "." + build + "." + revision);   
+            Console.WriteLine(major + "." + minor + "." + build + "." + revision);
 
 
             Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString().PadLeft(2, '0'));
@@ -73,16 +72,96 @@ namespace WpfApp6
             VM.BIND_VERZE_SORGU = major + "." + minor + "." + build + "." + revision;
             Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString());
             VM.FUNCTION_LOAD_CONTESTS_FILES();
-            Thread get_version = new Thread(new ThreadStart(thread_getsorgversion));
-            get_version.Start();
-            Thread get_news_actual = new Thread(new ThreadStart(thread_getnewscount_actual));
-            get_news_actual.Start();
-            Thread get_news_next = new Thread(new ThreadStart(thread_getnewscount_next));
-            get_news_next.Start();
+
+            
+            if (CheckForInternetConnection(1000, "http://sorgair.com/") is true)
+            {
+                VM.BINDING_IS_INTERNET = true;
+                Thread get_version = new Thread(new ThreadStart(thread_getsorgversion));
+                get_version.Start();
+                Thread get_news_actual = new Thread(new ThreadStart(thread_getnewscount_actual));
+                get_news_actual.Start();
+                Thread get_news_next = new Thread(new ThreadStart(thread_getnewscount_next));
+                get_news_next.Start();
+                show_new_version_message();
+            }
+            else
+            {
+                VM.BINDING_IS_INTERNET = false;
+            }
+
 
         }
 
-        public void thread_getsorgversion()
+
+        public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
+        {
+            Console.WriteLine("checking internet connection");
+            try
+            {
+
+
+
+
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.KeepAlive = false;
+                request.Timeout = timeoutMs;
+                Console.WriteLine("OK");
+                using (var response = (HttpWebResponse)request.GetResponse())
+                    return true;
+            }
+            catch
+            {
+                Console.WriteLine("not ok");
+                return false;
+            }
+        }
+
+
+
+
+
+        public async void show_new_version_message()
+        {
+
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine();
+            string remoteUrl = "http://sorgair.com/api/version.php";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+
+            if (result != major + "." + minor + "." + build + "." + revision)
+            {
+
+                var currentWindow = this;
+                var results = await currentWindow.ShowMessageAsync("Je nová verze", "K dispozici je nová verze. Chceš si přečíst co je nového a stáhnout ji ?", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
+                if (results == null)
+                    return;
+                if (results == MessageDialogResult.Affirmative)
+                {
+                    Window printwindow = new SORGAIR.News();
+                    printwindow.Show();
+
+                }
+
+
+
+            }
+
+        }
+
+        public async void thread_getsorgversion()
         {
             Thread.Sleep(2000);
             string remoteUrl = "http://sorgair.com/api/version.php";
@@ -98,6 +177,18 @@ namespace WpfApp6
 
 
             this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine();
+
+          
+
+
+
 
         }
 
@@ -185,19 +276,18 @@ namespace WpfApp6
 
         private async void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to close?", "SORG AIR", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.No)
+
+
+            if (MessageBox.Show("Opravdu ukončit SORG AIR?", "Ukončit ?", MessageBoxButton.YesNo) == MessageBoxResult.No)
             {
                 e.Cancel = true;
             }
-
             else
             {
                 VM.SQL_CLOSECONNECTION("SORG");
                 VM.SQL_CLOSECONNECTION("SOUTEZ");
+
             }
-
-
 
         }
 
@@ -216,11 +306,11 @@ namespace WpfApp6
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-//            this.Show();
-  //          System.Threading.Thread.Sleep(500);
+            //            this.Show();
+            //          System.Threading.Thread.Sleep(500);
             HamburgerMenuControl.SelectedIndex = VM.BINDING_selectedmenuindex;
             this.SizeChanged += Form1_ResizeEnd;
-            
+
             int RegVal;
             RegVal = 11001;
             using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
@@ -228,9 +318,23 @@ namespace WpfApp6
                     Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", RegVal, RegistryValueKind.DWord);
 
             Console.WriteLine("aaa");
-            VM.Function_global_resizemode = "None";
-            main_master_grid.Width = this.ActualWidth;
-            main_master_grid.Height = this.ActualHeight;
+
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            if (screenHeight < 930)
+            {
+                VM.Function_global_resizemode = "Fill";
+                this.Height = screenHeight;
+                this.Width = 1270 * (screenHeight / 930);
+
+            }
+            else
+            {
+                VM.Function_global_resizemode = "None";
+                main_master_grid.Width = this.ActualWidth;
+                main_master_grid.Height = this.ActualHeight;
+
+            }
+
 
         }
 
@@ -265,8 +369,22 @@ namespace WpfApp6
 
         private void CLICK_originalresize(object sender, RoutedEventArgs e)
         {
-            this.Width = 1230;
-            this.Height =  900;
+
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            if (screenHeight < 930)
+            {
+                VM.Function_global_resizemode = "Fill";
+                this.Height = screenHeight;
+                this.Width = 1270 * (screenHeight / 930);
+
+            }
+            else
+            {
+                this.Width = 1270;
+                this.Height = 930;
+            }
+
+
             this.WindowState = WindowState.Normal;
          
         }

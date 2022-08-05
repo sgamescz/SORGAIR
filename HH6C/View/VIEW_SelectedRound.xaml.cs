@@ -53,7 +53,13 @@ namespace WpfApp6.View
             else
             {
                 Console.WriteLine("yes");
+
+
+
+
                 VM.clock_MAIN_stop();
+
+
 
             }
 
@@ -73,8 +79,18 @@ namespace WpfApp6.View
             //   Console.WriteLine(VM.MODEL_CONTEST_SOUNDS_MAIN[i].VALUE.ToString() + " --- " + VM.MODEL_CONTEST_SOUNDS_MAIN[i].TEXTVALUE.ToString());
             //}
 
-           
+         
+
+
             VM.clock_MAIN_start();
+
+
+
+
+
+
+
+
 
         }
 

@@ -41,6 +41,27 @@ namespace SORGAIR
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
             VM.SQL_CLOSECONNECTION("SORG");
 
+
+            if (System.IO.Directory.Exists("autoupdate"))
+            {
+                if (System.IO.Directory.Exists("_autoupdate"))
+                {
+                    Directory.Delete("_autoupdate", true);
+                }
+                Directory.Move("autoupdate", "_autoupdate");
+            }
+
+
+            if (System.IO.File.Exists(@"sorgair.zip"))
+            {
+
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "_autoupdate\\autoupdate.exe");
+
+                System.Diagnostics.Process.Start("_autoupdate\\autoupdate.exe");
+                Application.Current.Shutdown();
+            }
+
+
         }
 
 

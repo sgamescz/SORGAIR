@@ -118,7 +118,20 @@
                         VerticalAlignment="Center"
                         Kind="RegularPrinter" />
             </Controls:Tile>
-           
+
+            <Controls:ToggleSwitch
+                Name="draw_print_with_header"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"
+                        ContentDirection="RightToLeft"
+                        FontSize="12"
+                        IsEnabled="True"
+                        IsOn="True"
+                        OffContent="Tisknout bez hlavičky"
+                        OnContent="Tisknou s hlavičkou" />
 
 
         </StackPanel>

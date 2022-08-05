@@ -64,9 +64,12 @@ namespace SORGAIR
 
             Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&type=actual_and_older");
             test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&type=actual_and_older");
-           
 
-            
+
+
+        
+
+
         }
 
         private void refresh_news(object sender, RoutedEventArgs e)

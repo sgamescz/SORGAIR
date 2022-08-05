@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Net.Cache;
+using System.Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,14 +66,86 @@ namespace SORGAIR
 
             Console.WriteLine("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&type=newest_than_actual");
             test.Navigate("http://sorgair.com/api/news_show.php?version=" + tmp_verze + "&background=" + VM.typpozadi + "&type=newest_than_actual");
-           
 
-            
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine();
+            string remoteUrl = "http://sorgair.com/api/version.php";
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+
+            if (result != major + "." + minor + "." + build + "." + revision)
+            {
+                downloadbutton.IsEnabled = true;
+                Console.WriteLine("true");
+            }
+            else
+            {
+                downloadbutton.IsEnabled = false;
+                Console.WriteLine("false");
+            }
+
+
+
+
         }
+
+
+      
 
         private void refresh_news(object sender, RoutedEventArgs e)
         {
             test.Refresh(true);
+
+            using (System.Net.WebClient wc = new System.Net.WebClient())
+            {
+                wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
+                wc.DownloadFileCompleted += Wc_DownloadFileCompleted;
+                wc.DownloadFileAsync(new Uri("http://sorgair.com/sorgair.zip"), "sorgair.zip");
+            }
+
         }
+
+
+        private void Wc_DownloadProgressChanged(object sender,
+ System.Net. DownloadProgressChangedEventArgs e)
+        {
+
+            progress.Value = e.ProgressPercentage;
+
+        }
+
+
+
+        private void Wc_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+
+            if (e.Cancelled)
+            {
+                MessageBox.Show("Canceled", "Message",MessageBoxButton.OK);
+                return;
+            }
+
+            if (e.Error != null)
+            {
+                MessageBox.Show("Somethings wrong, check your internet", "Chyba", MessageBoxButton.OK);
+                
+                return;
+            }
+
+            MessageBox.Show("Staženo. Nyní se vypnu, a provedu aktualizaci", "Hotovo", MessageBoxButton.OK);
+            System.Diagnostics.Process.Start("_autoupdate\\autoupdate.exe");
+            Application.Current.Shutdown();
+
+        }
+
+
+
     }
 }

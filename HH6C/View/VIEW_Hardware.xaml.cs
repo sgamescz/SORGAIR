@@ -68,9 +68,9 @@ namespace WpfApp6.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            VM.HW_ATI = "ABCD";
+            //VM.HW_ATI = "ABCD";
 
-            //_serialPort.Close();
+            _serialPort.Close();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -207,6 +207,90 @@ namespace WpfApp6.View
         private void serialport_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void pripojit_old_Click(object sender, RoutedEventArgs e)
+        {
+
+            VM._serialPort  = new SerialPort(serialportold.Text);
+
+            VM._serialPort.Handshake = Handshake.None;
+            VM._serialPort.BaudRate = 19200;
+            VM._serialPort.StopBits = StopBits.One;
+            VM._serialPort.Parity = Parity.None;
+            VM._serialPort.DataBits = 8;
+
+            // Makes sure serial port is open before trying to write  
+            try
+            {
+                VM._serialPort.Open();
+                if (!(VM._serialPort.IsOpen))
+                    VM._serialPort.Open();
+
+                
+                byte[] bytes = { 0x83, 0x1, 0x0, 0x0, 0x84, 0x81};
+                VM._serialPort.Write(bytes, 0, bytes.Length);
+                Console.WriteLine("serial open");
+                VM.HARDWARE_CLOCK_OLD_ISCONNECTED = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error opening/writing to serial port :: " + ex.Message, "Error!");
+            }
+
+        }
+
+        private void clock_stopky_old_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            VM.FUNCTION_CLOCK_SET_STOPWATCH_MODE();
+
+
+        }
+
+        private void clock_hodiny_old_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_CLOCK_SET_CLOCK_MODE();
+
+        }
+
+        private void clock_odpojit_old_Click(object sender, RoutedEventArgs e)
+        {
+
+
+             VM._serialPort.Close();
+            VM.HARDWARE_CLOCK_OLD_ISCONNECTED = false;
+
+        }
+
+        private void clock_stopkyup_old_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_CLOCK_SET_DIRECTION(1);
+            //VM.FUNCTION_CLOCK_SET_STOPWATCH_COUNT_UP(1, 1);
+        }
+
+        private void clock_stopkydown_old_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_CLOCK_SET_DIRECTION(2);
+
+            //VM.FUNCTION_CLOCK_SET_STOPWATCH_COUNT_DOWN(2, 2);
+
+        }
+
+        private void clock_stopkysettime_old_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_CLOCK_SET_STOPWATCH_TIME(10, 00);
+
+        }
+
+        private void clock_stopkystop_old_Click(object sender, RoutedEventArgs e)
+        {
+            VM.FUNCTION_CLOCK_SET_DIRECTION(0);
+
+            //VM.FUNCTION_CLOCK_SET_STOPWATCH_STOP();
         }
     }
 }

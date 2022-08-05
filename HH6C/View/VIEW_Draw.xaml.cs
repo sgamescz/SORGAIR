@@ -435,7 +435,17 @@ namespace WpfApp6.View
 
         private void print_matrix_btn_Click(object sender, RoutedEventArgs e)
         {
-            VM.print_matrix("frame_small_info", "data_matrix", "print_matrix", "Rozlosování", "html");
+            if (draw_print_with_header.IsOn == true)
+            {
+                VM.print_matrix("frame_small_info", "data_matrix", "print_matrix", "Rozlosování", "html");
+
+            }
+            else
+            {
+
+                VM.print_matrix("frame_no_info", "data_matrix", "print_matrix", "Rozlosování", "html");
+
+            }
         }
 
 

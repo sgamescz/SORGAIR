@@ -53,7 +53,7 @@ namespace WpfApp6.View
             
             var currentWindow = this.TryFindParent<MetroWindow>();
 
-            if (VM.BINDING_SELECTED_AGECAT_ID == 99)
+            if (VM.BINDING_SELECTED_AGECAT_ID == 99 & pocetnesenioru > 0)
             {
 
                 var result = await currentWindow.ShowMessageAsync("Věkové kategorie", "Je 3 a více soutěžících v neseniorské věkové kategorii. " +
@@ -154,7 +154,7 @@ namespace WpfApp6.View
 
             VM._ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = true;
 
-            VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
+            //VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
 
             for (int s = 0; s < VM.BIND_SQL_SOUTEZ_DELETES; s++)
             {
@@ -165,7 +165,7 @@ namespace WpfApp6.View
                 {
 
                     tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
-                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
+                    //VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }
 
@@ -340,7 +340,10 @@ namespace WpfApp6.View
             if (p_fztrata.IsOn is true) { visibility[6] = "True"; } else { visibility[6] = "False"; }
             if (p_fscore.IsOn is true) { visibility[7] = "True"; } else { visibility[7] = "False"; }
 
-
+            if (VM.BIND_SQL_SOUTEZ_ROUNDSFINALE == 0 ) {
+                visibility[6] = "False";
+                visibility[7] = "False";
+            }
             if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[8] = "True"; } else { visibility[8] = "False"; }
             if (2 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[9] = "True"; } else { visibility[9] = "False"; }
             if (3 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[10] = "True"; } else { visibility[10] = "False"; }
@@ -401,7 +404,7 @@ namespace WpfApp6.View
             System.Threading.Thread.Sleep(50);
 
 
-            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_resuls", "all from memory", "html");
+            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_resuls", "Celkové oficiální výsledky", "html",true);
 
         }
 
@@ -485,7 +488,7 @@ namespace WpfApp6.View
             VM.print_userslist("frame_empty", "data_userlist", "print_userlist", "Seznam soutěžících", "memory");
 
 
-            VM.print_userstatistics("frame_empty", "data_userstatistics", "print_userstatistics", "Statistiky uživatelů", "memory");
+            //VM.print_userstatistics("frame_empty", "data_userstatistics", "print_userstatistics", "Statistiky uživatelů", "memory");
 
 
             VM.print_matrix("frame_empty", "data_matrix", "print_basic_resuls", "Rozlosování", "memory");
@@ -643,6 +646,13 @@ namespace WpfApp6.View
             if (p_gpen.IsOn is true) { visibility[5] = "True"; } else { visibility[5] = "False"; }
             if (p_fztrata.IsOn is true) { visibility[6] = "True"; } else { visibility[6] = "False"; }
             if (p_fscore.IsOn is true) { visibility[7] = "True"; } else { visibility[7] = "False"; }
+
+
+            if (VM.BIND_SQL_SOUTEZ_ROUNDSFINALE == 0)
+            {
+                visibility[6] = "False";
+                visibility[7] = "False";
+            }
 
 
             if (1 <= VM.BIND_SQL_SOUTEZ_ROUNDSFINALE) { visibility[8] = "True"; } else { visibility[8] = "False"; }
@@ -938,7 +948,7 @@ namespace WpfApp6.View
 
 
 
-            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_overview", "Kompletní SORG AIR výstup", "html");
+            VM.print_memory_to_file("frame_with_contest_info", "data_empty", "print_complete_overview", "SORG AIR Megavýsledovka", "html",true );
 
 
             await Task.Delay(300);

@@ -614,6 +614,15 @@ namespace WpfApp6.Model
 
 
 
+        private bool _RECOUNTSCORETO1000;
+        public bool RECOUNTSCORETO1000
+        {
+            get { return _RECOUNTSCORETO1000; }
+            set { _RECOUNTSCORETO1000 = value; RaisePropertyChanged(nameof(RECOUNTSCORETO1000)); }
+        }
+
+
+
     }
 
 
@@ -675,7 +684,19 @@ namespace WpfApp6.Model
             set { _DATE = value; RaisePropertyChanged(nameof(DATE)); }
         }
 
+        private string _COMPETITORS;
+        public string COMPETITORS
+        {
+            get { return _COMPETITORS; }
+            set { _COMPETITORS = value; RaisePropertyChanged(nameof(COMPETITORS)); }
+        }
 
+        private string _SMCRID;
+        public string SMCRID
+        {
+            get { return _SMCRID; }
+            set { _SMCRID  = value; RaisePropertyChanged(nameof(SMCRID)); }
+        }
 
 
     }
@@ -714,6 +735,12 @@ namespace WpfApp6.Model
             set { _CATEGORY = value; RaisePropertyChanged(nameof(CATEGORY)); }
         }
 
+        private string _ADRESS;
+        public string ADRESS
+        {
+            get { return _ADRESS; }
+            set { _ADRESS = value; RaisePropertyChanged(nameof(ADRESS)); }
+        }
 
 
     }

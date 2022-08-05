@@ -53,7 +53,7 @@ namespace WpfApp6.View
 
             VM.FUNCTION_LOADCONTEST();
             VM.FUNCTION_LOAD_RULES();
-                        VM.FUNCTION_SOUND_LOADAUDIO_LANGUAGE();
+            VM.FUNCTION_SOUND_LOADAUDIO_LANGUAGE();
 
             controller.SetProgress(0.3);
             controller.SetMessage(string.Format(SORGAIR.Properties.Lang.Lang.home_load_users));
@@ -98,7 +98,7 @@ namespace WpfApp6.View
 
 
 
-        public void thread_getsorgversion()
+        public async void thread_getsorgversion()
         {
             this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = "Checking...");
             this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL = "Checking...");
@@ -121,6 +121,15 @@ namespace WpfApp6.View
 
 
             this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = result);
+            string major = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Major.ToString().PadLeft(2, '0');
+            string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
+            string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
+            string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
+
+            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            Console.WriteLine();
+
+           
 
         }
 
@@ -191,19 +200,29 @@ namespace WpfApp6.View
         public void download_news(object sender, RoutedEventArgs e)
         {
 
-            Thread version = new Thread(new ThreadStart(thread_getsorgversion));
-            version.Start();
-            
-            Thread newsnext = new Thread(new ThreadStart(thread_getnewscount_next));
-            newsnext.Start();
+            if (VM.BINDING_IS_INTERNET is true)
+            {
 
-            Thread newsactual = new Thread(new ThreadStart(thread_getnewscount_actual));
-            newsactual.Start();
+                Thread version = new Thread(new ThreadStart(thread_getsorgversion));
+                version.Start();
+
+                Thread newsnext = new Thread(new ThreadStart(thread_getnewscount_next));
+                newsnext.Start();
+
+                Thread newsactual = new Thread(new ThreadStart(thread_getnewscount_actual));
+                newsactual.Start();
+
+
+            }
+
+
 
             //VM.FUNCTION_LOAD_MATRIX_FILES();
 
 
         }
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -291,6 +310,7 @@ namespace WpfApp6.View
         {
             VM.SQL_OPENCONNECTION("RULES");
             VM.FUNCTION_LOAD_CATEGORIES();
+            VM.FUNCTION_LOAD_CALENDARSOURCES();
             VM.SQL_CLOSECONNECTION("RULES");
             VM.BIND_NEWCONTEST_NAME = "Zadej název";
             VM.BIND_NEWCONTEST_CATEGORY = "---";
@@ -366,6 +386,9 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("INSERT INTO Soundlist(category, id, soundname) SELECT L.category, L.id , L.soundname FROM rulesdb.soundlist L where L.category = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO rules SELECT * FROM rulesdb.rules where id = '" + catidindb + "';");
             VM.SQL_SAVESOUTEZDATA("INSERT INTO bonuspoints(id, value) SELECT L.id, L.value FROM rulesdb.bonuspoints L where L.category = '" + catidindb + "';");
+            VM.SQL_SAVESOUTEZDATA("delete from users where id>0;");
+            VM.SQL_SAVESOUTEZDATA("update matrix set user='0';");
+            VM.SQL_SAVESOUTEZDATA("update score set userid='0';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_CATEGORY + "' where item='Category';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION + "' where item='Location';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE + "' where item='Date';");
@@ -373,6 +396,11 @@ namespace WpfApp6.View
 
             VM.SQL_SAVESOUTEZDATA("update contest set value='999' where item='Matrix_score';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='999' where item='Matrix_score_final';");
+
+
+
+      
+      
 
             //VM.SQL_SAVESOUTEZDATA("delete from Groups;");
             // VM.SQL_SAVESOUTEZDATA("delete from Rounds;");
@@ -516,11 +544,12 @@ namespace WpfApp6.View
 
         private void categorylistforinternet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (categorylistforinternet.SelectedIndex >= 0)
+            if (categorylistforinternet.SelectedIndex >= 0 & internetcalendarsource.SelectedIndex >= 0)
             {
                 VM.BIND_NEWCONTEST_CATEGORY_ONLINE = VM.MODEL_CONTESTS_CATEGORIES[categorylistforinternet.SelectedIndex].CATEGORY;
+                VM.BIND_NEWCONTEST_CALENDAR_SOURCE = VM.MODEL_CONTESTS_CALENDARSOURCES[internetcalendarsource.SelectedIndex].ADRESS;
                 createonlinecontent.IsEnabled = true;
-                VM.FUNCTION_LOAD_CONTESTS_ONLINE(VM.BIND_NEWCONTEST_CATEGORY_ONLINE);
+                VM.FUNCTION_LOAD_CONTESTS_ONLINE(VM.BIND_NEWCONTEST_CATEGORY_ONLINE, VM.BIND_NEWCONTEST_CALENDAR_SOURCE);
             }
 
         }
@@ -534,6 +563,7 @@ namespace WpfApp6.View
                 VM.BIND_NEWCONTEST_NAME_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].NAME;
                 VM.BIND_NEWCONTEST_LOCATION_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].LOCATION;
                 VM.BIND_NEWCONTEST_ID_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].FILENAME;
+                VM.BIND_NEWCONTEST_SMCR_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].SMCRID;
 
             }
         }
@@ -594,6 +624,8 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION_ONLINE + "' where item='Location';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE_ONLINE + "' where item='Date';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_NAME_ONLINE + "' where item='Name';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_SMCR_ONLINE + "' where item='SMCRID';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_ID_ONLINE+ "' where item='sorgaircalendarcontestid';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='125478' where item='Matrix_score_final';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='125478' where item='Matrix_score';");
 
@@ -604,7 +636,7 @@ namespace WpfApp6.View
             string[] mArrayOfcontests = new string[300];
 
 
-            string remoteUrl = "http://api.stoupak.cz/sorgair/2021/api_new_contestdetail.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
+            string remoteUrl = VM.BIND_NEWCONTEST_CALENDAR_SOURCE+"api_contestdetail.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;

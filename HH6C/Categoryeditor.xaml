@@ -12,7 +12,7 @@
     xmlns:model="clr-namespace:WpfApp6.Model"
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     Title="Category editor"
-    Width="1161"
+    Width="1448"
     Height="619"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance model:MODEL_ViewModel}"
@@ -32,7 +32,7 @@
             Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
             <TabItem Header="Definice pravidel">
                 <Grid>
-
+                 
                     <ItemsControl
                         Height="30"
                         Margin="10,10,10,0"
@@ -210,6 +210,9 @@
                                             TextAlignment="Center"
                                             Visibility="Hidden"
                                             Value="{Binding TIME2OVER}" />
+
+
+
                                         <Label
                                             Width="175"
                                             Height="30"
@@ -323,6 +326,9 @@
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Top"
                                             IsOn="{Binding ENTRYHEIGHT}" />
+
+
+
 
                                         <Label
                                             Width="175"
@@ -442,6 +448,19 @@
                                             Value="{Binding FINALROUNDMAXTIME}" />
 
 
+
+                                        <Label
+                                            Width="175"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            Content="Přepočítávat score na 1000" />
+                                        <Controls:ToggleSwitch
+                                            Width="120"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            IsOn="{Binding RECOUNTSCORETO1000}" />
 
                                     </UniformGrid>
 
@@ -1044,6 +1063,130 @@
 
 
             </TabItem>
+
+
+            <TabItem Header="Defaultní nastavení">
+                <Grid>
+
+                    <ListView
+                        Name="bxonuspoints"
+                        Height="344"
+                        Margin="10,85,10,0"
+                        Padding="10"
+                        VerticalAlignment="Top"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                        BorderThickness="1"
+                        ItemsSource="{Binding MODEL_CATEGORY_BONUSPOINTS}"
+                        SelectionChanged="landinglist_SelectionChanged"
+                        SelectionMode="Single">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+
+
+
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding TODEL}" />
+
+                                    <TextBox
+                                        Grid.Column="1"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding ID}" />
+                                    <TextBox
+                                        Grid.Column="2"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding VALUE}" />
+
+
+
+
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                    <Button
+                        x:Name="xaddbonuspoints"
+                        Width="199"
+                        Height="40"
+                        Margin="10,434,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="addbonuspoints_Click"
+                        Content="Přidat nový záznam"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="xsavebonuspointsall"
+                        Width="659"
+                        Height="85"
+                        Margin="214,434,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="savebonuspointsall_Click"
+                        Content="Uložit bonusové body"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+                    <Button
+                        x:Name="xdeletebonuspoints"
+                        Width="199"
+                        Height="40"
+                        Margin="10,479,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="deletebonuspoints_Click"
+                        Content="Odebrat označené"
+                        IsEnabled="{Binding BIND_CATEGORYEDITOR_ENABLED}" />
+
+
+                    <ItemsControl
+                        Height="70"
+                        Margin="10,10,10,0"
+                        VerticalAlignment="Top"
+                        BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                        BorderThickness="1"
+                        ItemsSource="{Binding MODEL_CATEGORY_RULES}">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <Grid Height="65" Margin="0,0,-5,0">
+
+
+                                    <Controls:ToggleSwitch
+                                        Width="863"
+                                        Height="30"
+                                        Margin="10,0,-7,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        IsOn="{Binding BONUSONLYFORFINALIST}"
+                                        OffContent="Body zapsat na celkové umístění bez ohledu na finálové umístění"
+                                        OnContent="Body připsat pouze finalistům za umístění ve finále" />
+                                    <Controls:ToggleSwitch
+                                        Width="863"
+                                        Height="30"
+                                        Margin="10,30,-7,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        IsOn="{Binding RECTO1000FROMABSMAX}"
+                                        OffContent="Celkový výsledek soutěže přepočítat na 1000 dle MAX možného skóre ((počet kol*1000) = 1000)"
+                                        OnContent="Celkový výsledek soutěže přepočítat na 1000 dle MAX nalétáného skóre (např 4980 = 1000)" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </Grid>
+
+
+            </TabItem>
+            
         </TabControl>
         <Label
             Width="245"

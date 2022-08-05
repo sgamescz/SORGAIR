@@ -9,7 +9,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.IO;
 using System.Threading.Tasks;
-
+using System.Runtime.InteropServices;
 
 namespace WpfApp6.View
 {
@@ -20,7 +20,7 @@ namespace WpfApp6.View
     {
 
         string html_all;
-
+        bool is_recording = false;
 
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
 
@@ -29,12 +29,19 @@ namespace WpfApp6.View
 
 
     public Soutezici()
+
         {
             InitializeComponent();
 
             
 
         }
+
+
+        [DllImport("winmm.dll", EntryPoint = "mciSendStringA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern int mciSendString(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
+
+
 
         private void Tile_Click(object sender, RoutedEventArgs e)
         {
@@ -183,8 +190,26 @@ namespace WpfApp6.View
             //VM.save_new_competitor("firstname", "lastname", "FIN");
             firstFlyout.IsOpen = true;
             l_nextid.Count  = VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "");
+
         }
 
+        private void check_if_exist_name_sound(int idsouteziciho)
+        {
+
+            if (File.Exists("Audio\\NAMES\\" + idsouteziciho + ".wav"))
+            {
+                play_name_sound.IsEnabled = true;
+                delete_name_sound.IsEnabled =true;
+            }
+            else
+            {
+                play_name_sound.IsEnabled = false;
+                delete_name_sound.IsEnabled = false;
+
+            }
+
+
+        }
 
         private bool  __SAVE_NEW_USER()
         {
@@ -540,7 +565,7 @@ namespace WpfApp6.View
 
 
 
-        private async void print_scorecards_type2(string template_name, string output_type)
+        private async void print_scorecards_type2(string template_name, string output_type, string typrazeni)
         {
 
 
@@ -566,61 +591,131 @@ namespace WpfApp6.View
 
             html_body = File.ReadAllText(directory + "/Print_templates/" + template_name + "_data.html", Encoding.UTF8);
             string html_body_complete = "";
-            for (int i = 0; i < VM.Players.Count(); i++)
+
+            if (typrazeni == "competitors")
             {
 
-                controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
-                Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
-                await Task.Delay(100);
-                string tabulkaletu = "";
-
-                for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+                for (int i = 0; i < VM.Players.Count(); i++)
                 {
-                    string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[i].ID + " and rnd = " + x, "");
 
-                    tmp_pocetnastranku += 1;
+                    controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
+                    Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
+                    await Task.Delay(100);
+                    string tabulkaletu = "";
 
-                    html_body_withrightdata = html_body;
-
-                    html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[i].ID.ToString());
-                    html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@RND", x.ToString());
-                    html_body_withrightdata = html_body_withrightdata.Replace("@GRP", tmp_grp_stp);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[i].NACLIC);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[i].FAILIC);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[i].AGECAT);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[i].CLUB);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
-                    html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[i].FREQ);
-
-
-
-
-                    byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[i].COUNTRY + ".png");
-                    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
-                    Console.WriteLine(base64ImageRepresentation);
-                    html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
-
-                    html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);
-
-
-                    html_body_complete = html_body_complete + html_body_withrightdata;
-
-                    if (tmp_pocetnastranku == pocetnastranku)
+                    for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
                     {
-                        tmp_pocetnastranku = 0;
-                        html_body_complete = html_body_complete + "<div class='pagebreak'>---- ✂ ---- ✂ ---- cut here ---- ✂ ---- ✂ ----</div>";
+                        string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[x].ID + " and rnd = " + x, "");
+
+                        tmp_pocetnastranku += 1;
+
+                        html_body_withrightdata = html_body;
+
+                        html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[x].ID.ToString());
+                        html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[x].LASTNAME + " " + VM.Players[x].FIRSTNAME);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[x].COUNTRY);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@RND", x.ToString());
+                        html_body_withrightdata = html_body_withrightdata.Replace("@GRP", tmp_grp_stp);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[x].NACLIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[x].NACLIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[x].FAILIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[x].AGECAT);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[x].CLUB);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[x].FREQ);
+
+
+
+
+                        byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[x].COUNTRY + ".png");
+                        string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                        Console.WriteLine(base64ImageRepresentation);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+                        html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);
+
+
+                        html_body_complete = html_body_complete + html_body_withrightdata;
+
+                        if (tmp_pocetnastranku == pocetnastranku)
+                        {
+                            tmp_pocetnastranku = 0;
+                            html_body_complete = html_body_complete + "<div class='pagebreak'>---- ✂ ---- ✂ ---- cut here ---- ✂ ---- ✂ ----</div>";
+                        }
+
+
                     }
+
 
 
                 }
 
+            }
 
+
+
+            if (typrazeni == "rounds")
+            {
+
+                for (int i = 1; i < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; i++)
+                {
+
+                    controller.SetProgress(double.Parse(decimal.Divide(i, VM.Players.Count()).ToString()));
+                    Console.WriteLine(decimal.Divide(i, VM.Players.Count()));
+                    await Task.Delay(100);
+                    string tabulkaletu = "";
+
+                    for (int x = 0; x < VM.Players.Count() ; x++)
+                    {
+                        string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[x].ID + " and rnd = " + i, "");
+
+                        tmp_pocetnastranku += 1;
+
+                        html_body_withrightdata = html_body;
+
+                        html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[x].ID.ToString());
+                        html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[x].LASTNAME + " " + VM.Players[x].FIRSTNAME);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[x].COUNTRY);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@RND", i.ToString());
+                        html_body_withrightdata = html_body_withrightdata.Replace("@GRP", tmp_grp_stp);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[x].NACLIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[x].NACLIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[x].FAILIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[x].AGECAT);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[x].CLUB);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[x].FREQ);
+
+
+
+
+                        byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[x].COUNTRY + ".png");
+                        string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                        Console.WriteLine(base64ImageRepresentation);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
+
+                        html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);
+
+
+                        html_body_complete = html_body_complete + html_body_withrightdata;
+
+                        if (tmp_pocetnastranku == pocetnastranku)
+                        {
+                            tmp_pocetnastranku = 0;
+                            html_body_complete = html_body_complete + "<div class='pagebreak'>---- ✂ ---- ✂ ---- cut here ---- ✂ ---- ✂ ----</div>";
+                        }
+
+
+                    }
+
+
+
+                }
 
             }
+
 
 
             html_all = html_main.Replace("@BODY", html_body_complete);
@@ -693,7 +788,7 @@ namespace WpfApp6.View
 
         private void print_to_html_cut_competitors_Click(object sender, RoutedEventArgs e)
         {
-            print_scorecards_type2("scorecard_cut_competitors", "html");
+            print_scorecards_type2("scorecard_cut_competitors", "html", "competitors");
 
         }
 
@@ -703,7 +798,84 @@ namespace WpfApp6.View
 
         }
 
-      
+        private void rec_audio_Click(object sender, RoutedEventArgs e)
+        {
+            if (is_recording == false)
+            {
+                is_recording = true;
+                mciSendString("open new Type waveaudio Alias recsound", "", 0, 0);
+                mciSendString("record recsound", "", 0, 0);
+                rec_audio_label.Content = "Zastavit nahrávání";
+            }
+            else
+            {
+                is_recording = false;
+                mciSendString("save recsound Audio\\NAMES\\" + VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "") + ".wav", "", 0, 0);
+                mciSendString("close recsound ", "", 0, 0);
+                rec_audio_label.Content = "Nahrát jméno soutěžcího";
+                check_if_exist_name_sound(int.Parse(VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "")));
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void play_name_sound_Click(object sender, RoutedEventArgs e)
+        {
+
+            mciSendString("play Audio\\NAMES\\" + VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "") + ".wav  wait", null, 0, 0);
+            mciSendString("close MyFile", null, 0, 0);
+
+
+
+
+        }
+
+        private void delete_name_sound_Click(object sender, RoutedEventArgs e)
+        {
+            File.Delete("Audio\\NAMES\\" + VM.SQL_READSOUTEZDATA("SELECT seq + 1 FROM SQLITE_SEQUENCE where name = 'users'", "") + ".wav");
+            check_if_exist_name_sound(int.Parse(VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "")));
+
+        }
+
+        private void rec_audio2_Click(object sender, RoutedEventArgs e)
+        {
+            if (is_recording == false)
+            {
+                is_recording = true;
+                mciSendString("open new Type waveaudio Alias recsound", "", 0, 0);
+                mciSendString("record recsound", "", 0, 0);
+                rec_audio_label.Content = "Zastavit nahrávání";
+            }
+            else
+            {
+                is_recording = false;
+                mciSendString("save recsound Audio\\NAMES\\" + VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "") + ".wav", "", 0, 0);
+                mciSendString("close recsound ", "", 0, 0);
+                rec_audio_label.Content = "Nahrát jméno soutěžcího";
+                check_if_exist_name_sound(int.Parse(VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "")));
+            }
+        }
+
+        private void play_name_sound2_Click(object sender, RoutedEventArgs e)
+        {
+            mciSendString("play Audio\\NAMES\\" + VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "") + ".wav  wait", null, 0, 0);
+            mciSendString("close MyFile", null, 0, 0);
+        }
+
+        private void delete_name_sound2_Click(object sender, RoutedEventArgs e)
+        {
+            File.Delete("Audio\\NAMES\\" + VM.SQL_READSOUTEZDATA("SELECT seq + 1 FROM SQLITE_SEQUENCE where name = 'users'", "") + ".wav");
+            check_if_exist_name_sound(int.Parse(VM.SQL_READSOUTEZDATA("SELECT seq+1 FROM SQLITE_SEQUENCE where name='users'", "")));
+        }
+
+        private void print_to_html_cut_competitors_round_Click(object sender, RoutedEventArgs e)
+        {
+            print_scorecards_type2("scorecard_cut_competitors", "html", "rounds");
+
+        }
     }
 
 

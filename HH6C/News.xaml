@@ -32,10 +32,10 @@
         </Grid.ColumnDefinitions>
 
         <Border
-            Margin="10,10,10,74"
+            Margin="10,10,10,141"
             BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
             BorderThickness="2" Grid.ColumnSpan="3">
-            <Grid>
+            <Grid Margin="0,0,0,8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70" />
                     <RowDefinition Height="*" />
@@ -49,11 +49,13 @@
                 <WebBrowser x:Name="test" Grid.Row="1" />
             </Grid>
         </Border>
+        <Controls:MetroProgressBar Name="progress" Margin="10,549,10,10" Grid.ColumnSpan="3" IsIndeterminate="False" ></Controls:MetroProgressBar>
         <Button
             Width="1135"
-            Margin="10,543,0,10"
+            Name="downloadbutton"
+            Margin="10,476,0,68"
             HorizontalAlignment="Left"
-            Click="refresh_news" Grid.ColumnSpan="3" Content="Načíst novinky"/>
+            Click="refresh_news" Grid.ColumnSpan="3" Content="Stáhnout poslední verzi SORG AIR"/>
 
     </Grid>
 

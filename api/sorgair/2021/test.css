@@ -1,0 +1,763 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+
+html{
+  font-family: 'Open Sans', sans-serif;
+}
+
+a{
+text-decoration: none;
+}
+
+div#info{
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 520px;
+  position: fixed;
+  background: silver;
+  float: left;
+  z-index: 10000;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+div#info_min{
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  background: silver;
+  display: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 10000;
+}
+
+div.minimize{
+  width: 40px;
+  position: absolute;
+  bottom: 0%;
+  right: 0;
+  text-align: center;
+  font-size: 2.5em;
+  cursor: hand;
+  cursor: pointer;
+}
+
+div.maximize{
+  width: 40px;
+  position: absolute;
+  bottom: 0%;
+  right: 0;
+  text-align: center;
+  font-size: 2.5em;
+  cursor: hand;
+  cursor: pointer;
+}
+
+div.sloupec1{
+  left: 60px;
+  width: 280px;
+  position: absolute;
+  float: left;
+  font-size: 0.85em;
+}
+
+div.sloupec2{
+  left: 400px;
+  width: 280px;
+  position: relative;
+  float: left;
+  font-size: 0.85em; 
+}
+
+div.sloupec3{
+  left: 460px;
+  width: 280px;
+  position: relative;
+  float: left;
+  font-size: 0.85em; 
+}
+
+div.sloupec4{
+  left: 520px;
+  width: 280px;
+  position: relative;
+  float: left;
+  font-size: 0.85em; 
+}
+
+table.kody_prijem{
+  background: rgb(255,255,153);
+  width: 280px;
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+table.kody_fa{
+  background: rgb(255,96,0);
+  width: 280px;
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+table.kody_vydej{
+  background: rgb(204,255,204);
+  width: 280px;
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+table.kody_vydej tr td:nth-child(1){
+  font-weight: bold;
+}
+
+table.kody_prijem tr td:nth-child(1){
+  font-weight: bold;
+}
+
+table.kody_fa tr td:nth-child(1){
+  font-weight: bold;
+}
+
+table.kody_vydej tr td:nth-child(2){
+  font-weight: bold;
+  width: 25px;
+  text-align: center;
+}
+
+table.kody_prijem tr td:nth-child(2){
+  font-weight: bold;
+  width: 25px;
+  text-align: center;
+}
+
+table.kody_fa tr td:nth-child(2){
+  font-weight: bold;
+  width: 25px;
+  text-align: center;
+}
+
+table.kody_vydej tr td:nth-child(3){
+  width: 95px;
+  text-align: center;
+}
+
+table.kody_prijem tr td:nth-child(3){
+  width: 95px;
+  text-align: center;
+}
+
+table.kody_fa tr td:nth-child(3){
+  width: 95px;
+  text-align: center;
+}
+
+
+table#border tr td{
+  border: 1px solid black;
+}
+
+div.wrapper{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+}
+
+div.hlavni{
+  background: white;
+  width: 90%;
+  left: 60px;
+  height: 1600px;
+  margin-top: 530px;
+  position: absolute;
+  font-size: 0.85em;
+  
+}
+
+table.kniha tr td:nth-child(5){
+  background: rgb(255,255,153);  
+}
+
+table.kniha tr td:nth-child(6){
+  background: rgb(255,255,153);  
+}
+
+table.kniha tr td:nth-child(7){
+  background: rgb(204,255,204);  
+}
+
+table.kniha tr td:nth-child(8){
+  background: rgb(204,255,204);  
+}
+
+table.kniha tr td:nth-child(7){
+  background: rgb(204,255,204);  
+}
+
+table.kniha tr:nth-child(1){
+  font-weight: bold;
+  border: none;  
+}
+
+table.kniha tr:nth-child(1) td{
+  border: none;
+  text-align: center;  
+}
+
+table.kniha tr td:nth-child(3),td:nth-child(5),td:nth-child(7){
+  text-align: center; 
+}
+
+table.kniha{
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  font-size: 0.85em;
+}
+
+table.vstup{
+//  width: 950px;
+}
+
+table.vstup tr td{
+//  border: none;
+//  text-align: center;  
+}
+
+
+
+
+
+
+
+
+
+
+.btn {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none
+}
+.btn:focus {
+	outline: thin dotted #333;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px
+}
+.btn:hover, .btn:focus {
+	color: #333;
+	text-decoration: none
+}
+.btn:active, .btn.active {
+	background-image: none;
+	outline: 0;
+	-webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+	box-shadow: inset 0 3px 5px rgba(0,0,0,0.125)
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+	pointer-events: none;
+	cursor: not-allowed;
+	opacity: .65;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	box-shadow: none
+}
+.btn-default {
+	color: #333;
+	background-color: #fff;
+	border-color: #ccc
+}
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+	color: #333;
+	background-color: #ebebeb;
+	border-color: #adadad
+}
+.btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+	background-image: none
+}
+.btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default, .btn-default.disabled:hover, .btn-default[disabled]:hover, fieldset[disabled] .btn-default:hover, .btn-default.disabled:focus, .btn-default[disabled]:focus, fieldset[disabled] .btn-default:focus, .btn-default.disabled:active, .btn-default[disabled]:active, fieldset[disabled] .btn-default:active, .btn-default.disabled.active, .btn-default[disabled].active, fieldset[disabled] .btn-default.active {
+	background-color: #fff;
+	border-color: #ccc
+}
+.btn-primary {
+	color: #fff;
+	background-color: #428bca;
+	border-color: #357ebd
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+	color: #fff;
+	background-color: #3276b1;
+	border-color: #285e8e
+}
+.btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+	background-image: none
+}
+.btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
+	background-color: #428bca;
+	border-color: #357ebd
+}
+.btn-warning {
+	color: #fff;
+	background-color: #f0ad4e;
+	border-color: #eea236
+}
+.btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .open .dropdown-toggle.btn-warning {
+	color: #fff;
+	background-color: #ed9c28;
+	border-color: #d58512
+}
+.btn-warning:active, .btn-warning.active, .open .dropdown-toggle.btn-warning {
+	background-image: none
+}
+.btn-warning.disabled, .btn-warning[disabled], fieldset[disabled] .btn-warning, .btn-warning.disabled:hover, .btn-warning[disabled]:hover, fieldset[disabled] .btn-warning:hover, .btn-warning.disabled:focus, .btn-warning[disabled]:focus, fieldset[disabled] .btn-warning:focus, .btn-warning.disabled:active, .btn-warning[disabled]:active, fieldset[disabled] .btn-warning:active, .btn-warning.disabled.active, .btn-warning[disabled].active, fieldset[disabled] .btn-warning.active {
+	background-color: #f0ad4e;
+	border-color: #eea236
+}
+.btn-danger {
+	color: #fff;
+	background-color: #d9534f;
+	border-color: #d43f3a
+}
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .open .dropdown-toggle.btn-danger {
+	color: #fff;
+	background-color: #d2322d;
+	border-color: #ac2925
+}
+.btn-danger:active, .btn-danger.active, .open .dropdown-toggle.btn-danger {
+	background-image: none
+}
+.btn-danger.disabled, .btn-danger[disabled], fieldset[disabled] .btn-danger, .btn-danger.disabled:hover, .btn-danger[disabled]:hover, fieldset[disabled] .btn-danger:hover, .btn-danger.disabled:focus, .btn-danger[disabled]:focus, fieldset[disabled] .btn-danger:focus, .btn-danger.disabled:active, .btn-danger[disabled]:active, fieldset[disabled] .btn-danger:active, .btn-danger.disabled.active, .btn-danger[disabled].active, fieldset[disabled] .btn-danger.active {
+	background-color: #d9534f;
+	border-color: #d43f3a
+}
+.btn-success {
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #4cae4c
+}
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
+	color: #fff;
+	background-color: #47a447;
+	border-color: #398439
+}
+.btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
+	background-image: none
+}
+.btn-success.disabled, .btn-success[disabled], fieldset[disabled] .btn-success, .btn-success.disabled:hover, .btn-success[disabled]:hover, fieldset[disabled] .btn-success:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus, fieldset[disabled] .btn-success:focus, .btn-success.disabled:active, .btn-success[disabled]:active, fieldset[disabled] .btn-success:active, .btn-success.disabled.active, .btn-success[disabled].active, fieldset[disabled] .btn-success.active {
+	background-color: #5cb85c;
+	border-color: #4cae4c
+}
+.btn-info {
+	color: #fff;
+	background-color: #5bc0de;
+	border-color: #46b8da
+}
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info {
+	color: #fff;
+	background-color: #39b3d7;
+	border-color: #269abc
+}
+.btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info {
+	background-image: none
+}
+.btn-info.disabled, .btn-info[disabled], fieldset[disabled] .btn-info, .btn-info.disabled:hover, .btn-info[disabled]:hover, fieldset[disabled] .btn-info:hover, .btn-info.disabled:focus, .btn-info[disabled]:focus, fieldset[disabled] .btn-info:focus, .btn-info.disabled:active, .btn-info[disabled]:active, fieldset[disabled] .btn-info:active, .btn-info.disabled.active, .btn-info[disabled].active, fieldset[disabled] .btn-info.active {
+	background-color: #5bc0de;
+	border-color: #46b8da
+}
+.btn-link {
+	font-weight: normal;
+	color: #428bca;
+	cursor: pointer;
+	border-radius: 0
+}
+.btn-link, .btn-link:active, .btn-link[disabled], fieldset[disabled] .btn-link {
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none
+}
+.btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
+	border-color: transparent
+}
+.btn-link:hover, .btn-link:focus {
+	color: #2a6496;
+	text-decoration: underline;
+	background-color: transparent
+}
+.btn-link[disabled]:hover, fieldset[disabled] .btn-link:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:focus {
+	color: #999;
+	text-decoration: none
+}
+.btn-lg {
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 6px
+}
+.btn-sm, .btn-xs {
+	padding: 5px 10px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px
+}
+.btn-xs {
+	padding: 1px 5px
+}
+.btn-block {
+	display: block;
+	width: 100%;
+	padding-right: 0;
+	padding-left: 0
+}
+.btn-block+.btn-block {
+	margin-top: 5px
+}
+
+td.zluta{
+background-color: yellow;
+}
+
+div.obal{
+position: absolute;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+margin: 0;
+padding:0;
+//background: rgb(255,240,240);
+}
+
+div.left{
+  //position: absolute;
+  left: 0;
+  top: 0;
+  float: left;
+  width: 75%;
+  height: 100%;
+}
+
+div.left1a{
+//background: rgb(255,240,160);
+float: left;
+width: 50%;
+height: 400px;
+}
+
+div.left1b{
+//background: rgb(255,240,176);
+float: left;
+width: 50%;
+height: 400px;
+}
+
+div.left2{
+//background: rgb(255,224,208);
+float: left;
+width: 65%;
+height: 200px;
+}
+
+div.left3{
+//background: rgb(255,224,224);
+float: left;
+width: 35%;
+height: calc(100% - 385px);
+}
+
+div.right{
+//background: rgb(255,240,128);
+float: right;
+//position: absolute;
+width: 25%;
+height: 100%;
+}
+
+#vycetka{
+  font-size:0.8em;
+  text-align: right;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#vycetka tr td input{
+  font-size: 1em;
+}
+
+#vycetka_mensi{
+  font-size:0.9em;
+  text-align: right;
+  border-collapse: collapse;
+}
+
+.vycetka_souhrn{
+  font-size:1em;
+  text-align: right;
+  border-collapse: collapse;
+}
+
+.vycetka_souhrn tr:nth-child(1){
+  font-weight: bold;
+  text-align: center;  
+}
+
+.vycetka_souhrn tr td:nth-child(1){
+  font-weight: bold;
+  text-align: center;  
+}
+
+.vycetka_souhrn tr td{
+  width: 160px;
+  height: 25px  
+}
+
+.vycetka_stravenky tr td input{
+  font-size: 0.9em;
+}
+
+table.vycetka_koruny tr td input{
+  text-align: center;
+}
+
+table.vycetka_eura tr td input{
+  text-align: center;
+}
+
+table.vycetka_zalohy{
+  width: 250px;
+}
+table.vycetka_zalohy tr td input{
+  text-align: center;
+}
+
+div.prihlaseni_wrapper{
+  width: 250px;
+  margin: 200px auto 0 auto;
+  background-color: rgb(204,255,255);
+  padding: 50px 15px 50px 15px;
+}
+
+table.prihlaseni{
+  width: 100%;
+}
+
+div.filtr{
+  position: absolute;
+  left: 60px;
+  bottom: 0px;
+}
+
+ul.filtr {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(128,128,128);
+}
+
+ul.filtr li {
+  float: left;
+}
+
+ul.filtr li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+p.nazev_pokl{
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding-bottom: 20px;
+}
+
+div.prehled_trzeb{
+  float: none;
+}
+
+div.prehled_leva{
+  width: 70%;
+  float: left;
+}
+
+div.prehled_prava{
+  text-align: right;
+  float: left;
+  width: 30%;
+  height: 700px;
+}
+
+div.filtr_prehled{
+  position: absolute;
+  top: 0px;
+  left: 50px;
+}
+
+ul.seznam li{
+  font-size: 1.2em;  
+}
+
+img.logo_pddp{
+  margin-left: auto;
+  margin-right: auto;
+  height: 150px;
+}
+
+div.logo{
+  width: 100%;
+  height: 150px;
+  text-align: center;
+}
+
+div.n_obal{
+  background: rgb(204,255,204);
+  width: 700px;
+  height: 100%;
+  //margin: 0 auto 0 auto;
+  top: 0;
+  position: absolute;
+}
+
+div.n_leva{
+  //background: orange;
+  width: 400px;
+  height: 85%;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  float: left;
+}
+
+div.n_leva_nahore{
+  //background: blue;
+  width: 100%;
+//  height: 380px;
+  top: 0px;
+  left: 0px;
+  z-index: 20;
+}
+
+div.n_leva_nahore_leva{
+  //background: pink;
+  width: 50%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 30;
+  float: left;
+}
+
+div.n_leva_nahore_prava{
+  //background: navy;
+  width: 50%;
+  height: 100%;
+  z-index: 30;
+  float: right;
+}
+
+div.n_leva_dole{
+  //background: green;
+  width: 100%;
+  height: 200px;
+  z-index: 20;
+}
+
+div.n_prava{
+  //background: pink;
+  width: 250px;
+  height: 85%;
+  z-index: 10;
+  float: right;
+}
+
+div.n_spodni{
+  //background: red;
+  width: 700px;
+  height: 10%;
+  z-index: 10;
+  float: none;
+}
+
+input.input{
+  height: 12px; 
+}
+      
+table.vycetka_koruny tr:first-child{
+  background: rgb(153,255,153);
+  font-weight: bold;
+  text-align: center;
+}
+
+table.vycetka_koruny tr:last-child{
+  background: rgb(204,255,153);
+}
+
+table.vycetka_eura tr:first-child{
+  background: rgb(153,255,153);
+  font-weight: bold;
+  text-align: center;
+}
+
+table.vycetka_eura tr:last-child{
+  background: rgb(204,255,153);
+}
+
+table.vycetka_stravenky tr:first-child{
+  background: rgb(153,255,153);
+  font-weight: bold;
+  text-align: center;
+}
+
+table.vycetka_stravenky tr:last-child{
+  background: rgb(204,255,153);
+}
+
+table.vycetka_zalohy tr:first-child{
+  background: rgb(153,255,153);
+  font-weight: bold;
+  text-align: center;
+}
+
+table.vycetka_zalohy tr:last-child{
+  background: rgb(204,255,153);
+}
+
+table.vycetka_souhrn tr:first-child{
+  background: rgb(153,255,153);
+  font-weight: bold;
+}
+
+table.vycetka_souhrn tr td:nth-child(1){
+  background: rgb(153,255,153);
+  font-weight: bold;
+}
+
+table.vycetka_souhrn tr td:last-child{
+  background: rgb(204,255,153);
+  font-weight: bold;
+}
+
+table.vycetka_stravenky tr td{
+  font-size: 0.8em;
+}

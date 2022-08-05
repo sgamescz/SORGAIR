@@ -11,8 +11,8 @@ using NAudio.Wave;
 using System.Net.Cache;
 using System.Net;
 using System.Text;
-
-
+using System.IO;
+using System.IO.Ports;
 
 
 namespace WpfApp6.Model
@@ -32,6 +32,9 @@ namespace WpfApp6.Model
         public List<TodoItem2> items2 { get; set; } = new List<TodoItem2>();
 
     }
+
+
+    
 
     public class SoundList
     {
@@ -53,6 +56,8 @@ namespace WpfApp6.Model
 
     public class MODEL_ViewModel : INotifyPropertyChanged
     {
+        public SerialPort _serialPort;
+
 
         string memoryprint = "";
 
@@ -165,6 +170,7 @@ namespace WpfApp6.Model
 
 
 
+
         public string BIND_SQL_SOUTEZ_KATEGORIE_value;
         public string BIND_SQL_SOUTEZ_NAZEV_value;
         public string BIND_SQL_SOUTEZ_LOKACE_value;
@@ -173,6 +179,7 @@ namespace WpfApp6.Model
         public string BIND_SQL_SOUTEZ_POCASI_value;
         public string BIND_SQL_SOUTEZ_CLUB_value;
         public string BIND_SQL_SOUTEZ_SMCRID_value;
+        public string BIND_SQL_SACALENDAR_NUMBER_value;
         public string BIND_SQL_SOUTEZ_DIRECTOR_value;
         public string BIND_SQL_SOUTEZ_HEADJURY_value;
         public string BIND_SQL_SOUTEZ_JURY1_value;
@@ -768,6 +775,18 @@ namespace WpfApp6.Model
             set { BIND_MENU_ENABLED_vysledky_finale_value = value; OnPropertyChanged("BIND_MENU_ENABLED_vysledky_finale"); }
         }
 
+
+
+
+        bool HARDWARE_CLOCK_OLD_ISCONNECTED_ = false;
+
+        public bool HARDWARE_CLOCK_OLD_ISCONNECTED
+        {
+            get { return HARDWARE_CLOCK_OLD_ISCONNECTED_; }
+            set { HARDWARE_CLOCK_OLD_ISCONNECTED_ = value; OnPropertyChanged("HARDWARE_CLOCK_OLD_ISCONNECTED"); }
+        }
+
+
         public bool BIND_MENU_ENABLED_seznamkol
         {
             get { return BIND_MENU_ENABLED_seznamkol_value; }
@@ -869,6 +888,7 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_POCASI = SQL_READSOUTEZDATA("select value from contest where item='Weather'", "");
             BIND_SQL_SOUTEZ_CLUB = SQL_READSOUTEZDATA("select value from contest where item='Club'", "");
             BIND_SQL_SOUTEZ_SMCRID = SQL_READSOUTEZDATA("select value from contest where item='SMCRID'", "");
+            BIND_SQL_SACALENDAR_NUMBER = SQL_READSOUTEZDATA("select value from contest where item='sorgaircalendarcontestid'", "");
             BIND_SQL_SOUTEZ_DIRECTOR = SQL_READSOUTEZDATA("select value from contest where item='Director'", "");
             BIND_SQL_SOUTEZ_HEADJURY = SQL_READSOUTEZDATA("select value from contest where item='Headjury'", "");
             BIND_SQL_SOUTEZ_JURY1 = SQL_READSOUTEZDATA("select value from contest where item='Jury1'", "");
@@ -934,7 +954,8 @@ namespace WpfApp6.Model
             BIND_MENU_ENABLED_vybranekolo = true;
             BIND_MENU_ENABLED_seznamkol = true;
             BIND_MENU_ENABLED_vysledky = true;
-            BIND_MENU_ENABLED_online = true;
+
+            if (BINDING_IS_INTERNET is true) { BIND_MENU_ENABLED_online = true; } else { BIND_MENU_ENABLED_online = false; }
             BIND_MENU_ENABLED_detailyastatistiky = true;
 
 
@@ -1135,6 +1156,13 @@ namespace WpfApp6.Model
                             BIND_LETOVYCAS_MAX = MODEL_CONTEST_RULES[0].BASEROUNDMAXTIME;
                             BIND_PROGRESS_1 = 0;
                             BIND_TYPEOFCLOCK = "MAIN";
+
+                          
+                                FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, 0);
+                                FUNCTION_CLOCK_SET_DIRECTION(1);
+                           
+
+
                             timer_main.Restart();
 
                         }
@@ -1211,6 +1239,10 @@ namespace WpfApp6.Model
                             BIND_FINAL_PROGRESS_1 = 0;
                             BIND_TYPEOFCLOCK = "MAIN";
                             timer_final_main.Restart();
+                           
+                                FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, 0);
+                                FUNCTION_CLOCK_SET_DIRECTION(1);
+                         
 
                         }
                         else
@@ -1744,7 +1776,7 @@ namespace WpfApp6.Model
 
 
 
-        private string _BIND_NEWS_COUNT_ACTUAL = "Checking";
+        private string _BIND_NEWS_COUNT_ACTUAL = "Checking...";
         public string BIND_NEWS_COUNT_ACTUAL
         {
             get
@@ -1767,7 +1799,7 @@ namespace WpfApp6.Model
 
         }
 
-        private string _BIND_NEWS_COUNT_NEXT = "Checking";
+        private string _BIND_NEWS_COUNT_NEXT = "Checking...";
         public string BIND_NEWS_COUNT_NEXT
         {
             get
@@ -2397,6 +2429,14 @@ namespace WpfApp6.Model
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='SMCRID'"); BIND_SQL_SOUTEZ_SMCRID_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_SMCRID"); }
         }
 
+        public string BIND_SQL_SACALENDAR_NUMBER
+        {
+            get { return BIND_SQL_SACALENDAR_NUMBER_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='sorgaircalendarcontestid'"); BIND_SQL_SACALENDAR_NUMBER_value = value; OnPropertyChanged("BIND_SQL_SACALENDAR_NUMBER"); }
+        }
+
+
+
         public string BIND_SQL_SOUTEZ_DIRECTOR
         {
             get { return BIND_SQL_SOUTEZ_DIRECTOR_value; }
@@ -2470,6 +2510,14 @@ namespace WpfApp6.Model
         }
 
 
+        private string _BIND_NEWCONTEST_CALENDAR_SOURCE = "http://api.sorgair.com/";
+        public string BIND_NEWCONTEST_CALENDAR_SOURCE
+        {
+            get { return _BIND_NEWCONTEST_CALENDAR_SOURCE; }
+            set { _BIND_NEWCONTEST_CALENDAR_SOURCE = value; OnPropertyChanged("BIND_NEWCONTEST_CALENDAR_SOURCE"); }
+        }
+
+
 
 
         private string _BIND_NEWCONTEST_NAME_ONLINE = "Nová soutěž";
@@ -2486,6 +2534,14 @@ namespace WpfApp6.Model
             get { return _BIND_NEWCONTEST_ID_ONLINE; }
             set { _BIND_NEWCONTEST_ID_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_ID_ONLINE"); }
         }
+
+        private string _BIND_NEWCONTEST_SMCR_ONLINE = "0";
+        public string BIND_NEWCONTEST_SMCR_ONLINE
+        {
+            get { return _BIND_NEWCONTEST_SMCR_ONLINE; }
+            set { _BIND_NEWCONTEST_SMCR_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_SMCR_ONLINE"); }
+        }
+
 
         private string _BIND_NEWCONTEST_LOCATION_ONLINE = "Kde soutěž bude";
         public string BIND_NEWCONTEST_LOCATION_ONLINE
@@ -2891,6 +2947,18 @@ namespace WpfApp6.Model
         }
 
 
+        private bool _BINDING_IS_INTERNET= false ;
+        public bool BINDING_IS_INTERNET
+        {
+            get { return _BINDING_IS_INTERNET; }
+
+            set
+            {
+                _BINDING_IS_INTERNET = value;
+                OnPropertyChanged("BINDING_IS_INTERNET");
+
+            }
+        }
 
 
         public List<String> agecatitems
@@ -3091,6 +3159,7 @@ namespace WpfApp6.Model
                         Console.WriteLine("selectedsearch");
                     }
 
+
                     if (kamulozitvysledek == "get_categories")
                     {
 
@@ -3287,7 +3356,8 @@ namespace WpfApp6.Model
                             FINALROUNDLENGHT = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("FINALROUNDLENGHT")),
                             FINALROUNDMAXTIME = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("FINALROUNDMAXTIME")),
                             BONUSONLYFORFINALIST = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("bonusonlyforfinalist"))),
-                            RECTO1000FROMABSMAX = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("RECTO1000FROMABSMAX")))
+                            RECTO1000FROMABSMAX = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("RECTO1000FROMABSMAX"))),
+                            RECOUNTSCORETO1000 = bool.Parse(sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("RECOUNTSCORETO1000")))
 
 
 
@@ -4963,6 +5033,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_MAIN_start()
         {
+          
+                FUNCTION_CLOCK_SET_STOPWATCH_MODE();
+           
+
+
 
             if (MODEL_CONTEST_SOUNDS_MAIN.Count > 0)
             {
@@ -4971,6 +5046,12 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 {
                     BIND_TYPEOFCLOCK = "PRE_MAIN";
                     BIND_LETOVYCAS_MAX = Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE);
+
+                 
+                        FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE));
+                        FUNCTION_CLOCK_SET_DIRECTION(2);
+                  
+
 
                 }
                 else
@@ -5014,6 +5095,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_FINAL_MAIN_start()
         {
+           
+                FUNCTION_CLOCK_SET_STOPWATCH_MODE();
+          
 
             if (MODEL_CONTEST_SOUNDS_FINAL_MAIN.Count > 0)
             {
@@ -5022,7 +5106,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 {
                     BIND_TYPEOFCLOCK = "PRE_MAIN";
                     BIND_FINAL_LETOVYCAS_MAX = Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE);
-
+                   
+                  
+                        FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE));
+                        FUNCTION_CLOCK_SET_DIRECTION(2);
+                   
 
                 }
                 else
@@ -5079,6 +5167,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_FINAL_MAIN_stop()
         {
+
+            FUNCTION_CLOCK_SET_DIRECTION(0);
+
+
             MAIN_FINAL_TIME_TIMER.Stop();
             timer_final_main.Stop();
             clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
@@ -5092,13 +5184,18 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BIND_PREPTIME_ISRUNNING = false;
             BIND_PREPTIME_ISSTOPED = true;
 
-
+            FUNCTION_CLOCK_SET_CLOCK_MODE();
 
         }
 
 
         public void clock_MAIN_stop()
         {
+
+           
+            FUNCTION_CLOCK_SET_DIRECTION(0);
+          
+
             MAIN_TIME_TIMER.Stop ();
             timer_main.Stop ();
             clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
@@ -5111,7 +5208,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BIND_FINAL_PREPTIME_ISRUNNING = false;
             BIND_FINAL_PREPTIME_ISSTOPED = true;
 
-
+            FUNCTION_CLOCK_SET_CLOCK_MODE();
 
         }
 
@@ -5466,7 +5563,15 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\"+ Players_Actual_Flying[x].ID + ".wav");
+                if (File.Exists("Audio\\NAMES\\" + Players_Actual_Flying[x].ID + ".wav"))
+                {
+                    fileContent = File.ReadAllBytes("Audio\\NAMES\\" + Players_Actual_Flying[x].ID + ".wav");
+                }
+                else
+                {
+                    fileContent = File.ReadAllBytes("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + Players_Actual_Flying[x].ID + ".wav");
+
+                }
                 wav_competitors_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_actual[i].Position = 0;
                 competitorswav_actual[i] = new WaveOutEvent();
@@ -5514,7 +5619,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
+                if (File.Exists("Audio\\NAMES\\" + users_id_for_sound[x] + ".wav"))
+                {
+                    fileContent = File.ReadAllBytes("Audio\\NAMES\\" + users_id_for_sound[x] + ".wav");
+                }
+                else
+                {
+                    fileContent = File.ReadAllBytes("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
+
+                }
+
                 Console.WriteLine("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
                 wav_competitors_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_next[i].Position = 0;
@@ -5565,7 +5679,17 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Final_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + Players_Actual_Final_Flying[x].ID + ".wav");
+                if (File.Exists("Audio\\NAMES\\" + Players_Actual_Final_Flying[x].ID + ".wav"))
+                {
+                    fileContent = File.ReadAllBytes("Audio\\NAMES\\" + Players_Actual_Final_Flying[x].ID + ".wav");
+                }
+                else
+                {
+                    fileContent = File.ReadAllBytes("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + Players_Actual_Final_Flying[x].ID + ".wav");
+
+                }
+
+
                 wav_competitors_final_actual[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_final_actual[i].Position = 0;
                 competitorswav_final_actual[i] = new WaveOutEvent();
@@ -5614,7 +5738,18 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             for (int x = 0; x < Players_Actual_Final_Flying.Count; x++)
             {
                 int i = x + 1;
-                fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound_final[x] + ".wav");
+
+                if (File.Exists("Audio\\NAMES\\" + users_id_for_sound_final[x] + ".wav"))
+                {
+                    fileContent = File.ReadAllBytes("Audio\\NAMES\\" + users_id_for_sound_final[x] + ".wav");
+                }
+                else
+                {
+                    fileContent = File.ReadAllBytes("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound_final[x] + ".wav");
+
+                }
+
+
                 wav_competitors_final_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
                 wav_competitors_final_next[i].Position = 0;
                 competitorswav_final_next[i] = new WaveOutEvent();
@@ -6055,7 +6190,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public void FUNCTION_LOAD_CONTESTS_ONLINE(string category)
+        public void FUNCTION_LOAD_CONTESTS_ONLINE(string category, string adress)
         {
 
 
@@ -6065,7 +6200,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             string[] mArrayOfcontests = new string[300];
 
 
-            string remoteUrl = "http://api.stoupak.cz/sorgair/2021/api_new_listofcontests.php?cat="+category;
+            string remoteUrl = adress + "api_listofcontests.php?cat="+category;
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;
@@ -6093,7 +6228,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                         CATEGORY = BIND_NEWCONTEST_CATEGORY,
                         NAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[0],
                         LOCATION = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[2],
-                        DATE = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[1]
+                        DATE = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[1],
+                        COMPETITORS = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[4],
+                        SMCRID = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[5],
+
                     };
                     MODEL_CONTESTS_ONLINE.Add(contests);
 
@@ -6411,10 +6549,20 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                     decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
                     Decimal _PREPSCORE = 0;
-                    if (_MAXRAW != 0)
+                    if (SQL_READSOUTEZDATA("select RECOUNTSCORETO1000 from rules", "") == "False")
                     {
-                        _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                        _PREPSCORE = Math.Round(_RAW, 2);
+
                     }
+                    else
+                    {
+                        if (_MAXRAW != 0)
+                        {
+                            _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                        }
+
+                    }
+                    Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
                     string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
                     SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
                 }
@@ -6427,10 +6575,20 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                     decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
                     Decimal _PREPSCORE = 0;
-                    if (_MAXRAW != 0)
+                    if (SQL_READSOUTEZDATA("select RECOUNTSCORETO1000 from rules", "") == "False")
                     {
-                        _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                        _PREPSCORE = Math.Round(_RAW, 2);
+
                     }
+                    else
+                    {
+                        if (_MAXRAW != 0)
+                        {
+                            _PREPSCORE = Math.Round((_RAW / _MAXRAW) * 1000, 2);
+                        }
+
+                    }
+                    Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
                     string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
                     SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
                 }
@@ -6753,6 +6911,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
+        public ObservableCollection<MODEL_Contests_categories> MODEL_CONTESTS_CALENDARSOURCES { get; set; } = new ObservableCollection<MODEL_Contests_categories>();
+
         public ObservableCollection<MODEL_Contests_categories> MODEL_CONTESTS_CATEGORIES { get; set; } = new ObservableCollection<MODEL_Contests_categories>();
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTESTS_SOUNDLISTS { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
 
@@ -6940,6 +7100,33 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
             MODEL_CONTESTS_CATEGORIES.Clear();
             SQL_READSORGDATA("select * from rules;", "get_categories");
+        }
+
+        public void FUNCTION_LOAD_CALENDARSOURCES()
+        {
+            MODEL_CONTESTS_CALENDARSOURCES.Clear();
+
+            var cz = new MODEL_Contests_categories()
+            {
+
+                ID = 1,
+                CATEGORY = "kalendar.sorgair.com",
+                ADRESS = "http://api.sorgair.com/"
+            };
+
+
+            var sk = new MODEL_Contests_categories()
+            {
+
+                ID = 2,
+                CATEGORY = "kalendar-sk.sorgair.com",
+                ADRESS = "http://api-sk.sorgair.com/"
+            };
+
+            MODEL_CONTESTS_CALENDARSOURCES.Add(cz);
+            MODEL_CONTESTS_CALENDARSOURCES.Add(sk);
+
+
         }
 
 
@@ -7643,7 +7830,23 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('VERZE_DB_SOUBORU','0');");
                 }
 
-                
+
+                if (SQL_VERIFY_IF_EXIST("contest", "item", "CONTENT_ONLINE_ENABLED") == false)
+                {
+                    SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('CONTENT_ONLINE_ENABLED','False');");
+                }
+
+                if (SQL_VERIFY_IF_EXIST("contest", "item", "CONTENT_ONLINE_PUBLIC") == false)
+                {
+                    SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('CONTENT_ONLINE_PUBLIC','False');");
+                }
+
+                if (SQL_VERIFY_IF_EXIST("contest", "item", "CONTENT_RANDOM_ID") == false)
+                {
+                    SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('CONTENT_RANDOM_ID','123');");
+                }
+
+
 
                 if (SQL_VERIFY_IF_EXIST("contest", "item", "Audio_preptime_final_man_next") == false)
                 {
@@ -7753,7 +7956,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public string CONTENT_ONLINE_URL
         {
-            get { return "https://sorgair.com/contest/" + CONTENT_RANDOM_ID; }
+            get { return "http://sorgair.com/contest/" + CONTENT_RANDOM_ID; }
             set
             {
                 _CONTENT_ONLINE_URL = value;
@@ -7820,16 +8023,70 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
+        public void FUNCTION_CLOCK_SET_CLOCK_MODE()
+        {
+
+            if (HARDWARE_CLOCK_OLD_ISCONNECTED == true)
+            {
+
+                byte[] bytes = { 0x83, 0x0, 0x0, 0x0, 0x83, 0x81 };
+                _serialPort.Write(bytes, 0, bytes.Length);
+
+            }
+        }
 
 
 
+        public void FUNCTION_CLOCK_SET_STOPWATCH_MODE()
+        {
+            if (HARDWARE_CLOCK_OLD_ISCONNECTED == true)
+            {
+
+
+                byte[] bytes = { 0x83, 0x1, 0x0, 0x0, 0x84, 0x81 };
+                _serialPort.Write(bytes, 0, bytes.Length);
+
+            }
+
+        }
 
 
 
+        public void FUNCTION_CLOCK_SET_STOPWATCH_TIME(int minuty, int vteriny)
+        {
+            if (HARDWARE_CLOCK_OLD_ISCONNECTED == true)
+            {
+
+                int funkce = 0x85;
+                int ctvrte = 0;
+
+                int crc = funkce + minuty + vteriny + ctvrte;
 
 
+                byte[] bytes = { ((byte)funkce), ((byte)minuty), ((byte)vteriny), ((byte)ctvrte), ((byte)crc), 0x81 };
+                _serialPort.Write(bytes, 0, bytes.Length);
+            }
+        }
 
 
+        public void FUNCTION_CLOCK_SET_DIRECTION(int direction)
+        {
+            if (HARDWARE_CLOCK_OLD_ISCONNECTED == true)
+            {
+
+
+                int funkce = 0x86;
+                int smer = direction;
+                int minuty = 0;
+                int vteriny = 0;
+
+                int crc = funkce + minuty + vteriny + smer;
+
+
+                byte[] bytes = { ((byte)funkce), ((byte)smer), ((byte)minuty), ((byte)vteriny), ((byte)crc), 0x81 };
+                _serialPort.Write(bytes, 0, bytes.Length);
+            }
+        }
 
 
 
@@ -7863,7 +8120,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         #region printing
 
-     
+
 
 
         private static readonly Random getrandom = new Random();
@@ -7977,6 +8234,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
 
 
         public void print_userstatistics(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
@@ -8972,7 +9239,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
-        public void print_memory_to_file(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type)
+        public void print_memory_to_file(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, Boolean openfile)
         {
 
 
@@ -9032,12 +9299,68 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/"+ file_name+".html"))
-            {
-                file.WriteLine(html_all);
+            if (output_type == "html") {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/Print/" + file_name + "." + output_type))
+                {
+                    file.WriteLine(html_all);
+                }
             }
-            System.Diagnostics.Process.Start(directory + "/Print/" + file_name + ".html");
+
+            if (output_type == "pdf")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/pdf/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+
+
+            System.Diagnostics.Process installProcess = new System.Diagnostics.Process();
+            //settings up parameters for the install process
+            installProcess.StartInfo.FileName = "pdf\\wkhtmltopdf.exe";
+            installProcess.StartInfo.Arguments = " -O Landscape -L 0 -R 0 -T 0 -B 0 " + directory + "/pdf/" + file_name + ".html " + directory + "/pdf/v" + BIND_SQL_SOUTEZ_SMCRID + ".pdf";
+
+            installProcess.Start();
+
+            installProcess.WaitForExit();
+                // Check for sucessful completion
+            Console.WriteLine("PDF vytvořeno ");
+
+            }
+
+
+            if (output_type == "mpdf")
+            {
+
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(directory + "/pdf/" + file_name + ".html"))
+                {
+                    file.WriteLine(html_all);
+                }
+
+
+                System.Diagnostics.Process installProcess = new System.Diagnostics.Process();
+                //settings up parameters for the install process
+                installProcess.StartInfo.FileName = "pdf\\wkhtmltopdf.exe";
+                installProcess.StartInfo.Arguments = " -O Landscape -L 0 -R 0 -T 0 -B 0 " + directory + "/pdf/" + file_name + ".html " + directory + "/pdf/mv" + BIND_SQL_SOUTEZ_SMCRID + ".pdf";
+
+                installProcess.Start();
+
+                installProcess.WaitForExit();
+                // Check for sucessful completion
+                Console.WriteLine("PDF vytvořeno ");
+
+            }
+
+
+
+
+
+            if (openfile == true)
+            {
+
+                System.Diagnostics.Process.Start(directory + "/Print/" + file_name + "."+ output_type);
+            }
+
             memoryprint = "";
 
         }

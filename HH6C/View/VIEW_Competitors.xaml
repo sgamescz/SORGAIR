@@ -807,12 +807,10 @@
                         x:Name="L_savenewuserandagain"
                         Width="Auto"
                         Height="65"
-                        Margin="10,280,30,-161"
-                        VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Click="L_savenewuserandagain_Click"
                         TabIndex="13"
-                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV" Margin="10,280,30,-161">
                         <Grid>
                             <Label VerticalAlignment="Center" Content="Uložit nového soutěžícího a vrátit se sem" />
                             <iconPacks:PackIconUnicons
@@ -827,13 +825,11 @@
                     <Button
                         x:Name="L_savenewuser_clearall"
                         Width="Auto"
-                        Height="65"
-                        Margin="10,350,30,-231"
-                        VerticalAlignment="Top"
+                        Height="66"
                         VerticalContentAlignment="Center"
                         Click="L_savenewuser_clearall_Click"
                         TabIndex="14"
-                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV" Margin="7,350,30,-232">
                         <Grid>
                             <Label VerticalAlignment="Center" Content="Vymazat data" />
 
@@ -849,12 +845,10 @@
                         x:Name="L_close"
                         Width="Auto"
                         Height="65"
-                        Margin="10,420,30,-301"
-                        VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Click="L_close_Click"
                         TabIndex="14"
-                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV" Margin="7,421,30,-302">
                         <Grid>
                             <Label VerticalAlignment="Center" Content="Zrušit zakládání" />
 
@@ -867,6 +861,28 @@
                                 Kind="CommentAltSlash" />
                         </Grid>
                     </Button>
+                    <UniformGrid Margin="7,491,30,-380" Columns="3">
+                        <Button
+                        x:Name="rec_audio"
+                        Margin="5"
+                 
+                        Click="rec_audio_Click"
+                        TabIndex="14"
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV" >
+                            <Grid>
+                                <Label Name="rec_audio_label" VerticalAlignment="Center" Content="Nahrát jméno soutěžcího" />
+
+
+                                <iconPacks:PackIconUnicons
+                                Width="30"
+                                Height="30"
+                                VerticalAlignment="Center"
+                                Kind="Microphone" Margin="-35,0,0,0" />
+                            </Grid>
+                        </Button>
+                        <Button  Name="play_name_sound" IsEnabled="false" Margin="5" Click="play_name_sound_Click" Content="Přehrát jméno" />
+                        <Button  Name="delete_name_sound" Margin="5" IsEnabled="False"  Click="delete_name_sound_Click" Content="Smazat jméno" />
+                    </UniformGrid>
 
                 </Grid>
 
@@ -1178,6 +1194,32 @@
                             <Label VerticalAlignment="Center" Content="Zpět" />
                         </Grid>
                     </Button>
+
+
+                    <UniformGrid Columns="3" Margin="10,415,30,-297">
+                        <Button
+                        x:Name="rec_audio2"
+                        Margin="5"
+                 
+                        Click="rec_audio2_Click"
+                        TabIndex="14"
+                        Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV" >
+                            <Grid>
+                                <Label Name="rec_audio_label2" VerticalAlignment="Center" Content="Nahrát jméno soutěžcího" />
+
+
+                                <iconPacks:PackIconUnicons
+                                Width="30"
+                                Height="30"
+                                VerticalAlignment="Center"
+                                Kind="Microphone" Margin="-35,0,0,0" />
+                            </Grid>
+                        </Button>
+                        <Button  Name="play_name_sound2" IsEnabled="false" Margin="5" Click="play_name_sound2_Click" Content="Přehrát jméno" />
+                        <Button  Name="delete_name_sound2" Margin="5" IsEnabled="False"  Click="delete_name_sound2_Click" Content="Smazat jméno" />
+                    </UniformGrid>
+
+
                 </Grid>
 
 
@@ -1200,7 +1242,7 @@
 
                 <StackPanel Height="739">
                     <mah:MetroHeader
-                        Height="324"
+                        Height="433"
                         Margin="10,20,10,0"
                         Header="Tisk karet soutěžících">
 
@@ -1223,7 +1265,7 @@
 
                             <mah:Tile
                                 x:Name="print_to_html_cut_competitors"
-                                Title="Tisk trhacích karet - soutěžící"
+                                Title="Tisk trhacích karet pro soutěžící dle jmen"
                                 Width="298"
                                 Height="75"
                                 Margin="310,90,0,0"
@@ -1244,6 +1286,33 @@
                                     VerticalAlignment="Center"
                                     Kind="RegularPrinter" />
                             </mah:Tile>
+
+
+                            <mah:Tile
+                                x:Name="print_to_html_cut_competitors_round"
+                                Title="Tisk trhacích karet pro soutěžící dle kol"
+                                Width="298"
+                                Height="75"
+                                Margin="310,170,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                VerticalContentAlignment="Top"
+                                Click="print_to_html_cut_competitors_round_Click"
+                                HorizontalTitleAlignment="center"
+                                IsEnabled="True"
+                                Style="{StaticResource userbuttonstyle}"
+                                TitleFontSize="12"
+                                VerticalTitleAlignment="Bottom">
+
+                                <iconPacks:PackIconBoxIcons
+                                    Width="20"
+                                    Height="20"
+                                    Margin="10"
+                                    VerticalAlignment="Center"
+                                    Kind="RegularPrinter" />
+                            </mah:Tile>
+
+
                             <mah:NumericUpDown
                                 x:Name="pocetnastranku2_updown"
                                 Width="314"
@@ -1334,8 +1403,8 @@
                                 Title="Tisk seznamu soutěžících"
                                 Width="930"
                                 Height="75"
-                                Margin="8,175,0,0"
-                                HorizontalAlignment="Left"
+                                Margin="0,290,0,0"
+                                HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
                                 VerticalContentAlignment="Top"
                                 Background="YellowGreen"

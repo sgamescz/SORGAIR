@@ -935,7 +935,7 @@
                     Name="results_teams"
                     Title="Týmy"
                     Width="125"
-                    IsEnabled="False"
+                    IsEnabled="True"
                     Height="75"
                     Margin="565,10,0,0"
                     HorizontalAlignment="Left"
