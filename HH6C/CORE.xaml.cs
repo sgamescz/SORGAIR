@@ -62,7 +62,7 @@ namespace WpfApp6
             string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
             string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
             string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
-
+            Console.WriteLine(langcode);
             Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             Console.WriteLine(major + "." + minor + "." + build + "." + revision);
 
@@ -144,16 +144,16 @@ namespace WpfApp6
             if (result != major + "." + minor + "." + build + "." + revision)
             {
 
-                var currentWindow = this;
-                var results = await currentWindow.ShowMessageAsync("Je nová verze", "K dispozici je nová verze. Chceš si přečíst co je nového a stáhnout ji ?", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
-                if (results == null)
-                    return;
-                if (results == MessageDialogResult.Affirmative)
-                {
+                //var currentWindow = this;
+                //var results = await currentWindow.ShowMessageAsync("Je nová verze", "K dispozici je nová verze. Chceš si přečíst co je nového a stáhnout ji ?", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
+                //if (results == null)
+                //    return;
+                //if (results == MessageDialogResult.Affirmative)
+                //{
                     Window printwindow = new SORGAIR.News();
                     printwindow.Show();
 
-                }
+                //}
 
 
 

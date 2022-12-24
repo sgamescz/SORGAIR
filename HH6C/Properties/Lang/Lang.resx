@@ -234,4 +234,10 @@
   <data name="menu_teams" xml:space="preserve">
     <value>Teams</value>
   </data>
+  <data name="new_contest_internet" xml:space="preserve">
+    <value>Create contest from internet</value>
+  </data>
+  <data name="new_contest_manual" xml:space="preserve">
+    <value>Create contest manually</value>
+  </data>
 </root>

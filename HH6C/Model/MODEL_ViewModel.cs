@@ -13,7 +13,7 @@ using System.Net;
 using System.Text;
 using System.IO;
 using System.IO.Ports;
-
+using System.Threading.Tasks;
 
 namespace WpfApp6.Model
 {
@@ -53,10 +53,12 @@ namespace WpfApp6.Model
 
 
 
-
     public class MODEL_ViewModel : INotifyPropertyChanged
     {
         public SerialPort _serialPort;
+        public SerialPort _RPI_serialPort;
+
+
 
 
         string memoryprint = "";
@@ -149,6 +151,9 @@ namespace WpfApp6.Model
         int last_second_prep_time = 0;
         int last_second_main_time = 0;
 
+        bool serialport_blocked = false;
+
+
         int last_second_final_prep_time = 0;
         int last_second_final_main_time = 0;
 
@@ -223,6 +228,7 @@ namespace WpfApp6.Model
         public int BIND_LETOVYCAS_MAX_value = 600;
         public int BIND_FINAL_LETOVYCAS_MAX_value = 600;
 
+        public int preptime_clock_id = 1;
 
         public int BIND_PRE_LETOVYCAS_MAX_value = 20;
         public int BIND_LETOVYCAS_PREP_MAX_value = 20;
@@ -543,8 +549,122 @@ namespace WpfApp6.Model
         }
 
 
+        public async void pripojserialport(string serialport)
+        {
+            _RPI_serialPort = new SerialPort(serialport, 9600, Parity.None, 8, StopBits.One);
+            _RPI_serialPort.ReadTimeout = 500;
+            _RPI_serialPort.WriteTimeout = 500;
+            _RPI_serialPort.Handshake = Handshake.None;
+            _RPI_serialPort.PortName = serialport;
+            _RPI_serialPort.BaudRate = 9600;
+            _RPI_serialPort.DataBits = 8;
+            _RPI_serialPort.StopBits = StopBits.One;
+            _RPI_serialPort.Parity = Parity.None;
+            _RPI_serialPort.DataReceived += DataReceivedHandler; //This is to add event handler delegate when data is received by the port
+
+            try
+            {
+                _RPI_serialPort.Open();
+                if (!(_RPI_serialPort.IsOpen))
+                    _RPI_serialPort.Open();
+                Console.WriteLine("Serial port " + serialport + " is open");
+                await Task.Delay(100);
+                _serialPortWrite("ATI",true );
+                await Task.Delay(100);
+                _serialPortWrite("AT+SN", true);
+                await Task.Delay(100);
+                _serialPortWrite("AT+MEM", true);
+                await Task.Delay(100);
+                _serialPortWrite("AT+UPTIME", true);
+                await Task.Delay(100);
+                //_serialPort.Write("ATI\r");
+                //_serialPort.Write("AT+SN\r");
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error opening/writing to serial port :: " + ex.Message, "Error!");
+            }
+
+        }
+
+
+        private async void DataReceivedHandler(object sender,SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort)sender;
+            Console.WriteLine(sp.BytesToRead + "bytes to read");
+            while (sp.BytesToRead > 0)
+            {
+                Console.WriteLine("reading by line if bytestoread is greather than zero");
+
+                string indata = sp.ReadLine();
+                if (indata.Contains("Sorg HW"))
+                {
+                    HW_ATI = indata;
+                    BINDING_HW_MENU_BASE = true;
+                }
+                if (indata.Contains("+MEM")) { HW_ATIMEM = indata; }
+                if (indata.Contains("+UPTIME")) { HW_ATIUPTIME = indata; }
+                if (indata.Contains("+SN")) { HW_ATISN = indata; }
+                Console.WriteLine("Data Received:" + indata);
+            }
+
+            Console.Write("---------UNBLOCKING SERIAL PORT--------\n");
+            serialport_blocked = false;
+            Console.Write("---------SERIAL READ DONE--------\n");
+        }
+
+
+        public async void _serialPortWrite(string cozapsat, bool ignoreconnecteddevice )
+        {
+           
+
+            if (ignoreconnecteddevice is true)
+            {
+                Console.WriteLine("Zapisuji na seriový port i s ignoraci pripojeneho zarizeni:" + cozapsat);
+                _RPI_serialPort.Write(cozapsat + "\r");
+            }
+            else
+            {
+                if (BINDING_HW_MENU_BASE is true)
+                {
+
+                    Console.WriteLine("Zapisuji na seriový port pouze pokud je pripojeno:" + cozapsat);
+
+                znova:
+
+                    Console.WriteLine("serialport_cozapsat:" + cozapsat);
+                    Console.WriteLine("serialport_blocked:" + serialport_blocked);
+                    if (serialport_blocked is true)
+                    {
+                        // CODE
+                        Console.WriteLine("BLOCKED BLoCKED BLOCKED");
+                        await Task.Delay(100);
+                        Console.WriteLine("LOOP znova");
+                        goto znova;
+
+                    }
+
+
+                    Console.WriteLine("NONBLOCKED NONBLoCKED NONBLOCKED");
+                    Console.Write("---------BLOCKING SERIAL PORT--------\n");
+
+                    serialport_blocked = true;
+
+
+                    _RPI_serialPort.Write(cozapsat + "\r");
+
+                }
+
+            }
+
+        }
+
         public void FUNCTION_JETREBAROZLOSOVAT_OVER()
         {
+
             Console.WriteLine("_BIND_JETREBAROZLOSOVAT_SCORE" + _BIND_JETREBAROZLOSOVAT_SCORE);
             Console.WriteLine("SUM" + (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS));
             if (_BIND_JETREBAROZLOSOVAT_SCORE != (BIND_SQL_SOUTEZ_ROUNDS * BIND_SQL_SOUTEZ_GROUPS * BIND_SQL_SOUTEZ_STARTPOINTS))
@@ -1160,7 +1280,11 @@ namespace WpfApp6.Model
                           
                                 FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, 0);
                                 FUNCTION_CLOCK_SET_DIRECTION(1);
-                           
+                            //FUNCTION_SACLOCK_SETTIME(0, 0);
+                            FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 0, false);
+                            FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(42, 0, false);
+
+
 
 
                             timer_main.Restart();
@@ -1178,7 +1302,27 @@ namespace WpfApp6.Model
                         if (_lastsecond == _tmp_casspusteniautomatickehopripravnehocasu & BIND_SQL_AUTO_USEPREPTIME == true & BIND_SQL_AUTO_RUNPREPTIMENEXTROUND == true)
                         {
                             BIND_PREP_AUDIO_MAN_AUTO = false;
-                            clock_PREP_start();
+                            Console.WriteLine(BIND_SELECTED_ROUND);
+                            Console.WriteLine(BIND_SQL_SOUTEZ_ROUNDS);
+                            Console.WriteLine(BIND_SELECTED_GROUP);
+                            Console.WriteLine(BIND_SQL_SOUTEZ_GROUPS);
+
+                            int _tmp_newgroup = BIND_SELECTED_GROUP + 1;
+                            int _tmp_newround = BIND_SELECTED_ROUND;
+
+                            if (_tmp_newgroup > BIND_SQL_SOUTEZ_GROUPS) { _tmp_newgroup = 1; _tmp_newround += 1; }
+
+
+                            if (_tmp_newround <= BIND_SQL_SOUTEZ_ROUNDS)
+                            {
+                                Console.WriteLine("je dalsi pripravny cas");
+                                clock_PREP_start();
+                            }
+                            else
+                            {
+                                Console.WriteLine("neni dalsi pripravny cas");
+
+                            }
                         }
 
                         if (last_second_main_time == _lastsecond)
@@ -1242,7 +1386,9 @@ namespace WpfApp6.Model
                            
                                 FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, 0);
                                 FUNCTION_CLOCK_SET_DIRECTION(1);
-                         
+                            //FUNCTION_SACLOCK_SETTIME(0, 0);
+                            FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 0, false);
+                            FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(42, 0, false);
 
                         }
                         else
@@ -1258,7 +1404,25 @@ namespace WpfApp6.Model
                         if (_lastsecond == _tmp_casspusteniautomatickehopripravnehocasu_final & BIND_SQL_AUTO_USEPREPTIME == true & BIND_SQL_AUTO_RUNPREPTIMENEXTROUND_FINAL == true)
                         {
                             BIND_PREP_AUDIO_FINAL_MAN_AUTO = false;
-                            clock_FINAL_PREP_start();
+                            int _tmp_newround;
+                            _tmp_newround = BIND_SELECTED_FINAL_ROUND + 1;
+
+                            if (_tmp_newround <= BIND_SQL_SOUTEZ_ROUNDSFINALE)
+                            {
+
+
+                                Console.WriteLine("je dalsi pripravny cas finale");
+                                clock_FINAL_PREP_start();
+                            }
+                            else
+                            {
+                                Console.WriteLine("neni dalsi pripravny cas finale");
+
+                            }
+
+
+
+                            
                         }
 
                         if (last_second_final_main_time == _lastsecond)
@@ -1313,11 +1477,11 @@ namespace WpfApp6.Model
 
                         if (BIND_PREP_AUDIO_MAN_AUTO == true)
                         {
-                            if (BIND_AUDIO_PREPTIME_MANUAL_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1); clock_MAIN_start(); } else { clock_MAIN_start(); }
+                            if (BIND_AUDIO_PREPTIME_MANUAL_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1,false); clock_MAIN_start(); } else { clock_MAIN_start(); }
                         }
                         else
                         {
-                            if (BIND_AUDIO_PREPTIME_AUTO_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1); clock_MAIN_start(); } else { clock_MAIN_start(); }
+                            if (BIND_AUDIO_PREPTIME_AUTO_NEXT == true) { FUNCTION_MOVE_GROUP_UP_DOWN(+1,false); clock_MAIN_start(); } else { clock_MAIN_start(); }
                         }
 
 
@@ -1469,6 +1633,7 @@ namespace WpfApp6.Model
                                     }
                                     else
                                     {
+                                     
                                         clock_DYNAMIC_ROUNDGROUP_NEXT_start();
                                     }
 
@@ -1510,7 +1675,8 @@ namespace WpfApp6.Model
                                     }
                                     else
                                     {
-                                        clock_DYNAMIC_COMPETITORS_NEXT_start();
+                                            clock_DYNAMIC_COMPETITORS_NEXT_start();
+                                            
                                     }
                                 }
 
@@ -1628,7 +1794,7 @@ namespace WpfApp6.Model
                             {
                                 Console.WriteLine("---SAY-RND-GRP---");
 
-                                if (BIND_PREP_AUDIO_MAN_AUTO == true) //pokud je pusteno rucne
+                                if (BIND_PREP_AUDIO_FINAL_MAN_AUTO == true) //pokud je pusteno rucne
                                 {
                                     if (BIND_AUDIO_FINAL_PREPTIME_MANUAL_NEXT == false)
                                     {
@@ -1642,6 +1808,8 @@ namespace WpfApp6.Model
                                 }
                                 else //pokud je pusteno automaticky
                                 {
+                                    Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + BIND_PREP_AUDIO_MAN_AUTO  + BIND_AUDIO_FINAL_PREPTIME_AUTO_NEXT);
+
                                     if (BIND_AUDIO_FINAL_PREPTIME_AUTO_NEXT == false)
                                     {
                                         clock_DYNAMIC_ROUNDGROUP_FINAL_ACTUAL_start();
@@ -2236,7 +2404,15 @@ namespace WpfApp6.Model
         public int BIND_SELECTED_ROUND
         {
             get { return BIND_SELECTED_ROUND_value; }
-            set { BIND_SELECTED_ROUND_value = value; OnPropertyChanged("BIND_SELECTED_ROUND"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); OnPropertyChanged("BIND_SELECTED_ROUND_DESC"); OnPropertyChanged("BIND_SELECTED_GROUP_DESC"); Console.WriteLine("BIND_SELECTED_ROUND:" + BIND_SELECTED_ROUND); }
+            set { 
+                BIND_SELECTED_ROUND_value = value; 
+                OnPropertyChanged("BIND_SELECTED_ROUND"); 
+                OnPropertyChanged("BIND_VYBRANEKOLOMENU"); 
+                OnPropertyChanged("BIND_SELECTED_ROUND_DESC"); 
+                OnPropertyChanged("BIND_SELECTED_GROUP_DESC"); 
+                Console.WriteLine("BIND_SELECTED_ROUND:" + BIND_SELECTED_ROUND);
+                FUNCTION_SACLOCK_SETTEXT(0,"R/G : " + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP);
+            }
         }
 
         public int BIND_SELECTED_STARTPOINT
@@ -2263,7 +2439,16 @@ namespace WpfApp6.Model
         public int BIND_SELECTED_GROUP
         {
             get { return BIND_SELECTED_GROUP_value; }
-            set { BIND_SELECTED_GROUP_value = value; OnPropertyChanged("BIND_SELECTED_GROUP"); OnPropertyChanged("BIND_VYBRANEKOLOMENU"); OnPropertyChanged("BIND_SELECTED_ROUND_DESC"); OnPropertyChanged("BIND_SELECTED_GROUP_DESC"); Console.WriteLine("BIND_SELECTED_GROUP" + BIND_SELECTED_GROUP); }
+            set { 
+                BIND_SELECTED_GROUP_value = value; 
+                OnPropertyChanged("BIND_SELECTED_GROUP"); 
+                OnPropertyChanged("BIND_VYBRANEKOLOMENU"); 
+                OnPropertyChanged("BIND_SELECTED_ROUND_DESC"); 
+                OnPropertyChanged("BIND_SELECTED_GROUP_DESC"); 
+                Console.WriteLine("BIND_SELECTED_GROUP" + BIND_SELECTED_GROUP);
+                //_serialPortWrite("AT1+TEXTT=1x,R/G:" + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP, false);
+                FUNCTION_SACLOCK_SETTEXT(0, "R/G : " + BIND_SELECTED_ROUND + "/" + BIND_SELECTED_GROUP);
+            }
         }
 
 
@@ -5035,7 +5220,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
           
                 FUNCTION_CLOCK_SET_STOPWATCH_MODE();
-           
+
 
 
 
@@ -5047,8 +5232,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     BIND_TYPEOFCLOCK = "PRE_MAIN";
                     BIND_LETOVYCAS_MAX = Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE);
 
-                 
-                        FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE));
+                    //FUNCTION_SACLOCK_COUNTDOWN(0);
+
+
+                    FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE));
                         FUNCTION_CLOCK_SET_DIRECTION(2);
                   
 
@@ -5074,6 +5261,45 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             clock_DYNAMIC_COMPETITORS_NEXT_create();
 
 
+
+
+            BIND_LETOVYCAS = 0;
+            timer_main.Reset();
+            MAIN_TIME_TIMER.Start();
+            timer_main.Start();
+
+            if (BIND_TYPEOFCLOCK == "PRE_MAIN")
+            {
+
+                //FUNCTION_SACLOCK_DELETE_CLOCK(0,false);
+                //FUNCTION_SACLOCK_CREATE_CLOCK(Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE), 50, true);
+                //FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE), false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
+                   
+                    if (BIND_PREPTIME_ISRUNNING is true)
+                    {
+                    //FUNCTION_SACLOCK_DELETE_CLOCK(1,true);
+                    //FUNCTION_SACLOCK_CREATE_SMALLCLOCK(BIND_LETOVYCAS_PREP, 50, true);
+                    //preptime_clock_id = 1;
+                    //FUNCTION_SACLOCK_STOPCOUNT(1);
+                    FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, BIND_LETOVYCAS_PREP_MAX - BIND_LETOVYCAS_PREP, false);
+                    FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 1, false);
+
+
+                }
+                else
+                    {
+                        //FUNCTION_SACLOCK_DELETE_CLOCK(1,true);
+                        //FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(true);
+
+                    }
+
+              
+
+
+            }
+
             BIND_MAINTIME_ISRUNNING = true;
             BIND_MAINTIME_ISSTOPED = false;
 
@@ -5083,12 +5309,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             BIND_FINAL_PREPTIME_ISRUNNING = false;
             BIND_FINAL_PREPTIME_ISSTOPED = false;
 
+          
+            
 
-
-            BIND_LETOVYCAS = 0;
-            timer_main.Reset();
-            MAIN_TIME_TIMER.Start();
-            timer_main.Start();
         }
 
 
@@ -5150,6 +5373,42 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             }
 
 
+
+
+            if (BIND_TYPEOFCLOCK == "PRE_MAIN")
+            {
+
+                //FUNCTION_SACLOCK_DELETE_CLOCK(0,false);
+                //FUNCTION_SACLOCK_CREATE_CLOCK(Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE), 50, true);
+                //FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, Math.Abs(MODEL_CONTEST_SOUNDS_FINAL_MAIN[0].VALUE), false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
+
+                if (BIND_FINAL_PREPTIME_ISRUNNING is true)
+                {
+                    //FUNCTION_SACLOCK_DELETE_CLOCK(1,true);
+                    //FUNCTION_SACLOCK_CREATE_SMALLCLOCK(BIND_LETOVYCAS_PREP, 50, true);
+                    //preptime_clock_id = 1;
+                    //FUNCTION_SACLOCK_STOPCOUNT(1);
+                    FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, BIND_FINAL_LETOVYCAS_PREP_MAX - BIND_FINAL_LETOVYCAS_PREP, false);
+                    FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 1, false);
+
+
+                }
+                else
+                {
+                    //FUNCTION_SACLOCK_DELETE_CLOCK(1,true);
+                    //FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(true);
+
+                }
+
+
+
+
+            }
+
+
+
             BIND_FINAL_MAINTIME_ISRUNNING = true;
             BIND_FINAL_MAINTIME_ISSTOPED = false;
 
@@ -5175,6 +5434,40 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             timer_final_main.Stop();
             clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
             clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+
+
+
+
+
+            if (BIND_FINAL_PREPTIME_ISRUNNING is true)
+            {
+                //VM.FUNCTION_SACLOCK_DELETE_CLOCK(0,true);
+                //VM.FUNCTION_SACLOCK_CREATE_CLOCK(VM.BIND_LETOVYCAS_PREP_MAX - VM.BIND_LETOVYCAS_PREP, 50, true);
+                //VM.FUNCTION_SACLOCK_DELETE_CLOCK(1,true);
+                //VM.FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(true);
+                //VM.preptime_clock_id = 0;
+                //FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_FINAL_LETOVYCAS_PREP_MAX - BIND_FINAL_LETOVYCAS_PREP, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
+
+                //FUNCTION_SACLOCK_STOPCOUNT(1);
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+
+
+            }
+            else
+            {
+                FUNCTION_SACLOCK_STOPCOUNT(0);
+            }
+
+
+
             BIND_FINAL_MAINTIME_ISRUNNING = false;
             BIND_FINAL_MAINTIME_ISSTOPED = true;
 
@@ -5200,6 +5493,38 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             timer_main.Stop ();
             clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
             clock_DYNAMIC_COMPETITORS_ACTUAL_stop();
+
+
+            
+
+            if (BIND_PREPTIME_ISRUNNING is true)
+            {
+                //VM.FUNCTION_SACLOCK_DELETE_CLOCK(0,true);
+                //VM.FUNCTION_SACLOCK_CREATE_CLOCK(VM.BIND_LETOVYCAS_PREP_MAX - VM.BIND_LETOVYCAS_PREP, 50, true);
+                //VM.FUNCTION_SACLOCK_DELETE_CLOCK(1,true);
+                //VM.FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(true);
+                //VM.preptime_clock_id = 0;
+                //FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_LETOVYCAS_PREP_MAX - BIND_LETOVYCAS_PREP, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
+
+                //FUNCTION_SACLOCK_STOPCOUNT(1);
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+
+
+            }
+            else
+            {
+                FUNCTION_SACLOCK_STOPCOUNT(0);
+            }
+
+
             BIND_MAINTIME_ISRUNNING = false;
             BIND_MAINTIME_ISSTOPED = true;
 
@@ -5313,6 +5638,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             roundgroupwav_next[i] = new WaveOutEvent();
             roundgroupwav_next[i].Init(wav_roundgroup_next[i]);
 
+            
 
             MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Tick += MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER_Tick;
             MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Interval = new TimeSpan(0, 0, 0, 0, 10);
@@ -5479,6 +5805,47 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             timer_prep.Reset();
             PREP_TIME_TIMER.Start();
             timer_prep.Start();
+            
+            if (BIND_MAINTIME_ISRUNNING is true)
+            {
+                //smazu male RTC
+                //FUNCTION_SACLOCK_DELETE_CLOCK(1,false);
+                // a vytvorim maly pripravny cas 
+                //FUNCTION_SACLOCK_CREATE_SMALLCLOCK(BIND_LETOVYCAS_PREP_MAX, 50,false);
+                FUNCTION_SACLOCK_STOPCOUNT(1);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, BIND_LETOVYCAS_PREP_MAX, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 1, false);
+                preptime_clock_id = 1;
+            }
+
+            if (BIND_MAINTIME_ISRUNNING is false)
+            {
+                //smazu velke hodiny 
+                //FUNCTION_SACLOCK_DELETE_CLOCK(0,false);
+                // smazu male RTC
+                //FUNCTION_SACLOCK_DELETE_CLOCK(1, false);
+                FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_LETOVYCAS_PREP_MAX, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
+
+
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+                //vytvorim velke hodiny s preptime
+                //FUNCTION_SACLOCK_CREATE_CLOCK(BIND_LETOVYCAS_PREP_MAX, 50,false);
+                //vytvorim znova male RTC
+                //FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(false);
+                // a reknu, ze velke hodiny bezi na ID0
+                //preptime_clock_id = 0;
+            }
+
+
+
         }
 
         public void clock_PREP_stop()
@@ -5491,6 +5858,42 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             clock_DYNAMIC_COMPETITORS_NEXT_stop();
             clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
             clock_DYNAMIC_ROUNDGROUP_NEXT_stop();
+            //zastavim preptime clock at uz bezi kdekoliv
+
+            if (BIND_MAINTIME_ISRUNNING is true)
+            {
+                //FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 0, false);
+                //FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_LETOVYCAS_PREP_MAX, false);
+
+                FUNCTION_SACLOCK_STOPCOUNT(1);
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+            }
+
+            if (BIND_MAINTIME_ISRUNNING is false)
+            {
+                //FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 0, false);
+                //FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_LETOVYCAS_PREP_MAX, false);
+
+                FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 0, false);
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+            }
+
+
+
+
         }
 
 
@@ -5531,6 +5934,44 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             timer_final_prep.Reset();
             PREP_FINAL_TIME_TIMER.Start();
             timer_final_prep.Start();
+
+            if (BIND_FINAL_MAINTIME_ISRUNNING is true)
+            {
+                //smazu male RTC
+                //FUNCTION_SACLOCK_DELETE_CLOCK(1,false);
+                // a vytvorim maly pripravny cas 
+                //FUNCTION_SACLOCK_CREATE_SMALLCLOCK(BIND_LETOVYCAS_PREP_MAX, 50,false);
+                FUNCTION_SACLOCK_STOPCOUNT(1);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, BIND_FINAL_LETOVYCAS_PREP_MAX, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 1, false);
+                preptime_clock_id = 1;
+            }
+
+            if (BIND_FINAL_MAINTIME_ISRUNNING is false)
+            {
+                //smazu velke hodiny 
+                //FUNCTION_SACLOCK_DELETE_CLOCK(0,false);
+                // smazu male RTC
+                //FUNCTION_SACLOCK_DELETE_CLOCK(1, false);
+                FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_FINAL_LETOVYCAS_PREP_MAX, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
+
+
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+                //vytvorim velke hodiny s preptime
+                //FUNCTION_SACLOCK_CREATE_CLOCK(BIND_LETOVYCAS_PREP_MAX, 50,false);
+                //vytvorim znova male RTC
+                //FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(false);
+                // a reknu, ze velke hodiny bezi na ID0
+                //preptime_clock_id = 0;
+            }
         }
 
         public void clock_FINAL_PREP_stop()
@@ -5543,6 +5984,37 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             clock_DYNAMIC_COMPETITORS_NEXT_stop();
             clock_DYNAMIC_ROUNDGROUP_ACTUAL_stop();
             clock_DYNAMIC_ROUNDGROUP_NEXT_stop();
+
+            if (BIND_FINAL_MAINTIME_ISRUNNING is true)
+            {
+                //FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 0, false);
+                //FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_LETOVYCAS_PREP_MAX, false);
+
+                FUNCTION_SACLOCK_STOPCOUNT(1);
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+            }
+
+            if (BIND_FINAL_MAINTIME_ISRUNNING is false)
+            {
+                //FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 0, false);
+                //FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, BIND_LETOVYCAS_PREP_MAX, false);
+
+                FUNCTION_SACLOCK_STOPCOUNT(0);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 0, false);
+                var datet = DateTime.Now;
+                int hodiny = datet.Hour * 60 * 60;
+                int minuty = datet.Minute * 60;
+                int sum = hodiny + minuty;
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+            }
         }
 
 
@@ -5618,22 +6090,25 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             for (int x = 0; x < Players_Actual_Flying.Count; x++)
             {
-                int i = x + 1;
-                if (File.Exists("Audio\\NAMES\\" + users_id_for_sound[x] + ".wav"))
-                {
-                    fileContent = File.ReadAllBytes("Audio\\NAMES\\" + users_id_for_sound[x] + ".wav");
-                }
-                else
-                {
-                    fileContent = File.ReadAllBytes("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
+                Console.WriteLine(Players_Actual_Flying[x].ID);
+                    int i = x+1;
+                    if (File.Exists("Audio\\NAMES\\" + users_id_for_sound[x] + ".wav"))
+                    {
+                        fileContent = File.ReadAllBytes("Audio\\NAMES\\" + users_id_for_sound[x] + ".wav");
+                    }
+                    else
+                    {
+                        fileContent = File.ReadAllBytes("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
 
-                }
+                    }
 
-                Console.WriteLine("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
-                wav_competitors_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
-                wav_competitors_next[i].Position = 0;
-                competitorswav_next[i] = new WaveOutEvent();
-                competitorswav_next[i].Init(wav_competitors_next[i]);
+                    Console.WriteLine("Audio\\" + BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\" + users_id_for_sound[x] + ".wav");
+                    wav_competitors_next[i] = new NAudio.Wave.WaveFileReader(new MemoryStream(fileContent));
+                    wav_competitors_next[i].Position = 0;
+                    competitorswav_next[i] = new WaveOutEvent();
+                    competitorswav_next[i].Init(wav_competitors_next[i]);
+
+               
 
             }
 
@@ -5646,6 +6121,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_DYNAMIC_COMPETITORS_NEXT_start()
         {
+            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            Console.WriteLine(BIND_SELECTED_ROUND);
+            Console.WriteLine(BIND_SQL_SOUTEZ_ROUNDS);
 
             timer_DYNAMIC_COMPETITORS_NEXT.Reset();
             MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.Start();
@@ -5666,7 +6144,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public void clock_DYNAMIC_COMPETITORS_FINAL_ACTUAL_create()
         {
-
+            
             byte[] fileContent;
 
             fileContent = File.ReadAllBytes("Audio\\"+ BINDING_SoundList_languages[BINDING_SoundList_languages_index].SoundName + "\\competitors.wav");
@@ -7654,7 +8132,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             MODEL_CONTEST_SOUNDS_FINAL_PREP.Clear();
             SQL_READSOUTEZDATA("select * from sounds where id = '" + soundlistid + "' order by second asc", "get_contest_sound_final_prep");
             BIND_AUDIO_FINAL_PREP_INFO = BINDING_SoundList[BIND_AUDIO_SELECTEDPREPFINALSOUND_INDEX].SoundName;
-            //BIND_LETOVYCAS_PREP_MAX = MODEL_CONTEST_SOUNDS_PREP[MODEL_CONTEST_SOUNDS_PREP.Count - 1].VALUE;
+            BIND_FINAL_LETOVYCAS_PREP_MAX = MODEL_CONTEST_SOUNDS_FINAL_PREP[MODEL_CONTEST_SOUNDS_FINAL_PREP.Count - 1].VALUE;
 
         }
 
@@ -7681,7 +8159,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public void FUNCTION_MOVE_GROUP_UP_DOWN(int posun)
+        public void FUNCTION_MOVE_GROUP_UP_DOWN(int posun, bool zmenit_i_v_seznamu_kol)
         {
 
 
@@ -7727,7 +8205,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 BIND_SELECTED_ROUND = _tmp_newround;
 
                 FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
-                FUNCTION_ROUNDS_LOAD_GROUPS(BIND_SELECTED_ROUND);
+                if (zmenit_i_v_seznamu_kol == true) { FUNCTION_ROUNDS_LOAD_GROUPS(BIND_SELECTED_ROUND); }
             }
 
 
@@ -7769,24 +8247,26 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
+            if (zmenit_i_v_seznamu_kol == true) {
 
 
-            for (int i = 0; i < MODEL_CONTEST_GROUPS.Count; i++)
-            {
-                MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
-            }
-            MODEL_CONTEST_GROUPS[BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
+                for (int i = 0; i < MODEL_CONTEST_GROUPS.Count; i++)
+                {
+                   MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                }
+                MODEL_CONTEST_GROUPS[BIND_SELECTED_GROUP - 1].ISSELECTED = "selected";
 
 
-            for (int i = 0; i < MODEL_CONTEST_ROUNDS.Count; i++)
-            {
+                for (int i = 0; i < MODEL_CONTEST_ROUNDS.Count; i++)
+                {
                 MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
+                }
+                MODEL_CONTEST_ROUNDS[BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
+
+
+                BIND_VIEWED_ROUND = _tmp_newround;
+                BIND_VIEWED_GROUP = _tmp_newgroup;
             }
-            MODEL_CONTEST_ROUNDS[BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
-
-
-            BIND_VIEWED_ROUND = _tmp_newround;
-            BIND_VIEWED_GROUP = _tmp_newgroup;
 
         }
 
@@ -8051,6 +8531,102 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
+
+
+        public async void FUNCTION_SACLOCK_CREATE_CLOCK(float seconds, int clockparams,bool timeout)
+        {
+            if (timeout is true) { await Task.Delay(110); }
+
+            _serialPortWrite("AT1+CNT=5,1,2,3,0,"+ clockparams + ","+seconds+",999", false);
+           
+
+        }
+
+        public async void FUNCTION_SACLOCK_SETTIMETO_CLOCK(int clockid, float seconds, bool timeout)
+        {
+            if (timeout is true) { await Task.Delay(110); }
+            Console.WriteLine("AT1+CNTSET=" + clockid + "," + seconds);
+            _serialPortWrite("AT1+CNTSET=" + clockid + "," + seconds, false);
+
+
+        }
+
+        public async void FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(float parametry, int clockid, bool timeout)
+        {
+            if (timeout is true) { await Task.Delay(110); }
+
+            _serialPortWrite("AT1+CNTO2=" + clockid + "," + parametry, false);
+
+
+        }
+
+        public async void FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(bool timeout)
+        {
+            if (timeout is true) { await Task.Delay(110); }
+
+            var datet = DateTime.Now;
+            int hodiny = datet.Hour * 60 * 60;
+            int minuty = datet.Minute * 60;
+            int sum = hodiny + minuty;
+            _serialPortWrite("AT1+CNT=65,25,2,1,0,136," + sum + ",0", false);
+
+
+        }
+
+
+        public async void FUNCTION_SACLOCK_CREATE_SMALLCLOCK(float seconds, int clockparams, bool timeout)
+        {
+            if (timeout is true) { await Task.Delay(110); }
+            _serialPortWrite("AT1+CNT=65,25,2,1,0," + clockparams + "," + seconds + ",0", false);
+
+
+
+        }
+
+
+        public async void FUNCTION_SACLOCK_DELETE_CLOCK(int clockid, bool timeout)
+        {
+            if (timeout is true) { await Task.Delay(110); }
+            _serialPortWrite("AT1+CNTDEL="+clockid, false);
+            
+        }
+
+        public async void FUNCTION_SACLOCK_COUNTDOWN(int clockid)
+        {
+        
+
+
+                _serialPortWrite("AT1+CNTDN=" + clockid, false);
+        
+
+        }
+
+        public async void FUNCTION_SACLOCK_COUNTUP(int clockid)
+        {
+//            await Task.Delay(101);
+
+            _serialPortWrite("AT1+CNTUP="+clockid, false);
+
+        }
+
+
+
+        public async void FUNCTION_SACLOCK_SETTEXT(int textid, string text)
+        {
+
+            _serialPortWrite("AT1+TEXTT=" + textid+ "," + text, false);
+        }
+
+
+        public async void FUNCTION_SACLOCK_STOPCOUNT(int clockid)
+        {
+
+
+
+            _serialPortWrite("AT1+CNTSTOP=" + clockid, false);
+
+
+        }
 
         public void FUNCTION_CLOCK_SET_STOPWATCH_TIME(int minuty, int vteriny)
         {

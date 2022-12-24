@@ -10,9 +10,9 @@ using System.IO;
 using NAudio;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
-
-
-
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SORGAIR
 {
@@ -65,40 +65,64 @@ namespace SORGAIR
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            SORGAIR.Properties.Settings.Default.Languagecode = "cs-CZ";
-            SORGAIR.Properties.Settings.Default.Save();
-            MetroWindow f2 = new WpfApp6.Core();
-            f2.Show(); // Shows Form2
-
-            this.Close();
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-            SORGAIR.Properties.Settings.Default.Languagecode = "en-US";
-            SORGAIR.Properties.Settings.Default.Save();
-
-            MetroWindow f2 = new WpfApp6.Core ();
-            f2.Show (); // Shows Form2
-
-            this.Close();
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            SORGAIR.Properties.Settings.Default.Languagecode = "sk-SK";
-            SORGAIR.Properties.Settings.Default.Save();
-
-            MetroWindow f2 = new WpfApp6.Core();
-            f2.Show();
-            this.Close();
-        }
-
        
+
+
+        private async void nacti_core(string jazyk)
+        {
+            var currentWindow = this;
+            var controller = await currentWindow.ShowProgressAsync("Starting", "SORG AIR is loading, please wait...");
+            controller.SetProgress(0.2);
+            await Task.Delay(1000);
+            SORGAIR.Properties.Settings.Default.Languagecode = jazyk;
+            SORGAIR.Properties.Settings.Default.Save();
+            controller.SetProgress(0.4);
+            await Task.Delay(1000);
+            MetroWindow f2 = new WpfApp6.Core();
+            controller.SetProgress(0.6);
+            controller.SetMessage("Done. Let's go flying...");
+            await Task.Delay(500);
+            controller.CloseAsync();
+            await Task.Delay(500);
+            all.Visibility = Visibility.Collapsed;
+            f2.Show(); // Shows Form2
+            this.Close();
+            await Task.Delay(100);
+            this.Close();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            MetroWindow f2 = new SORGAIR.exres();
+            f2.Show(); // Shows Form2
+        }
+
+        private void lang_cze(object sender, RoutedEventArgs e)
+        {
+            nacti_core("cs-CZ");
+
+        }
+
+        private void lang_svk(object sender, RoutedEventArgs e)
+        {
+            nacti_core("sk-SK");
+
+        }
+
+        private void lang_eng(object sender, RoutedEventArgs e)
+        {
+            nacti_core("en-US");
+        }
+
+        private void lang_ger(object sender, RoutedEventArgs e)
+        {
+            nacti_core("de-DE");
+
+        }
+
+        private void lang_hun(object sender, RoutedEventArgs e)
+        {
+            nacti_core("hu-HU");
+        }
     }
 }

@@ -84,7 +84,7 @@
                  
                   
                     Click="btn_draw_from_file_Click"
-                    IsEnabled="{Binding draw_from_file_enabled}" Height="76" Width="331">
+                    IsEnabled="{Binding draw_from_file_enabled}" Height="76" Width="278">
                     <iconPacks:PackIconModern
                         Width="30"
                         Height="30"
@@ -98,7 +98,7 @@
                    
                    
                     Click="btn_draw_random_Click"
-                    IsEnabled="{Binding CONTEST_LOCK}" Height="72" Width="265"  >
+                    IsEnabled="{Binding CONTEST_LOCK}" Height="72" Width="190"  >
                 <iconPacks:PackIconRPGAwesome
                         Width="30"
                         Height="30"
@@ -133,7 +133,7 @@
                         OffContent="Tisknout bez hlavičky"
                         OnContent="Tisknou s hlavičkou" />
 
-
+            <Button Click="Button_Click" FontSize="8">kontrola špatného rozlosování</Button>
         </StackPanel>
 
 

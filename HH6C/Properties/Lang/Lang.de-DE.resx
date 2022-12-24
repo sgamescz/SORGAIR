@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,48 +118,126 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="menu_audioandothers" xml:space="preserve">
-    <value>Audio a ostatní</value>
+    <value>Audio und Anderes</value>
   </data>
   <data name="menu_competitors" xml:space="preserve">
-    <value>Soutěžící</value>
+    <value>Teilnehmer</value>
   </data>
   <data name="menu_contest_settings" xml:space="preserve">
-    <value>Nastavení soutěže</value>
+    <value>Wettbewerb Einstellungen</value>
   </data>
   <data name="menu_detailstatistics" xml:space="preserve">
-    <value>Detaily a statistiky</value>
+    <value>Deteils und Statistik</value>
   </data>
   <data name="menu_finals" xml:space="preserve">
-    <value>Finále</value>
+    <value>Finale, Fly off</value>
   </data>
   <data name="menu_hardware" xml:space="preserve">
     <value>Hardware</value>
   </data>
   <data name="menu_homepage" xml:space="preserve">
-    <value>Úvod</value>
+    <value>Homepage</value>
   </data>
   <data name="menu_listofrounds" xml:space="preserve">
-    <value>Seznam kol</value>
+    <value>Liste der Runden</value>
   </data>
   <data name="menu_matrix" xml:space="preserve">
-    <value>Rozlosování</value>
+    <value>Startliste</value>
   </data>
   <data name="menu_online" xml:space="preserve">
-    <value>Online</value>
+    <value>online</value>
   </data>
   <data name="menu_results" xml:space="preserve">
-    <value>Základní výsledky</value>
-  </data>
-  <data name="menu_results_final" xml:space="preserve">
-    <value>Celkové výsledky</value>
-  </data>
-  <data name="menu_selectedflight" xml:space="preserve">
-    <value>Zvolený let</value>
+    <value>Ergebnis</value>
   </data>
   <data name="menu_selectedround" xml:space="preserve">
-    <value>Zvolené kolo</value>
+    <value>Ausgewählte Runde</value>
   </data>
   <data name="menu_teams" xml:space="preserve">
-    <value>Týmy</value>
+    <value>Teams, Mannschaften</value>
+  </data>
+  <data name="home_actualversionis" xml:space="preserve">
+    <value>Aktuelle Version</value>
+  </data>
+  <data name="home_createnewcontest" xml:space="preserve">
+    <value>Erstelle einen neuen Wettbewerb</value>
+  </data>
+  <data name="home_deleteselectedcontest" xml:space="preserve">
+    <value>Lösche ausgewählten Wettbewerb</value>
+  </data>
+  <data name="home_loadselectedcontest" xml:space="preserve">
+    <value>Lade ausgewählten Wettbewerb</value>
+  </data>
+  <data name="home_load_caption" xml:space="preserve">
+    <value>Laden, bitte warten</value>
+  </data>
+  <data name="home_load_complete" xml:space="preserve">
+    <value>fertig</value>
+  </data>
+  <data name="home_load_database" xml:space="preserve">
+    <value>Lade Daten</value>
+  </data>
+  <data name="home_load_details" xml:space="preserve">
+    <value>Lade Details</value>
+  </data>
+  <data name="home_load_rounds" xml:space="preserve">
+    <value>Lade Runden</value>
+  </data>
+  <data name="home_load_rules" xml:space="preserve">
+    <value>Lade Regeln</value>
+  </data>
+  <data name="home_load_sounds" xml:space="preserve">
+    <value>Lade Sounds</value>
+  </data>
+  <data name="home_load_users" xml:space="preserve">
+    <value>Lade  Nutzer</value>
+  </data>
+  <data name="home_newscount" xml:space="preserve">
+    <value>Neues</value>
+  </data>
+  <data name="home_yourversionis" xml:space="preserve">
+    <value>Ihre Version ist</value>
+  </data>
+  <data name="home_cannotbedeleted" xml:space="preserve">
+    <value>Kann nicht gelöscht werden</value>
+  </data>
+  <data name="home_cannotbedeletedbecauseisloaded" xml:space="preserve">
+    <value>Dieser Wettbewerb kann nicht gelöscht werden, da er aktuell geladen ist</value>
+  </data>
+  <data name="home_contest_deleting_question" xml:space="preserve">
+    <value>Wettbewerb wirklich löschen</value>
+  </data>
+  <data name="home_contest_deleting_title" xml:space="preserve">
+    <value>Wettbewerb wird gelöscht</value>
+  </data>
+  <data name="home_noteverythinkfilled" xml:space="preserve">
+    <value>Es ist nicht alles ausgefüllt</value>
+  </data>
+  <data name="home_nothing_selected_info" xml:space="preserve">
+    <value>Bitte auswählen, was gelöscht werden soll</value>
+  </data>
+  <data name="home_nothing_selected_title" xml:space="preserve">
+    <value>Nichts ausgewählt</value>
+  </data>
+  <data name="home_pleasefillallfields" xml:space="preserve">
+    <value>Bitte alle Felder ausfüllen</value>
+  </data>
+  <data name="home_thisnamealreadyexist" xml:space="preserve">
+    <value>Dieser Name besteht bereits</value>
+  </data>
+  <data name="home_wrongname" xml:space="preserve">
+    <value>Falscher Name</value>
+  </data>
+  <data name="menu_results_final" xml:space="preserve">
+    <value>End Ergebnis</value>
+  </data>
+  <data name="menu_selectedflight" xml:space="preserve">
+    <value>Ausgewählter Flug</value>
+  </data>
+  <data name="new_contest_manual" xml:space="preserve">
+    <value>Kreiere die Wettbewerbs Anleitung</value>
+  </data>
+  <data name="new_contest_internet" xml:space="preserve">
+    <value>Kreiere einen Wettbewerb aus dem Internet</value>
   </data>
 </root>

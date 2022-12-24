@@ -19,7 +19,7 @@ namespace SORGAIR.Properties.Lang {
     // pomocí nástroje podobného aplikaci ResGen nebo Visual Studio.
     // Chcete-li přidat nebo odebrat člena, upravte souboru .ResX a pak znovu spusťte aplikaci ResGen
     // s parametrem /str nebo znovu sestavte projekt aplikace Visual Studio.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Lang {
@@ -408,6 +408,24 @@ namespace SORGAIR.Properties.Lang {
         public static string menu_teams {
             get {
                 return ResourceManager.GetString("menu_teams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Create contest from internet.
+        /// </summary>
+        public static string new_contest_internet {
+            get {
+                return ResourceManager.GetString("new_contest_internet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Create contest manually.
+        /// </summary>
+        public static string new_contest_manual {
+            get {
+                return ResourceManager.GetString("new_contest_manual", resourceCulture);
             }
         }
     }

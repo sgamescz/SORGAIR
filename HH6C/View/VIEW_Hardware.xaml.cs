@@ -27,7 +27,7 @@ namespace WpfApp6.View
     public partial class Hardware : UserControl
     {
         
-        SerialPort _serialPort;
+        
         private MODEL_ViewModel VM => DataContext as MODEL_ViewModel;
 
 
@@ -44,18 +44,18 @@ namespace WpfApp6.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            _serialPort = new SerialPort(serialport.Text, 9600, Parity.None, 8, StopBits.One);
-            _serialPort.Handshake = Handshake.None;
-            _serialPort.DataReceived += DataReceivedHandler; //This is to add event handler delegate when data is received by the port
+            VM.pripojserialport(serialport.Text);
+            //VM._serialPort.Handshake = Handshake.None;
+            //VM._serialPort.DataReceived += VM.DataReceivedHandler; //This is to add event handler delegate when data is received by the port
 
             // Makes sure serial port is open before trying to write  
             try
             {
-                _serialPort.Open();
-                if (!(_serialPort.IsOpen))
-                    _serialPort.Open();
+                VM._RPI_serialPort.Open();
+                if (!(VM._RPI_serialPort.IsOpen))
+                    VM._RPI_serialPort.Open();
 
-                _serialPort.WriteLine("AT/r/n");
+                VM._RPI_serialPort.WriteLine("AT/r/n");
 
             }
             catch (Exception ex)
@@ -70,16 +70,14 @@ namespace WpfApp6.View
         {
             //VM.HW_ATI = "ABCD";
 
-            _serialPort.Close();
+            VM._RPI_serialPort.Close();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             try
             {
-                _serialPortWrite("AT+MEM\r");
-                _serialPortWrite("AT+UPTIME\r");
-                _serialPortWrite("AT+SN\r");
+                VM._serialPortWrite(serialport_command.Text, true);
 
 
             }
@@ -89,11 +87,7 @@ namespace WpfApp6.View
             }
         }
 
-        private void _serialPortWrite(string cozapsat)
-        {
-            Console.WriteLine("Zapisuji na seriový port:" + cozapsat);
-            _serialPort.Write(cozapsat);
-        }
+     
 
         private async void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -110,7 +104,7 @@ namespace WpfApp6.View
             string[] ports = SerialPort.GetPortNames();
 
             Console.WriteLine("The following serial ports were found:" + ports);
-            controller.SetMessage("Awaiable ports : " + string.Join(", ", ports));
+            controller.SetMessage("Avaiable ports : " + string.Join(", ", ports));
             await Task.Delay(1000);
 
             Console.WriteLine("[{0}]", string.Join(", ", ports));
@@ -122,41 +116,11 @@ namespace WpfApp6.View
                 controller.SetProgress(0.1);
                 controller.SetMessage("Checking port : " + port);
                 await Task.Delay(500);
-
-                _serialPort = new SerialPort();
-
-                _serialPort.ReadTimeout = 10;
-                _serialPort.WriteTimeout = 10;
-                _serialPort.Handshake = Handshake.None;
-                _serialPort.PortName = port;
-                _serialPort.BaudRate = 9600;
-                _serialPort.DataBits = 8;
-                _serialPort.StopBits = StopBits.One;
-                _serialPort.Parity = Parity.None;
-                _serialPort.DataReceived += DataReceivedHandler; //This is to add event handler delegate when data is received by the port
+                VM.pripojserialport(port);
+               
 
                 // Makes sure serial port is open before trying to write  
-                try
-                {
-                    _serialPort.Open();
-                    if (!(_serialPort.IsOpen))
-                        _serialPort.Open();
-                    Console.WriteLine("Serial port " + port + " is open");
-                    _serialPortWrite("ATI\r");
-                    _serialPortWrite("AT+SN\r");
-                    _serialPortWrite("AT+MEM\r");
-                    _serialPortWrite("AT+UPTIME\r");
-
-                    //_serialPort.Write("ATI\r");
-                    //_serialPort.Write("AT+SN\r");
-
-
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error opening/writing to serial port :: " + ex.Message, "Error!");
-                }
+              
 
 
             }
@@ -166,6 +130,28 @@ namespace WpfApp6.View
             if (VM.BINDING_HW_MENU_BASE is true)
             {
                 controller.SetMessage("SORG AIR Hardware found, great!");
+
+                VM._serialPortWrite("AT1+CLR", true);
+                await Task.Delay(200);
+                VM._serialPortWrite("AT1+TEXT=10,10,5,1,0,connected...", true);
+                await Task.Delay(1000);
+                VM._serialPortWrite("AT1+CLR", true);
+                await Task.Delay(100);
+                VM._serialPortWrite("AT1+TEXT=45,5,4,1,0,:)", true);
+                await Task.Delay(1000);
+                VM._serialPortWrite("AT1+CLR", true);
+                await Task.Delay(100);
+                VM._serialPortWrite("AT1+TEXT=1,25,2,1,0,R/G : 1/1", true);
+                await Task.Delay(100);
+                VM.FUNCTION_SACLOCK_CREATE_CLOCK(0,2,true);
+                await Task.Delay(100);
+                VM.FUNCTION_SACLOCK_CREATE_SMALLCLOCK_RTC(true);
+
+
+
+
+
+
             }
             else
             {
@@ -178,31 +164,6 @@ namespace WpfApp6.View
 
 
 
-
-        public void DataReceivedHandler(
-                       object sender,
-                       SerialDataReceivedEventArgs e)
-        {
-            SerialPort sp = (SerialPort)sender;
-            Console.WriteLine(sp.BytesToRead + "bytes to read");
-            while (sp.BytesToRead > 0)
-            {
-                Console.WriteLine("reading by line if bytestoread is greather than zero");
-
-                string indata = sp.ReadLine();
-                if (indata.Contains("Sorg HW")) { 
-                    this.Invoke(() => VM.HW_ATI = indata);
-                    this.Invoke(() => VM.BINDING_HW_MENU_BASE = true);
-                }
-                if (indata.Contains("+MEM")) { this.Invoke(() => VM.HW_ATIMEM = indata); }
-                if (indata.Contains("+UPTIME")) { this.Invoke(() => VM.HW_ATIUPTIME = indata); }
-                if (indata.Contains("+SN")) { this.Invoke(() => VM.HW_ATISN = indata); }
-                Console.WriteLine("Data Received:" + indata);
-            }
-
-
-            Console.Write("------------------\n");
-        }
 
         private void serialport_TextChanged(object sender, TextChangedEventArgs e)
         {

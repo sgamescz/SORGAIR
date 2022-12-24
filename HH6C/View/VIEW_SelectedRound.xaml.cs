@@ -54,8 +54,7 @@ namespace WpfApp6.View
             {
                 Console.WriteLine("yes");
 
-
-
+              
 
                 VM.clock_MAIN_stop();
 
@@ -79,7 +78,6 @@ namespace WpfApp6.View
             //   Console.WriteLine(VM.MODEL_CONTEST_SOUNDS_MAIN[i].VALUE.ToString() + " --- " + VM.MODEL_CONTEST_SOUNDS_MAIN[i].TEXTVALUE.ToString());
             //}
 
-         
 
 
             VM.clock_MAIN_start();
@@ -102,12 +100,12 @@ namespace WpfApp6.View
 
         private void Button_NEXT_ROUND(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_MOVE_GROUP_UP_DOWN(+1);
+            VM.FUNCTION_MOVE_GROUP_UP_DOWN(+1,false);
         }
 
         private void Button_PREW_ROUND(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_MOVE_GROUP_UP_DOWN(-1);
+            VM.FUNCTION_MOVE_GROUP_UP_DOWN(-1,false);
         }
 
         private void show_scoreentry_form()

@@ -281,6 +281,9 @@
     <Compile Include="Categoryeditor.xaml.cs">
       <DependentUpon>Categoryeditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="exres.xaml.cs">
+      <DependentUpon>exres.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LANGUAGESELECTOR.xaml.cs">
       <DependentUpon>LANGUAGESELECTOR.xaml</DependentUpon>
     </Compile>
@@ -359,6 +362,10 @@
     <Page Include="Categoryeditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="exres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LANGUAGESELECTOR.xaml">
       <SubType>Designer</SubType>
@@ -455,6 +462,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Lang\Lang.de-DE.resx" />
     <EmbeddedResource Include="Properties\Lang\Lang.en-US.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang.en-US.Designer.cs</LastGenOutput>
@@ -467,6 +475,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Lang\Lang.hu-HU.resx" />
     <EmbeddedResource Include="Properties\Lang\Lang.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang.Designer.cs</LastGenOutput>
@@ -506,6 +515,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="sorgairlogotransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\CZE.png" />
+    <Resource Include="Properties\ENG.png" />
+    <Resource Include="Properties\GER.png" />
+    <Resource Include="Properties\HUN.png" />
+    <Resource Include="Properties\SVK.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

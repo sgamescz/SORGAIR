@@ -89,15 +89,7 @@ namespace WpfApp6.View
         }
 
 
-        private void Button_NEXT_ROUND(object sender, RoutedEventArgs e)
-        {
-            VM.FUNCTION_MOVE_GROUP_UP_DOWN(+1);
-        }
-
-        private void Button_PREW_ROUND(object sender, RoutedEventArgs e)
-        {
-            VM.FUNCTION_MOVE_GROUP_UP_DOWN(-1);
-        }
+      
 
         private void show_scoreentry_form()
         {

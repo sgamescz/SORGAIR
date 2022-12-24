@@ -1312,7 +1312,14 @@
                                     Kind="RegularPrinter" />
                             </mah:Tile>
 
-
+                            <mah:ToggleSwitch
+                        Name="cut_levels"
+                        Width="298"
+                        Content="Začít další kolo na nové stránce"
+                        FontSize="12"
+                        IsOn="True"
+                        Margin="310,250,0,0" VerticalAlignment="Top" />
+                            
                             <mah:NumericUpDown
                                 x:Name="pocetnastranku2_updown"
                                 Width="314"

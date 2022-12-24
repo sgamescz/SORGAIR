@@ -710,7 +710,11 @@ namespace WpfApp6.View
 
                     }
 
-
+                 if (cut_levels.IsOn)
+                    {
+                        tmp_pocetnastranku = 0;
+                        html_body_complete = html_body_complete + "<div class='pagebreak'>---- ✂ ---- ✂ ---- cut here ---- ✂ ---- ✂ ----</div>";
+                    }
 
                 }
 

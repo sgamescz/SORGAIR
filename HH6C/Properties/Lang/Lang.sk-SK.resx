@@ -198,4 +198,46 @@
   <data name="home_yourversionis" xml:space="preserve">
     <value>Vaša verzia je</value>
   </data>
+  <data name="home_cannotbedeleted" xml:space="preserve">
+    <value>Nedá sa vymazať</value>
+  </data>
+  <data name="home_cannotbedeletedbecauseisloaded" xml:space="preserve">
+    <value>Túto súťaž nie je možné vymazať, pretože je teraz načítaná</value>
+  </data>
+  <data name="home_contest_deleting_question" xml:space="preserve">
+    <value>Naozaj odstrániť súťaž?</value>
+  </data>
+  <data name="home_contest_deleting_title" xml:space="preserve">
+    <value>Vymazanie súťaže</value>
+  </data>
+  <data name="home_noteverythinkfilled" xml:space="preserve">
+    <value>Nieje vyplnené všetko...</value>
+  </data>
+  <data name="home_nothing_selected_info" xml:space="preserve">
+    <value>Vyberte, čo chcete odstrániť</value>
+  </data>
+  <data name="home_nothing_selected_title" xml:space="preserve">
+    <value>Nieje nič vybrané</value>
+  </data>
+  <data name="home_pleasefillallfields" xml:space="preserve">
+    <value>Vyplňte všetky polia</value>
+  </data>
+  <data name="home_thisnamealreadyexist" xml:space="preserve">
+    <value>Tento názov už existuje</value>
+  </data>
+  <data name="home_wrongname" xml:space="preserve">
+    <value>Nesprávne meno</value>
+  </data>
+  <data name="menu_results_final" xml:space="preserve">
+    <value>Konečné výsledky</value>
+  </data>
+  <data name="menu_selectedflight" xml:space="preserve">
+    <value>Vybraný let</value>
+  </data>
+  <data name="new_contest_manual" xml:space="preserve">
+    <value>Manuálne vytvorenie súťaže</value>
+  </data>
+  <data name="new_contest_internet" xml:space="preserve">
+    <value>Vytvorte súťaž z internetu</value>
+  </data>
 </root>

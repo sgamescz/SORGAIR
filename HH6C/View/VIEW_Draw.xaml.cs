@@ -355,74 +355,89 @@ namespace WpfApp6.View
                         System.Console.WriteLine($"<{udaj}>");
                     }
 
-                    var controller = await currentWindow.ShowProgressAsync("Přesouvám", "Přesouvám zvolené soutěžící");
-                    await Task.Delay(300);
-                    controller.SetProgress(0);
-
-
-                    //VM.SQL_SAVESOUTEZDATA("update score set grp=" + udaje[1] + ",stp=" + udaje[2] + " where userid=" + udaje2[3] + " and rnd=" + udaje[0]);
-                    //VM.SQL_SAVESOUTEZDATA("update score set grp=" + udaje2[1] + ",stp=" + udaje2[2] + " where userid=" + udaje[3] + " and rnd=" + udaje2[0]);
-
-                    //VM.SQL_SAVESOUTEZDATA("update matrix set grp=" + udaje[1] + ",stp=" + udaje[2] + " where user=" + udaje2[3] + " and rnd=" + udaje[0] );
-                    //VM.SQL_SAVESOUTEZDATA("update matrix set grp=" + udaje2[1] + ",stp=" + udaje2[2] + " where user=" + udaje[3] + " and rnd=" + udaje2[0]);
-
-                    string entered1 = VM.SQL_READSOUTEZDATA("select entered from score  where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2] + ";","");
-                    string entered2 = VM.SQL_READSOUTEZDATA("select entered from score where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2] + ";", "");
-
-                    controller.SetProgress(0.1);
-
-                    VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje2[3] + " where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
-                    VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje[3] + " where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
-                    VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje2[3] + ", entered= '"+ entered2 +"' where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
-                    VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje[3] + ", entered = '"+ entered1 +"' where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
-
-
-                    controller.SetProgress(0.6);
-
-
-
-
-                    VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
-                    matrix_switch_user2 = "";
-                    matrix_switch_user1 = "";
-
-                    controller.SetProgress(0.7);
-
-
-                    if ((VM.BIND_SELECTED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_SELECTED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje2[1].ToString())))
+                    if (udaje[0] == udaje2[0])
                     {
-                        Console.WriteLine("je treba překreslit LETENOU skupinu");
-                        VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
-                    }
-                    else
-                    {
-                        Console.WriteLine("nepřekreslovat LETENOU");
-                    }
+
+                        var controller = await currentWindow.ShowProgressAsync("Přesouvám", "Přesouvám zvolené soutěžící");
+                        await Task.Delay(300);
+                        controller.SetProgress(0);
+
+
+                        //VM.SQL_SAVESOUTEZDATA("update score set grp=" + udaje[1] + ",stp=" + udaje[2] + " where userid=" + udaje2[3] + " and rnd=" + udaje[0]);
+                        //VM.SQL_SAVESOUTEZDATA("update score set grp=" + udaje2[1] + ",stp=" + udaje2[2] + " where userid=" + udaje[3] + " and rnd=" + udaje2[0]);
+
+                        //VM.SQL_SAVESOUTEZDATA("update matrix set grp=" + udaje[1] + ",stp=" + udaje[2] + " where user=" + udaje2[3] + " and rnd=" + udaje[0] );
+                        //VM.SQL_SAVESOUTEZDATA("update matrix set grp=" + udaje2[1] + ",stp=" + udaje2[2] + " where user=" + udaje[3] + " and rnd=" + udaje2[0]);
+
+                        string entered1 = VM.SQL_READSOUTEZDATA("select entered from score  where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2] + ";", "");
+                        string entered2 = VM.SQL_READSOUTEZDATA("select entered from score where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2] + ";", "");
+
+                        controller.SetProgress(0.1);
+
+                        VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje2[3] + " where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
+                        VM.SQL_SAVESOUTEZDATA("update matrix set user=" + udaje[3] + " where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
+                        VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje2[3] + ", entered= '" + entered2 + "' where rnd=" + udaje[0] + " and grp=" + udaje[1] + " and stp=" + udaje[2]);
+                        VM.SQL_SAVESOUTEZDATA("update score set userid=" + udaje[3] + ", entered = '" + entered1 + "' where rnd=" + udaje2[0] + " and grp=" + udaje2[1] + " and stp=" + udaje2[2]);
+
+
+                        controller.SetProgress(0.6);
 
 
 
-                    if ((VM.BIND_VIEWED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_VIEWED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_VIEWED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_VIEWED_GROUP == int.Parse(udaje2[1].ToString())))
-                    {
-                        Console.WriteLine("je treba překreslit zobrazenou skupinu");
+
+                        VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                        matrix_switch_user2 = "";
+                        matrix_switch_user1 = "";
+
+                        controller.SetProgress(0.7);
 
 
-                        VM.BIND_VIEWED_GROUP = VM.BIND_VIEWED_GROUP;
-
-                        for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                        if ((VM.BIND_SELECTED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_SELECTED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_SELECTED_GROUP == int.Parse(udaje2[1].ToString())))
                         {
-                            VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                            Console.WriteLine("je treba překreslit LETENOU skupinu");
+                            VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
                         }
-                        VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
+                        else
+                        {
+                            Console.WriteLine("nepřekreslovat LETENOU");
+                        }
+
+
+
+                        if ((VM.BIND_VIEWED_ROUND == int.Parse(udaje[0].ToString()) & VM.BIND_VIEWED_GROUP == int.Parse(udaje[1].ToString())) | (VM.BIND_VIEWED_ROUND == int.Parse(udaje2[0].ToString()) & VM.BIND_VIEWED_GROUP == int.Parse(udaje2[1].ToString())))
+                        {
+                            Console.WriteLine("je treba překreslit zobrazenou skupinu");
+
+
+                            VM.BIND_VIEWED_GROUP = VM.BIND_VIEWED_GROUP;
+
+                            for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                            {
+                                VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                            }
+                            VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
+
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("nepřekreslovat");
+                        }
+
+                        controller.SetProgress(1);
+                        controller.CloseAsync();
 
 
                     }
                     else
                     {
-                        Console.WriteLine("nepřekreslovat");
+                        await currentWindow.ShowMessageAsync("Nelze přesouvat", "Nelze přesouvat soutěžící mezi koly!!");
+                        VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                        matrix_switch_user2 = "";
+                        matrix_switch_user1 = "";
+
                     }
 
-                    controller.SetProgress(1);
-                    controller.CloseAsync();
                 }
             }
 
@@ -566,14 +581,64 @@ Kolo : {x}
 
         }
 
-        private void btn_draw_from_file_Click(object sender, RoutedEventArgs e)
+        private async void btn_draw_from_file_Click(object sender, RoutedEventArgs e)
         {
-            create_matrix(true);
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Rozlosovat?", "Opravdu losovat ? Dojde k vymazání aktuálního rozlosování a případných výsledků", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative)
+            {
+                create_matrix(true);
+
+            }
         }
 
-        private void btn_draw_random_Click(object sender, RoutedEventArgs e)
+        private async void btn_draw_random_Click(object sender, RoutedEventArgs e)
         {
-            create_matrix(false);
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Rozlosovat?", "Opravdu losovat ? Dojde k vymazání aktuálního rozlosování a případných výsledků", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative){
+                create_matrix(false);
+
+            }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+
+            int kolikrattamje = 0;
+            bool bylachyba = false;
+
+            for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+
+            {
+
+                for (var i = 0; i < VM.Players.Count; i++)
+                {
+                    kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count (rnd),user from matrix where user="+ VM.Players[i].ID+" and rnd=" + x + " and grp<="+VM.BIND_SQL_SOUTEZ_GROUPS, ""));
+                    if (kolikrattamje != 1)
+                    {
+                        bylachyba = true;
+                        var controllerx = await currentWindow.ShowMessageAsync("Kontrola", "ERRR: " + VM.Players[i].LASTNAME + " je v kole " + x + " : " + kolikrattamje + "krát");
+                    }
+
+                }
+
+
+
+            }
+
+            if (bylachyba is true)
+            {
+                var controller = await currentWindow.ShowMessageAsync("Kontrola", "Kontrola dokončena. Chyby v rozlosování byly vypsány");
+            }
+            else
+            {
+                var controller = await currentWindow.ShowMessageAsync("Kontrola", "Vše v pořádku a bez chyb :)");
+            }
+
         }
     }
 }

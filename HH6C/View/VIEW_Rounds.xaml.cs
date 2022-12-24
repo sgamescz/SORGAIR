@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WpfApp6.Model;
 using System.Globalization;
-
+using System.Threading.Tasks;
 
 namespace WpfApp6.View
 {
@@ -77,10 +77,14 @@ namespace WpfApp6.View
             
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
         {
+
             VM.BIND_SELECTED_ROUND = VM.BIND_VIEWED_ROUND;
             VM.BIND_SELECTED_GROUP = VM.BIND_VIEWED_GROUP;
+
+            await Task.Delay(500);
+
             VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
             int _tmp_selected_group = VM.BIND_SELECTED_GROUP;
             int _tmp_selected_round = VM.BIND_SELECTED_ROUND;
@@ -103,12 +107,12 @@ namespace WpfApp6.View
 
         private void Button_NEXT_ROUND(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_MOVE_GROUP_UP_DOWN(+1);
+            VM.FUNCTION_MOVE_GROUP_UP_DOWN(+1,true);
         }
 
         private void Button_PREW_ROUND(object sender, RoutedEventArgs e)
         {
-            VM.FUNCTION_MOVE_GROUP_UP_DOWN(-1);
+            VM.FUNCTION_MOVE_GROUP_UP_DOWN(-1,true);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)

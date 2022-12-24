@@ -369,7 +369,7 @@
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
 
                                     <Controls:Tile
-                                        Title="Vytvoření soutěže ručně"
+                                        Title="{x:Static language:Lang.new_contest_manual}"
                                         Width="Auto"
                                         Height="Auto"
                                         Margin="10,105,372,10"

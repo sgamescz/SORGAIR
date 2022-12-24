@@ -53,7 +53,7 @@ namespace WpfApp6.View
             
             var currentWindow = this.TryFindParent<MetroWindow>();
 
-            if (VM.BINDING_SELECTED_AGECAT_ID == 99 & pocetnesenioru > 0)
+            if (VM.BINDING_SELECTED_AGECAT_ID == 99 & pocetnesenioru >= 3)
             {
 
                 var result = await currentWindow.ShowMessageAsync("Věkové kategorie", "Je 3 a více soutěžících v neseniorské věkové kategorii. " +
@@ -156,16 +156,37 @@ namespace WpfApp6.View
 
             //VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
 
+            //for (int s = 0; s < VM.BIND_SQL_SOUTEZ_DELETES; s++)
+            //{
+
+
+              //  string tmp_kolo_pro_skracku;
+                //for (int i = 0; i < VM.Players.Count(); i++)
+               // {
+
+                 //   tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
+                    //VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
+
+                //}
+
+            //}
+
+
+
+            VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
+
             for (int s = 0; s < VM.BIND_SQL_SOUTEZ_DELETES; s++)
             {
 
 
                 string tmp_kolo_pro_skracku;
+                string tmp_grp_pro_skracku;
                 for (int i = 0; i < VM.Players.Count(); i++)
                 {
 
-                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
-                    //VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100", "");
+                    tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100", "");
+                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and grp='" + tmp_grp_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }
 
@@ -574,6 +595,8 @@ namespace WpfApp6.View
 
             VM._ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = true;
 
+
+
             VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
 
             for (int s = 0; s < VM.BIND_SQL_SOUTEZ_DELETES; s++)
@@ -581,11 +604,13 @@ namespace WpfApp6.View
 
 
                 string tmp_kolo_pro_skracku;
+                string tmp_grp_pro_skracku;
                 for (int i = 0; i < VM.Players.Count(); i++)
                 {
 
-                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
-                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100" , "");
+                    tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100" , "");
+                    VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and grp='" + tmp_grp_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }
 
