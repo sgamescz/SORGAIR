@@ -25,7 +25,7 @@ using System.IO;
 using System.Net.Cache;
 using System.Net;
 using Microsoft.Win32;
-
+using SORGAIR.Properties.Lang;
 
 namespace WpfApp6
 {
@@ -48,9 +48,8 @@ namespace WpfApp6
             var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
 
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
-
-
             Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(langcode);
 
             InitializeComponent();
             VM.SQL_OPENCONNECTION("SORG");

@@ -117,6 +117,63 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="age_cat" xml:space="preserve">
+    <value>Age categories</value>
+  </data>
+  <data name="age_cat_all" xml:space="preserve">
+    <value>All age categories</value>
+  </data>
+  <data name="age_cat_juniors" xml:space="preserve">
+    <value>Junior age category</value>
+  </data>
+  <data name="age_cat_pup" xml:space="preserve">
+    <value>Puppil age category</value>
+  </data>
+  <data name="age_cat_seniors" xml:space="preserve">
+    <value>Senior age category</value>
+  </data>
+  <data name="available_positions" xml:space="preserve">
+    <value>Available positions</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="checking" xml:space="preserve">
+    <value>Checking...</value>
+  </data>
+  <data name="choose_category" xml:space="preserve">
+    <value>Choose category</value>
+  </data>
+  <data name="choose_contest_type_text" xml:space="preserve">
+    <value>Please choose whether you want to create the contest manually or download it from the web</value>
+  </data>
+  <data name="choose_source" xml:space="preserve">
+    <value>Choose source</value>
+  </data>
+  <data name="contest_location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="contest_name" xml:space="preserve">
+    <value>Contest name</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="create_this_contest" xml:space="preserve">
+    <value>Create this contest</value>
+  </data>
+  <data name="enter_contest_location" xml:space="preserve">
+    <value>Enter contest location</value>
+  </data>
+  <data name="enter_contest_name" xml:space="preserve">
+    <value>Enter contest name</value>
+  </data>
+  <data name="flight_time" xml:space="preserve">
+    <value>Flight time</value>
+  </data>
+  <data name="flight_time_will_start_in" xml:space="preserve">
+    <value>Flight time will start in</value>
+  </data>
   <data name="home_actualversionis" xml:space="preserve">
     <value>Actual version is</value>
   </data>
@@ -234,10 +291,52 @@
   <data name="menu_teams" xml:space="preserve">
     <value>Teams</value>
   </data>
+  <data name="meters" xml:space="preserve">
+    <value>Meters</value>
+  </data>
+  <data name="minutes" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="new_contest" xml:space="preserve">
+    <value>New contest</value>
+  </data>
   <data name="new_contest_internet" xml:space="preserve">
     <value>Create contest from internet</value>
   </data>
   <data name="new_contest_manual" xml:space="preserve">
     <value>Create contest manually</value>
+  </data>
+  <data name="next_flight" xml:space="preserve">
+    <value>Next Flight</value>
+  </data>
+  <data name="no_next_flight" xml:space="preserve">
+    <value>No next flight does not exist</value>
+  </data>
+  <data name="no_prew_flight" xml:space="preserve">
+    <value>No previous flight does not exist</value>
+  </data>
+  <data name="preparation_time" xml:space="preserve">
+    <value>Preparation time</value>
+  </data>
+  <data name="prew_flight" xml:space="preserve">
+    <value>Previous flight</value>
+  </data>
+  <data name="remaining" xml:space="preserve">
+    <value>remaining</value>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>Seconds</value>
+  </data>
+  <data name="tag_new_contest_date" xml:space="preserve">
+    <value>Date|Competition date|BIND_NEWCONTEST_DATE</value>
+  </data>
+  <data name="tag_new_contest_name" xml:space="preserve">
+    <value>Contest Name|Enter Contest Name|BIND_NEWCONTEST_NAME</value>
+  </data>
+  <data name="tag_new_contest_place" xml:space="preserve">
+    <value>Location|Enter contest location|BIND_NEWCONTEST_LOCATION</value>
+  </data>
+  <data name="where_contest_will_be" xml:space="preserve">
+    <value>Where contest will be</value>
   </data>
 </root>

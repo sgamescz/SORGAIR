@@ -14,6 +14,7 @@ using System.Text;
 using System.IO;
 using System.IO.Ports;
 using System.Threading.Tasks;
+using SORGAIR.Properties.Lang;
 
 namespace WpfApp6.Model
 {
@@ -1129,7 +1130,7 @@ namespace WpfApp6.Model
                     TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_MAX);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                     TimeSpan rozdil = time_remaining.Subtract(totalsec);
-                    letovycas = "Letový čas začne za: " + rozdil.ToString("mm':'ss':'ff");
+                    letovycas = Lang.flight_time_will_start_in + ": " + rozdil.ToString("mm':'ss':'ff");
                 }
                 else
                 {
@@ -1137,7 +1138,7 @@ namespace WpfApp6.Model
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                     TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
 
-                    letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+                    letovycas = Lang.flight_time+ ": " + elapsed.ToString("mm':'ss':'ff") + " (" + Lang.remaining + ": " + rozdil2.ToString("mm':'ss':'ff") + ")";
                 }
                 //BIND_CAS_DO_MENU = letovycas;
                 return letovycas;
@@ -1159,7 +1160,7 @@ namespace WpfApp6.Model
                 TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                 TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
 
-                letovycas = "Přípravný čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+                letovycas = Lang.preparation_time + ": " + elapsed.ToString("mm':'ss':'ff") + " (" + Lang.remaining + ": " + rozdil2.ToString("mm':'ss':'ff") + ")";
 
 
                 //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
@@ -1189,7 +1190,7 @@ namespace WpfApp6.Model
                     TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_FINAL_LETOVYCAS_MAX);
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                     TimeSpan rozdil = time_remaining.Subtract(totalsec);
-                    letovycas = "Letový čas začne za: " + rozdil.ToString("mm':'ss':'ff");
+                    letovycas = Lang.flight_time_will_start_in + ": " + rozdil.ToString("mm':'ss':'ff");
                 }
                 else
                 {
@@ -1197,7 +1198,7 @@ namespace WpfApp6.Model
                     TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                     TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
 
-                    letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+                    letovycas = Lang.flight_time + ": " + elapsed.ToString("mm':'ss':'ff") + " ("+ Lang.remaining +" : " + rozdil2.ToString("mm':'ss':'ff") + ")";
                 }
 
                 return letovycas;
@@ -1219,7 +1220,7 @@ namespace WpfApp6.Model
                 TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                 TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
 
-                letovycas = "Přípravný čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+                letovycas = Lang.preparation_time+ ": " + elapsed.ToString("mm':'ss':'ff") + " (" + Lang.remaining + ": " + rozdil2.ToString("mm':'ss':'ff") + ")";
 
 
                 //                Console.WriteLine(elapsed.ToString("mm':'ss':'f"));
@@ -1944,7 +1945,7 @@ namespace WpfApp6.Model
 
 
 
-        private string _BIND_NEWS_COUNT_ACTUAL = "Checking...";
+        private string _BIND_NEWS_COUNT_ACTUAL = Lang.checking;
         public string BIND_NEWS_COUNT_ACTUAL
         {
             get
@@ -1967,7 +1968,7 @@ namespace WpfApp6.Model
 
         }
 
-        private string _BIND_NEWS_COUNT_NEXT = "Checking...";
+        private string _BIND_NEWS_COUNT_NEXT = Lang.checking;
         public string BIND_NEWS_COUNT_NEXT
         {
             get
@@ -1991,13 +1992,13 @@ namespace WpfApp6.Model
         }
 
 
-        private string _BIND_VERZE_SORGU_LAST = "Checking...";
+        private string _BIND_VERZE_SORGU_LAST = Lang.checking;
         public string BIND_VERZE_SORGU_LAST
         {
             get
             {
                 OnPropertyChanged("BIND_VERZE_SORGU_NEEDUPDATE");
-                return SORGAIR.Properties.Lang.Lang.home_actualversionis + " : " + _BIND_VERZE_SORGU_LAST;
+                return Lang.home_actualversionis + " : " + _BIND_VERZE_SORGU_LAST;
             }
 
             set
@@ -2019,7 +2020,7 @@ namespace WpfApp6.Model
                 {
                     _BIND_VERZE_SORGU_NEEDUPDATE = "0";
                 }
-                if (_BIND_VERZE_SORGU_LAST == "Checking...")
+                if (_BIND_VERZE_SORGU_LAST == Lang.checking)
                 {
                     _BIND_VERZE_SORGU_NEEDUPDATE = "-";
                 }
@@ -2038,7 +2039,7 @@ namespace WpfApp6.Model
 
 
 
-        private string _BIND_VERZE_SORGU = " Checking...";
+        private string _BIND_VERZE_SORGU = Lang.checking;
         public string BIND_VERZE_SORGU
         {
             get
@@ -2639,7 +2640,7 @@ namespace WpfApp6.Model
         }
         public string BIND_SQL_SOUTEZ_NAZEV
         {
-            get { return "Název soutěže : " + BIND_SQL_SOUTEZ_NAZEV_value; }
+            get { return Lang.contest_name+ " : " + BIND_SQL_SOUTEZ_NAZEV_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Name'"); BIND_SQL_SOUTEZ_NAZEV_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_NAZEV"); }
         }
         private string _BIND_SQL_SOUTEZ_DBFILE;
@@ -2650,7 +2651,7 @@ namespace WpfApp6.Model
         }
         public string BIND_SQL_SOUTEZ_LOKACE
         {
-            get { return "Lokace : " + BIND_SQL_SOUTEZ_LOKACE_value; }
+            get { return Lang.contest_location+ " : " + BIND_SQL_SOUTEZ_LOKACE_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Location'"); BIND_SQL_SOUTEZ_LOKACE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_LOKACE"); }
         }
 
@@ -2664,14 +2665,14 @@ namespace WpfApp6.Model
         }
 
 
-        private string _BIND_NEWCONTEST_NAME = "Nová soutěž";
+        private string _BIND_NEWCONTEST_NAME = Lang.new_contest;
         public string BIND_NEWCONTEST_NAME
         {
             get { return _BIND_NEWCONTEST_NAME; }
             set { _BIND_NEWCONTEST_NAME = value; OnPropertyChanged("BIND_NEWCONTEST_NAME"); }
         }
 
-        private string _BIND_NEWCONTEST_LOCATION = "Kde soutěž bude";
+        private string _BIND_NEWCONTEST_LOCATION = Lang.where_contest_will_be;
         public string BIND_NEWCONTEST_LOCATION
         {
             get { return _BIND_NEWCONTEST_LOCATION; }
@@ -2705,7 +2706,7 @@ namespace WpfApp6.Model
 
 
 
-        private string _BIND_NEWCONTEST_NAME_ONLINE = "Nová soutěž";
+        private string _BIND_NEWCONTEST_NAME_ONLINE = Lang.new_contest;
         public string BIND_NEWCONTEST_NAME_ONLINE
         {
             get { return _BIND_NEWCONTEST_NAME_ONLINE; }
@@ -2728,7 +2729,7 @@ namespace WpfApp6.Model
         }
 
 
-        private string _BIND_NEWCONTEST_LOCATION_ONLINE = "Kde soutěž bude";
+        private string _BIND_NEWCONTEST_LOCATION_ONLINE = Lang.where_contest_will_be;
         public string BIND_NEWCONTEST_LOCATION_ONLINE
         {
             get { return _BIND_NEWCONTEST_LOCATION_ONLINE; }
@@ -3099,7 +3100,7 @@ namespace WpfApp6.Model
 
 
 
-        private string _BINDING_SELECTED_AGECAT = "Všechny věkové kategorie";
+        private string _BINDING_SELECTED_AGECAT = Lang.age_cat_all;
         public string BINDING_SELECTED_AGECAT
         {
             get { return _BINDING_SELECTED_AGECAT; }
@@ -3107,10 +3108,10 @@ namespace WpfApp6.Model
             set
             {
                 _BINDING_SELECTED_AGECAT = value;
-                if (value == "Všechny věkové kategorie"){ BINDING_SELECTED_AGECAT_ID = 99; }
-                if (value == "Senioři") { BINDING_SELECTED_AGECAT_ID = 0; }
-                if (value == "Junioři") { BINDING_SELECTED_AGECAT_ID = 1; }
-                if (value == "Žáci") { BINDING_SELECTED_AGECAT_ID = 2; }
+                if (value == Lang.age_cat_all){ BINDING_SELECTED_AGECAT_ID = 99; }
+                if (value == Lang.age_cat_seniors) { BINDING_SELECTED_AGECAT_ID = 0; }
+                if (value == Lang.age_cat_juniors) { BINDING_SELECTED_AGECAT_ID = 1; }
+                if (value == Lang.age_cat_pup) { BINDING_SELECTED_AGECAT_ID = 2; }
 
                 OnPropertyChanged("BINDING_SELECTED_AGECAT");
                 OnPropertyChanged("BINDING_SELECTED_AGECAT_ID");
@@ -3148,7 +3149,7 @@ namespace WpfApp6.Model
 
         public List<String> agecatitems
         {
-            get { return new List<String> { "Všechny věkové kategorie", "Senioři", "Junioři", "Žáci" }; }
+            get { return new List<String> { Lang.age_cat_all, Lang.age_cat_seniors, Lang.age_cat_juniors, Lang.age_cat_pup }; }
         }
 
 
@@ -6280,7 +6281,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 TimeSpan time_remaining = TimeSpan.FromSeconds(BIND_LETOVYCAS_MAX);
                 TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                 TimeSpan rozdil = time_remaining.Subtract(totalsec);
-                letovycas = "Letový čas začne za: " + rozdil.ToString("mm':'ss':'ff");
+                letovycas = Lang.flight_time_will_start_in+ ": " + rozdil.ToString("mm':'ss':'ff");
             }
             else
             {
@@ -6288,7 +6289,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 TimeSpan totalsec = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds);
                 TimeSpan rozdil2 = time_remaining.Subtract(totalsec);
 
-                letovycas = "Letový čas : " + elapsed.ToString("mm':'ss':'ff") + " (zbývá : " + rozdil2.ToString("mm':'ss':'ff") + ")";
+                letovycas = Lang.flight_time +": " + elapsed.ToString("mm':'ss':'ff") + " ("+ Lang.remaining+" : " + rozdil2.ToString("mm':'ss':'ff") + ")";
             }
 
 
@@ -7637,7 +7638,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 var groups = new MODEL_Contest_Groups()
                 {
                     ID = i,
-                    GROUPNAME = "Volných pozic: "+ pocetpraznychpozic,
+                    GROUPNAME = Lang.available_positions + ": "+ pocetpraznychpozic,
                     GROUPTYPE = pocetpraznychpozic,
                     GROUPLENGHT = 1,
                     GROUPZADANO = int.Parse(pocetpraznychpozic)
@@ -7988,7 +7989,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             for (int i = 0; i < 16; i++)
             {
-                BINDING_Timer_listofminutes.Add(new Timer_minutes_seconds() { Value = i, Text = i+" Minut" });
+                BINDING_Timer_listofminutes.Add(new Timer_minutes_seconds() { Value = i, Text = i+" " + Lang.minutes });
             }
 
         }
@@ -8001,7 +8002,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             for (int i = 0; i < 60; i++)
             {
-                BINDING_Timer_listofseconds.Add(new Timer_minutes_seconds() { Value = i, Text = i+" vteřin" });
+                BINDING_Timer_listofseconds.Add(new Timer_minutes_seconds() { Value = i, Text = i+" "+Lang.seconds });
             }
 
         }
@@ -8014,7 +8015,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             for (int i = 0; i < 1000; i++)
             {
-                BINDING_Timer_listofheights.Add(new Timer_minutes_seconds() { Value = i, Text = i + " metrů" });
+                BINDING_Timer_listofheights.Add(new Timer_minutes_seconds() { Value = i, Text = i + " "+Lang.meters });
             }
 
         }
@@ -8197,7 +8198,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-            BIND_PREWROUND_TEXT = "yPředchozí let : " + _tmp_selected_round_down + " / " + _tmp_selected_group_down;
+            BIND_PREWROUND_TEXT = Lang.prew_flight+ " : " + _tmp_selected_round_down + " / " + _tmp_selected_group_down;
 
             if (_tmp_newround < BIND_SQL_SOUTEZ_ROUNDS + 1 && _tmp_newround > 0)
             {
@@ -8212,17 +8213,17 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             if (_tmp_selected_round_up > BIND_SQL_SOUTEZ_ROUNDS)
             {
-                BIND_NEXTROUND_TEXT = "Žádný další let neexistuje";
+                BIND_NEXTROUND_TEXT = Lang.no_next_flight;
 
                 if (_tmp_selected_round_up == BIND_SQL_SOUTEZ_ROUNDS + 1)
                 {
-                   BIND_PREWROUND_TEXT = "xPředchozí let : " + BIND_SQL_SOUTEZ_ROUNDS + " / " + (BIND_SQL_SOUTEZ_GROUPS - 1);
+                   BIND_PREWROUND_TEXT = Lang.prew_flight+ " : " + BIND_SQL_SOUTEZ_ROUNDS + " / " + (BIND_SQL_SOUTEZ_GROUPS - 1);
                 }
 
             }
             else
             {
-                BIND_NEXTROUND_TEXT = "Další let : " + _tmp_selected_round_up + " / " + _tmp_selected_group_up;
+                BIND_NEXTROUND_TEXT = Lang.next_flight+ " : " + _tmp_selected_round_up + " / " + _tmp_selected_group_up;
             }
 
             Console.WriteLine("_tmp_selected_round_down" + _tmp_selected_round_down);
@@ -8234,11 +8235,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             if (_tmp_selected_round_down < 1)
             {
-                BIND_PREWROUND_TEXT = "Žádný předchozí let neexistuje";
+                BIND_PREWROUND_TEXT = Lang.no_prew_flight;
 
                 if (_tmp_selected_round_down == 0)
                 {
-                    BIND_NEXTROUND_TEXT = "Další let : 1 / 2";
+                    BIND_NEXTROUND_TEXT = Lang.next_flight+ " : 1 / 2";
                 }
             }
 

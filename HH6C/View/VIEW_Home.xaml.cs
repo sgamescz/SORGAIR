@@ -12,7 +12,7 @@ using System.Net;
 using System.IO;
 using System.Net.Cache;
 using System.Globalization;
-
+using SORGAIR.Properties.Lang;
 
 namespace WpfApp6.View
 {
@@ -100,9 +100,18 @@ namespace WpfApp6.View
 
         public async void thread_getsorgversion()
         {
-            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = "Checking...");
-            this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL = "Checking...");
-            this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT = "Checking...");
+
+            var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
+
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
+            Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(langcode);
+
+
+
+            this.Invoke(() => VM.BIND_VERZE_SORGU_LAST = Lang.checking);
+            this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL = Lang.checking);
+            this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT = Lang.checking);
             this.Invoke(() => VM.BIND_NEWS_COUNT_NEXT_NEEDUPDATE = "-");
             this.Invoke(() => VM.BIND_NEWS_COUNT_ACTUAL_NEEDUPDATE = "-");
 
@@ -312,9 +321,9 @@ namespace WpfApp6.View
             VM.FUNCTION_LOAD_CATEGORIES();
             VM.FUNCTION_LOAD_CALENDARSOURCES();
             VM.SQL_CLOSECONNECTION("RULES");
-            VM.BIND_NEWCONTEST_NAME = "Zadej název";
+            VM.BIND_NEWCONTEST_NAME = Lang.enter_contest_name;
             VM.BIND_NEWCONTEST_CATEGORY = "---";
-            VM.BIND_NEWCONTEST_LOCATION = "Zadej lokaci";
+            VM.BIND_NEWCONTEST_LOCATION = Lang.enter_contest_location;
 
             newcontest.IsOpen = true;
         }
@@ -323,7 +332,7 @@ namespace WpfApp6.View
         {
             var currentWindow = this.TryFindParent<MetroWindow>();
 
-            if (VM.BIND_NEWCONTEST_NAME == "Zadej název" || VM.BIND_NEWCONTEST_LOCATION == "Zadej lokaci" || VM.BIND_NEWCONTEST_CATEGORY == "---")
+            if (VM.BIND_NEWCONTEST_NAME == Lang.enter_contest_name || VM.BIND_NEWCONTEST_LOCATION == Lang.enter_contest_location || VM.BIND_NEWCONTEST_CATEGORY == "---")
             {
                 await currentWindow.ShowMessageAsync(SORGAIR.Properties.Lang.Lang.home_noteverythinkfilled, SORGAIR.Properties.Lang.Lang.home_pleasefillallfields);
                 return;
@@ -442,7 +451,7 @@ namespace WpfApp6.View
             }
 
             string fixcontestname = stringBuilder.ToString().Normalize(NormalizationForm.FormC);
-            fixcontestname = fixcontestname.Replace("Nazev souteze : ", string.Empty);
+            fixcontestname = fixcontestname.Replace(Lang.contest_name + " : ", string.Empty);
             fixcontestname = fixcontestname.Replace(" ", string.Empty);
             return fixcontestname;
         }

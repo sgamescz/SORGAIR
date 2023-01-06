@@ -121,7 +121,7 @@
             VerticalAlignment="Bottom"
             Click="cateditoropen_Click"
             IsEnabled="True"
-            Tag="Název Soutěže|Zadej název soutěže|BIND_SQL_SOUTEZ_NAZEV">
+            Tag="{x:Static language:Lang.tag_new_contest_name}">
             <iconPacks:PackIconMaterial
                 Width="15"
                 Height="15"
@@ -289,7 +289,7 @@
                 Controls:HeaderedControlHelper.HeaderMargin="20 0 50 0"
                 AnimateOpacity="True"
                 AreAnimationsEnabled="True"
-                Header="Vytvoření nové soutěže"
+                Header="{x:Static language:Lang.home_createnewcontest}"
                 IsModal="False"
                 IsOpen="False"
                 Position="Bottom"
@@ -313,7 +313,7 @@
                             VerticalAlignment="Top"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            Content="Zvol kategorii"
+                            Content="{x:Static language:Lang.choose_category}"
                             FontSize="15"
                             FontWeight="Bold"
                             Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
@@ -358,13 +358,13 @@
                             Margin="0,0,0,0"
                             Controls:HeaderedControlHelper.HeaderFontSize="21"
                             Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
-                            <TabItem Header="Nová soutěž">
+                            <TabItem Header="{x:Static language:Lang.new_contest}">
                                 <Grid>
                                     <Label
                                         Margin="10,10,10,257"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Content="Vyber prosím, zda soutěž budeš tvořit ručně, nebo ji chceš stáhnout z webu"
+                                        Content="{x:Static language:Lang.choose_contest_type_text}"
                                         FontSize="12"
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
 
@@ -383,7 +383,7 @@
                                     </Controls:Tile>
 
                                     <Controls:Tile
-                                        Title="Vytvoření soutěže z internetu"
+                                        Title="{x:Static language:Lang.new_contest_internet}"
                                         Width="Auto"
                                         Height="Auto"
                                         Margin="399,105,10,10"
@@ -398,7 +398,7 @@
 
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Ruční vytvoření">
+                            <TabItem Header="{x:Static language:Lang.new_contest_manual}">
                                 <Grid>
 
                                     <Label
@@ -407,7 +407,7 @@
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Content="Zvol kategorii"
+                                        Content="{x:Static language:Lang.choose_category}"
                                         FontSize="15"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
@@ -450,7 +450,7 @@
                                     <Button
                                         Margin="281,280,10,10"
                                         Click="Button_Click_4"
-                                        Content="Založit" />
+                                        Content="{x:Static language:Lang.create}" />
                                     <WrapPanel
                                         Width="460"
                                         Height="265"
@@ -458,7 +458,7 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top">
                                         <Controls:Tile
-                                            Title="Kateogire"
+                                            Title="{x:Static language:Lang.category}"
                                             Width="100"
                                             Count="{Binding BIND_NEWCONTEST_CATEGORY}"
                                             CountFontSize="25"
@@ -472,7 +472,7 @@
                                             Click="nastaveni_soutez_Click"
                                             HorizontalTitleAlignment="Left"
                                             Style="{StaticResource ExtraLargeTileStyle}"
-                                            Tag="Název Soutěže|Zadej název soutěže|BIND_NEWCONTEST_NAME">
+                                            Tag="{x:Static language:Lang.tag_new_contest_name}">
                                             <iconPacks:PackIconUnicons
                                                 Width="40"
                                                 Height="40"
@@ -484,7 +484,7 @@
                                             Margin="3"
                                             Click="nastaveni_soutez_Click"
                                             Style="{StaticResource LargeTileStyle}"
-                                            Tag="Lokace|Zadej místo soutěže|BIND_NEWCONTEST_LOCATION">
+                                            Tag="{x:Static language:Lang.tag_new_contest_place}">
                                             <iconPacks:PackIconFontAwesome
                                                 Width="40"
                                                 Height="40"
@@ -494,7 +494,7 @@
                                             Title="{Binding BIND_NEWCONTEST_DATE}"
                                             Click="nastaveni_soutez_Click"
                                             Style="{StaticResource SmallTileStyle}"
-                                            Tag="Datum|Datum konání soutěže|BIND_NEWCONTEST_DATE">
+                                            Tag="{x:Static language:Lang.tag_new_contest_date}">
                                             <iconPacks:PackIconModern
                                                 Width="40"
                                                 Height="40"
@@ -504,7 +504,7 @@
 
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="Stažení z internetu">
+                            <TabItem Header="{x:Static language:Lang.new_contest_internet}">
                                 <Grid>
 
                                     <Label
@@ -513,7 +513,7 @@
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Content="Zvol kategorii"
+                                        Content="{x:Static language:Lang.choose_category}"
                                         FontSize="15"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
@@ -568,7 +568,7 @@
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Content="Zvol zdroj"
+                                        Content="{x:Static language:Lang.choose_source}"
                                         FontSize="15"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
@@ -650,7 +650,7 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top">
                                         <Controls:Tile
-                                            Title="Kateogire"
+                                            Title="{x:Static language:Lang.category}"
                                             Width="80"
                                             Height="100"
                                             Count="{Binding BIND_NEWCONTEST_CATEGORY_ONLINE}"
@@ -693,7 +693,7 @@
                                         </Controls:Tile>
                                         <Controls:Tile
                                             Name="createonlinecontent"
-                                            Title="Vytvořit tuto soutěž"
+                                            Title="{x:Static language:Lang.create_this_contest}"
                                             Width="294"
                                             Height="94"
                                             Margin="3"

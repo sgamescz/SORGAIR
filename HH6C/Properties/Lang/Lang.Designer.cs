@@ -61,6 +61,177 @@ namespace SORGAIR.Properties.Lang {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Age categories.
+        /// </summary>
+        public static string age_cat {
+            get {
+                return ResourceManager.GetString("age_cat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný All age categories.
+        /// </summary>
+        public static string age_cat_all {
+            get {
+                return ResourceManager.GetString("age_cat_all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Junior age category.
+        /// </summary>
+        public static string age_cat_juniors {
+            get {
+                return ResourceManager.GetString("age_cat_juniors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Puppil age category.
+        /// </summary>
+        public static string age_cat_pup {
+            get {
+                return ResourceManager.GetString("age_cat_pup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Senior age category.
+        /// </summary>
+        public static string age_cat_seniors {
+            get {
+                return ResourceManager.GetString("age_cat_seniors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Available positions.
+        /// </summary>
+        public static string available_positions {
+            get {
+                return ResourceManager.GetString("available_positions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Category.
+        /// </summary>
+        public static string category {
+            get {
+                return ResourceManager.GetString("category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Checking....
+        /// </summary>
+        public static string checking {
+            get {
+                return ResourceManager.GetString("checking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Choose category.
+        /// </summary>
+        public static string choose_category {
+            get {
+                return ResourceManager.GetString("choose_category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Please choose whether you want to create the contest manually or download it from the web.
+        /// </summary>
+        public static string choose_contest_type_text {
+            get {
+                return ResourceManager.GetString("choose_contest_type_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Choose source.
+        /// </summary>
+        public static string choose_source {
+            get {
+                return ResourceManager.GetString("choose_source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Location.
+        /// </summary>
+        public static string contest_location {
+            get {
+                return ResourceManager.GetString("contest_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Contest name.
+        /// </summary>
+        public static string contest_name {
+            get {
+                return ResourceManager.GetString("contest_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Create.
+        /// </summary>
+        public static string create {
+            get {
+                return ResourceManager.GetString("create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Create this contest.
+        /// </summary>
+        public static string create_this_contest {
+            get {
+                return ResourceManager.GetString("create_this_contest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Enter contest location.
+        /// </summary>
+        public static string enter_contest_location {
+            get {
+                return ResourceManager.GetString("enter_contest_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Enter contest name.
+        /// </summary>
+        public static string enter_contest_name {
+            get {
+                return ResourceManager.GetString("enter_contest_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Flight time.
+        /// </summary>
+        public static string flight_time {
+            get {
+                return ResourceManager.GetString("flight_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Flight time will start in.
+        /// </summary>
+        public static string flight_time_will_start_in {
+            get {
+                return ResourceManager.GetString("flight_time_will_start_in", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Actual version is.
         /// </summary>
         public static string home_actualversionis {
@@ -412,6 +583,33 @@ namespace SORGAIR.Properties.Lang {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Meters.
+        /// </summary>
+        public static string meters {
+            get {
+                return ResourceManager.GetString("meters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Minutes.
+        /// </summary>
+        public static string minutes {
+            get {
+                return ResourceManager.GetString("minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný New contest.
+        /// </summary>
+        public static string new_contest {
+            get {
+                return ResourceManager.GetString("new_contest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Create contest from internet.
         /// </summary>
         public static string new_contest_internet {
@@ -426,6 +624,105 @@ namespace SORGAIR.Properties.Lang {
         public static string new_contest_manual {
             get {
                 return ResourceManager.GetString("new_contest_manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Next Flight.
+        /// </summary>
+        public static string next_flight {
+            get {
+                return ResourceManager.GetString("next_flight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný No next flight does not exist.
+        /// </summary>
+        public static string no_next_flight {
+            get {
+                return ResourceManager.GetString("no_next_flight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný No previous flight does not exist.
+        /// </summary>
+        public static string no_prew_flight {
+            get {
+                return ResourceManager.GetString("no_prew_flight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Preparation time.
+        /// </summary>
+        public static string preparation_time {
+            get {
+                return ResourceManager.GetString("preparation_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Previous flight.
+        /// </summary>
+        public static string prew_flight {
+            get {
+                return ResourceManager.GetString("prew_flight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný remaining.
+        /// </summary>
+        public static string remaining {
+            get {
+                return ResourceManager.GetString("remaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Seconds.
+        /// </summary>
+        public static string seconds {
+            get {
+                return ResourceManager.GetString("seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Date|Competition date|BIND_NEWCONTEST_DATE.
+        /// </summary>
+        public static string tag_new_contest_date {
+            get {
+                return ResourceManager.GetString("tag_new_contest_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Contest Name|Enter Contest Name|BIND_NEWCONTEST_NAME.
+        /// </summary>
+        public static string tag_new_contest_name {
+            get {
+                return ResourceManager.GetString("tag_new_contest_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Location|Enter contest location|BIND_NEWCONTEST_LOCATION.
+        /// </summary>
+        public static string tag_new_contest_place {
+            get {
+                return ResourceManager.GetString("tag_new_contest_place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Where contest will be.
+        /// </summary>
+        public static string where_contest_will_be {
+            get {
+                return ResourceManager.GetString("where_contest_will_be", resourceCulture);
             }
         }
     }

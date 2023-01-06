@@ -13,6 +13,8 @@ using NAudio.Wave.SampleProviders;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading;
 using System.Threading.Tasks;
+using SORGAIR.Properties.Lang;
+using System.Globalization;
 
 namespace SORGAIR
 {
@@ -70,17 +72,19 @@ namespace SORGAIR
 
         private async void nacti_core(string jazyk)
         {
-            var currentWindow = this;
-            var controller = await currentWindow.ShowProgressAsync("Starting", "SORG AIR is loading, please wait...");
-            controller.SetProgress(0.2);
-            await Task.Delay(1000);
             SORGAIR.Properties.Settings.Default.Languagecode = jazyk;
             SORGAIR.Properties.Settings.Default.Save();
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(jazyk);
+            var currentWindow = this;
+
+            var controller = await currentWindow.ShowProgressAsync("SORG AIR", Lang.home_load_caption);
+            controller.SetProgress(0.2);
+            await Task.Delay(1000);
             controller.SetProgress(0.4);
             await Task.Delay(1000);
             MetroWindow f2 = new WpfApp6.Core();
             controller.SetProgress(0.6);
-            controller.SetMessage("Done. Let's go flying...");
+            controller.SetMessage(Lang.home_load_complete);
             await Task.Delay(500);
             controller.CloseAsync();
             await Task.Delay(500);
