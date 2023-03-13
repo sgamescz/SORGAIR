@@ -6669,7 +6669,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
-        public void FUNCTION_LOAD_CONTESTS_ONLINE(string category, string adress)
+        public void FUNCTION_LOAD_CONTESTS_ONLINE(string category, string language)
         {
 
 
@@ -6679,7 +6679,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             string[] mArrayOfcontests = new string[300];
 
 
-            string remoteUrl = adress + "api_listofcontests.php?cat="+category;
+            string remoteUrl = "http://api.sorgair.com/api_listofcontests.php?cat="+category+"&lang="+language;
+            Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;
@@ -7390,7 +7391,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
-        public ObservableCollection<MODEL_Contests_categories> MODEL_CONTESTS_CALENDARSOURCES { get; set; } = new ObservableCollection<MODEL_Contests_categories>();
+        public ObservableCollection<MODEL_Contests_categories> MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES { get; set; } = new ObservableCollection<MODEL_Contests_categories>();
 
         public ObservableCollection<MODEL_Contests_categories> MODEL_CONTESTS_CATEGORIES { get; set; } = new ObservableCollection<MODEL_Contests_categories>();
         public ObservableCollection<MODEL_CATEGORY_LANDING> MODEL_CONTESTS_SOUNDLISTS { get; set; } = new ObservableCollection<MODEL_CATEGORY_LANDING>();
@@ -7581,29 +7582,39 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             SQL_READSORGDATA("select * from rules;", "get_categories");
         }
 
-        public void FUNCTION_LOAD_CALENDARSOURCES()
+        public void FUNCTION_LOAD_CALENDAR_COUNTRY_SOURCES()
         {
-            MODEL_CONTESTS_CALENDARSOURCES.Clear();
+            MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES.Clear();
+
+            var all = new MODEL_Contests_categories()
+            {
+
+                ID = 1,
+                CATEGORY = "Všechny staty",
+                ADRESS = "ALL"
+            };
+
 
             var cz = new MODEL_Contests_categories()
             {
 
-                ID = 1,
-                CATEGORY = "kalendar.sorgair.com",
-                ADRESS = "http://api.sorgair.com/"
+                ID = 2,
+                CATEGORY = "Česko",
+                ADRESS = "CZE"
             };
 
 
             var sk = new MODEL_Contests_categories()
             {
 
-                ID = 2,
-                CATEGORY = "kalendar-sk.sorgair.com",
-                ADRESS = "http://api-sk.sorgair.com/"
+                ID = 3,
+                CATEGORY = "Slovensko",
+                ADRESS = "SVK"
             };
 
-            MODEL_CONTESTS_CALENDARSOURCES.Add(cz);
-            MODEL_CONTESTS_CALENDARSOURCES.Add(sk);
+            MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES.Add(all);
+            MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES.Add(cz);
+            MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES.Add(sk);
 
 
         }
@@ -8021,6 +8032,42 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         }
 
 
+        public string RelativePath(string absPath, string relTo)
+        {
+            string[] absDirs = absPath.Split('\\');
+            string[] relDirs = relTo.Split('\\');
+            // Get the shortest of the two paths 
+            int len = absDirs.Length < relDirs.Length ? absDirs.Length : relDirs.Length;
+            // Use to determine where in the loop we exited 
+            int lastCommonRoot = -1; int index;
+            // Find common root 
+            for (index = 0; index < len; index++)
+            {
+                if (absDirs[index] == relDirs[index])
+                    lastCommonRoot = index;
+                else break;
+            }
+            // If we didn't find a common prefix then throw 
+            if (lastCommonRoot == -1)
+            {
+                throw new ArgumentException("Paths do not have a common base");
+            }
+            // Build up the relative path 
+            StringBuilder relativePath = new StringBuilder();
+            // Add on the .. 
+            for (index = lastCommonRoot + 1; index < absDirs.Length; index++)
+            {
+                if (absDirs[index].Length > 0) relativePath.Append("..\\");
+            }
+            // Add on the folders 
+            for (index = lastCommonRoot + 1; index < relDirs.Length - 1; index++)
+            {
+                relativePath.Append(relDirs[index] + "\\");
+            }
+            relativePath.Append(relDirs[relDirs.Length - 1]);
+            return relativePath.ToString();
+        }
+
 
         public void FUNCTION_LOAD_TIMERS_LANDINGS()
         {
@@ -8071,7 +8118,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                     var dirx = new DirectoryInfo(dir);
                     var dirName = dirx.Name;
-                    if (dirName != "FUNKYMODE")
+                    Console.WriteLine("dirName");
+                    Console.WriteLine(dirx.FullName);
+                    Console.WriteLine(dirx.Name);
+
+                    if (dirName != "FUNKYMODE" && dirName != "NAMES")
                     {
                         i += 1;
                         var _sndlst = new SoundList()
@@ -8080,11 +8131,13 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                             SoundName = dirName
                         };
                         BINDING_SoundList_languages.Add(_sndlst);
-                        Console.WriteLine(dir);
+                        Console.WriteLine("adding BINDING_SoundList_languages:"+ dirName);
                     }
 
                 }
             }
+
+
             catch (Exception e)
             {
                 Console.WriteLine("The process failed: {0}", e.ToString());

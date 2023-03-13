@@ -41,7 +41,7 @@ namespace SORGAIR
             VM.SQL_OPENCONNECTION("RULES");
             Console.WriteLine(VM.SQL_READSORGDATA("select category from rules;", ""));
             VM.FUNCTION_LOAD_CATEGORIES();
-            VM.FUNCTION_LOAD_CALENDARSOURCES();
+            VM.FUNCTION_LOAD_CALENDAR_COUNTRY_SOURCES();
 
 
         }

@@ -151,6 +151,15 @@ namespace SORGAIR.Properties.Lang {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Choose country.
+        /// </summary>
+        public static string choose_country {
+            get {
+                return ResourceManager.GetString("choose_country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Choose source.
         /// </summary>
         public static string choose_source {

@@ -319,7 +319,7 @@ namespace WpfApp6.View
         {
             VM.SQL_OPENCONNECTION("RULES");
             VM.FUNCTION_LOAD_CATEGORIES();
-            VM.FUNCTION_LOAD_CALENDARSOURCES();
+            VM.FUNCTION_LOAD_CALENDAR_COUNTRY_SOURCES();
             VM.SQL_CLOSECONNECTION("RULES");
             VM.BIND_NEWCONTEST_NAME = Lang.enter_contest_name;
             VM.BIND_NEWCONTEST_CATEGORY = "---";
@@ -556,7 +556,7 @@ namespace WpfApp6.View
             if (categorylistforinternet.SelectedIndex >= 0 & internetcalendarsource.SelectedIndex >= 0)
             {
                 VM.BIND_NEWCONTEST_CATEGORY_ONLINE = VM.MODEL_CONTESTS_CATEGORIES[categorylistforinternet.SelectedIndex].CATEGORY;
-                VM.BIND_NEWCONTEST_CALENDAR_SOURCE = VM.MODEL_CONTESTS_CALENDARSOURCES[internetcalendarsource.SelectedIndex].ADRESS;
+                VM.BIND_NEWCONTEST_CALENDAR_SOURCE = VM.MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES[internetcalendarsource.SelectedIndex].ADRESS;
                 createonlinecontent.IsEnabled = true;
                 VM.FUNCTION_LOAD_CONTESTS_ONLINE(VM.BIND_NEWCONTEST_CATEGORY_ONLINE, VM.BIND_NEWCONTEST_CALENDAR_SOURCE);
             }
@@ -597,6 +597,12 @@ namespace WpfApp6.View
             }
             else
             {
+
+                if (File.Exists(directory + "/Data/" + newdbname + ".db"))
+                {
+                    newdbname = newdbname + DateTime.Now.ToFileTime();
+                }
+
                 File.Copy(directory + "/Data/config/empty.db", directory + "/Data/" + newdbname + ".db");
             }
 
@@ -645,7 +651,7 @@ namespace WpfApp6.View
             string[] mArrayOfcontests = new string[300];
 
 
-            string remoteUrl = VM.BIND_NEWCONTEST_CALENDAR_SOURCE+"api_contestdetail.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
+            string remoteUrl = "http://api.sorgair.com/api_contestdetail.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;
@@ -676,12 +682,14 @@ namespace WpfApp6.View
                     string _chanel2 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[6];
                     string _failic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[7];
                     string _naclic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[8];
+                    string _email = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[9];
+                    string _club = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[10];
 
                     if (_freq.Contains("2,4")) { _freq = "0"; }
                     if (_freq.Contains("35")) { _freq = "1"; }
 
                     VM.SQL_SAVESOUTEZDATA("insert into users values (null,'" + _firstname + "', '" + _lastname + "', '" + _country + "', '" 
-                        + _agecat + "', '" + _freq + "', '" + _chanel1 + "', '" + _chanel2 + "' , '" + _failic + "', '" + _naclic + "', '' , 'False', '0', '0' , 0 );");
+                        + _agecat + "', '" + _freq + "', '" + _chanel1 + "', '" + _chanel2 + "' , '" + _failic + "', '" + _naclic + "', '" + _club + "' , 'False', '0', '0' , 0 );");
 
 
                 }

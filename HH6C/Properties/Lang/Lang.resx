@@ -147,6 +147,9 @@
   <data name="choose_contest_type_text" xml:space="preserve">
     <value>Please choose whether you want to create the contest manually or download it from the web</value>
   </data>
+  <data name="choose_country" xml:space="preserve">
+    <value>Choose country</value>
+  </data>
   <data name="choose_source" xml:space="preserve">
     <value>Choose source</value>
   </data>

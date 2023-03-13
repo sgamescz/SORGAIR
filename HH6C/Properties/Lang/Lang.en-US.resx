@@ -240,4 +240,7 @@
   <data name="new_contest_internet" xml:space="preserve">
     <value>Create contest from internet</value>
   </data>
+  <data name="choose_country" xml:space="preserve">
+    <value>Choose country</value>
+  </data>
 </root>

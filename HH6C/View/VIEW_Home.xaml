@@ -568,7 +568,7 @@
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Content="{x:Static language:Lang.choose_source}"
+                                        Content="{x:Static language:Lang.choose_country}"
                                         FontSize="15"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
@@ -583,8 +583,8 @@
                                         VerticalAlignment="Top"
                                         BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
                                         BorderThickness="1"
-                                        ItemsSource="{Binding MODEL_CONTESTS_CALENDARSOURCES}"
-                                        SelectionChanged="categorylistforinternet_SelectionChanged">
+                                        ItemsSource="{Binding MODEL_CONTESTS_CALENDAR_COUNTRY_SOURCES}"
+                                        SelectionChanged="categorylistforinternet_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Margin="0">
