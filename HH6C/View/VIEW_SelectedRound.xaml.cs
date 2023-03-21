@@ -6,6 +6,7 @@ using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.Globalization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace WpfApp6.View
 {
@@ -130,23 +131,33 @@ namespace WpfApp6.View
             string tmp_existujerefly = VM.SQL_READSOUTEZDATA("select userid from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", "");
             if (tmp_existujerefly == "")
             {
-                refly_muzebyt.Visibility = Visibility.Visible;
-                refly_nemuzebyt.Visibility = Visibility.Collapsed;
+                zadani_refly_existing.Visibility = Visibility.Visible;
+                zadani_refly_new.Visibility = Visibility.Visible;
+                editace_refly.Visibility = Visibility.Collapsed;
+                co_se_pocita.Visibility = Visibility.Visible;
+                reflytab.SelectedItem = co_se_pocita;
+
             }
             else
             {
-                refly_muzebyt.Visibility = Visibility.Collapsed;
-                refly_nemuzebyt.Visibility = Visibility.Visible;
-
+                zadani_refly_existing.Visibility = Visibility.Collapsed;
+                zadani_refly_new.Visibility = Visibility.Collapsed;
+                editace_refly.Visibility = Visibility.Visible;
+                co_se_pocita.Visibility = Visibility.Collapsed;
+                reflytab.SelectedItem = editace_refly;
                 string tmp_cosepocita = VM.SQL_READSOUTEZDATA("select whatcount1 from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", "");
 
                 if (tmp_cosepocita == "1")
                 {
-                    VM.BIND_DATA_OPAKOVACIHO_LETU = "Počítá se výsledek z opakovacího letu";
+                    VM.BIND_DATA_OPAKOVACIHO_LETU = "Aktuálně se počítá POUZE výsledek z opakovacího letu";
+                    //refly_what_count.IsEnabled = true;
+                    refly_what_count_edit.IsOn = true;
                 }
                 else
                 {
-                    VM.BIND_DATA_OPAKOVACIHO_LETU = "Počítá se lepší výsledek";
+                    VM.BIND_DATA_OPAKOVACIHO_LETU = "Aktuálně se počítá lepší výsledek z obou letů";
+                    refly_what_count_edit.IsOn = false;
+                    //refly_what_count.IsEnabled = false;
                 }
             }
             //scoreentry_minutes.Focus();
@@ -334,7 +345,7 @@ namespace WpfApp6.View
                 Console.WriteLine(VM.Player_Selected[0].SCORE_RAW);
                 Console.WriteLine(VM.Player_Selected[0].SCORE_PREP);
 
-                aktualscore.Content = "XXXSCORE : " + VM.Player_Selected[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected[0].SCORE_RAW + " ]";
+                aktualscore.Content = "SCORE : " + VM.Player_Selected[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected[0].SCORE_RAW + " ]";
 
                 }
 
@@ -517,7 +528,7 @@ namespace WpfApp6.View
 
                 }
 
-
+            
 
 
                 if (VM.BIND_SQL_SOUTEZ_ENTRYSTYLENEXT == true)
@@ -767,6 +778,24 @@ namespace WpfApp6.View
         }
 
 
+
+        private async void edit_refly_Click(object sender, RoutedEventArgs e)
+        {
+            if (refly_what_count_edit.IsOn == true)
+            {
+                VM.SQL_SAVESOUTEZDATA("update refly set whatcount1 = 1, whatcount2 = 2 where rnd_from = "+ VM.BIND_SELECTED_ROUND + " and grp_from= " + VM.BIND_SELECTED_GROUP + " and stp_from =" + VM.BIND_SELECTED_STARTPOINT + ";");
+            }
+            else
+            {
+                VM.SQL_SAVESOUTEZDATA("update refly set whatcount1 = 0, whatcount2 = 0 where rnd_from = " + VM.BIND_SELECTED_ROUND + " and grp_from= " + VM.BIND_SELECTED_GROUP + " and stp_from =" + VM.BIND_SELECTED_STARTPOINT + ";");
+            }
+
+
+            refly.IsOpen = false;
+
+
+        }
+
         private int FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(int round)
         {
 
@@ -878,7 +907,7 @@ znovalosovat:
                 int tmp_grp = int.Parse(VM.SQL_READSOUTEZDATA("select grp from matrix where rnd = " + VM.BIND_SELECTED_ROUND + " and user = " + _tmp_vylosovany_soutezici_id + " order by grp asc limit 1", ""));
                 int tmp_stp = int.Parse(VM.SQL_READSOUTEZDATA("select stp from matrix where rnd = " + VM.BIND_SELECTED_ROUND + " and user = "+ _tmp_vylosovany_soutezici_id + " order by grp asc limit 1", ""));
 
-                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + tmp_grp + "," + tmp_stp+ "," + VM.BIND_SELECTED_ROUND + "," + _novareflyskupina + "," + tmp_first_empty_stp + "," + _tmp_vylosovany_soutezici_id + ",1,2);");
+                VM.SQL_SAVESOUTEZDATA("insert into refly (rnd_from,grp_from,stp_from,rnd_to,grp_to,stp_to,userid,whatcount1,whatcount2) values (" + VM.BIND_SELECTED_ROUND + "," + tmp_grp + "," + tmp_stp+ "," + VM.BIND_SELECTED_ROUND + "," + _novareflyskupina + "," + tmp_first_empty_stp + "," + _tmp_vylosovany_soutezici_id + ",0,0);");
                 VM.SQL_SAVESOUTEZDATA("update score set userid=" + _tmp_vylosovany_soutezici_id + ", entered='False' where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + _novareflyskupina + " and stp=" + tmp_first_empty_stp + "");
                 VM.SQL_SAVESOUTEZDATA("update matrix set user=" + _tmp_vylosovany_soutezici_id + " where rnd=" + VM.BIND_SELECTED_ROUND + " and grp=" + _novareflyskupina + " and stp=" + tmp_first_empty_stp + "");
                 _pocetvolnychstartovist = int.Parse(VM.SQL_READSOUTEZDATA("select count(userid) from refly where rnd_to = " + VM.BIND_SELECTED_ROUND + " and grp_to=" + _novareflyskupina, ""));

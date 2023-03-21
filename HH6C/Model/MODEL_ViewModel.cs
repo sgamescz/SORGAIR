@@ -7420,7 +7420,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         public ObservableCollection<MODEL_Contest_Groups> MODEL_CONTEST_GROUPS { get; set; } = new ObservableCollection<MODEL_Contest_Groups>();
         public ObservableCollection<MODEL_Contest_Groups> MODEL_CONTEST_FINAL_GROUPS { get; set; } = new ObservableCollection<MODEL_Contest_Groups>();
-        public ObservableCollection<MODEL_Contest_Groups> MODEL_CONTEST_AVAIABLE_REFLYGROUP { get; set; } = new ObservableCollection<MODEL_Contest_Groups>();
+        public ObservableCollection<MODEL_Contest_Groups_refly> MODEL_CONTEST_AVAIABLE_REFLYGROUP { get; set; } = new ObservableCollection<MODEL_Contest_Groups_refly>();
 
         public ObservableCollection<MODEL_Player_flags> MODEL_Contest_FLAGS { get; set; } = new ObservableCollection<MODEL_Player_flags>();
 
@@ -7646,10 +7646,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                 }
 
-                var groups = new MODEL_Contest_Groups()
+                var groups = new MODEL_Contest_Groups_refly()
                 {
                     ID = i,
-                    GROUPNAME = Lang.available_positions + ": "+ pocetpraznychpozic,
+                    GROUPNAME = Lang.available_positions + ": " + pocetpraznychpozic,
+                    GROUPNAME_SRC = "G:" + i,
                     GROUPTYPE = pocetpraznychpozic,
                     GROUPLENGHT = 1,
                     GROUPZADANO = int.Parse(pocetpraznychpozic)

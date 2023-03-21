@@ -78,6 +78,89 @@ namespace WpfApp6.Model
 
 
 
+
+
+
+
+    public class MODEL_Contest_Groups_refly : MODEL_BaseClass
+    {
+
+        // Default constructor for Player
+        public MODEL_Contest_Groups_refly()
+        {
+
+        }
+
+        private int _ID;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; RaisePropertyChanged(nameof(ID)); }
+        }
+
+        private string _GROUPNAME;
+        public string GROUPNAME
+        {
+            get { return _GROUPNAME; }
+            set { _GROUPNAME = value; RaisePropertyChanged(nameof(GROUPNAME)); }
+        }
+
+        private string _GROUPNAME_SRC;
+        public string GROUPNAME_SRC
+        {
+            get { return _GROUPNAME_SRC; }
+            set { _GROUPNAME_SRC = value; RaisePropertyChanged(nameof(GROUPNAME_SRC)); }
+        }
+
+
+        private string _GROUPTYPE;
+        public string GROUPTYPE
+        {
+            get { return _GROUPTYPE; }
+            set { _GROUPTYPE = value; RaisePropertyChanged(nameof(GROUPTYPE)); }
+        }
+
+
+        private int _GROUPLENGHT;
+        public int GROUPLENGHT
+        {
+            get { return _GROUPLENGHT; }
+            set { _GROUPLENGHT = value; RaisePropertyChanged(nameof(GROUPLENGHT)); }
+        }
+
+
+
+        private int _GROUPZADANO;
+        public int GROUPZADANO
+        {
+            get { return _GROUPZADANO; }
+            set { _GROUPZADANO = value; RaisePropertyChanged(nameof(GROUPZADANO)); }
+        }
+
+
+        private string _ISSELECTED;
+        public string ISSELECTED
+        {
+            get { return _ISSELECTED; }
+            set { _ISSELECTED = value; RaisePropertyChanged(nameof(ISSELECTED)); }
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
     public class MODEL_Contest_Groups : MODEL_BaseClass
     {
 
@@ -132,6 +215,9 @@ namespace WpfApp6.Model
             get { return _ISSELECTED; }
             set { _ISSELECTED = value; RaisePropertyChanged(nameof(ISSELECTED)); }
         }
+
+
+
 
 
 

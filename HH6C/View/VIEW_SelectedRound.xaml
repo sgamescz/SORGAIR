@@ -74,10 +74,10 @@
     <Grid Height="835" Margin="0,0,0,0">
 
         <mah:MetroHeader
-            Margin="0,10,0,465"
+            Margin="0,10,0,505"
             Header="Ovládaní soutěžního kola"
             IsTabStop="False">
-            <Grid Margin="0,0,0,9">
+            <Grid Margin="0,0,0,1">
                 <mah:MetroProgressBar
                     Height="40"
                     Margin="10,109,10,0"
@@ -237,21 +237,21 @@
                     Foreground="{DynamicResource MahApps.Brushes.Accent}" />
 
                 <mah:ToggleSwitch
-                    Margin="10,247,0,36"
+                    Margin="10,247,0,0"
                     FontSize="13"
                     IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
                     IsOn="{Binding BIND_AUDIO_PREPTIME_MANUAL_NEXT}"
                     OffContent="Manuální přípravný čas hlásí (+spouští) zvolený let"
-                    OnContent="Manuální přípravný čas hlásí (+spouští) následující let" />
+                    OnContent="Manuální přípravný čas hlásí (+spouští) následující let" VerticalAlignment="Top" />
 
 
                 <mah:ToggleSwitch
-                    Margin="411,247,0,36"
+                    Margin="411,247,0,0"
                     FontSize="13"
                     IsEnabled="{Binding ElementName=useaudio, Path=IsOn}"
                     IsOn="{Binding BIND_AUDIO_PREPTIME_AUTO_NEXT}"
                     OffContent="Automatický přípravný čas hlásí (+spouští) zvolený let"
-                    OnContent="Automatický přípravný čas hlásí (+spouští) následující let" />
+                    OnContent="Automatický přípravný čas hlásí (+spouští) následující let" VerticalAlignment="Top" />
 
 
 
@@ -407,7 +407,7 @@
                 ClosingFinished="scoreentry_back_Click"
                 Header="Refly"
                 IsModal="False"  
-                IsOpen="True"
+                IsOpen="False"
                 Position="Bottom"
                 Theme="Adapt"
                 TitleVisibility="Visible">
@@ -548,45 +548,39 @@
 
                     <StackPanel Margin="0,120,0,0">
 
-                        <TabControl
+                        <TabControl Name="reflytab"
             mah:HeaderedControlHelper.HeaderFontSize="21"
-            Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
-                            <TabItem Header="Proč se opakuje?">
-                                <Grid>
+            Style="{DynamicResource MahApps.Styles.TabControl.Animated}" Height="300">
+                            <TabItem Header="Co se počítá?" Name="co_se_pocita">
+                                <Grid Height="264">
+
                                     <mah:ToggleSwitch
                                         x:Name="refly_what_count"
                                         Grid.Row="0"
-                                        Grid.Column="0"
-                                        Width="629"
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
+                                        Width="623"
                                         HorizontalContentAlignment="Left"
                                         ContentDirection="RightToLeft"
                                         FontSize="12"
                                         IsOn="True"
                                         OffContent="Refly není kvůli zvolenému soutěžícímu (bude počítán lepší vysledek)"
-                                        OnContent="Refly je kvůli zvolenému soutěžícímu (bude počítán vysledek z refly)" />
+                                        OnContent="Refly je kvůli zvolenému soutěžícímu (bude počítán vysledek z refly)" Height="36" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" />
                                 </Grid>
                             </TabItem>
-                            <TabItem Header="zadani refly">
+                            <TabItem Header="Přiřazení do existující skupiny" Name="zadani_refly_existing">
 
-                                <Grid
-                            x:Name="refly_muzebyt"
-                            Height="272"
-                            Visibility="Visible">
+                                <Grid>
                                     <mah:MetroHeader
-                                Height="232"
-                                Margin="10,0,10,10"
+                                Height="202"
+                                Margin="10,10,10,0"
                                 VerticalAlignment="Top"
                                 Header="Přehled volných startovišt ve skupinách tohoto letu"
                                 HeaderStringFormat="Zvolená skupina: {0}"
                                 Visibility="Visible">
                                         <Grid>
-                                           
+
                                             <ItemsControl
-                                        Height="67"
-                                        Margin="0,37,0,0"
+                                        Height="149"
+                                        Margin="0,0,0,0"
                                         VerticalAlignment="Top"
                                         ItemsSource="{Binding MODEL_CONTEST_AVAIABLE_REFLYGROUP}">
                                                 <ItemsControl.ItemsPanel>
@@ -603,18 +597,19 @@
                                                     Margin="2"
                                                     BorderBrush="{DynamicResource MahApps.Brushes.Gray9}"
                                                     BorderThickness="2">
+
                                                             <StackPanel Style="{StaticResource selectedstyl}" Tag="{Binding GROUPTYPE}">
 
-
+                                                                <Label Content="{Binding GROUPNAME_SRC}"/>
 
 
                                                                 <mah:Tile
                                                             Title="{Binding GROUPNAME}"
                                                             Width="Auto"
-                                                            Height="64"
+                                                                    Height="90"
                                                             Margin="0,1,0,1"
                                                             HorizontalAlignment="Stretch"
-                                                            VerticalAlignment="Top"
+                                                            VerticalAlignment="Center"
                                                             HorizontalContentAlignment="Left"
                                                             VerticalContentAlignment="Center"
                                                             mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
@@ -630,6 +625,7 @@
                                                                 VerticalAlignment="Center"
                                                                 Kind="LayerGroupSolid" />
                                                                 </mah:Tile>
+                                                                <Label />
 
 
 
@@ -644,29 +640,40 @@
 
                                     </mah:MetroHeader>
 
+                                </Grid>
+
+                            </TabItem>
+                            <TabItem Header="Vytvoření nové refly skupiny" Name="zadani_refly_new">
+
+                                <Grid
+                            x:Name="refly_muzebyt"
+                            Height="272"
+                            Visibility="Visible">
+
+
                                     <mah:MetroHeader
                                 x:Name="refly_masdzebyt"
-                                Height="110"
-                                Margin="10,152,10,0"
+                                Height="170"
+                                Margin="10,10,10,0"
                                 VerticalAlignment="Top"
                                 Header="Vytvořit novou refly skupinu"
                                 HeaderStringFormat="Zvolená skupina: {0}"
                                 Visibility="Visible">
-                                        <Grid Margin="0,0,0,-1">
-                                            <UniformGrid Columns="2" Rows="1">
+                                        <Grid Margin="0,0,0,0">
+                                            <UniformGrid Columns="1" Rows="2">
                                                 <Button
                                             Name="create_refly_group"
-                                            Height="55"
+
                                             Margin="5,10"
                                             Click="create_refly_group_Click"
-                                            Content="Vytvořit refly skupinu a přidat soutěžícího"
+                                                 
+                                            Content="Vytvořit novou prázdnou refly skupinu a přidat POUZE TOHOTO soutěžícího"
                                             Style="{DynamicResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
                                                 <Button
                                             Name="create_refly_and_add_random"
-                                            Height="55"
                                             Margin="5,10"
                                             Click="create_refly_and_add_random_Click"
-                                            Content="Vytvořit refly skupinu a dolosovat soutěžící"
+                                            Content="Vytvořit novou refly skupinu. Přidat do ní tohoto soutěžícího a další náhodně dolosovat"
                                             Style="{DynamicResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
                                             </UniformGrid>
 
@@ -677,35 +684,50 @@
                                 </Grid>
 
                             </TabItem>
-                            <TabItem Header="editace refly">
+                            <TabItem Header="Editace refly" Name="editace_refly" Visibility="Visible">
                                 <Grid>
 
                                     <mah:MetroHeader
                             x:Name="refly_nemuzebyt"
-                            Height="130"
-                            Margin="10,0,10,10"
+                            Height="220"
+                            Margin="10,0,10,0"
                             VerticalAlignment="Top"
                             Header="Informace o opakovacím letu"
                             HeaderStringFormat="Zvolená skupina: {0}">
-                                        <Grid>
+                                        <Grid Margin="0,0,0,-36">
                                             <Label
-                                    Margin="10,0,10,60"
+                                    Margin="10,0,10,170"
+                                                FontSize="20"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center"
                                     Content="{Binding BIND_DATA_OPAKOVACIHO_LETU}" />
+
+                                            <mah:ToggleSwitch
+                                        x:Name="refly_what_count_edit"
+                                        Grid.Row="0"
+                                        HorizontalContentAlignment="Left"
+                                        ContentDirection="RightToLeft"
+                                        IsOn="True"
+                                                
+                                        OffContent="Při uložení změnit na : refly není kvůli zvolenému soutěžícímu (bude počítán lepší vysledek)"
+                                        OnContent="Při uložení změnit na : refly je kvůli zvolenému soutěžícímu (bude počítán vysledek z refly)" Height="34" Margin="10,55,10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+                                            <Button
+                                    x:Name="save_edit_refly"
+                                    Margin="10,89,10,84"
+                                    Click="edit_refly_Click"
+                                    Content="Uložit nastavení opravného letu" />
                                             <Button
                                     x:Name="delete_refly"
-                                    Margin="10,39,10,10"
+                                    Margin="10,141,10,31"
                                     Click="delete_refly_Click"
-                                    Content="Zrušit refly" />
-
+                                    Content="Zrušit tento opravný let" />
                                         </Grid>
 
                                     </mah:MetroHeader>
                                 </Grid>
                             </TabItem>
                         </TabControl>
- 
+
 
                     </StackPanel>
 
@@ -726,7 +748,7 @@
                 ClosingFinished="scoreentry_back_Click"
                 Header="Zádání výsledku"
                 IsModal="False"
-                IsOpen="False"
+                IsOpen="True"
                 Position="Bottom"
                 Theme="Adapt"
                 TitleVisibility="Collapsed">
@@ -971,10 +993,10 @@
                         HorizontalContentAlignment="Left"
                         ContentDirection="LeftToRight"
                         FontSize="12"
-                        IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLENEXT}"
+                        IsOn="True"
                         IsTabStop="False"
-                        OffContent="Po uložení zavřít"
-                        OnContent="Po uložení přejít na další" />
+                        OnContent="Výsledek lze škrtat"
+                        OffContent="Výsledek NELZE škrtat" />
 
 
                     <mah:MetroHeader
