@@ -73,6 +73,7 @@ namespace WpfApp6.View
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY1") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_JURY1 ;}
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY2") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_JURY2 ;}
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY3") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_JURY3 ;}
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_STAT") { vyplnenyinput = VM.BIND_SQL_SOUTEZ_STAT; }
 
                 var currentWindow = this.TryFindParent<MetroWindow>();
                 var result = await currentWindow.ShowInputAsync(TAGY[(i*3)], TAGY[(i * 3)+1], new MetroDialogSettings() { DefaultText = vyplnenyinput });
@@ -92,6 +93,7 @@ namespace WpfApp6.View
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY1") { VM.BIND_SQL_SOUTEZ_JURY1 = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY2") { VM.BIND_SQL_SOUTEZ_JURY2 = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_JURY3") { VM.BIND_SQL_SOUTEZ_JURY3 = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_SQL_SOUTEZ_STAT") { VM.BIND_SQL_SOUTEZ_STAT = result; }
             }
 
 

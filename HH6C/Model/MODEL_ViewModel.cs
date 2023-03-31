@@ -16,6 +16,7 @@ using System.IO.Ports;
 using System.Threading.Tasks;
 using SORGAIR.Properties.Lang;
 
+
 namespace WpfApp6.Model
 {
     /// <summary>
@@ -159,6 +160,7 @@ namespace WpfApp6.Model
         int last_second_final_main_time = 0;
 
         bool _BIND_IS_FINAL_FLIGHT_READY = false;
+        public bool _bind_isnondeletable = false;
 
         bool BIND_MENU_ENABLED_online_value = false;
         bool BIND_MENU_ENABLED_finale_value = false;
@@ -183,7 +185,8 @@ namespace WpfApp6.Model
         public string BIND_SQL_SOUTEZ_DATUM_value;
         public string BIND_SQL_SOUTEZ_TEPLOTA_value;
         public string BIND_SQL_SOUTEZ_POCASI_value;
-        public string BIND_SQL_SOUTEZ_CLUB_value;
+        public string BIND_SQL_SOUTEZ_CLUB_value = "CZE";
+        public string BIND_SQL_SOUTEZ_STAT_value;
         public string BIND_SQL_SOUTEZ_SMCRID_value;
         public string BIND_SQL_SACALENDAR_NUMBER_value;
         public string BIND_SQL_SOUTEZ_DIRECTOR_value;
@@ -1008,6 +1011,7 @@ namespace WpfApp6.Model
             BIND_SQL_SOUTEZ_TEPLOTA = SQL_READSOUTEZDATA("select value from contest where item='Temperature'", "");
             BIND_SQL_SOUTEZ_POCASI = SQL_READSOUTEZDATA("select value from contest where item='Weather'", "");
             BIND_SQL_SOUTEZ_CLUB = SQL_READSOUTEZDATA("select value from contest where item='Club'", "");
+            BIND_SQL_SOUTEZ_STAT = SQL_READSOUTEZDATA("select value from contest where item='country'", "");
             BIND_SQL_SOUTEZ_SMCRID = SQL_READSOUTEZDATA("select value from contest where item='SMCRID'", "");
             BIND_SQL_SACALENDAR_NUMBER = SQL_READSOUTEZDATA("select value from contest where item='sorgaircalendarcontestid'", "");
             BIND_SQL_SOUTEZ_DIRECTOR = SQL_READSOUTEZDATA("select value from contest where item='Director'", "");
@@ -2688,12 +2692,25 @@ namespace WpfApp6.Model
         }
 
 
+
+
+        private string _BIND_NEWCONTEST_COUNTRY = "CZE";
+        public string BIND_NEWCONTEST_COUNTRY
+        {
+            get { Console.WriteLine("BIND_NEWCONTEST_COUNTRY"); return _BIND_NEWCONTEST_COUNTRY; }
+            set { _BIND_NEWCONTEST_COUNTRY = value; OnPropertyChanged("BIND_NEWCONTEST_COUNTRY"); Console.WriteLine("BIND_NEWCONTEST_COUNTRY"); }
+        }
+
+
+
         private string _BIND_NEWCONTEST_CATEGORY_ONLINE = "F5J";
         public string BIND_NEWCONTEST_CATEGORY_ONLINE
         {
             get { return _BIND_NEWCONTEST_CATEGORY_ONLINE; }
             set { _BIND_NEWCONTEST_CATEGORY_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_CATEGORY_ONLINE"); }
         }
+
+
 
 
         private string _BIND_NEWCONTEST_CALENDAR_SOURCE = "http://api.sorgair.com/";
@@ -2743,6 +2760,14 @@ namespace WpfApp6.Model
             get { return _BIND_NEWCONTEST_DATE_ONLINE; }
             set { _BIND_NEWCONTEST_DATE_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_DATE_ONLINE"); }
         }
+
+        private string _BIND_NEWCONTEST_COUNTRY_ONLINE = "CZE";
+        public string BIND_NEWCONTEST_COUNTRY_ONLINE
+        {
+            get { return _BIND_NEWCONTEST_COUNTRY_ONLINE; }
+            set { _BIND_NEWCONTEST_COUNTRY_ONLINE = value; OnPropertyChanged("BIND_NEWCONTEST_COUNTRY_ONLINE"); }
+        }
+
 
 
         public string BIND_SQL_SOUTEZ_DATUM
@@ -2907,6 +2932,13 @@ namespace WpfApp6.Model
             get { return BIND_SQL_SOUTEZ_CLUB_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Club'"); BIND_SQL_SOUTEZ_CLUB_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_CLUB"); }
         }
+
+        public string BIND_SQL_SOUTEZ_STAT
+        {
+            get { return BIND_SQL_SOUTEZ_STAT_value; }
+            set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='country'"); BIND_SQL_SOUTEZ_STAT_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STAT"); }
+        }
+
 
         public bool BIND_SQL_AUTO_USEPREPTIME
         {
@@ -6711,6 +6743,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                         DATE = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[1],
                         COMPETITORS = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[4],
                         SMCRID = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[5],
+                        COUNTRY = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[6],
 
                     };
                     MODEL_CONTESTS_ONLINE.Add(contests);
@@ -6845,6 +6878,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             set { _bind_scoreentry_selected_penalisationglobal = value; OnPropertyChanged(nameof(bind_scoreentry_selected_penalisationglobal)); }
         }
 
+
         public int _bind_scoreentry_selected_height;
         public int bind_scoreentry_selected_height
         {
@@ -6855,6 +6889,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
 
+        public bool bind_isnondeletable
+        {
+            get { return _bind_isnondeletable; }
+            set { _bind_isnondeletable = value; OnPropertyChanged(nameof(bind_isnondeletable)); }
+        }
 
         public int _bind_scoreentry_fromroundlist_selected_minute;
         public int bind_scoreentry_fromroundlist_selected_minute
@@ -6908,8 +6947,11 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             if (rnd == 0) { rnd = BIND_SELECTED_ROUND; }
                 if (grp == 0) { grp = BIND_SELECTED_GROUP; }
                 if (stp == 0) { stp = BIND_SELECTED_STARTPOINT; }
-    
-                SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_player_selected");
+
+            bind_isnondeletable = bool.Parse(SQL_READSOUTEZDATA("SELECT nondeletable from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            System.Threading.Thread.Sleep(100);
+
+            SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_player_selected");
             bind_scoreentry_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
             bind_scoreentry_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
 
@@ -6954,7 +6996,6 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
             bind_scoreentry_selected_height = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(height) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select height from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
-
         }
 
 
@@ -6971,6 +7012,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_Player_Selected_Roundlist");
             bind_scoreentry_fromroundlist_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
             bind_scoreentry_fromroundlist_selected_second = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(seconds) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select seconds from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            bind_isnondeletable = bool.Parse(SQL_READSOUTEZDATA("SELECT nondeletable from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
+            Console.WriteLine("bind_isnondeletable" + bind_isnondeletable);
 
             int _tmplandingid_fromroundlist = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(landing) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select landing from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
 
@@ -7013,13 +7056,16 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
-        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore)
+        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore, bool nondeletable)
         {
             Console.WriteLine("saving score");
             SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
-            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True');");
+            SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+            online_savescore(rnd, grp, stp, usrid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, rawscore, prepscore, nondeletable);
 
             Decimal _MAXRAW = Decimal.Parse(SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp, ""));
+            Decimal _PREPSCORE = 0;
+
 
             if (rnd >= 100)
             {
@@ -7028,7 +7074,6 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
 
                     decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
-                    Decimal _PREPSCORE = 0;
                     if (SQL_READSOUTEZDATA("select RECOUNTSCORETO1000 from rules", "") == "False")
                     {
                         _PREPSCORE = Math.Round(_RAW, 2);
@@ -7045,6 +7090,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
                     string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
                     SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
+                    online_updateprepscore(rnd, grp, i, _PREPSCORE);
+
                 }
             }
             else
@@ -7054,7 +7101,6 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
 
                     decimal _RAW = Decimal.Parse(SQL_READSOUTEZDATA("select raw FROM score s where s.rnd = " + rnd + " and s.grp = " + grp + " and s.stp = " + i, ""));
-                    Decimal _PREPSCORE = 0;
                     if (SQL_READSOUTEZDATA("select RECOUNTSCORETO1000 from rules", "") == "False")
                     {
                         _PREPSCORE = Math.Round(_RAW, 2);
@@ -7071,17 +7117,104 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
                     string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
                     SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
+                    online_updateprepscore(rnd, grp, i, _PREPSCORE);
+
                 }
             }
 
 
 
-            FUNCTION_CHECK_REFLY(rnd, grp);          
 
+
+
+
+            FUNCTION_CHECK_REFLY(rnd, grp);
+            Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
+            Console.WriteLine("_PREPSCORE_ONLINE = " + _PREPSCORE);
+
+        }
+
+
+
+
+        public void online_savescore(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore, bool nondeletable)
+        {
+
+
+
+            //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+            //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+
+
+
+
+            string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=insertscore&noveonlineidsouteze=999" +
+               "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
+               "&rnd=" + rnd +
+               "&grp=" + grp +
+               "&stp=" + stp +
+               "&insorgid=" + usrid +
+               "&min=" + minutes +
+               "&sec=" + seconds +
+               "&landing=" + landing+
+               "&height=" + height+
+               "&pen1value=" + pen1value +
+               "&pen1id=" + pen1id +
+               "&pen2value=" + pen2value +
+               "&pen2id=" + pen2id +
+               "&raw=" + rawscore +
+               "&prep=" + prepscore +
+               "&entered=1"+
+               "&nondeletable=" + nondeletable
+               ;
+            Console.WriteLine(remoteUrl);
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+            Console.WriteLine(result);
 
 
         }
 
+
+        public void online_updateprepscore(int rnd, int grp, int stp, decimal prepscore)
+        {
+
+
+
+            //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+            //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+
+
+
+
+            string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=updateprepscore&noveonlineidsouteze=999" +
+               "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
+               "&rnd=" + rnd +
+               "&grp=" + grp +
+               "&stp=" + stp +
+               "&prep=" + prepscore
+               ;
+            Console.WriteLine(remoteUrl);
+            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            HttpWebRequest.DefaultCachePolicy = policy;
+
+            httpRequest.CachePolicy = policy;
+            WebResponse response = httpRequest.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string result = reader.ReadToEnd();
+
+            Console.WriteLine(result);
+
+
+        }
 
         public int FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(int rnd, string type_skupiny, bool pridat_1)
         {
@@ -8986,6 +9119,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             }
 
         }
+
+      
+
 
 
         public void print_basicresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)

@@ -403,7 +403,7 @@
 
                                     <Label
                                         Height="45"
-                                        Margin="10,0,544,0"
+                                        Margin="10,0,590,0"
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
@@ -413,7 +413,7 @@
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
                                     <ListBox
                                         Name="categorylist"
-                                        Width="197"
+                                        Width="151"
                                         Height="357"
                                         Margin="10,50,0,0"
                                         HorizontalAlignment="Left"
@@ -448,11 +448,11 @@
 
 
                                     <Button
-                                        Margin="281,280,10,10"
+                                        Margin="166,280,10,10"
                                         Click="Button_Click_4"
                                         Content="{x:Static language:Lang.create}" />
                                     <WrapPanel
-                                        Width="460"
+                                        Width="575"
                                         Height="265"
                                         Margin="0,10,10,0"
                                         HorizontalAlignment="Right"
@@ -468,11 +468,10 @@
                                         <Controls:Tile
                                             Name="nastaveni_soutez"
                                             Title="{Binding BIND_NEWCONTEST_NAME}"
-                                            Margin="3"
                                             Click="nastaveni_soutez_Click"
                                             HorizontalTitleAlignment="Left"
                                             Style="{StaticResource ExtraLargeTileStyle}"
-                                            Tag="{x:Static language:Lang.tag_new_contest_name}">
+                                            Tag="{x:Static language:Lang.tag_new_contest_name}" Width="456">
                                             <iconPacks:PackIconUnicons
                                                 Width="40"
                                                 Height="40"
@@ -490,6 +489,21 @@
                                                 Height="40"
                                                 Kind="MapMarkedAltSolid" />
                                         </Controls:Tile>
+
+                                        <Controls:Tile
+                                            Title="{Binding BIND_NEWCONTEST_COUNTRY}"
+                                            Width="100"
+                                            
+                                            Click="nastaveni_soutez_Click"
+                                            
+                                            Tag="Stát|3-mistná zkratka státu, např CZE.|BIND_NEWCONTEST_COUNTRY"
+                                            Style="{StaticResource SmallTileStyle}">
+                                            <iconPacks:PackIconForkAwesome Kind="Globe" 
+                                                Width="40"
+                                                Height="40"
+                                                />
+                                        </Controls:Tile>
+                                        
                                         <Controls:Tile
                                             Title="{Binding BIND_NEWCONTEST_DATE}"
                                             Click="nastaveni_soutez_Click"
@@ -509,7 +523,7 @@
 
                                     <Label
                                         Height="30"
-                                        Margin="10,0,544,0"
+                                        Margin="10,0,589,0"
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
@@ -519,7 +533,7 @@
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
                                     <Label
                                         Height="30"
-                                        Margin="229,0,10,0"
+                                        Margin="167,0,10,0"
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
@@ -529,7 +543,7 @@
                                         Foreground="{DynamicResource MahApps.Brushes.AccentBase}" />
                                     <ListBox
                                         Name="categorylistforinternet"
-                                        Width="197"
+                                        Width="152"
                                         Height="226"
                                         Margin="10,35,0,0"
                                         HorizontalAlignment="Left"
@@ -564,7 +578,7 @@
 
                                     <Label
                                         Height="30"
-                                        Margin="10,266,544,0"
+                                        Margin="10,266,589,0"
                                         VerticalAlignment="Top"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
@@ -576,7 +590,7 @@
 
                                     <ListBox
                                         Name="internetcalendarsource"
-                                        Width="197"
+                                        Width="152"
                                         Height="106"
                                         Margin="10,301,0,0"
                                         HorizontalAlignment="Left"
@@ -612,7 +626,7 @@
 
                                     <ListBox
                                         x:Name="listofcontestfrominternet"
-                                        Margin="229,35,10,217"
+                                        Margin="167,35,10,217"
                                         BorderThickness="2"
                                         ItemsSource="{Binding MODEL_CONTESTS_ONLINE}"
                                         SelectedIndex="0"
@@ -644,7 +658,7 @@
 
 
                                     <WrapPanel
-                                        Width="512"
+                                        Width="574"
                                         Height="202"
                                         Margin="0,205,10,0"
                                         HorizontalAlignment="Right"
@@ -660,7 +674,7 @@
                                             Style="{StaticResource SmallTileStyle}" />
                                         <Controls:Tile
                                             Title="{Binding BIND_NEWCONTEST_NAME_ONLINE}"
-                                            Width="231"
+                                            Width="295"
                                             Height="100"
                                             Margin="3"
                                             HorizontalTitleAlignment="Left"
@@ -682,7 +696,7 @@
                                         </Controls:Tile>
                                         <Controls:Tile
                                             Title="{Binding BIND_NEWCONTEST_LOCATION_ONLINE}"
-                                            Width="202"
+                                            Width="280"
                                             Height="94"
                                             Margin="3"
                                             Style="{StaticResource extraSmallTileStyle}">
@@ -692,9 +706,21 @@
                                                 Kind="MapMarkedAltSolid" />
                                         </Controls:Tile>
                                         <Controls:Tile
+                                            Title="{Binding BIND_NEWCONTEST_COUNTRY_ONLINE}"
+                                            Width="100"
+                                            Height="94"
+                                            Margin="3"
+                                            Style="{StaticResource extraSmallTileStyle}">
+                                            <iconPacks:PackIconForkAwesome Kind="Globe" 
+                                                Width="40"
+                                                Height="40"
+                                                />
+                                        </Controls:Tile>
+
+                                        <Controls:Tile
                                             Name="createonlinecontent"
                                             Title="{x:Static language:Lang.create_this_contest}"
-                                            Width="294"
+                                            Width="170"
                                             Height="94"
                                             Margin="3"
                                             Background="{DynamicResource MahApps.Brushes.AccentBase}"

@@ -173,11 +173,26 @@
                             CountFontSize="35"
                             HorizontalTitleAlignment="Center"
                             IsEnabled="{Binding CONTEST_LOCK}"
-                            Style="{StaticResource LargeTileStyle}"
+                            Style="{StaticResource SmallTileStyle}"
                             TitleFontSize="14"
                             VerticalTitleAlignment="Bottom" />
 
+                        <mah:Tile
+                            Title="{Binding BIND_SQL_SOUTEZ_STAT}"
+                            Margin="3"
+                            mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                            Background="{DynamicResource MahApps.Brushes.Accent}"
+                            Click="nastaveni_soutez_Click"
+                            IsEnabled="{Binding CONTEST_LOCK}"
+                            Style="{StaticResource SmallTileStyle}"
+                            Tag="Stát|3-mistná zkratka státu, např CZE.|BIND_SQL_SOUTEZ_STAT">
 
+
+                            <iconPacks:PackIconForkAwesome Kind="Globe" 
+                                Width="40"
+                                Height="40"
+                                />
+                        </mah:Tile>
 
                         <mah:Tile
                             Title="{Binding BIND_SQL_SOUTEZ_CLUB}"

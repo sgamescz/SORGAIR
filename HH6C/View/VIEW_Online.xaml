@@ -7,6 +7,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:WpfApp6.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="generateQRcode"
     d:DesignHeight="800"
     d:DesignWidth="1000"
     mc:Ignorable="d">
@@ -18,93 +19,8 @@
             Margin="0,0,0,10"
             Controls:HeaderedControlHelper.HeaderFontSize="21"
             Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
-            <TabItem Header="Odeslání výsledovky">
-                <Grid>
-                    <Controls:MetroHeader  Header="Odeslání výsledovek" Margin="0,10,0,0">
-                        <Grid>
-                            <Label Content="Tímto odešleš 'SORG AIR Megavýsledovku' na www.stoupak.cz" 
-                                Margin="300,122,10,0" VerticalContentAlignment="Center" Height="108" VerticalAlignment="Top"/>
-                            <Controls:Tile
-                    x:Name="uploaddb_stoupak"
-                    Title="Odeslat výsledovku na stoupak.cz"
-                    Width="285"
-                    Height="118"
-                    Margin="10,117,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="{DynamicResource MahApps.Brushes.Accent}"
-                     Click="uploaddb_Click">
-                                <iconPacks:PackIconTypicons
-                        Width="30"
-                        Height="30"
-                        Margin="0,5,0,0"
-                        Kind="CloudStorage" />
-                            </Controls:Tile>
 
-                            <Controls:Tile
-                    x:Name="sendtosmcr"
-                    Title="Odeslat výsledovku na SMČR"
-                    Width="285"
-                    Height="118"
-                    Margin="10,371,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                                IsEnabled="True"
-                    Background="{DynamicResource MahApps.Brushes.Accent2}" Click="sendtosmcr_Click"
-                    >
-                                <iconPacks:PackIconFontAwesome
-                        Width="30"
-                        Height="30"
-                        Margin="0,5,0,0"
-                        Kind="PaperPlaneRegular" />
-                            </Controls:Tile>
-                            <Controls:Tile
-                    x:Name="sendviaemail"
-                                IsEnabled="True"
-                    Title="Odeslat výsledovku emailem"
-                    Width="285"
-                    Height="119"
-                    Margin="10,498,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="{DynamicResource MahApps.Brushes.Accent3}" Click="sendviaemail_Click"
-                    >
-                                <iconPacks:PackIconFontisto
-                        Width="30"
-                        Height="30"
-                        Margin="0,5,0,0"
-                        Kind="Email" />
-                            </Controls:Tile>
-                            <Label  Content="Tato volba odešle oficinální výsledovku na SMČR (toto bys měl mimojiné udělat, pokud pořádáš oficiální SMČR soutěž).&#x0a;Měj správně vyplněné údaje ze sekce 'Nastavení soutěže', Především SMČR ID!!!" 
-                                Margin="300,376,10,0" VerticalContentAlignment="Center" Height="108" VerticalAlignment="Top" />
-                            <Label Content="Tato volba odešle na zvolený email 'SORG AIR MEGAVÝSLEDOVKU'" 
-                                Margin="300,503,10,0" VerticalContentAlignment="Center" Height="109" VerticalAlignment="Top"/>
-                            <Label Content="V této sekci můžeš odeslat několika způsoby výsledovky na vybraná místa. 
-&#x0a;Dělej to až po úplném ukončení soutěže, a měj správně vyplněné všechny údaje ze stránky 'Nastevní soutěže'. Hlavně správné SMČR ID!!!" 
-                                Margin="10,10,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="92" VerticalAlignment="Top"/>
-                            <Label Content="Tímto odešleš 'SORG AIR Megavýsledovku' do SORG AIR kalendáře na kalendar.sorgair.com, &#x0a;kde se výsledovka spojí se soutěži v kalendáři" 
-                                Margin="300,249,10,0" VerticalContentAlignment="Center" Height="108" VerticalAlignment="Top"/>
-                            <Controls:Tile
-                                x:Name="uploaddb_sorgair"
-                                Title="Odeslat výsledovku na sorgair.com"
-                                Width="285"
-                                Height="118"
-                                Margin="10,244,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Background="{DynamicResource MahApps.Brushes.Accent}"
-                                Click="uploaddb_sorgair_Click">
-                                <iconPacks:PackIconModern
-                                    Width="30"
-                                    Height="30"
-                                    Margin="0,5,0,0"
-                                    Kind="ReplyCalendar" />
-                            </Controls:Tile>
-                        </Grid>
-                    </Controls:MetroHeader>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Online výsledky">
+            <TabItem Header="Online výsledky / přehled soutěže">
                 <Grid>
                     <Label Content="Tato funkce bude dodána co nevidět. Zatím použij prosím klasické odeslání výsledovky v první záložce" Margin="10,0,10,687" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ></Label>
 
@@ -155,16 +71,16 @@ zapisování výsledků nebo ihned po skončení soutěže. Nemá vliv na odesl�
 
                             <Controls:ToggleSwitch
                     x:Name="_switch"
-                    Width="295"
+                    Width="974"
                     Height="60"
-                    Margin="10,70,0,0"
+                    Margin="0,70,0,0"
                     VerticalAlignment="Top"
                     Foreground="{DynamicResource MahApps.Brushes.Accent}"
                     Header="Zveřejnit výsledky na internetu"
                     IsOn="{Binding CONTENT_ONLINE_ENABLED}"
-                                    IsEnabled="False"
+                                    IsEnabled="True"
                     OffContent="Ne"
-                    OnContent="Ano" />
+                    OnContent="Ano - Prosím aktivuj online výsledky s vygenerovaným ID níže!!" HorizontalAlignment="Center" />
 
                             <Button
                     Height="64"
@@ -179,16 +95,16 @@ zapisování výsledků nebo ihned po skončení soutěže. Nemá vliv na odesl�
                             </Button>
 
                             <Controls:ToggleSwitch
-                    Width="415"
+                    Width="974"
                     Height="64"
-                    Margin="10,135,0,0"
+                    Margin="0,135,0,0"
                     VerticalAlignment="Top"
                     Foreground="{DynamicResource MahApps.Brushes.Accent}"
                     Header="Nastavení soukromí odesílaných výsledků"
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}"
                     IsOn="{Binding CONTENT_ONLINE_PUBLIC}"
                     OffContent="Data vidí pouze ten, kdo má ID kód"
-                    OnContent="Data jsou volně dostupné na internetu" />
+                    OnContent="Data jsou volně dostupné na internetu" HorizontalAlignment="Center" />
                             <Controls:Tile
                     x:Name="newcontestid_Copy"
                     Width="75"
@@ -197,7 +113,7 @@ zapisování výsledků nebo ihned po skončení soutěže. Nemá vliv na odesl�
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
-                    Click="newcontestid_Click"
+                 
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}">
                                 <iconPacks:PackIconJamIcons
                         Width="30"
@@ -213,7 +129,7 @@ zapisování výsledků nebo ihned po skončení soutěže. Nemá vliv na odesl�
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
-                    Click="newcontestid_Click"
+                    
                     IsEnabled="{Binding CONTENT_ONLINE_ENABLED}">
                                 <iconPacks:PackIconJamIcons
                         Width="30"
@@ -223,7 +139,7 @@ zapisování výsledků nebo ihned po skončení soutěže. Nemá vliv na odesl�
                             </Controls:Tile>
 
                             <Grid Background="{DynamicResource MahApps.Brushes.Selected.Foreground }" Margin="435,342,20,10">
-                                <Image x:Name="QRIMG" Height="180"  Margin="182,8,183,8" />
+                                <Image x:Name="QRIMG" Height="180"  Margin="182,10,183,90" />
                             </Grid>
 
                             <Controls:Tile
@@ -267,7 +183,94 @@ zapisování výsledků nebo ihned po skončení soutěže. Nemá vliv na odesl�
 
                 </Grid>
             </TabItem>
+            <TabItem Header="Odeslání finální výsledovky na email / weby">
+                <Grid>
+                    <Controls:MetroHeader  Header="Odeslání výsledovek" Margin="0,10,0,0">
+                        <Grid>
 
+                            <Label Content="Tímto odešleš 'SORG AIR Megavýsledovku' do SORG AIR kalendáře na kalendar.sorgair.com, &#x0a;kde se výsledovka spojí se soutěži v kalendáři a vůbec celým systémem" 
+                                Margin="300,121,10,0" VerticalContentAlignment="Center" Height="108" VerticalAlignment="Top"/>
+                            <Controls:Tile
+                                x:Name="uploaddb_sorgair"
+                                Title="1) Odeslat výsledovku do SAEMu"
+                                Width="284"
+                                Height="118"
+                                Margin="10,116,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource MahApps.Brushes.Accent}"
+                                Click="uploaddb_sorgair_Click">
+                                <iconPacks:PackIconModern
+                                    Width="30"
+                                    Height="30"
+                                    Margin="0,5,0,0"
+                                    Kind="ReplyCalendar" />
+                            </Controls:Tile>
+                            <Label Content="Tímto odešleš 'SORG AIR Megavýsledovku' na www.stoupak.cz" 
+                                Margin="300,249,10,0" VerticalContentAlignment="Center" Height="108" VerticalAlignment="Top"/>
+                            <Controls:Tile
+                    x:Name="uploaddb_stoupak"
+                    Title="2) Odeslat výsledovku na stoupak.cz"
+                    Width="285"
+                    Height="118"
+                    Margin="10,244,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource MahApps.Brushes.Accent}"
+                     Click="uploaddb_Click">
+                                <iconPacks:PackIconTypicons
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="CloudStorage" />
+                            </Controls:Tile>
+
+                            <Controls:Tile
+                    x:Name="sendtosmcr"
+                    Title="3) Odeslat výsledovku na SMČR"
+                    Width="285"
+                    Height="118"
+                    Margin="10,371,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                                IsEnabled="True"
+                    Background="{DynamicResource MahApps.Brushes.Accent2}" Click="sendtosmcr_Click"
+                    >
+                                <iconPacks:PackIconFontAwesome
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="PaperPlaneRegular" />
+                            </Controls:Tile>
+                            <Controls:Tile
+                    x:Name="sendviaemail"
+                                IsEnabled="True"
+                    Title="4) Odeslat výsledovku emailem"
+                    Width="285"
+                    Height="119"
+                    Margin="10,498,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource MahApps.Brushes.Accent3}" Click="sendviaemail_Click"
+                    >
+                                <iconPacks:PackIconFontisto
+                        Width="30"
+                        Height="30"
+                        Margin="0,5,0,0"
+                        Kind="Email" />
+                            </Controls:Tile>
+                            <Label  Content="Tato volba odešle oficinální výsledovku na SMČR (toto bys měl mimojiné udělat, pokud pořádáš oficiální SMČR soutěž).&#x0a;Měj správně vyplněné údaje ze sekce 'Nastavení soutěže', Především SMČR ID!!!" 
+                                Margin="300,376,10,0" VerticalContentAlignment="Center" Height="108" VerticalAlignment="Top" />
+                            <Label Content="Tato volba odešle na zvolený email 'SORG AIR MEGAVÝSLEDOVKU'" 
+                                Margin="300,503,10,0" VerticalContentAlignment="Center" Height="109" VerticalAlignment="Top"/>
+                            <Label Content="V této sekci můžeš odeslat několika způsoby výsledovky na vybraná místa. 
+&#x0a;Dělej to až po úplném ukončení soutěže, a měj správně vyplněné všechny údaje ze stránky 'Nastevní soutěže'. Hlavně správné SMČR ID!!!" 
+                                Margin="10,10,10,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="92" VerticalAlignment="Top"/>
+
+                        </Grid>
+                    </Controls:MetroHeader>
+                </Grid>
+            </TabItem>
 
         </TabControl>
 

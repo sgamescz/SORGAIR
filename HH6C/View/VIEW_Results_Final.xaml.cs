@@ -184,8 +184,8 @@ namespace WpfApp6.View
                 for (int i = 0; i < VM.Players.Count(); i++)
                 {
 
-                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100", "");
-                    tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100", "");
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and nondeletable = 'False' and rnd <= 100", "");
+                    tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and nondeletable = 'False' and rnd <= 100", "");
                     VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and grp='" + tmp_grp_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }
@@ -608,8 +608,8 @@ namespace WpfApp6.View
                 for (int i = 0; i < VM.Players.Count(); i++)
                 {
 
-                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100" , "");
-                    tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and rnd <= 100" , "");
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and nondeletable = 'False' and rnd <= 100", "");
+                    tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and refly='False' and nondeletable = 'False' and rnd <= 100", "");
                     VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and grp='" + tmp_grp_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }

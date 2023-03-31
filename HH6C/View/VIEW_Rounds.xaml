@@ -790,17 +790,18 @@
 
 
                         <Controls:ToggleSwitch
-                            Grid.Column="0"
-                            Width="202"
-                            Margin="10,380,0,68"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            ContentDirection="LeftToRight"
-                            FontSize="12"
-                            IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLENEXT}"
-                            IsTabStop="False"
-                            OffContent="Po uložení zavřít"
-                            OnContent="Po uložení přejít na další" />
+                        Name="isnondeletable"
+                        Grid.Column="0"
+                        Width="202"
+                        Margin="10,383,0,12"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Left"
+                        ContentDirection="LeftToRight"
+                        FontSize="12"
+                        IsOn="{Binding bind_isnondeletable}"
+                        IsTabStop="False"
+                        OnContent="Výsledek NELZE škrtat"
+                        OffContent="Výsledek LZE škrtat" />
 
 
                         <Controls:MetroHeader

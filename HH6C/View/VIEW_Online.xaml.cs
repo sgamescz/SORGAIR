@@ -41,6 +41,8 @@ namespace WpfApp6.View
         {
 
         InitializeComponent();
+
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -51,8 +53,9 @@ namespace WpfApp6.View
 
             string[] mArrayOfcontests = new string[300];
 
-
-            string remoteUrl = "http://api.stoupak.cz/sorgair/2021/api_results_contestverify.php?id=1;";
+            //toto overuje, zda soutez s takovym XYASDASD id existuje
+            string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=verifyifexist&id="+VM.CONTENT_RANDOM_ID;
+            Console.WriteLine(remoteUrl);
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;
@@ -63,34 +66,191 @@ namespace WpfApp6.View
             string result = reader.ReadToEnd();
 
             Console.WriteLine(result);
-
-            String[] spearator = { "<br>" };
-            String[] strlist = result.Split(spearator, 100, StringSplitOptions.None);
-            foreach (String soutez in strlist)
+            if (result == "0")
             {
-                Console.WriteLine(soutez);
+                Console.WriteLine("soutez neexistuje");
 
-                String[] spearator_sub = { "|" };
 
-                if (soutez.Length > 5)
+
+
+                //toto vytvori soutez jako takovou
+                remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createcontest&contesID=" + VM.BIND_SQL_SOUTEZ_SMCRID 
+                    + "&category="+VM.BIND_SQL_SOUTEZ_KATEGORIE
+                    + "&name=" + VM.BIND_SQL_SOUTEZ_NAZEV
+                    + "&place=" + VM.BIND_SQL_SOUTEZ_LOKACE
+                    + "&organisator=" + VM.BIND_SQL_SOUTEZ_CLUB
+                    + "&date=" + VM.BIND_SQL_SOUTEZ_DATUM
+                    + "&contestdirector=" + VM.BIND_SQL_SOUTEZ_DIRECTOR
+                    + "&wheater=" + VM.BIND_SQL_SOUTEZ_POCASI
+                    + "&headjury=" + VM.BIND_SQL_SOUTEZ_HEADJURY
+                    + "&jurymember1=" + VM.BIND_SQL_SOUTEZ_JURY1
+                    + "&jurymember2=" + VM.BIND_SQL_SOUTEZ_JURY2
+                    + "&jurymember3=" + VM.BIND_SQL_SOUTEZ_JURY3
+                    + "&stat=" + VM.BIND_SQL_SOUTEZ_STAT
+                    + "&isjuniors=False"
+                    + "&sorgairidentifikator=" + VM.CONTENT_RANDOM_ID
+                    ;
+                Console.WriteLine(remoteUrl);
+                httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
+
+                httpRequest.CachePolicy = policy;
+                response = httpRequest.GetResponse();
+                reader = new StreamReader(response.GetResponseStream());
+                result = reader.ReadToEnd();
+                int noveonlineidsouteze=0;
+                int.TryParse(result,out noveonlineidsouteze);
+                Console.WriteLine(noveonlineidsouteze);
+
+
+                //toto vytvari vsechny soutezici
+                for (int i = 0; i < VM.Players.Count; i++)
                 {
-                    //var contests = new MODEL_Contests_files()
-                    //{
 
-  //                      FILENAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[3],
-    //                    CATEGORY = BIND_NEWCONTEST_CATEGORY,
-      //                  NAME = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[0],
-        //                LOCATION = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[2],
-          //              DATE = soutez.Split(spearator_sub, 100, StringSplitOptions.RemoveEmptyEntries)[1]
-            //        };
-              //      MODEL_CONTESTS_ONLINE.Add(contests);
+
+
+                    remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createcompetitor&noveonlineidsouteze=" + noveonlineidsouteze
+                        + "&insorgid=" + VM.Players[i].ID
+                        + "&firstname=" + VM.Players[i].FIRSTNAME
+                        + "&lastname=" + VM.Players[i].LASTNAME
+                        + "&country=" + VM.Players[i].COUNTRY
+                        + "&agecat=" + VM.Players[i].AGECATID
+                        + "&failic=" + VM.Players[i].FAILIC
+                        + "&naclic=" + VM.Players[i].NACLIC
+                        + "&freq=" + VM.Players[i].FREQID
+                        + "&ch1=" + VM.Players[i].CH1
+                        + "&ch2=" + VM.Players[i].CH2
+                        + "&club=" + VM.Players[i].CLUB
+                        + "&flag=" + VM.Players[i].FLAG
+                        + "&paid=" + VM.Players[i].PAIDSTR
+                        + "&team=" + VM.Players[i].TEAM
+                        + "&customagecat=" + VM.Players[i].CUSTOMAGECAT
+                        ;
+                    Console.WriteLine(remoteUrl);
+                    httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                    policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                    HttpWebRequest.DefaultCachePolicy = policy;
+
+                    httpRequest.CachePolicy = policy;
+                    response = httpRequest.GetResponse();
+                    reader = new StreamReader(response.GetResponseStream());
+                    result = reader.ReadToEnd();
+
 
                 }
 
 
 
 
+    
+                // vytvori to kola
+                for (int i = 0; i < VM.BIND_SQL_SOUTEZ_ROUNDS; i++)
+                {
+
+
+
+                    remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createround&noveonlineidsouteze=" + noveonlineidsouteze
+                        + "&desc=" +(i+1)
+                        + "&desc2=" + (i+1)
+                        ;
+                    Console.WriteLine(remoteUrl);
+                    httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                    policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                    HttpWebRequest.DefaultCachePolicy = policy;
+
+                    httpRequest.CachePolicy = policy;
+                    response = httpRequest.GetResponse();
+                    reader = new StreamReader(response.GetResponseStream());
+                    result = reader.ReadToEnd();
+
+
+                    // toto vytvari v klech jeste skupiny
+                    for (int y = 0; y < VM.BIND_SQL_SOUTEZ_GROUPS; y++)
+                    {
+
+
+
+                        remoteUrl = "http://api.sorgair.com/api_online_results.php?action=creategroup&noveonlineidsouteze=" + noveonlineidsouteze
+                            + "&round=" + (i + 1)
+                            + "&desc=" + (y + 1)
+                            + "&desc2=" + (y + 1)
+                            ;
+                        Console.WriteLine(remoteUrl);
+                        httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                        policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                        HttpWebRequest.DefaultCachePolicy = policy;
+
+                        httpRequest.CachePolicy = policy;
+                        response = httpRequest.GetResponse();
+                        reader = new StreamReader(response.GetResponseStream());
+                        result = reader.ReadToEnd();
+
+
+                    }
+
+
+
+                }
+
+
+
+
+
+                for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
+                {
+                   
+                    for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                    {
+                    
+                        for (int stp = 1; stp < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; stp++)
+                        {
+                            string kdo = VM.SQL_READSOUTEZDATA("select user from matrix where rnd=" + x.ToString() + " and grp=" + g.ToString() + " and stp=" + stp.ToString() + " ; ", "");
+
+
+                              remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createdraw&noveonlineidsouteze=" + noveonlineidsouteze
+                            + "&round=" + x
+                            + "&group=" + g
+                            + "&stp=" + stp
+                            + "&insorguserid=" + kdo
+                            ;
+                            Console.WriteLine(remoteUrl);
+                        httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                        policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                        HttpWebRequest.DefaultCachePolicy = policy;
+
+                        httpRequest.CachePolicy = policy;
+                        response = httpRequest.GetResponse();
+                        reader = new StreamReader(response.GetResponseStream());
+                        result = reader.ReadToEnd();
+
+
+                        }
+                    }
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
+            else
+            {
+                Console.WriteLine("soutez bohuzel existuje");
+
+            }
+
+
 
         }
 
@@ -154,6 +314,13 @@ namespace WpfApp6.View
             QRCoder.QRCodeData qrCodeData = qrGenerator.CreateQrCode(VM.CONTENT_ONLINE_URL, QRCoder.QRCodeGenerator.ECCLevel.Q);
             QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
             System.Drawing.Bitmap  qrCodeImage = qrCode.GetGraphic(20);
+
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+            
+
+
+            qrCodeImage.Save(directory + "/qr/" + VM.CONTENT_RANDOM_ID + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
 
             QRIMG.Source = ConvertBitmap(qrCodeImage);
             var SigBase64 = "";
@@ -281,7 +448,7 @@ namespace WpfApp6.View
                 for (int i = 0; i < VM.Players.Count(); i++)
                 {
 
-                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and rnd < 100 ", "");
+                    tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players[i].ID + " and skrtacka='False' and nondeletable = 'False' and rnd < 100 ", "");
   //                  VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and userid=" + VM.Players[i].ID);
 
                 }

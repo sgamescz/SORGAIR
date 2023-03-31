@@ -785,6 +785,15 @@ namespace WpfApp6.Model
         }
 
 
+        private string _COUNTRY;
+        public string COUNTRY
+        {
+            get { return _COUNTRY; }
+            set { _COUNTRY = value; RaisePropertyChanged(nameof(COUNTRY)); }
+        }
+
+
+
     }
 
 

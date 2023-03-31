@@ -254,10 +254,10 @@ namespace WpfApp6.View
                 string vyplnenyinput = "";
 
 
-
                 if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_NAME") { vyplnenyinput = VM.BIND_NEWCONTEST_NAME; }
                 if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_LOCATION") { vyplnenyinput = VM.BIND_NEWCONTEST_LOCATION; }
                 if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_DATE") { vyplnenyinput = VM.BIND_NEWCONTEST_DATE; }
+                if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_COUNTRY") { vyplnenyinput = VM.BIND_NEWCONTEST_COUNTRY; }
 
                 var currentWindow = this.TryFindParent<MetroWindow>();
                 var result = await currentWindow.ShowInputAsync(TAGY[(i * 3)], TAGY[(i * 3) + 1], new MetroDialogSettings() { DefaultText = vyplnenyinput });
@@ -271,6 +271,7 @@ namespace WpfApp6.View
                 }
                 if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_LOCATION") { VM.BIND_NEWCONTEST_LOCATION = result; }
                 if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_DATE") { VM.BIND_NEWCONTEST_DATE = result; }
+                if (TAGY[(i * 3) + 2] == "BIND_NEWCONTEST_COUNTRY") { VM.BIND_NEWCONTEST_COUNTRY = result; }
             }
 
 
@@ -402,6 +403,7 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_LOCATION + "' where item='Location';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE + "' where item='Date';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_NAME + "' where item='Name';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_COUNTRY + "' where item='country';");
 
             VM.SQL_SAVESOUTEZDATA("update contest set value='999' where item='Matrix_score';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='999' where item='Matrix_score_final';");
@@ -573,7 +575,7 @@ namespace WpfApp6.View
                 VM.BIND_NEWCONTEST_LOCATION_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].LOCATION;
                 VM.BIND_NEWCONTEST_ID_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].FILENAME;
                 VM.BIND_NEWCONTEST_SMCR_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].SMCRID;
-
+                VM.BIND_NEWCONTEST_COUNTRY_ONLINE = VM.MODEL_CONTESTS_ONLINE[listofcontestfrominternet.SelectedIndex].COUNTRY;
             }
         }
 
@@ -640,6 +642,7 @@ namespace WpfApp6.View
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_DATE_ONLINE + "' where item='Date';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_NAME_ONLINE + "' where item='Name';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_SMCR_ONLINE + "' where item='SMCRID';");
+            VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_COUNTRY_ONLINE + "' where item='country';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='" + VM.BIND_NEWCONTEST_ID_ONLINE+ "' where item='sorgaircalendarcontestid';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='125478' where item='Matrix_score_final';");
             VM.SQL_SAVESOUTEZDATA("update contest set value='125478' where item='Matrix_score';");

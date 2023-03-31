@@ -748,7 +748,7 @@
                 ClosingFinished="scoreentry_back_Click"
                 Header="Zádání výsledku"
                 IsModal="False"
-                IsOpen="True"
+                IsOpen="False"
                 Position="Bottom"
                 Theme="Adapt"
                 TitleVisibility="Collapsed">
@@ -986,6 +986,7 @@
 
 
                     <mah:ToggleSwitch
+                        Name="isnondeletable"
                         Grid.Column="0"
                         Width="202"
                         Margin="10,383,0,12"
@@ -993,10 +994,10 @@
                         HorizontalContentAlignment="Left"
                         ContentDirection="LeftToRight"
                         FontSize="12"
-                        IsOn="True"
+                        IsOn="{Binding bind_isnondeletable}"
                         IsTabStop="False"
-                        OnContent="Výsledek lze škrtat"
-                        OffContent="Výsledek NELZE škrtat" />
+                        OnContent="Výsledek NELZE škrtat"
+                        OffContent="Výsledek LZE škrtat" />
 
 
                     <mah:MetroHeader

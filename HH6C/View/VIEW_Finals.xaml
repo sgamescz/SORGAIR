@@ -1177,18 +1177,17 @@
 
 
                     <Controls:ToggleSwitch
+                        Name="isnondeletable"
                         Grid.Column="0"
                         Width="202"
-                        Height="37"
-                        Margin="10,362,0,6"
-                        HorizontalAlignment="Left"
+                        Margin="10,362,0,0"
                         HorizontalContentAlignment="Left"
                         ContentDirection="LeftToRight"
                         FontSize="12"
-                        IsOn="{Binding BIND_SQL_SOUTEZ_ENTRYSTYLENEXT}"
+                        IsOn="{Binding bind_isnondeletable}"
                         IsTabStop="False"
-                        OffContent="Po uložení zavřít"
-                        OnContent="Po uložení přejít na další" />
+                        OnContent="Výsledek NELZE škrtat"
+                        OffContent="Výsledek LZE škrtat" VerticalAlignment="Top" />
 
 
                     <Controls:MetroHeader
