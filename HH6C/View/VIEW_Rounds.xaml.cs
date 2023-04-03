@@ -15,6 +15,7 @@ namespace WpfApp6.View
     {
         private MODEL_ViewModel VM => this.DataContext as MODEL_ViewModel;
         bool _isscoreentryopen = false;
+        bool _zapisujiscore = false;
 
         public Rounds()
         {
@@ -182,367 +183,381 @@ namespace WpfApp6.View
         public void savescore_event(bool quick_partial_save)
         {
 
-            Console.WriteLine(quick_partial_save);
 
-            if (quick_partial_save == true)
+            if (_zapisujiscore == false)
             {
+                _zapisujiscore = true;
 
-                if (VM.bind_scoreentry_fromroundlist_selected_minute > 0 & VM.bind_scoreentry_fromroundlist_selected_second > 0 & VM.bind_scoreentry_fromroundlist_selected_landing > 0 & VM.bind_scoreentry_fromroundlist_selected_height > 0)
+
+                Console.WriteLine(quick_partial_save);
+
+                if (quick_partial_save == true)
                 {
 
-
-                int _tmp_height = scoreentry_height.SelectedIndex;
-                if (_tmp_height < 0) { _tmp_height = 0; }
-
-
-
-
-                int tmpheight = VM.BINDING_Timer_listofheights[_tmp_height].Value;
-                int _tmp_min = scoreentry_minutes.SelectedIndex;
-                if (_tmp_min < 0) { _tmp_min = 0; }
-                int _tmp_sec = scoreentry_seconds.SelectedIndex;
-                if (_tmp_sec < 0) { _tmp_sec = 0; }
-                int _tmp_land = VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE;
-                if (_tmp_land < 0) { _tmp_land = 0; }
-
-                Decimal _RAWSCORE = 0;
-
-                // time section
-                Decimal _time_points = 0;
-                int _time = (_tmp_min * 60) + _tmp_sec;
-                if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT)
-                {
-                    Decimal _timeunder = VM.MODEL_CONTEST_RULES[0].TIME1LIMIT * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
-                    Decimal _timeover = (_time - VM.MODEL_CONTEST_RULES[0].TIME1LIMIT) * VM.MODEL_CONTEST_RULES[0].TIME1OVER;
-                    _time_points = _timeunder + _timeover;
-
-                    if (VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
-                    {
-                        _time_points = 0;
-                    }
-
-                    if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
-                    {
-                        _time_points = 0;
-                    }
-
-
-                }
-                else
-                {
-                    _time_points = _time * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
-                }
-
-
-                //height section
-
-
-                Decimal _height_points = 0;
-                int _height = _tmp_height;
-                if (_height > VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT)
-                {
-
-                    Decimal _heightunder = VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
-                    Decimal _heightover = (_height - VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT) * VM.MODEL_CONTEST_RULES[0].HEIGHTOVER;
-
-                    _height_points = _heightunder + _heightover;
-
-
-                }
-                else
-                {
-                    _height_points = _height * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
-                }
-
-
-                int _landings = _tmp_land;
-
-                if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING1 == true)
-                {
-                    _landings = 0;
-                }
-                if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING2 == true)
-                {
-                    _landings = 0;
-                }
-
-                _RAWSCORE = _time_points + _height_points + _landings;
-
-
-                Console.WriteLine("_RAWSCORE is " + _RAWSCORE);
-
-                if (scoreentry_penlocal.SelectedIndex >= 0)
-                {
-                    if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_LANDING == "True")
-                    {
-                        _RAWSCORE = _RAWSCORE - _landings;
-                    }
-
-                    if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_TIME == "True")
-                    {
-                        _RAWSCORE = _RAWSCORE - _time_points;
-                    }
-
-                    if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_ALL == "True")
-                    {
-                        _RAWSCORE = 0;
-                    }
-
-                    _RAWSCORE = _RAWSCORE + (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE);
-                }
-
-
-                Console.WriteLine("pen is " + VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE);
-                Console.WriteLine("fixed rawscore is " + _RAWSCORE);
-
-
-                if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL1 == true)
-                {
-                    _RAWSCORE = 0;
-                }
-
-                if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL2 == true)
-                {
-                    _RAWSCORE = 0;
-                }
-
-
-
-                string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
-
-                VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + VM.BIND_VIEWED_ROUND + " and grp = " + VM.BIND_VIEWED_GROUP + " and stp = " + VM.BIND_VIEWED_STARTPOINT);
-                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + VM.BIND_VIEWED_ROUND + " and s.grp = " + VM.BIND_VIEWED_GROUP, ""));
-                Decimal _PREPSCORE = 0;
-
-                if (_MAXRAW != 0)
-                {
-                    _PREPSCORE = Math.Round((_RAWSCORE / _MAXRAW) * 1000, 2);
-
-                }
-                string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
-
-
-                VM.Player_Selected_Roundlist[0].SCORE_RAW = _RAWSCORE_STR;
-                VM.Player_Selected_Roundlist[0].SCORE_PREP = _PREPSCORE_STR;
-
-                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP, VM.BIND_VIEWED_STARTPOINT, VM.Player_Selected_Roundlist[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected_Roundlist[0].SCORE_RAW, VM.Player_Selected_Roundlist[0].SCORE_PREP,isnondeletable.IsOn);
-                VM.Player_Selected_Roundlist[0].SCORE_RAW = _RAWSCORE_STR;
-                VM.Player_Selected_Roundlist[0].SCORE_PREP = _PREPSCORE_STR;
-                Console.WriteLine(VM.Player_Selected_Roundlist[0].SCORE_RAW);
-                Console.WriteLine(VM.Player_Selected_Roundlist[0].SCORE_PREP);
-                aktualscore.Content = "SCORE : " + VM.Player_Selected_Roundlist[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected_Roundlist[0].SCORE_RAW + " ]";
-
-
-            }
-
-
-        }
-            else
-            {
-                if (scoreentry_minutes.SelectedIndex >= 0 & scoreentry_seconds.SelectedIndex >= 0 & scoreentry_height.SelectedIndex >= 0 & scoreentry_landing.SelectedIndex >= 0)
-
-                {
-
-
-
-
-
-                    Decimal _RAWSCORE = 0;
-
-                    // time section
-                    Decimal _time_points = 0;
-                    int _time = (VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value * 60) + VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value;
-
-
-                    if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT)
+                    if (VM.bind_scoreentry_fromroundlist_selected_minute > 0 & VM.bind_scoreentry_fromroundlist_selected_second > 0 & VM.bind_scoreentry_fromroundlist_selected_landing > 0 & VM.bind_scoreentry_fromroundlist_selected_height > 0)
                     {
 
-                        Decimal _timeunder = VM.MODEL_CONTEST_RULES[0].TIME1LIMIT * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
-                        Decimal _timeover = (_time - VM.MODEL_CONTEST_RULES[0].TIME1LIMIT) * VM.MODEL_CONTEST_RULES[0].TIME1OVER;
-                        _time_points = _timeunder + _timeover;
 
-                        if (VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
+                        int _tmp_height = scoreentry_height.SelectedIndex;
+                        if (_tmp_height < 0) { _tmp_height = 0; }
+
+
+
+
+                        int tmpheight = VM.BINDING_Timer_listofheights[_tmp_height].Value;
+                        int _tmp_min = scoreentry_minutes.SelectedIndex;
+                        if (_tmp_min < 0) { _tmp_min = 0; }
+                        int _tmp_sec = scoreentry_seconds.SelectedIndex;
+                        if (_tmp_sec < 0) { _tmp_sec = 0; }
+                        int _tmp_land = VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE;
+                        if (_tmp_land < 0) { _tmp_land = 0; }
+
+                        Decimal _RAWSCORE = 0;
+
+                        // time section
+                        Decimal _time_points = 0;
+                        int _time = (_tmp_min * 60) + _tmp_sec;
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT)
                         {
-                            _time_points = 0;
+                            Decimal _timeunder = VM.MODEL_CONTEST_RULES[0].TIME1LIMIT * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
+                            Decimal _timeover = (_time - VM.MODEL_CONTEST_RULES[0].TIME1LIMIT) * VM.MODEL_CONTEST_RULES[0].TIME1OVER;
+                            _time_points = _timeunder + _timeover;
+
+                            if (VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
+                            {
+                                _time_points = 0;
+                            }
+
+                            if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
+                            {
+                                _time_points = 0;
+                            }
+
+
                         }
-
-                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
+                        else
                         {
-                            _time_points = 0;
+                            _time_points = _time * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
                         }
 
 
+                        //height section
 
 
-                    }
-
-                    else
-                    {
-                        _time_points = _time * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
-                    }
-
-
-
-
-
-                    //height section
-
-
-                    Decimal _height_points = 0;
-                    int _height = VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value;
-                    if (_height > VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT)
-                    {
-
-                        Decimal _heightunder = VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
-                        Decimal _heightover = (_height - VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT) * VM.MODEL_CONTEST_RULES[0].HEIGHTOVER;
-
-                        _height_points = _heightunder + _heightover;
-
-
-                    }
-                    else
-                    {
-                        _height_points = _height * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
-                    }
-
-
-                    int _landings = VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE;
-
-                    if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING1 == true)
-                    {
-                        _landings = 0;
-                    }
-                    if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING2 == true)
-                    {
-                        _landings = 0;
-                    }
-
-
-                    _RAWSCORE = _time_points + _height_points + _landings;
-
-
-
-
-
-
-                    if (scoreentry_penlocal.SelectedIndex >= 0)
-                    {
-
-                        if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_LANDING == "True")
+                        Decimal _height_points = 0;
+                        int _height = _tmp_height;
+                        if (_height > VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT)
                         {
-                            _RAWSCORE = _RAWSCORE - _landings;
+
+                            Decimal _heightunder = VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
+                            Decimal _heightover = (_height - VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT) * VM.MODEL_CONTEST_RULES[0].HEIGHTOVER;
+
+                            _height_points = _heightunder + _heightover;
+
+
+                        }
+                        else
+                        {
+                            _height_points = _height * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
                         }
 
-                        if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_TIME == "True")
+
+                        int _landings = _tmp_land;
+
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING1 == true)
                         {
-                            _RAWSCORE = _RAWSCORE - _time_points;
+                            _landings = 0;
+                        }
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING2 == true)
+                        {
+                            _landings = 0;
                         }
 
-                        if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_ALL == "True")
+                        _RAWSCORE = _time_points + _height_points + _landings;
+
+
+                        Console.WriteLine("_RAWSCORE is " + _RAWSCORE);
+
+                        if (scoreentry_penlocal.SelectedIndex >= 0)
+                        {
+                            if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_LANDING == "True")
+                            {
+                                _RAWSCORE = _RAWSCORE - _landings;
+                            }
+
+                            if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_TIME == "True")
+                            {
+                                _RAWSCORE = _RAWSCORE - _time_points;
+                            }
+
+                            if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_ALL == "True")
+                            {
+                                _RAWSCORE = 0;
+                            }
+
+                            _RAWSCORE = _RAWSCORE + (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE);
+                        }
+
+
+                        Console.WriteLine("pen is " + VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE);
+                        Console.WriteLine("fixed rawscore is " + _RAWSCORE);
+
+
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL1 == true)
                         {
                             _RAWSCORE = 0;
                         }
 
-                        _RAWSCORE = _RAWSCORE + (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE);
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL2 == true)
+                        {
+                            _RAWSCORE = 0;
+                        }
+
+
+
+                        string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
+
+                        VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + VM.BIND_VIEWED_ROUND + " and grp = " + VM.BIND_VIEWED_GROUP + " and stp = " + VM.BIND_VIEWED_STARTPOINT);
+                        Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + VM.BIND_VIEWED_ROUND + " and s.grp = " + VM.BIND_VIEWED_GROUP, ""));
+                        Decimal _PREPSCORE = 0;
+
+                        if (_MAXRAW != 0)
+                        {
+                            _PREPSCORE = Math.Round((_RAWSCORE / _MAXRAW) * 1000, 2);
+
+                        }
+                        string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
+
+
+                        VM.Player_Selected_Roundlist[0].SCORE_RAW = _RAWSCORE_STR;
+                        VM.Player_Selected_Roundlist[0].SCORE_PREP = _PREPSCORE_STR;
+
+                        VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP, VM.BIND_VIEWED_STARTPOINT, VM.Player_Selected_Roundlist[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected_Roundlist[0].SCORE_RAW, VM.Player_Selected_Roundlist[0].SCORE_PREP, isnondeletable.IsOn,false);
+                        VM.Player_Selected_Roundlist[0].SCORE_RAW = _RAWSCORE_STR;
+                        VM.Player_Selected_Roundlist[0].SCORE_PREP = _PREPSCORE_STR;
+                        Console.WriteLine(VM.Player_Selected_Roundlist[0].SCORE_RAW);
+                        Console.WriteLine(VM.Player_Selected_Roundlist[0].SCORE_PREP);
+                        aktualscore.Content = "SCORE : " + VM.Player_Selected_Roundlist[0].SCORE_PREP + " ==  [ RAW : " + VM.Player_Selected_Roundlist[0].SCORE_RAW + " ]";
+
+
                     }
-
-
-
-
-                    if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL1 == true)
-                    {
-                        _RAWSCORE = 0;
-                    }
-
-                    if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL2 == true)
-                    {
-                        _RAWSCORE = 0;
-                    }
-
-
-
-
-                    string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
-
-                    VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + VM.BIND_VIEWED_ROUND + " and grp = " + VM.BIND_VIEWED_GROUP + " and stp = " + VM.BIND_VIEWED_STARTPOINT);
-
-                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + VM.BIND_VIEWED_ROUND + " and s.grp = " + VM.BIND_VIEWED_GROUP, ""));
-
-                    Decimal _PREPSCORE = 0;
-
-                    if (_MAXRAW != 0)
-                    {
-                        _PREPSCORE = Math.Round((_RAWSCORE / _MAXRAW) * 1000, 2);
-                    }
-
-
-
-
-                    string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
-
-
-                    VM.Player_Selected_Roundlist[0].SCORE_RAW = _RAWSCORE_STR;
-                    VM.Player_Selected_Roundlist[0].SCORE_PREP = _PREPSCORE_STR;
-
-                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP, VM.BIND_VIEWED_STARTPOINT, VM.Player_Selected_Roundlist[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected_Roundlist[0].SCORE_RAW, VM.Player_Selected_Roundlist[0].SCORE_PREP,isnondeletable.IsOn);
-
-
-                    
-                    scoreentry.IsOpen = false;
-                    _isscoreentryopen = false;
-                    //HWbasemodul_Copy4s.Focus();
-                    VM.FUNCTION_CHECK_ENTERED_ALL();
-                    VM.FUNCTION_SELECTED_ROUND_USERS(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP);
-                   
-                    VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
-                    VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_VIEWED_ROUND);
-
-                    for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
-                    {
-                        VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
-                    }
-                    VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
-
-
-                    for (int i = 0; i < VM.MODEL_CONTEST_ROUNDS.Count; i++)
-                    {
-                        VM.MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
-                    }
-                    VM.MODEL_CONTEST_ROUNDS[VM.BIND_VIEWED_ROUND - 1].ISSELECTED = "selected";
-
-
 
 
                 }
-
-
-                if (VM.BIND_SQL_SOUTEZ_ENTRYSTYLENEXT == true)
+                else
                 {
-                    Console.WriteLine("VM.BIND_VIEWED_STARTPOINT" + VM.BIND_VIEWED_STARTPOINT);
-                    Console.WriteLine("VM.BIND_SQL_SOUTEZ_STARTPOINTS" + VM.BIND_SQL_SOUTEZ_STARTPOINTS);
-                    znova:
-                    if (VM.BIND_VIEWED_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTS)
+                    if (scoreentry_minutes.SelectedIndex >= 0 & scoreentry_seconds.SelectedIndex >= 0 & scoreentry_height.SelectedIndex >= 0 & scoreentry_landing.SelectedIndex >= 0)
+
                     {
-                        VM.BIND_VIEWED_STARTPOINT += 1;
-                        if ( int.Parse(VM.SQL_READSOUTEZDATA("select userid from score where rnd="+ VM.BIND_VIEWED_ROUND + " and grp=" + VM.BIND_VIEWED_GROUP + " and stp=" + VM.BIND_VIEWED_STARTPOINT, ""))>0)
+
+
+
+
+
+                        Decimal _RAWSCORE = 0;
+
+                        // time section
+                        Decimal _time_points = 0;
+                        int _time = (VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value * 60) + VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value;
+
+
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT)
                         {
-                            show_scoreentry_form();
+
+                            Decimal _timeunder = VM.MODEL_CONTEST_RULES[0].TIME1LIMIT * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
+                            Decimal _timeover = (_time - VM.MODEL_CONTEST_RULES[0].TIME1LIMIT) * VM.MODEL_CONTEST_RULES[0].TIME1OVER;
+                            _time_points = _timeunder + _timeover;
+
+                            if (VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
+                            {
+                                _time_points = 0;
+                            }
+
+                            if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETETIME1 == true)
+                            {
+                                _time_points = 0;
+                            }
+
+
+
+
+                        }
+
+                        else
+                        {
+                            _time_points = _time * VM.MODEL_CONTEST_RULES[0].TIME1UNDER;
+                        }
+
+
+
+
+
+                        //height section
+
+
+                        Decimal _height_points = 0;
+                        int _height = VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value;
+                        if (_height > VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT)
+                        {
+
+                            Decimal _heightunder = VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
+                            Decimal _heightover = (_height - VM.MODEL_CONTEST_RULES[0].HEIGHTLIMIT) * VM.MODEL_CONTEST_RULES[0].HEIGHTOVER;
+
+                            _height_points = _heightunder + _heightover;
+
+
                         }
                         else
                         {
-                            goto znova;
+                            _height_points = _height * VM.MODEL_CONTEST_RULES[0].HEIGHTUNDER;
+                        }
+
+
+                        int _landings = VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE;
+
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING1 == true)
+                        {
+                            _landings = 0;
+                        }
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETELANDING2 == true)
+                        {
+                            _landings = 0;
+                        }
+
+
+                        _RAWSCORE = _time_points + _height_points + _landings;
+
+
+
+
+
+
+                        if (scoreentry_penlocal.SelectedIndex >= 0)
+                        {
+
+                            if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_LANDING == "True")
+                            {
+                                _RAWSCORE = _RAWSCORE - _landings;
+                            }
+
+                            if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_TIME == "True")
+                            {
+                                _RAWSCORE = _RAWSCORE - _time_points;
+                            }
+
+                            if (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].DELETE_ALL == "True")
+                            {
+                                _RAWSCORE = 0;
+                            }
+
+                            _RAWSCORE = _RAWSCORE + (VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE);
+                        }
+
+
+
+
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME1LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL1 == true)
+                        {
+                            _RAWSCORE = 0;
+                        }
+
+                        if (_time > VM.MODEL_CONTEST_RULES[0].TIME2LIMIT && VM.MODEL_CONTEST_RULES[0].DELETEALL2 == true)
+                        {
+                            _RAWSCORE = 0;
+                        }
+
+
+
+
+                        string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
+
+                        VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + VM.BIND_VIEWED_ROUND + " and grp = " + VM.BIND_VIEWED_GROUP + " and stp = " + VM.BIND_VIEWED_STARTPOINT);
+
+                        Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + VM.BIND_VIEWED_ROUND + " and s.grp = " + VM.BIND_VIEWED_GROUP, ""));
+
+                        Decimal _PREPSCORE = 0;
+
+                        if (_MAXRAW != 0)
+                        {
+                            _PREPSCORE = Math.Round((_RAWSCORE / _MAXRAW) * 1000, 2);
+                        }
+
+
+
+
+                        string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
+
+
+                        VM.Player_Selected_Roundlist[0].SCORE_RAW = _RAWSCORE_STR;
+                        VM.Player_Selected_Roundlist[0].SCORE_PREP = _PREPSCORE_STR;
+
+                        VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP, VM.BIND_VIEWED_STARTPOINT, VM.Player_Selected_Roundlist[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected_Roundlist[0].SCORE_RAW, VM.Player_Selected_Roundlist[0].SCORE_PREP, isnondeletable.IsOn,true);
+
+
+
+                        scoreentry.IsOpen = false;
+                        _isscoreentryopen = false;
+                        //HWbasemodul_Copy4s.Focus();
+                        VM.FUNCTION_CHECK_ENTERED_ALL();
+                        VM.FUNCTION_SELECTED_ROUND_USERS(VM.BIND_VIEWED_ROUND, VM.BIND_VIEWED_GROUP);
+
+                        VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                        VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_VIEWED_ROUND);
+
+                        for (int i = 0; i < VM.MODEL_CONTEST_GROUPS.Count; i++)
+                        {
+                            VM.MODEL_CONTEST_GROUPS[i].ISSELECTED = "---";
+                        }
+                        VM.MODEL_CONTEST_GROUPS[VM.BIND_VIEWED_GROUP - 1].ISSELECTED = "selected";
+
+
+                        for (int i = 0; i < VM.MODEL_CONTEST_ROUNDS.Count; i++)
+                        {
+                            VM.MODEL_CONTEST_ROUNDS[i].ISSELECTED = "---";
+                        }
+                        VM.MODEL_CONTEST_ROUNDS[VM.BIND_VIEWED_ROUND - 1].ISSELECTED = "selected";
+
+
+
+
+                    }
+
+                    Console.WriteLine("jdu hledat dalsi startoviste abych otevrel score entry");
+
+                    int TMP_BIND_VIEWED_STARTPOINT;
+                    TMP_BIND_VIEWED_STARTPOINT = VM.BIND_VIEWED_STARTPOINT;
+
+
+                    if (VM.BIND_SQL_SOUTEZ_ENTRYSTYLENEXT == true)
+                    {
+                        Console.WriteLine("VM.BIND_VIEWED_STARTPOINT" + VM.BIND_VIEWED_STARTPOINT);
+                        Console.WriteLine("VM.BIND_SQL_SOUTEZ_STARTPOINTS" + VM.BIND_SQL_SOUTEZ_STARTPOINTS);
+                    znova:
+                        if (TMP_BIND_VIEWED_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTS)
+                        {
+                            TMP_BIND_VIEWED_STARTPOINT += 1;
+                            if (int.Parse(VM.SQL_READSOUTEZDATA("select userid from score where rnd=" + VM.BIND_VIEWED_ROUND + " and grp=" + VM.BIND_VIEWED_GROUP + " and stp=" + TMP_BIND_VIEWED_STARTPOINT, "")) > 0)
+                            {
+                                Console.WriteLine("show_scoreentry_form");
+                                VM.BIND_VIEWED_STARTPOINT = TMP_BIND_VIEWED_STARTPOINT;
+                                show_scoreentry_form();
+                            }
+                            else
+                            {
+                                Console.WriteLine("goto znova");
+                                goto znova;
+                            }
                         }
                     }
+
+
+
                 }
 
 
 
+                _zapisujiscore = false;
             }
-
-
-
-
-
         }
 
 

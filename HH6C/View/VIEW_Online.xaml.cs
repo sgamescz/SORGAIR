@@ -27,7 +27,6 @@ using System.IO;
 using System.Net.Cache;
 using System.Globalization;
 
-
 namespace WpfApp6.View
 {
     /// <summary>
@@ -45,11 +44,12 @@ namespace WpfApp6.View
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
 
+            var currentWindow = this.TryFindParent<MetroWindow>();
 
-            
+
 
             string[] mArrayOfcontests = new string[300];
 
@@ -71,6 +71,8 @@ namespace WpfApp6.View
                 Console.WriteLine("soutez neexistuje");
 
 
+                var controller = await currentWindow.ShowProgressAsync("Online systém", "Vytvářím online záznam soutěže");
+                controller.SetProgress(0);
 
 
                 //toto vytvori soutez jako takovou
@@ -95,6 +97,10 @@ namespace WpfApp6.View
                 policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
                 HttpWebRequest.DefaultCachePolicy = policy;
 
+
+                await Task.Delay(300);
+                controller.SetProgress(0.2);
+                
                 httpRequest.CachePolicy = policy;
                 response = httpRequest.GetResponse();
                 reader = new StreamReader(response.GetResponseStream());
@@ -102,6 +108,7 @@ namespace WpfApp6.View
                 int noveonlineidsouteze=0;
                 int.TryParse(result,out noveonlineidsouteze);
                 Console.WriteLine(noveonlineidsouteze);
+
 
 
                 //toto vytvari vsechny soutezici
@@ -142,8 +149,10 @@ namespace WpfApp6.View
 
 
 
+                await Task.Delay(300);
+                controller.SetProgress(0.4);
 
-    
+
                 // vytvori to kola
                 for (int i = 0; i < VM.BIND_SQL_SOUTEZ_ROUNDS; i++)
                 {
@@ -195,7 +204,8 @@ namespace WpfApp6.View
 
 
 
-
+                await Task.Delay(300);
+                controller.SetProgress(0.7);
 
                 for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
                 {
@@ -231,6 +241,9 @@ namespace WpfApp6.View
 
                 }
 
+                controller.SetProgress(0.9);
+                await Task.Delay(300);
+                await controller.CloseAsync();
 
 
 
@@ -238,7 +251,8 @@ namespace WpfApp6.View
 
 
 
-
+                var msgresult = await currentWindow.ShowMessageAsync("Online systém", "Soutěž vytvořena a aktivována. Nyní se budou výsledky realtime přenášet do SAEMu."
+  , MessageDialogStyle.Affirmative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
 
 
 
@@ -246,6 +260,15 @@ namespace WpfApp6.View
             }
             else
             {
+
+
+                var msgresult = await currentWindow.ShowMessageAsync("Online systém", "Nelze vytvořit online záznam s tímto ID. Prosím vygenerujte nové  ikonou vlevo."
+    , MessageDialogStyle.Affirmative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
+
+
+
+
+
                 Console.WriteLine("soutez bohuzel existuje");
 
             }

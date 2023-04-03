@@ -1156,6 +1156,7 @@
                         x:Name="scoreentry_save"
                         Margin="217,378,10,7"
                         Click="scoreentry_save_Click"
+                        IsEnabled="True"
                         Content="Hotovo" />
 
 

@@ -7056,13 +7056,15 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
         }
 
-        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore, bool nondeletable)
+        public void FUNCTION_SCOREENTRY_SAVE_SCORE(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore, bool nondeletable, bool insertoninternet)
         {
             Console.WriteLine("saving score");
             SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
             SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
-            online_savescore(rnd, grp, stp, usrid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, rawscore, prepscore, nondeletable);
-
+            if (insertoninternet == true)
+            {
+                online_savescore(rnd, grp, stp, usrid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, rawscore, prepscore, nondeletable);
+            }
             Decimal _MAXRAW = Decimal.Parse(SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + rnd + " and s.grp = " + grp, ""));
             Decimal _PREPSCORE = 0;
 
@@ -7090,7 +7092,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
                     string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
                     SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
-                    online_updateprepscore(rnd, grp, i, _PREPSCORE);
+                    if (insertoninternet == true) 
+                    { 
+                        online_updateprepscore(rnd, grp, i, _PREPSCORE); 
+                    }
 
                 }
             }
@@ -7117,7 +7122,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine("_PREPSCORE = " + _PREPSCORE);
                     string _PREPSCORE_STR = _PREPSCORE.ToString(new CultureInfo("en-US"));
                     SQL_SAVESOUTEZDATA("update score set prep = " + _PREPSCORE_STR + " where rnd = " + rnd + " and grp = " + grp + " and stp = " + i);
-                    online_updateprepscore(rnd, grp, i, _PREPSCORE);
+                    if (insertoninternet == true)
+                    {
+                        online_updateprepscore(rnd, grp, i, _PREPSCORE); 
+                    }
 
                 }
             }
@@ -7140,15 +7148,15 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void online_savescore(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore, bool nondeletable)
         {
 
+            if (CONTENT_ONLINE_ENABLED is true)
+            { 
+                //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+                //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
 
 
-            //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
-            //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
 
 
-
-
-            string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=insertscore&noveonlineidsouteze=999" +
+                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=insertscore&noveonlineidsouteze=999" +
                "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
                "&rnd=" + rnd +
                "&grp=" + grp +
@@ -7178,7 +7186,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             string result = reader.ReadToEnd();
 
             Console.WriteLine(result);
-
+            }
 
         }
 
@@ -7186,6 +7194,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void online_updateprepscore(int rnd, int grp, int stp, decimal prepscore)
         {
 
+            if (CONTENT_ONLINE_ENABLED is true)
+            {
 
 
             //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
@@ -7212,6 +7222,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             string result = reader.ReadToEnd();
 
             Console.WriteLine(result);
+            }
 
 
         }

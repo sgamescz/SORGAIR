@@ -287,7 +287,7 @@ namespace WpfApp6.View
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn);
+                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn,false);
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
                 Console.WriteLine(VM.Player_Selected[0].SCORE_RAW);
@@ -446,7 +446,7 @@ namespace WpfApp6.View
                     VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                     VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn);
+                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn,true);
 
                     VM.FUNCTION_CHECK_ENTERED_FINAL(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP, true);
                     //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
@@ -467,17 +467,27 @@ namespace WpfApp6.View
 
                 }
 
+
+
+                int TMP_BIND_SELECTED_FINAL_STARTPOINT;
+                TMP_BIND_SELECTED_FINAL_STARTPOINT = VM.BIND_SELECTED_FINAL_STARTPOINT;
+
                 if (VM.BIND_SQL_SOUTEZ_ENTRYSTYLENEXT == true)
                 {
                     Console.WriteLine("VM.BIND_SELECTED_STARTPOINT" + VM.BIND_SELECTED_FINAL_STARTPOINT);
                     Console.WriteLine("VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE" + VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE);
 
-                    if (VM.BIND_SELECTED_FINAL_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE)
+                    if (TMP_BIND_SELECTED_FINAL_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE)
                     {
-                        VM.BIND_SELECTED_FINAL_STARTPOINT += 1;
+                        TMP_BIND_SELECTED_FINAL_STARTPOINT += 1;
+                        VM.BIND_SELECTED_FINAL_STARTPOINT = TMP_BIND_SELECTED_FINAL_STARTPOINT;
                         show_scoreentry_form();
                     }
                 }
+
+
+
+
 
 
 
