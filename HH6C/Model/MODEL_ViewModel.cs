@@ -7329,6 +7329,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 {
                     Console.WriteLine("Neřešit který výsledek je lepší. Počítá se prostě ten druhý");
                     SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                    SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
                 }
             }
 
@@ -7391,6 +7392,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 {
                     Console.WriteLine("Neřešit který výsledek je lepší. Počítá se prostě ten druhý");
                     SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
+                    SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
                 }
             }
 

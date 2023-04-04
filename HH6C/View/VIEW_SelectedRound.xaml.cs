@@ -810,6 +810,7 @@ namespace WpfApp6.View
                 VM.SQL_SAVESOUTEZDATA("update refly set whatcount1 = 0, whatcount2 = 0 where rnd_from = " + VM.BIND_SELECTED_ROUND + " and grp_from= " + VM.BIND_SELECTED_GROUP + " and stp_from =" + VM.BIND_SELECTED_STARTPOINT + ";");
             }
 
+            VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
 
             refly.IsOpen = false;
 

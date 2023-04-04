@@ -69,6 +69,23 @@
                 <Setter Property="Controls:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
             </Style>
 
+
+            <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
+                <Style.Triggers>
+                    <Trigger Property="Orientation" Value="Horizontal">
+                        <Setter Property="Height" Value="30" />
+                        <Setter Property="MinHeight" Value="30" />
+                    </Trigger>
+                    <Trigger Property="Orientation" Value="Vertical">
+                        <Setter Property="Width" Value="30" />
+                        <Setter Property="MinWidth" Value="30" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
+            
+            
             <Style
                 x:Key="HamburgerMenuCreatorsStyle"
                 BasedOn="{StaticResource {x:Type Controls:HamburgerMenu}}"
