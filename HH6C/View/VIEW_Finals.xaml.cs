@@ -599,13 +599,13 @@ namespace WpfApp6.View
             int tmp_refly_group_number = VM.FUNCTION_KOLIK_JE_REFLY_SKUPIN_V_FINALE(round, "", false);
 
 
-            FUNCTION_ADD_USERS_TO_FINAL_REFLY(round, tmp_refly_group_number, VM.Player_Selected[0].ID, refly_what_count.IsOn);
+            FUNCTION_ADD_USERS_TO_FINAL_REFLY(round, tmp_refly_group_number, VM.Player_Selected[0].ID);
 
 
             return tmp_refly_group_number;
         }
 
-        private async void FUNCTION_ADD_USERS_TO_FINAL_REFLY(int round, int refly_group, int userid, bool je_jen_dolosovany)
+        private async void FUNCTION_ADD_USERS_TO_FINAL_REFLY(int round, int refly_group, int userid)
         {
 
 
@@ -660,6 +660,11 @@ namespace WpfApp6.View
             }
 
             VM.MODEL_CONTEST_FINAL_GROUPS[VM.BIND_SELECTED_FINAL_GROUP - 2].ISSELECTED = "selected";
+
+        }
+
+        private void delete_refly_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

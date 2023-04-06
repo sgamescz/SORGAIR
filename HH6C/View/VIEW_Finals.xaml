@@ -849,35 +849,21 @@
 
                             <Controls:MetroHeader
                                 x:Name="refly_masdzebyt"
-                                Height="155"
-                                Margin="10,10,10,0"
-                                VerticalAlignment="Top"
+                                Height="140"
+                                Margin="10,0,10,0"
+                                VerticalAlignment="Center"
                                 Header="Vytvořit novou refly skupinu"
                                 HeaderStringFormat="Zvolená skupina: {0}"
                                 Visibility="Visible">
                                 <Grid Margin="0,0,0,-1">
-                                    <Controls:ToggleSwitch
-                                        x:Name="refly_what_count"
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Width="629"
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        HorizontalContentAlignment="Left"
-                                        ContentDirection="RightToLeft"
-                                        FontSize="12"
-                                        IsOn="True"
-                                        OffContent="Refly není kvůli zvolenému soutěžícímu (bude počítán lepší vysledek)"
-                                        OnContent="Refly je kvůli zvolenému soutěžícímu (bude počítán vysledek z refly)" />
                                     <UniformGrid
-                                        Margin="0,37,0,0"
+                                        Margin="0,-4,0,14"
                                         Columns="2"
                                         Rows="1">
                                         <Button
                                             Name="create_refly_group"
-                                            Height="55"
-                                            Margin="5,14,-405,14"
+                                            Height="90"
+                                            Margin="5,0,-405,0"
                                             Click="create_refly_group_Click"
                                             Content="Vytvořit refly pro finálové kolo"
                                             Style="{DynamicResource MahApps.Styles.Button.Dialogs.AccentHighlight}" />
@@ -896,15 +882,10 @@
                             Header="Informace o opakovacím letu"
                             HeaderStringFormat="Zvolená skupina: {0}">
                             <Grid>
-                                <Label
-                                    Margin="10,0,10,60"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding BIND_DATA_OPAKOVACIHO_LETU}" />
                                 <Button
                                     x:Name="delete_refly"
-                                    Margin="10,39,10,10"
-                                    Content="Zrušit refly" />
+                                    Margin="10,10,10,10"
+                                    Content="Zrušit refly" Click="delete_refly_Click" />
 
                             </Grid>
 
