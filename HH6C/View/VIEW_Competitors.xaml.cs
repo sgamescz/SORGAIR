@@ -605,32 +605,32 @@ namespace WpfApp6.View
 
                     for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
                     {
-                        string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[x].ID + " and rnd = " + x, "");
+                        string tmp_grp_stp = VM.SQL_READSOUTEZDATA("select grp || '/' || stp from matrix where user = " + VM.Players[i].ID + " and rnd = " + x, "");
 
                         tmp_pocetnastranku += 1;
 
                         html_body_withrightdata = html_body;
 
-                        html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[x].ID.ToString());
-                        html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[x].LASTNAME + " " + VM.Players[x].FIRSTNAME);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@ID", VM.Players[i].ID.ToString());
+                        html_body_withrightdata = html_body_withrightdata.Replace("@USERNAME", VM.Players[i].LASTNAME + " " + VM.Players[i].FIRSTNAME);
                         html_body_withrightdata = html_body_withrightdata.Replace("@CONTESTNAME", VM.BIND_SQL_SOUTEZ_NAZEV + " - " + VM.BIND_SQL_SOUTEZ_KATEGORIE);
-                        html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[x].COUNTRY);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@COUNTRY", VM.Players[i].COUNTRY);
                         html_body_withrightdata = html_body_withrightdata.Replace("@RND", x.ToString());
                         html_body_withrightdata = html_body_withrightdata.Replace("@GRP", tmp_grp_stp);
-                        html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[x].NACLIC);
-                        html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[x].NACLIC);
-                        html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[x].FAILIC);
-                        html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[x].AGECAT);
-                        html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[x].CLUB);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@NATLIC", VM.Players[i].NACLIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@NACLIC", VM.Players[i].NACLIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FAILIC", VM.Players[i].FAILIC);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@AGECAT", VM.Players[i].AGECAT);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@CLUB", VM.Players[i].CLUB);
                         html_body_withrightdata = html_body_withrightdata.Replace("@TEAM", "tym");
-                        html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[x].FREQ);
+                        html_body_withrightdata = html_body_withrightdata.Replace("@FREQUENCY", VM.Players[i].FREQ);
 
 
 
 
-                        byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[x].COUNTRY + ".png");
+                        byte[] imageArray = System.IO.File.ReadAllBytes(directory + "/flags/" + VM.Players[i].COUNTRY + ".png");
                         string base64ImageRepresentation = Convert.ToBase64String(imageArray);
-                        Console.WriteLine(base64ImageRepresentation);
+                        //Console.WriteLine(base64ImageRepresentation);
                         html_body_withrightdata = html_body_withrightdata.Replace("@FLAG", "data:image/png;base64," + base64ImageRepresentation);
 
                         html_body_withrightdata = html_body_withrightdata.Replace("@MATRIX", tabulkaletu);

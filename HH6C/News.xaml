@@ -12,6 +12,7 @@
     xmlns:model="clr-namespace:WpfApp6.Model"
     xmlns:winForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     Title="SORG AIR News"
+    
     Width="1161"
     Height="634"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -22,7 +23,7 @@
     TitleCharacterCasing="Upper"
     WindowStartupLocation="CenterScreen"
     Loaded="load_news"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Topmost="True">
 
     <Grid>
         <Grid.ColumnDefinitions>

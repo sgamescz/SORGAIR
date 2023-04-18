@@ -141,7 +141,7 @@ namespace SORGAIR
 
             MessageBox.Show("Staženo. Nyní se vypnu, a provedu aktualizaci", "Hotovo", MessageBoxButton.OK);
             System.Diagnostics.Process.Start("_autoupdate\\autoupdate.exe");
-            Application.Current.Shutdown();
+            System.Environment.Exit(0);
 
         }
 

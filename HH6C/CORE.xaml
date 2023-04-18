@@ -74,18 +74,18 @@
                 <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
                 <Style.Triggers>
                     <Trigger Property="Orientation" Value="Horizontal">
-                        <Setter Property="Height" Value="30" />
-                        <Setter Property="MinHeight" Value="30" />
+                        <Setter Property="Height" Value="18" />
+                        <Setter Property="MinHeight" Value="18" />
                     </Trigger>
                     <Trigger Property="Orientation" Value="Vertical">
-                        <Setter Property="Width" Value="30" />
-                        <Setter Property="MinWidth" Value="30" />
+                        <Setter Property="Width" Value="18" />
+                        <Setter Property="MinWidth" Value="18" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
-            
-            
+
+
+
             <Style
                 x:Key="HamburgerMenuCreatorsStyle"
                 BasedOn="{StaticResource {x:Type Controls:HamburgerMenu}}"
@@ -108,45 +108,16 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
 
-            <Label>Original size</Label>
-            <Button Click="CLICK_originalresize">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconPicolIcons
-                        Width="24"
-                        Height="24"
-                        Kind="SizeBothAccept" />
-                </StackPanel>
-            </Button>
 
-            <Label>Resize mode</Label>
-            <Button Click="CLICK_resizemode">
+
+            <Button Click="open_setup">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterialDesign
-                        Width="24"
-                        Height="24"
-                        Kind="PhotoSizeSelectSmall" />
+                    <iconPacks:PackIconForkAwesome Kind="Wrench"   Width="24"
+                        Height="24" />
 
                 </StackPanel>
             </Button>
 
-
-            <Label>Change color</Label>
-            <Button Click="CLICK_changeforeground">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconModern
-                        Width="24"
-                        Height="24"
-                        Kind="DrawBrushReflection" />
-                </StackPanel>
-            </Button>
-            <Button Click="CLICK_changebackground">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconOcticons
-                        Width="24"
-                        Height="24"
-                        Kind="Paintcan" />
-                </StackPanel>
-            </Button>
 
 
 
@@ -359,6 +330,9 @@
 
                 <!--  Content  -->
                 <Controls:HamburgerMenu.Content>
+
+
+
                     <ScrollViewer
                         Margin="0,0,0,0"
                         HorizontalScrollBarVisibility="Auto"
@@ -371,6 +345,10 @@
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
+
+
+
+
                                 <Controls:TransitioningContentControl
                                     Margin="20,5,528,0"
                                     Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
@@ -398,6 +376,92 @@
                                 RestartTransitionOnContentChange="True"
                                 Transition="Down" />
 
+
+                            <Controls:FlyoutsControl
+                                Height="862"
+                                Grid.Row="1"
+                                VerticalAlignment="Top"
+                                IsTabStop="False">
+
+
+                                <Controls:Flyout
+                x:Name="nastaveni_vzhledu"
+                Height="851"
+                Margin="3,2,0,0"
+                VerticalAlignment="Top"
+                Controls:HeaderedControlHelper.HeaderFontSize="13"
+                Controls:HeaderedControlHelper.HeaderMargin="20 0 50 0"
+                AnimateOpacity="True"
+                AreAnimationsEnabled="True"
+                Header="Setup"
+                IsModal="False"  
+                IsOpen="False"
+                Position="Bottom"
+                Theme="Adapt"
+                TitleVisibility="Visible">
+
+                                    <Grid>
+                                        <Label Margin="10,201,0,0" Content="Select background and default color" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="304"/>
+                                        <Button Click="CLICK_changeforeground" Margin="10,392,0,0" Height="79" VerticalAlignment="Top" HorizontalAlignment="Left" Width="304">
+                                            <StackPanel Orientation="Horizontal">
+                                                <iconPacks:PackIconModern
+                        Width="24"
+                        Height="24"
+                        Kind="DrawBrushReflection" />
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Click="CLICK_changebackground" Margin="10,239,0,0" Background="{DynamicResource MahApps.Brushes.Gray1}" Height="148" VerticalAlignment="Top" HorizontalAlignment="Left" Width="148">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <iconPacks:PackIconOcticons
+                                                    Width="24"
+                                                    Height="24" Kind="Paintcan" />
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Click="CLICK_changebackground" Margin="166,239,0,0" Background="{DynamicResource MahApps.Brushes.Gray10}" Height="148" VerticalAlignment="Top" HorizontalAlignment="Left" Width="148">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <iconPacks:PackIconOcticons
+                                                    Width="24"
+                                                    Height="24" Kind="Paintcan" />
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Label Margin="10,10,0,0" Height="38" VerticalAlignment="Top" HorizontalAlignment="Left" Width="153">Original size</Label>
+                                        <Button Click="CLICK_originalresize" Margin="10,48,0,0" Height="148" VerticalAlignment="Top" HorizontalAlignment="Left" Width="148">
+                                            <StackPanel Orientation="Horizontal">
+                                                <iconPacks:PackIconPicolIcons
+                        Width="24"
+                        Height="24"
+                        Kind="SizeBothAccept" />
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Label Margin="171,10,0,0" HorizontalAlignment="Left" Width="143" Height="33" VerticalAlignment="Top">Resize mode</Label>
+                                        <Button Click="CLICK_resizemode" Margin="171,48,0,0" HorizontalAlignment="Left" Width="143" Height="148" VerticalAlignment="Top">
+                                            <StackPanel Orientation="Horizontal">
+                                                <iconPacks:PackIconMaterialDesign
+                        Width="24"
+                        Height="24"
+                        Kind="PhotoSizeSelectSmall" />
+
+                                            </StackPanel>
+                                        </Button>
+
+
+                                        <Label Margin="542,203,0,0" Content="Or select custom foreground color" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="304"/>
+                                        <Controls:ColorPicker SelectedColorChanged="ColorPicker_SelectedColorChanged"
+                 Controls:TextBoxHelper.ClearTextButton="False"
+                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                              Name="colorpicker"
+                 Controls:TextBoxHelper.Watermark="Zvolte barvu"
+                 AddToRecentColorsTrigger="SelectedColorChanged" Margin="542,252,0,0" HorizontalAlignment="Left" Width="293" Height="61" VerticalAlignment="Top" />
+
+                                    </Grid>
+
+                                </Controls:Flyout>
+
+                            </Controls:FlyoutsControl>
 
                         </Grid>
                     </ScrollViewer>

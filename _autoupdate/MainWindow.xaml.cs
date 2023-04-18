@@ -97,7 +97,7 @@ namespace _autoupdate
 
             catch (Exception exp)
             {
-                MessageBox.Show("File trouble " + exp.Message);
+               // MessageBox.Show("File trouble " + exp.Message);
             }
 
 

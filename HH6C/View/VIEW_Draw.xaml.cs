@@ -602,7 +602,16 @@ Kolo : {x}
             }
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            FNC_CHECK_ERROR_MATRIX();
+
+        }
+
+
+
+        private async void FNC_CHECK_ERROR_MATRIX()
         {
 
 
@@ -617,12 +626,16 @@ Kolo : {x}
 
                 for (var i = 0; i < VM.Players.Count; i++)
                 {
-                    kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count (rnd),user from matrix where user="+ VM.Players[i].ID+" and rnd=" + x + " and grp<="+VM.BIND_SQL_SOUTEZ_GROUPS, ""));
+
+
+                    kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count (rnd),user from matrix where user=" + VM.Players[i].ID + " and rnd=" + x + " and grp<=" + VM.BIND_SQL_SOUTEZ_GROUPS, ""));
                     if (kolikrattamje != 1)
                     {
                         bylachyba = true;
                         var controllerx = await currentWindow.ShowMessageAsync("Kontrola", "ERRR: " + VM.Players[i].LASTNAME + " je v kole " + x + " : " + kolikrattamje + "krát");
                     }
+
+
 
                 }
 
@@ -638,7 +651,6 @@ Kolo : {x}
             {
                 var controller = await currentWindow.ShowMessageAsync("Kontrola", "Vše v pořádku a bez chyb :)");
             }
-
         }
     }
 }

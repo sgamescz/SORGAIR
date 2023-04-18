@@ -91,10 +91,17 @@ namespace WpfApp6.View
 
       
 
-        private void show_scoreentry_form()
+        private void show_scoreentry_form(int round, int group, int startpoint)
         {
-            Console.WriteLine(VM.BIND_SELECTED_FINAL_ROUND + "_"+ VM.BIND_SELECTED_FINAL_GROUP+"_" + VM.BIND_SELECTED_FINAL_STARTPOINT);
-            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT);
+
+            if (round == 0) { VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND = VM.BIND_SELECTED_FINAL_ROUND; } else { VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND = round; }
+            if (group == 0) { VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP = VM.BIND_SELECTED_FINAL_GROUP; } else { VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP = group; }
+            if (startpoint == 0) { VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT = VM.BIND_SELECTED_FINAL_STARTPOINT; } else { VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT = startpoint; }
+
+
+
+            Console.WriteLine(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND + "_"+ VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP+ "_" + VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT);
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND + 100, VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT);
             scoreentry.IsOpen = true;
             scoreentry_minutes.Focus();
             _isscoreentryopen = true;
@@ -120,7 +127,10 @@ namespace WpfApp6.View
             Console.WriteLine("AHAH:" + tagbutton.Tag.ToString());
             VM.BIND_SELECTED_FINAL_STARTPOINT = int.Parse(tagbutton.Tag.ToString());
             Console.WriteLine("BIND_SELECTED_FINAL_STARTPOINT" + VM.BIND_SELECTED_FINAL_STARTPOINT);
-            show_scoreentry_form();
+
+
+            VM.BIND_SELECTED_FINAL_STARTPOINT = int.Parse(tagbutton.Tag.ToString());
+            show_scoreentry_form(0, 0, 0);
 
         }
 
@@ -272,8 +282,8 @@ namespace WpfApp6.View
 
                 string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
 
-                VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_FINAL_GROUP + " and stp = " + VM.BIND_SELECTED_FINAL_STARTPOINT);
-                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = "+ VM.BIND_SELECTED_FINAL_GROUP, ""));
+                VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND+100) + " and grp = " + VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP + " and stp = " + VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT);
+                Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND+100) + " and s.grp = "+ VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, ""));
                 Decimal _PREPSCORE = 0;
 
                 if (_MAXRAW != 0)
@@ -287,7 +297,7 @@ namespace WpfApp6.View
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn,false);
+                VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND+100, VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE , VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW, VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn,false);
                 VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                 VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
                 Console.WriteLine(VM.Player_Selected[0].SCORE_RAW);
@@ -426,9 +436,9 @@ namespace WpfApp6.View
 
                     string _RAWSCORE_STR = _RAWSCORE.ToString(new CultureInfo("en-US"));
 
-                    VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and grp = " + VM.BIND_SELECTED_FINAL_GROUP + " and stp = "+ VM.BIND_SELECTED_FINAL_STARTPOINT);
+                    VM.SQL_SAVESOUTEZDATA("update score set raw = " + _RAWSCORE_STR + " where rnd = " + (VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND+100) + " and grp = " + VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP + " and stp = "+ VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT);
 
-                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SELECTED_FINAL_ROUND+100) + " and s.grp = "+ VM.BIND_SELECTED_FINAL_GROUP, ""));
+                    Decimal _MAXRAW = Decimal.Parse(VM.SQL_READSOUTEZDATA("select max(raw) FROM score s where s.rnd = " + (VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND+100) + " and s.grp = "+ VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, ""));
 
                     Decimal _PREPSCORE = 0;
 
@@ -446,11 +456,11 @@ namespace WpfApp6.View
                     VM.Player_Selected[0].SCORE_RAW = _RAWSCORE_STR;
                     VM.Player_Selected[0].SCORE_PREP = _PREPSCORE_STR;
 
-                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SELECTED_FINAL_ROUND+100, VM.BIND_SELECTED_FINAL_GROUP, VM.BIND_SELECTED_FINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn,true);
+                    VM.FUNCTION_SCOREENTRY_SAVE_SCORE(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND+100, VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT, VM.Player_Selected[0].ID, VM.BINDING_Timer_listofminutes[scoreentry_minutes.SelectedIndex].Value, VM.BINDING_Timer_listofseconds[scoreentry_seconds.SelectedIndex].Value, VM.BINDING_Timer_listoflandings[scoreentry_landing.SelectedIndex].VALUE, VM.BINDING_Timer_listofheights[scoreentry_height.SelectedIndex].Value, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationlocal[scoreentry_penlocal.SelectedIndex].ID, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].VALUE, VM.BINDING_Timer_listofpenalisationglobal[scoreentry_penglobal.SelectedIndex].ID, VM.Player_Selected[0].SCORE_RAW , VM.Player_Selected[0].SCORE_PREP,isnondeletable.IsOn,true);
 
-                    VM.FUNCTION_CHECK_ENTERED_FINAL(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP, true);
+                    VM.FUNCTION_CHECK_ENTERED_FINAL(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND, VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, true);
                     //VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
-                    //VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SELECTED_FINAL_ROUND);
+                    //VM.FUNCTION_ROUNDS_LOAD_GROUPS(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND);
                     VM.FUNCTION_ROUNDS_LOAD_FINAL_ROUNDS();
 
                     VM.FUNCTION_SELECTED_FINAL_ROUND_USERS(VM.BIND_SELECTED_FINAL_ROUND, VM.BIND_SELECTED_FINAL_GROUP);
@@ -469,19 +479,19 @@ namespace WpfApp6.View
 
 
 
-                int TMP_BIND_SELECTED_FINAL_STARTPOINT;
-                TMP_BIND_SELECTED_FINAL_STARTPOINT = VM.BIND_SELECTED_FINAL_STARTPOINT;
+                int TMP_BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT;
+                TMP_BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT = VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT;
 
                 if (VM.BIND_SQL_SOUTEZ_ENTRYSTYLENEXT == true)
                 {
-                    Console.WriteLine("VM.BIND_SELECTED_STARTPOINT" + VM.BIND_SELECTED_FINAL_STARTPOINT);
+                    Console.WriteLine("VM.BIND_SELECTED_STARTPOINT" + VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT);
                     Console.WriteLine("VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE" + VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE);
 
-                    if (TMP_BIND_SELECTED_FINAL_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE)
+                    if (TMP_BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT < VM.BIND_SQL_SOUTEZ_STARTPOINTSFINALE)
                     {
-                        TMP_BIND_SELECTED_FINAL_STARTPOINT += 1;
-                        VM.BIND_SELECTED_FINAL_STARTPOINT = TMP_BIND_SELECTED_FINAL_STARTPOINT;
-                        show_scoreentry_form();
+                        TMP_BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT += 1;
+                        VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT = TMP_BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT;
+                        show_scoreentry_form(VM.BIND_SCOREENTRY_SELECTEDFINAL_ROUND, VM.BIND_SCOREENTRY_SELECTEDFINAL_GROUP, VM.BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT);
                     }
                 }
 

@@ -142,11 +142,11 @@ namespace WpfApp6.Model
         System.Diagnostics.Stopwatch timer_DYNAMIC_COMPETITORS_FINAL_ACTUAL = new System.Diagnostics.Stopwatch();
         System.Diagnostics.Stopwatch timer_DYNAMIC_COMPETITORS_FINAL_NEXT = new System.Diagnostics.Stopwatch();
 
-        string[] barva = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
-        string[] pozadi = new string[] { "Light", "Dark" };
+        public string[] barva = new string[] { "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna" };
+        public string[] pozadi = new string[] { "Light", "Dark" };
 
         public string typpozadi = "";
-        int pouzitabarva = 1;
+        public int pouzitabarva = 1;
         public int pouzitepozadi = 1;
 
 
@@ -2433,12 +2433,95 @@ namespace WpfApp6.Model
         }
 
 
+
+
+
+        private int _BIND_SCOREENTRY_ROUND_ROUND;
+        public int BIND_SCOREENTRY_ROUND_ROUND
+        {
+            get { return _BIND_SCOREENTRY_ROUND_ROUND; }
+            set { _BIND_SCOREENTRY_ROUND_ROUND = value; OnPropertyChanged("BIND_SCOREENTRY_ROUND_ROUND"); Console.WriteLine("BIND_SCOREENTRY_ROUND_ROUND:" + BIND_SCOREENTRY_ROUND_ROUND); }
+        }
+
+        private int _BIND_SCOREENTRY_ROUND_GROUP;
+        public int BIND_SCOREENTRY_ROUND_GROUP
+        {
+            get { return _BIND_SCOREENTRY_ROUND_GROUP; }
+            set { _BIND_SCOREENTRY_ROUND_GROUP = value; OnPropertyChanged("BIND_SCOREENTRY_ROUND_GROUP"); Console.WriteLine("BIND_SCOREENTRY_ROUND_GROUP:" + BIND_SCOREENTRY_ROUND_GROUP); }
+        }
+
+
+        private int _BIND_SCOREENTRY_ROUND_STARTPOINT;
+        public int BIND_SCOREENTRY_ROUND_STARTPOINT
+        {
+            get { return _BIND_SCOREENTRY_ROUND_STARTPOINT; }
+            set { _BIND_SCOREENTRY_ROUND_STARTPOINT = value; OnPropertyChanged("BIND_SCOREENTRY_ROUND_STARTPOINT"); Console.WriteLine("BIND_SCOREENTRY_ROUND_STARTPOINT:" + BIND_SCOREENTRY_ROUND_STARTPOINT); }
+        }
+
+
+
+
+
+
+
+        private int _BIND_SCOREENTRY_SELECTEDFINAL_ROUND;
+        public int BIND_SCOREENTRY_SELECTEDFINAL_ROUND
+        {
+            get { return _BIND_SCOREENTRY_SELECTEDFINAL_ROUND; }
+            set { _BIND_SCOREENTRY_SELECTEDFINAL_ROUND = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDFINAL_ROUND"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDFINAL_ROUND:" + BIND_SCOREENTRY_SELECTEDFINAL_ROUND); }
+        }
+
+        private int _BIND_SCOREENTRY_SELECTEDFINAL_GROUP;
+        public int BIND_SCOREENTRY_SELECTEDFINAL_GROUP
+        {
+            get { return _BIND_SCOREENTRY_SELECTEDFINAL_GROUP; }
+            set { _BIND_SCOREENTRY_SELECTEDFINAL_GROUP = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDFINAL_GROUP"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDFINAL_GROUP:" + BIND_SCOREENTRY_SELECTEDFINAL_GROUP); }
+        }
+
+
+        private int _BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT;
+        public int BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT
+        {
+            get { return _BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT; }
+            set { _BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT:" + BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT); }
+        }
+
+
+
+
+        private int _BIND_SCOREENTRY_SELECTEDROUND_ROUND;
+        public int BIND_SCOREENTRY_SELECTEDROUND_ROUND
+        {
+            get { return _BIND_SCOREENTRY_SELECTEDROUND_ROUND; }
+            set { _BIND_SCOREENTRY_SELECTEDROUND_ROUND = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDROUND_ROUND"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDROUND_ROUND:" + BIND_SCOREENTRY_SELECTEDROUND_ROUND); }
+        }
+
+        private int _BIND_SCOREENTRY_SELECTEDROUND_GROUP;
+        public int BIND_SCOREENTRY_SELECTEDROUND_GROUP
+        {
+            get { return _BIND_SCOREENTRY_SELECTEDROUND_GROUP; }
+            set { _BIND_SCOREENTRY_SELECTEDROUND_GROUP = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDROUND_GROUP"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDROUND_GROUP:" + BIND_SCOREENTRY_SELECTEDROUND_GROUP); }
+        }
+
+
+        private int _BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT;
+        public int BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT
+        {
+            get { return _BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT; }
+            set { _BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT:" + BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT); }
+        }
+
+
+
         private int _BIND_VIEWED_STARTPOINT;
         public int BIND_VIEWED_STARTPOINT
         {
             get { return _BIND_VIEWED_STARTPOINT; }
             set { _BIND_VIEWED_STARTPOINT = value; OnPropertyChanged("BIND_VIEWED_STARTPOINT"); Console.WriteLine("BIND_VIEWED_STARTPOINT:" + BIND_VIEWED_STARTPOINT); }
         }
+
+
+
 
 
         public int BIND_SELECTED_GROUP
@@ -6944,9 +7027,10 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Console.WriteLine("FUNCTION_SCOREENTRY_LOAD_USERDATA for rnd grp stp"+ rnd + "_" + grp + "_" + stp);
             Player_Selected.Clear();
 
-            if (rnd == 0) { rnd = BIND_SELECTED_ROUND; }
-                if (grp == 0) { grp = BIND_SELECTED_GROUP; }
-                if (stp == 0) { stp = BIND_SELECTED_STARTPOINT; }
+            //if (rnd == 0) { rnd = BIND_SCOREENTRY_SELECTEDFINAL_ROUND; }
+            //if (grp == 0) { grp = BIND_SCOREENTRY_SELECTEDFINAL_GROUP; }
+            //if (stp == 0) { stp = BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT; }
+
 
             bind_isnondeletable = bool.Parse(SQL_READSOUTEZDATA("SELECT nondeletable from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
             System.Threading.Thread.Sleep(100);
@@ -7005,9 +7089,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             Player_Selected_Roundlist.Clear();
 
-            if (rnd == 0) { rnd = BIND_VIEWED_ROUND; }
-            if (grp == 0) { grp = BIND_VIEWED_GROUP; }
-            if (stp == 0) { stp = BIND_VIEWED_STARTPOINT; }
+            if (rnd == 0) { rnd = BIND_SCOREENTRY_ROUND_ROUND; }
+            if (grp == 0) { grp = BIND_SCOREENTRY_ROUND_GROUP; }
+            if (stp == 0) { stp = BIND_SCOREENTRY_ROUND_STARTPOINT; }
 
             SQL_READSOUTEZDATA("select U.ID,M.stp,U.Firstname,U.Lastname from matrix M left join users U on M.user = U.id where M.rnd = " + rnd + " and M.grp = " + grp + " and M.stp = " + stp + " order by stp asc;", "get_Player_Selected_Roundlist");
             bind_scoreentry_fromroundlist_selected_minute = int.Parse(SQL_READSOUTEZDATA("SELECT CASE WHEN (select count(minutes) from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") =0  THEN -1 ELSE (select minutes from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp + ") END FROM score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));
@@ -7148,7 +7232,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void online_savescore(int rnd, int grp, int stp, int usrid, int minutes, int seconds, int landing, int height, int pen1value, int pen1id, int pen2value, int pen2id, string rawscore, string prepscore, bool nondeletable)
         {
 
-            if (CONTENT_ONLINE_ENABLED is true)
+            if (CONTENT_ONLINE_ENABLED is true & BINDING_IS_INTERNET is true)
             { 
                 //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
                 //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
@@ -7194,7 +7278,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void online_updateprepscore(int rnd, int grp, int stp, decimal prepscore)
         {
 
-            if (CONTENT_ONLINE_ENABLED is true)
+            if (CONTENT_ONLINE_ENABLED is true & BINDING_IS_INTERNET is true)
             {
 
 
@@ -9329,6 +9413,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             }
 
         }
+
+
 
         public async void print_completeresults(string frame_template_name, string data_emplate_name, string file_name, string what_string, string output_type, string[] visibility)
         {

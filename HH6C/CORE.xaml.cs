@@ -26,6 +26,8 @@ using System.Net.Cache;
 using System.Net;
 using Microsoft.Win32;
 using SORGAIR.Properties.Lang;
+using ControlzEx.Theming;
+using System.Data.Entity.ModelConfiguration.Configuration;
 
 namespace WpfApp6
 {
@@ -92,6 +94,22 @@ namespace WpfApp6
 
         }
 
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (e.NewValue.HasValue)
+            {
+                Theme newTheme = new Theme(name: "CustomTheme",
+                                           displayName: "CustomTheme",
+                                           baseColorScheme: VM.pozadi[VM.pouzitepozadi].ToString(),
+                                           colorScheme: "CustomAccent",
+                                           primaryAccentColor: e.NewValue.Value,
+                                           showcaseBrush: new SolidColorBrush(e.NewValue.Value),
+                                           isRuntimeGenerated: true,
+                                           isHighContrast: true);
+
+                ThemeManager.Current.ChangeTheme(Application.Current, newTheme);
+            }
+        }
 
         public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
         {
@@ -293,11 +311,48 @@ namespace WpfApp6
         private void CLICK_changeforeground(object sender, RoutedEventArgs e)
         {
             VM.Function_global_changeforeground = VM.Function_global_changeforeground + 1;
+
+
+            if (colorpicker.SelectedColor != null)
+            {
+                System.Windows.Media.Color c = colorpicker.SelectedColor.Value;
+                Theme newTheme = new Theme(name: "CustomTheme",
+                                               displayName: "CustomTheme",
+                                               baseColorScheme: VM.pozadi[VM.pouzitepozadi].ToString(),
+                                               colorScheme: "CustomAccent",
+                                               primaryAccentColor: c,
+                                               showcaseBrush: new SolidColorBrush(c),
+                                               isRuntimeGenerated: true,
+                                               isHighContrast: true);
+
+                ThemeManager.Current.ChangeTheme(Application.Current, newTheme);
+
+                VM.FUNCTION_Changeforegroundcolor();
+            }
+
+
         }
 
         private void CLICK_changebackground(object sender, RoutedEventArgs e)
         {
             VM.Function_global_changebackground = VM.Function_global_changebackground + 1;
+
+            if (colorpicker.SelectedColor != null)
+            {
+                System.Windows.Media.Color c = colorpicker.SelectedColor.Value;
+                Theme newTheme = new Theme(name: "CustomTheme",
+                                               displayName: "CustomTheme",
+                                               baseColorScheme: VM.pozadi[VM.pouzitepozadi].ToString(),
+                                               colorScheme: "CustomAccent",
+                                               primaryAccentColor: c,
+                                               showcaseBrush: new SolidColorBrush(c),
+                                               isRuntimeGenerated: true,
+                                               isHighContrast: true);
+
+                ThemeManager.Current.ChangeTheme(Application.Current, newTheme);
+            }
+
+
         }
 
 
@@ -404,6 +459,20 @@ namespace WpfApp6
             }
         }
 
-     
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void open_setup(object sender, RoutedEventArgs e)
+        {
+            nastaveni_vzhledu.IsOpen = true;
+
+        }
     }
 }

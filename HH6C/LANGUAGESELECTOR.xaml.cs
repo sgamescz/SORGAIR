@@ -60,7 +60,8 @@ namespace SORGAIR
                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "_autoupdate\\autoupdate.exe");
 
                 System.Diagnostics.Process.Start("_autoupdate\\autoupdate.exe");
-                Application.Current.Shutdown();
+                System.Environment.Exit(0); 
+                
             }
 
 

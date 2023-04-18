@@ -13,6 +13,8 @@ using System.IO;
 using System.Net.Cache;
 using System.Globalization;
 using SORGAIR.Properties.Lang;
+using ControlzEx.Theming;
+using System.Windows.Media;
 
 namespace WpfApp6.View
 {
@@ -96,7 +98,7 @@ namespace WpfApp6.View
 
         }
 
-
+       
 
         public async void thread_getsorgversion()
         {
