@@ -592,7 +592,7 @@ namespace WpfApp6.View
             for (var i = 0; i < VM.Players.Count; i++)
             {
 
-                kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count(rnd) from score where userid = " + VM.Players[i].ID + " and refly is false and rnd < 100 group by userid order by rnd", ""));
+                kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count(rnd) from score where userid = " + VM.Players[i].ID + " and refly = 'False' and rnd < 100 group by userid order by rnd", ""));
                 if (kolikrattamje != VM.BIND_SQL_SOUTEZ_ROUNDS)
                 {
                     bylachyba = true;

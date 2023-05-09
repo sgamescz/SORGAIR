@@ -134,9 +134,14 @@ namespace WpfApp6.View
 
         private void show_refly_form()
         {
+            VM.BIND_SCOREENTRY_SELECTEDROUND_ROUND = VM.BIND_SELECTED_ROUND;
+            VM.BIND_SCOREENTRY_SELECTEDROUND_GROUP = VM.BIND_SELECTED_GROUP;
+            VM.BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT = VM.BIND_SELECTED_STARTPOINT; 
 
-            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(0, 0, 0);
-            
+
+            //VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(0, 0, 0);
+            VM.FUNCTION_SCOREENTRY_LOAD_USERDATA(VM.BIND_SCOREENTRY_SELECTEDROUND_ROUND, VM.BIND_SCOREENTRY_SELECTEDROUND_GROUP, VM.BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT);
+
             refly.IsOpen = true;
             VM.FUNCTION_SHOW_AVAIABLE_GROUPS(VM.BIND_SELECTED_ROUND);
             string tmp_existujerefly = VM.SQL_READSOUTEZDATA("select userid from refly where rnd_from=" + VM.BIND_SELECTED_ROUND + " and grp_from=" + VM.BIND_SELECTED_GROUP + " and stp_from=" + VM.BIND_SELECTED_STARTPOINT + " ", "");
@@ -609,7 +614,7 @@ namespace WpfApp6.View
                 for (var i = 0; i < VM.Players.Count; i++)
                 {
 
-                    kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count(rnd) from score where userid = " + VM.Players[i].ID + " and refly is false group by userid order by rnd", ""));
+                    kolikrattamje = int.Parse(VM.SQL_READSOUTEZDATA("select count(rnd) from score where userid = " + VM.Players[i].ID + " and refly = 'False' group by userid order by rnd", ""));
                     if (kolikrattamje != VM.BIND_SQL_SOUTEZ_ROUNDS)
                     {
                         bylachyba = true;
@@ -870,6 +875,9 @@ namespace WpfApp6.View
         private int FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(int round)
         {
 
+
+
+
             VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'refly:" + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "refly", true) + "','refly',600,0, " + round + " ," + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(round, "", true) + ");");
             for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
             {
@@ -911,9 +919,23 @@ namespace WpfApp6.View
         private async void create_refly_group_Click(object sender, RoutedEventArgs e)
         {
 
+
+            string pocetvolnychmistvposledniskupine = (VM.SQL_READSOUTEZDATA("select ifnull(count(user),0) from matrix where rnd=" + VM.BIND_SELECTED_ROUND + " and grp = " + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + " and user=0", ""));
+            var currentWindow = this.TryFindParent<MetroWindow>();
+
+            if (int.Parse(pocetvolnychmistvposledniskupine) > 0 & VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) > VM.BIND_SQL_SOUTEZ_GROUPS)
+            {
+                MessageDialogResult resultx = await currentWindow.ShowMessageAsync("POZOR","Není vhodné vytvářet další opravnou skupinu když předchozí není zcela zaplněna soutěžícíma!!Chcete ji i tak vytvořit ?", MessageDialogStyle.AffirmativeAndNegative);
+                if (resultx == MessageDialogResult.Negative) { goto nedelatnic; }
+
+            }
+
+
+    
+
+
             FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(VM.BIND_SELECTED_ROUND);
 
-            var currentWindow = this.TryFindParent<MetroWindow>();
             MessageDialogResult result = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
 
             VM.FUNCTION_CHECK_ENTERED_ALL();
@@ -935,18 +957,29 @@ namespace WpfApp6.View
             }
             VM.MODEL_CONTEST_ROUNDS[VM.BIND_SELECTED_ROUND - 1].ISSELECTED = "selected";
             refly.IsOpen = false;
-
             VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
+        nedelatnic:
 
+            Console.Write("nedelat nic");
 
         }
 
         private async void create_refly_and_add_random_Click(object sender, RoutedEventArgs e)
         {
+            string pocetvolnychmistvposledniskupine = (VM.SQL_READSOUTEZDATA("select ifnull(count(user),0) from matrix where rnd=" + VM.BIND_SELECTED_ROUND + " and grp = " + VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) + " and user=0", ""));
+            var currentWindow = this.TryFindParent<MetroWindow>();
+
+            if (int.Parse(pocetvolnychmistvposledniskupine) > 0 & VM.FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(VM.BIND_SELECTED_ROUND, "", false) > VM.BIND_SQL_SOUTEZ_GROUPS)
+            {
+                MessageDialogResult resultx = await currentWindow.ShowMessageAsync("POZOR", "Není vhodné vytvářet další opravnou skupinu když předchozí není zcela zaplněna soutěžícíma!!Chcete ji i tak vytvořit ?", MessageDialogStyle.AffirmativeAndNegative);
+                if (resultx == MessageDialogResult.Negative) { goto nedelatnic; }
+
+            }
+
+
 
             int _novareflyskupina = FUNCTION_CREATE_REFLY_GROUP_AND_ADD_COMPETITOR(VM.BIND_SELECTED_ROUND);
 
-            var currentWindow = this.TryFindParent<MetroWindow>();
             MessageDialogResult uvodnimsgbox = await currentWindow.ShowMessageAsync("Přiřazení refly", "Soutěžící byl zařazen k opravnému letu", MessageDialogStyle.Affirmative);
 
 
@@ -1012,6 +1045,9 @@ znovalosovat:
                 VM.FUNCTION_CHECK_REFLY(VM.BIND_SELECTED_ROUND, VM.BIND_SELECTED_GROUP);
 
             }
+        nedelatnic:
+
+            Console.Write("nedelat nic");
         }
 
         private void preptimer_pase_Click(object sender, RoutedEventArgs e)

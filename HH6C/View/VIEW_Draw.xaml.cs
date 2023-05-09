@@ -287,6 +287,7 @@ namespace WpfApp6.View
                 VM.BIND_IS_FINAL_FLIGHT_READY = false;
                 controller.SetProgress(1);
                 controller.SetMessage("New matrix created");
+                VM.UZ_JE_ROZLOSOVANO = true;
                 await Task.Delay(1000);
                 await controller.CloseAsync();
             }

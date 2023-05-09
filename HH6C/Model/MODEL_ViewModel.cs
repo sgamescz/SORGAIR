@@ -313,6 +313,13 @@ namespace WpfApp6.Model
 
 
 
+        Boolean _UZ_JE_ROZLOSOVANO = false;
+        public Boolean UZ_JE_ROZLOSOVANO
+        {
+            get { return _UZ_JE_ROZLOSOVANO; }
+            set { _UZ_JE_ROZLOSOVANO = value; OnPropertyChanged("UZ_JE_ROZLOSOVANO"); }
+
+        }
 
 
         string _HW_ATI = " ATI ";
@@ -680,6 +687,7 @@ namespace WpfApp6.Model
                 BIND_MENU_ENABLED_vysledky = false;
                 BIND_MENU_ENABLED_vysledky_finale = false;
                 BIND_MENU_ENABLED_detailyastatistiky = false;
+                UZ_JE_ROZLOSOVANO = false;
             }
             else
             {
@@ -691,6 +699,7 @@ namespace WpfApp6.Model
                 BIND_MENU_ENABLED_vysledky = true;
                 BIND_MENU_ENABLED_vysledky_finale = true;
                 BIND_MENU_ENABLED_detailyastatistiky = true;
+                UZ_JE_ROZLOSOVANO = true;
             }
 
         }
@@ -2489,14 +2498,14 @@ namespace WpfApp6.Model
 
 
 
-        private int _BIND_SCOREENTRY_SELECTEDROUND_ROUND;
+        private int _BIND_SCOREENTRY_SELECTEDROUND_ROUND = 1;
         public int BIND_SCOREENTRY_SELECTEDROUND_ROUND
         {
             get { return _BIND_SCOREENTRY_SELECTEDROUND_ROUND; }
             set { _BIND_SCOREENTRY_SELECTEDROUND_ROUND = value; OnPropertyChanged("BIND_SCOREENTRY_SELECTEDROUND_ROUND"); Console.WriteLine("BIND_SCOREENTRY_SELECTEDROUND_ROUND:" + BIND_SCOREENTRY_SELECTEDROUND_ROUND); }
         }
 
-        private int _BIND_SCOREENTRY_SELECTEDROUND_GROUP;
+        private int _BIND_SCOREENTRY_SELECTEDROUND_GROUP = 1;
         public int BIND_SCOREENTRY_SELECTEDROUND_GROUP
         {
             get { return _BIND_SCOREENTRY_SELECTEDROUND_GROUP; }
@@ -2504,7 +2513,7 @@ namespace WpfApp6.Model
         }
 
 
-        private int _BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT;
+        private int _BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT = 1;
         public int BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT
         {
             get { return _BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT; }
@@ -2730,6 +2739,16 @@ namespace WpfApp6.Model
             get { return Lang.contest_name+ " : " + BIND_SQL_SOUTEZ_NAZEV_value; }
             set { SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='Name'"); BIND_SQL_SOUTEZ_NAZEV_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_NAZEV"); }
         }
+
+
+        public string BIND_SQL_SOUTEZ_NAZEV_CLEAN
+        {
+            get { return BIND_SQL_SOUTEZ_NAZEV_value; }
+        }
+
+
+
+
         private string _BIND_SQL_SOUTEZ_DBFILE;
         public string BIND_SQL_SOUTEZ_DBFILE
         {
@@ -7027,9 +7046,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             Console.WriteLine("FUNCTION_SCOREENTRY_LOAD_USERDATA for rnd grp stp"+ rnd + "_" + grp + "_" + stp);
             Player_Selected.Clear();
 
-            //if (rnd == 0) { rnd = BIND_SCOREENTRY_SELECTEDFINAL_ROUND; }
-            //if (grp == 0) { grp = BIND_SCOREENTRY_SELECTEDFINAL_GROUP; }
-            //if (stp == 0) { stp = BIND_SCOREENTRY_SELECTEDFINAL_STARTPOINT; }
+            //if (rnd == 0) { rnd = BIND_SCOREENTRY_SELECTEDROUND_ROUND; }
+            //if (grp == 0) { grp = BIND_SCOREENTRY_SELECTEDROUND_GROUP; }
+            //if (stp == 0) { stp = BIND_SCOREENTRY_SELECTEDROUND_STARTPOINT; }
 
 
             bind_isnondeletable = bool.Parse(SQL_READSOUTEZDATA("SELECT nondeletable from score where rnd = " + rnd + " and grp = " + grp + " and stp = " + stp, ""));

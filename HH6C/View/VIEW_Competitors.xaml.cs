@@ -161,27 +161,40 @@ namespace WpfApp6.View
 
         private async  void delete_competitor_Click(object sender, RoutedEventArgs e)
         {
+            Console.Write("UZ_JE_ROZLOSOVANO" + VM.UZ_JE_ROZLOSOVANO);
+
+
             var currentWindow = this.TryFindParent<MetroWindow>();
-            if (competitorlist.SelectedIndex >= 0)
+
+            if (VM.UZ_JE_ROZLOSOVANO is true)
             {
-                MessageDialogResult result = await currentWindow.ShowMessageAsync("Smazání soutěžícího", "Opravdu smazat soutěžícího s ID: " + VM.Players[competitorlist.SelectedIndex].ID + " : " + VM.Players[competitorlist.SelectedIndex].FIRSTNAME + " " + VM.Players[competitorlist.SelectedIndex].LASTNAME + "?", MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Negative)
+                MessageDialogResult result = await currentWindow.ShowMessageAsync("Smazání soutěžícího", "Nelze mazat soutěžící poté, co je rozlsováno. Soutěžícího můžete pouze přejmenovat", MessageDialogStyle.Affirmative);
+            }
+            else 
+            { 
+
+                if (competitorlist.SelectedIndex >= 0)
                 {
-                    Console.WriteLine("No");
+                    MessageDialogResult result = await currentWindow.ShowMessageAsync("Smazání soutěžícího", "Opravdu smazat soutěžícího s ID: " + VM.Players[competitorlist.SelectedIndex].ID + " : " + VM.Players[competitorlist.SelectedIndex].FIRSTNAME + " " + VM.Players[competitorlist.SelectedIndex].LASTNAME + "?", MessageDialogStyle.AffirmativeAndNegative);
+                    if (result == MessageDialogResult.Negative)
+                    {
+                        Console.WriteLine("No");
+                    }
+                    else
+                    {
+                        Console.WriteLine("yes");
+                        VM.FUNCTION_USERS_DELETE_COMPETITOR(VM.Players[competitorlist.SelectedIndex].ID);
+                        competitorlist.SelectedIndex = competitorlist.Items.Count - 1;
+                        competitorlist.ScrollIntoView(competitorlist.Items[competitorlist.SelectedIndex]);
+
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("yes");
-                    VM.FUNCTION_USERS_DELETE_COMPETITOR(VM.Players[competitorlist.SelectedIndex].ID);
-                    competitorlist.SelectedIndex = competitorlist.Items.Count - 1;
-                    competitorlist.ScrollIntoView(competitorlist.Items[competitorlist.SelectedIndex]);
-
+                    await currentWindow.ShowMessageAsync("Nikdo není vybrán", "Vyber prosím, koho chceš smazat");
                 }
             }
-            else
-            {
-                await currentWindow.ShowMessageAsync("Nikdo není vybrán", "Vyber prosím, koho chceš smazat");
-            }
+
     
         }
 

@@ -407,7 +407,7 @@
                 ClosingFinished="scoreentry_back_Click"
                 Header="Refly"
                 IsModal="False"  
-                IsOpen="false"
+                IsOpen="False"
                 Position="Bottom"
                 Theme="Adapt"
                 TitleVisibility="Visible">

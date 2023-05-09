@@ -26,6 +26,7 @@ using System.Net;
 using System.IO;
 using System.Net.Cache;
 using System.Globalization;
+using SORGAIR.Properties.Lang;
 
 namespace WpfApp6.View
 {
@@ -837,8 +838,11 @@ namespace WpfApp6.View
 
             var parsedDate = DateTime.Parse(VM.BIND_SQL_SOUTEZ_DATUM);
 
-            string newfilename = (VM.BIND_SQL_SOUTEZ_KATEGORIE + "_" + RemoveDiacritics(VM.BIND_SQL_SOUTEZ_NAZEV) + "_" + parsedDate.ToString("yyyy_MM_dd")).ToLower();
+            Console.WriteLine("BIND_SQL_SOUTEZ_NAZEV:" + VM.BIND_SQL_SOUTEZ_NAZEV_CLEAN);
 
+            string newfilename = (VM.BIND_SQL_SOUTEZ_KATEGORIE + "_" + RemoveDiacritics(VM.BIND_SQL_SOUTEZ_NAZEV_CLEAN) + "_" + parsedDate.ToString("yyyy_MM_dd")).ToLower();
+
+            Console.WriteLine("REMOVED_BIND_SQL_SOUTEZ_NAZEV:" + RemoveDiacritics(VM.BIND_SQL_SOUTEZ_NAZEV_CLEAN));
 
             if (kamposlat == "sorgair.com") {
                 UploadFileToFtp("ftp://187428.w28.wedos.net", "print_complete_overview_for_sending.html", "w187428_kalendarvysledky", "xGjprNNg", VM.BIND_SQL_SACALENDAR_NUMBER + "_" + VM.BIND_SQL_SOUTEZ_SMCRID + "_" + newfilename +".html");
@@ -850,7 +854,7 @@ namespace WpfApp6.View
 
             if (kamposlat.Contains("@"))
             {
-                email_send(kamposlat, "MEGAVýsledovka ze soutěže: " + VM.BIND_SQL_SOUTEZ_SMCRID + " - " + VM.BIND_SQL_SOUTEZ_NAZEV, "mv" + VM.BIND_SQL_SOUTEZ_SMCRID + ".pdf");
+                email_send(kamposlat, "MEGAVýsledovka ze soutěže: " + VM.BIND_SQL_SOUTEZ_SMCRID + " - " + VM.BIND_SQL_SOUTEZ_NAZEV_CLEAN, "mv" + VM.BIND_SQL_SOUTEZ_SMCRID + ".pdf");
 
             }
 
@@ -1038,7 +1042,8 @@ namespace WpfApp6.View
             }
 
             string fixcontestname = stringBuilder.ToString().Normalize(NormalizationForm.FormC);
-            fixcontestname = fixcontestname.Replace("Nazev souteze : ", string.Empty);
+            fixcontestname = fixcontestname.Replace(Lang.contest_name + " : ", string.Empty);
+            Console.WriteLine(Lang.contest_name + " : ");
             fixcontestname = fixcontestname.Replace(" ", string.Empty);
             return fixcontestname;
         }
