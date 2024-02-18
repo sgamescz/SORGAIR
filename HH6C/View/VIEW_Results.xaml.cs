@@ -119,7 +119,7 @@ namespace WpfApp6.View
         {
             VM._ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = false;
             VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
-
+            VM.online_updateskrtaci_all(0);
             udelej_zobrazeni_vysledku();
         }
 
@@ -252,6 +252,8 @@ namespace WpfApp6.View
             VM._ZOBRAZIT_ZAKLADNI_VYSLEDKY_S_SKRTACKAMA = true;
 
             VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'False'");
+            VM.online_updateskrtaci_all(0);
+
 
             for (int s = 0; s < VM.BIND_SQL_SOUTEZ_DELETES; s++)
             {
@@ -265,6 +267,7 @@ namespace WpfApp6.View
                     tmp_kolo_pro_skracku = VM.SQL_READSOUTEZDATA("select rnd,min(prep) from score where userid=" + VM.Players_Baseresults[i].ID + " and skrtacka='False' and refly='False' and nondeletable = 'False' and rnd <= " + VM.BIND_ROUNDS_IN_RESULTS, "");
                     tmp_grp_pro_skracku = VM.SQL_READSOUTEZDATA("select grp,min(prep) from score where userid=" + VM.Players_Baseresults[i].ID + " and skrtacka='False' and refly='False' and nondeletable = 'False' and rnd <= " + VM.BIND_ROUNDS_IN_RESULTS, "");
                     VM.SQL_SAVESOUTEZDATA("update score set skrtacka = 'True' where rnd='" + tmp_kolo_pro_skracku + "' and grp='" + tmp_grp_pro_skracku + "' and userid=" + VM.Players_Baseresults[i].ID);
+                    VM.online_updateskrtaci(int.Parse(tmp_kolo_pro_skracku), int.Parse(tmp_grp_pro_skracku), VM.Players_Baseresults[i].ID, 1);
 
                 }
 

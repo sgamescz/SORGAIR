@@ -111,6 +111,7 @@
                                     <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
 
 
@@ -146,6 +147,7 @@
                                 <TextBlock Grid.Column="6" Text="{Binding FAILIC}" />
                                 <TextBlock Grid.Column="7" Text="{Binding NACLIC}" />
                                 <TextBlock Grid.Column="8" Text="{Binding AGECAT}" />
+                                <TextBlock Grid.Column="9" Text="{Binding CUSTOMAGECAT}" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -239,9 +241,30 @@
                 <mah:Tile
                     x:Name="userdetail_agecat"
                     Title="Věková kategorie : Senior"
-                    Width="425"
+                    Width="200"
                     Height="39"
                     Margin="205,88,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Left"
+                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"
+                    Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                    HorizontalTitleAlignment="Center"
+                    Style="{StaticResource userbuttonstyle}"
+                    VerticalTitleAlignment="Center">
+                    <iconPacks:PackIconModern
+                        Width="25"
+                        Height="25"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Kind="FolderPeople" />
+                </mah:Tile>
+                <mah:Tile
+                    x:Name="userdetail_customagecat"
+                    Title="Věková kategorie : ---"
+                    Width="220"
+                    Height="39"
+                    Margin="410,88,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Left"
@@ -906,7 +929,7 @@
                 <Grid Height="184" VerticalAlignment="Top">
                     <mah:SplitButton
                         x:Name="l_agecat_edit"
-                        Width="345"
+                        Width="170"
                         Margin="205,88,0,57"
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
@@ -925,6 +948,30 @@
                                 Kind="FolderPeople" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
+
+                    <mah:SplitButton
+     x:Name="l_customagecat_edit"
+     Width="170"
+     Margin="380,88,0,57"
+     HorizontalAlignment="Left"
+     HorizontalContentAlignment="Center"
+     Background="{DynamicResource MahApps.Brushes.AccentBase}"
+     DisplayMemberPath="NAME"
+     ItemsSource="{Binding MODEL_Contest_CUSTOMAGECATEGORIES}"
+     TabIndex="5"
+     Text="test">
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconModern
+             Width="25"
+             Height="25"
+             Margin="10,0,0,0"
+             VerticalAlignment="Center"
+             IsTabStop="False"
+             Kind="FolderPeople" />
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+                    
+                    
                     <mah:NumericUpDown
                         x:Name="l_chanel1_edit"
                         Width="95"

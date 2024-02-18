@@ -55,7 +55,7 @@ namespace WpfApp6.View
             {
                 userdetail_id.Count = VM.Players[competitorlist.SelectedIndex].ID.ToString();
                 userdetail_competitorname.Title = VM.Players[competitorlist.SelectedIndex].LASTNAME.ToString() + " " + VM.Players[competitorlist.SelectedIndex].FIRSTNAME.ToString();
-                userdetail_agecat.Title   = "Věková kategorie : " + VM.Players[competitorlist.SelectedIndex].AGECAT .ToString();
+                userdetail_agecat.Title   = "Kategorie 1: " + VM.Players[competitorlist.SelectedIndex].AGECAT .ToString();
                 userdetail_NATLIC.Title = VM.Players[competitorlist.SelectedIndex].NACLIC  .ToString();
                 userdetail_FAILIC.Title = VM.Players[competitorlist.SelectedIndex].FAILIC  .ToString();
                 userdetail_club.Title = "Klub : " + VM.Players[competitorlist.SelectedIndex].CLUB .ToString();
@@ -65,6 +65,7 @@ namespace WpfApp6.View
                 userdetail_country.Title = VM.Players[competitorlist.SelectedIndex].COUNTRY.ToString();
                 VM.BIND_FLAG = VM.Players[competitorlist.SelectedIndex].COUNTRY.ToString();
                 VM.BIND_PAID = VM.Players[competitorlist.SelectedIndex].PAIDSTR  .ToString();
+                userdetail_customagecat.Title = "Kategorie 2: " + VM.Players[competitorlist.SelectedIndex].CUSTOMAGECAT.ToString();
                 ispaid.IsEnabled = true;
                 edituser.IsEnabled = true;
                 delete_competitor.IsEnabled = true;
@@ -267,7 +268,7 @@ namespace WpfApp6.View
                 }
                 else
                 {
-                    VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), _failictmp, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 0, 1);
+                    VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), _failictmp, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 0, 99);
                 }
 
 
@@ -298,7 +299,7 @@ namespace WpfApp6.View
                 _failictmp = l_failic_edit.Text;
             }
 
-            if (l_firstname_edit.Text == "" || L_lastname_edit.Text == "" || l_agecat_edit.SelectedIndex == -1 || l_club_edit.Text == "" || l_country_edit.SelectedIndex == -1 || _failictmp == "" || l_freq_edit.SelectedIndex == -1 || l_naclic_edit.Text == "")
+            if (l_firstname_edit.Text == "" || L_lastname_edit.Text == "" || l_agecat_edit.SelectedIndex == -1 || l_customagecat_edit.SelectedIndex == -1 || l_club_edit.Text == "" || l_country_edit.SelectedIndex == -1 || _failictmp == "" || l_freq_edit.SelectedIndex == -1 || l_naclic_edit.Text == "")
             {
                 results = false;
                 var currentWindow = this.TryFindParent<MetroWindow>();
@@ -328,7 +329,7 @@ namespace WpfApp6.View
 
                 if (results != false)
                 {
-                VM.FUNCTION_USERS_CREATE_EDIT(int.Parse(l_nextid_edit.Count), l_firstname_edit.Text, L_lastname_edit.Text, VM.MODEL_Contest_FLAGS[l_country_edit.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat_edit.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq_edit.SelectedIndex].ID, Convert.ToInt32(l_chanel1_edit.Value), Convert.ToInt32(l_chanel2_edit.Value), _failictmp, l_naclic_edit.Text, l_club_edit.Text, Convert.ToBoolean(l_registered_edit.IsOn), 1);
+                VM.FUNCTION_USERS_CREATE_EDIT(int.Parse(l_nextid_edit.Count), l_firstname_edit.Text, L_lastname_edit.Text, VM.MODEL_Contest_FLAGS[l_country_edit.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat_edit.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq_edit.SelectedIndex].ID, Convert.ToInt32(l_chanel1_edit.Value), Convert.ToInt32(l_chanel2_edit.Value), _failictmp, l_naclic_edit.Text, l_club_edit.Text, Convert.ToBoolean(l_registered_edit.IsOn), VM.MODEL_Contest_CUSTOMAGECATEGORIES[l_customagecat_edit.SelectedIndex].ID);
                 }
 
 
@@ -379,6 +380,14 @@ namespace WpfApp6.View
             }
 
             l_agecat_edit.SelectedIndex = VM.Players[competitorlist.SelectedIndex].AGECATID;
+
+
+            int customAgeCatId = VM.Players[competitorlist.SelectedIndex].CUSTOMAGECATID;
+
+            l_customagecat_edit.SelectedIndex = VM.customagecatidList.IndexOf(customAgeCatId);
+
+
+            
             l_registered_edit.IsOn = bool.Parse(VM.Players[competitorlist.SelectedIndex].PAIDSTR);
 
             firstFlyout_edit.IsOpen = true;

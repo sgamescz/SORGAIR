@@ -108,7 +108,7 @@
                     </Controls:MetroHeader>
                 </Grid>
             </TabItem>
-            <TabItem Header="| Online výsledky">
+            <TabItem Header="| Online výsledky" Height="32" VerticalAlignment="Top">
                 <Grid>
 
                     <Controls:MetroHeader  Header="Nastavení online parametrů" Margin="0,70,0,10">

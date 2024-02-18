@@ -27,6 +27,7 @@ using System.IO;
 using System.Net.Cache;
 using System.Globalization;
 using SORGAIR.Properties.Lang;
+using System.Windows.Media.Media3D;
 
 namespace WpfApp6.View
 {
@@ -67,7 +68,7 @@ namespace WpfApp6.View
             string result = reader.ReadToEnd();
 
             Console.WriteLine(result);
-            if (result == "0")
+            if (result == "")
             {
                 Console.WriteLine("soutez neexistuje");
 
@@ -109,6 +110,7 @@ namespace WpfApp6.View
                 int noveonlineidsouteze=0;
                 int.TryParse(result,out noveonlineidsouteze);
                 Console.WriteLine(noveonlineidsouteze);
+                VM.CONTENT_MASTER_ID = noveonlineidsouteze;
 
 
 
@@ -118,7 +120,7 @@ namespace WpfApp6.View
 
 
 
-                    remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createcompetitor&noveonlineidsouteze=" + noveonlineidsouteze
+                    remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createcompetitor&noveonlineidsouteze=" + VM.CONTENT_MASTER_ID
                         + "&insorgid=" + VM.Players[i].ID
                         + "&firstname=" + VM.Players[i].FIRSTNAME
                         + "&lastname=" + VM.Players[i].LASTNAME
@@ -160,7 +162,7 @@ namespace WpfApp6.View
 
 
 
-                    remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createround&noveonlineidsouteze=" + noveonlineidsouteze
+                    remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createround&noveonlineidsouteze=" + VM.CONTENT_MASTER_ID
                         + "&desc=" +(i+1)
                         + "&desc2=" + (i+1)
                         ;
@@ -181,7 +183,7 @@ namespace WpfApp6.View
 
 
 
-                        remoteUrl = "http://api.sorgair.com/api_online_results.php?action=creategroup&noveonlineidsouteze=" + noveonlineidsouteze
+                        remoteUrl = "http://api.sorgair.com/api_online_results.php?action=creategroup&noveonlineidsouteze=" + VM.CONTENT_MASTER_ID
                             + "&round=" + (i + 1)
                             + "&desc=" + (y + 1)
                             + "&desc2=" + (y + 1)
@@ -219,7 +221,7 @@ namespace WpfApp6.View
                             string kdo = VM.SQL_READSOUTEZDATA("select user from matrix where rnd=" + x.ToString() + " and grp=" + g.ToString() + " and stp=" + stp.ToString() + " ; ", "");
 
 
-                              remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createdraw&noveonlineidsouteze=" + noveonlineidsouteze
+                              remoteUrl = "http://api.sorgair.com/api_online_results.php?action=createdraw&noveonlineidsouteze=" + VM.CONTENT_MASTER_ID
                             + "&round=" + x
                             + "&group=" + g
                             + "&stp=" + stp
@@ -234,6 +236,47 @@ namespace WpfApp6.View
                         response = httpRequest.GetResponse();
                         reader = new StreamReader(response.GetResponseStream());
                         result = reader.ReadToEnd();
+
+
+
+
+
+
+
+                               string remoteUrl2 = "http://api.sorgair.com/api_online_results.php?action=insertscore&noveonlineidsouteze=" + VM.CONTENT_MASTER_ID + 
+                               "&master_contest_sorgairidentifikator=" + VM.CONTENT_RANDOM_ID +
+                               "&rnd=" + x +
+                               "&grp=" + g +
+                               "&stp=" + stp +
+                               "&insorgid=" + kdo +
+                               "&min=0" + 
+                               "&sec=0" + 
+                                "&landing=0" + 
+                               "&height=0" + 
+                               "&pen1value=0" + 
+                               "&pen1id=0" + 
+                               "&pen2value=0" + 
+                               "&pen2id=0" + 
+                               "&raw=0" + 
+                               "&prep=0" + 
+                               "&entered=0" +
+                               "&nondeletable=0" +
+                               "&skrtaci=0"
+
+                               ;
+                            Console.WriteLine(remoteUrl);
+                                HttpWebRequest httpRequest2 = (HttpWebRequest)WebRequest.Create(remoteUrl2);
+                                HttpRequestCachePolicy policy2 = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                                HttpWebRequest.DefaultCachePolicy = policy2;
+
+                                httpRequest2.CachePolicy = policy2;
+                                WebResponse response2 = httpRequest2.GetResponse();
+                                StreamReader reader2 = new StreamReader(response2.GetResponseStream());
+                                string result2 = reader2.ReadToEnd();
+
+                                Console.WriteLine(result2);
+                           
+
 
 
                         }
@@ -263,11 +306,15 @@ namespace WpfApp6.View
             {
 
 
+                int noveonlineidsouteze = 0;
+                int.TryParse(result, out noveonlineidsouteze);
+                Console.WriteLine(noveonlineidsouteze);
+                VM.CONTENT_MASTER_ID = noveonlineidsouteze;
+                MessageBox.Show(VM.CONTENT_MASTER_ID.ToString());
+
+
                 var msgresult = await currentWindow.ShowMessageAsync("Online systém", "Nelze vytvořit online záznam s tímto ID. Prosím vygenerujte nové  ikonou vlevo."
     , MessageDialogStyle.Affirmative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
-
-
-
 
 
                 Console.WriteLine("soutez bohuzel existuje");

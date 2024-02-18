@@ -142,11 +142,19 @@ namespace WpfApp6.Model
         }
 
 
-        private int _CUSTOMAGECAT;
-        public int CUSTOMAGECAT
+        private string _CUSTOMAGECAT;
+        public string CUSTOMAGECAT
         {
             get { return _CUSTOMAGECAT; }
             set { _CUSTOMAGECAT = value; RaisePropertyChanged(nameof(CUSTOMAGECAT)); }
+        }
+
+
+        private int _CUSTOMAGECATID;
+        public int CUSTOMAGECATID
+        {
+            get { return _CUSTOMAGECATID; }
+            set { _CUSTOMAGECATID = value; RaisePropertyChanged(nameof(CUSTOMAGECATID)); }
         }
 
 

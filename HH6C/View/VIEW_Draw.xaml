@@ -46,7 +46,7 @@
 
 
 
-        
+
         <Style
             x:Key="typss"
             BasedOn="{StaticResource MahApps.Styles.Button.Dialogs.Accent }"
@@ -76,41 +76,98 @@
 
 
     <StackPanel Margin="0,0,0,0">
-        <StackPanel Height="87" Orientation="Horizontal">
-                <Controls:Tile
+        <StackPanel Height="140" Orientation="Horizontal">
+            <Controls:Tile
                     x:Name="btn_draw_from_file"
                     Title="Rozlosování z předvytvořená matice"
-                  
-                 
-                  
-                    Click="btn_draw_from_file_Click"
-                    IsEnabled="{Binding draw_from_file_enabled}" Height="76" Width="278">
-                    <iconPacks:PackIconModern
-                        Width="30"
-                        Height="30"
+                    Tag="file"
+                    Click="btn_create_draw_all_Click"
+                    IsEnabled="{Binding draw_from_file_enabled}" Height="135" Width="278">
+                <iconPacks:PackIconModern
+                        Width="20"
+                        Height="20"
                         Margin="0,0,0,20"
                         Kind="DrawPixelFillGrid" />
-                </Controls:Tile>
+            </Controls:Tile>
             <Controls:Tile
                     x:Name="btn_draw_random"
-                    Title="SORG AIR rozlosováni"
-                
-                   
-                   
-                    Click="btn_draw_random_Click"
-                    IsEnabled="{Binding CONTEST_LOCK}" Height="72" Width="190"  >
-                <iconPacks:PackIconRPGAwesome
-                        Width="30"
-                        Height="30"
-                        Kind="PerspectiveDiceRandom" />
+                    Title="Náhodné"
+               
+                Tag="random"
+                HorizontalTitleAlignment="Center"
+                    Click="btn_create_draw_all_Click"
+                    IsEnabled="{Binding CONTEST_LOCK}" Height="135" Width="90"  >
+                <iconPacks:PackIconBootstrapIcons
+                        Width="20"
+                        Height="20"
+                        Kind="QuestionSquareFill" />
             </Controls:Tile>
+
+            <Grid Width="300" Height="136" Margin="2,0,0,0">
+
+                <Controls:Tile
+                 HorizontalTitleAlignment="Center"
+                    x:Name="btn_draw_vertical"
+                    Title="Vertical"
+                Tag="vertical"
+                    Click="btn_create_draw_first_Click"
+                    IsEnabled="{Binding CONTEST_LOCK}" Height="72" Width="90" Margin="103,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  >
+                    <iconPacks:PackIconBootstrapIcons
+                        Width="20"
+                        Height="20"
+                        Kind="ArrowDownSquareFill" />
+
+
+
+                </Controls:Tile>
+                <Controls:Tile
+                    x:Name="btn_draw_horizontal"
+                    IsEnabled="{Binding CONTEST_LOCK}"
+                    Title="Horizontal"
+                Tag="horizontal"
+                HorizontalTitleAlignment="Center"
+                    Click="btn_create_draw_first_Click"
+                     Height="72" Width="98" Margin="0,1,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  >
+                    <iconPacks:PackIconBootstrapIcons
+                        Width="20"
+                        Height="20"
+                        Kind="ArrowRightSquareFill" />
+                </Controls:Tile>
+                <Controls:Tile
+                    x:Name="btn_draw_diagonal"
+                    Title="Diagonal"
+                Tag="diagonal"
+                HorizontalTitleAlignment="Center"
+                    Click="btn_create_draw_first_Click"
+                    IsEnabled="{Binding CONTEST_LOCK}" Height="72" Width="98" Margin="198,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"  >
+                    <iconPacks:PackIconBootstrapIcons
+                        Width="20"
+                        Height="20"
+                        Kind="ArrowDownRightSquareFill" />
+                </Controls:Tile>
+
+
+                <Controls:Tile
+                    x:Name="btn_draw_dotisk"
+                    Title="Dolosovat další kola"
+                Tag="horizontal"
+                HorizontalTitleAlignment="Center"
+                    Click="btn_draw_dotisk_Click"
+                    IsEnabled="{Binding CONTEST_LOCK}" Height="57" Width="296" Margin="0,78,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  >
+                    <iconPacks:PackIconBootstrapIcons
+                        Width="20"
+                        Height="20"
+                        Kind="App" />
+                </Controls:Tile>
+
+            </Grid>
 
 
             <Controls:Tile
                     x:Name="print_matrix_pdf_btn"
                     Title="Tisk"
  Background="YellowGreen"                   
-                    Click="print_matrix_btn_Click" Height="73">
+                    Click="print_matrix_btn_Click" Height="135">
                 <iconPacks:PackIconBoxIcons
                         Width="20"
                         Height="20"
@@ -132,8 +189,6 @@
                         IsOn="True"
                         OffContent="Tisknout bez hlavičky"
                         OnContent="Tisknou s hlavičkou" />
-
-            <Button Click="Button_Click" FontSize="8">kontrola špatného rozlosování</Button>
         </StackPanel>
 
 
@@ -189,8 +244,8 @@
                                                                 Tag="{Binding startpoint_data}">
                                                                 <TextBlock Text="{Binding name}" TextWrapping="Wrap" TextAlignment="Center"/>
                                                             </Button>
-                                                            
-                                                            
+
+
 
                                                         </StackPanel>
                                                         <!--  You Are missing this!  -->

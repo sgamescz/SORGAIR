@@ -9,6 +9,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Text;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Drawing.Drawing2D;
 
 
 namespace WpfApp6.View
@@ -16,6 +18,27 @@ namespace WpfApp6.View
     /// <summary>
     /// Interaction logic for PlayersView.xaml
     /// </summary>
+    /// 
+    public static class ListExtensions
+    {
+        private static Random rng = new Random();
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+    }
+
+
+
     public partial class Draw : UserControl
     {
 
@@ -33,9 +56,7 @@ namespace WpfApp6.View
         }
 
 
-   
-
-        private async void create_matrix(bool from_file)
+        private async void create_matrix_all_rounds(string typlosovani)
         {
 
 
@@ -60,54 +81,61 @@ namespace WpfApp6.View
             else
             {
 
+                VM.POUZITY_TYP_LOSOVANI = typlosovani;
+                var controller = await currentWindow.ShowProgressAsync("Please wait...", "Working...");
 
-                var controller = await currentWindow.ShowProgressAsync("Please wait...", "Deleting old matrix");
-                controller.SetTitle("Matrix creator");
-                VM.SQL_SAVESOUTEZDATA("delete from matrix");
-                VM.SQL_SAVESOUTEZDATA("delete from score");
-                VM.SQL_SAVESOUTEZDATA("delete from groups");
-                VM.SQL_SAVESOUTEZDATA("delete from rounds");
-                VM.SQL_SAVESOUTEZDATA("delete from refly");
-                VM.SQL_SAVESOUTEZDATA("update users set Matrixid=0");
-                VM.BIND_JETREBAROZLOSOVAT_SCORE = VM.BIND_SQL_SOUTEZ_ROUNDS * VM.BIND_SQL_SOUTEZ_GROUPS * VM.BIND_SQL_SOUTEZ_STARTPOINTS;
-                VM.FUNCTION_JETREBAROZLOSOVAT_OVER();
-                ////////////////////////// 
-
-
-                // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
+                    controller.SetTitle("Matrix creator");
+                    VM.SQL_SAVESOUTEZDATA("delete from matrix");
+                    VM.SQL_SAVESOUTEZDATA("delete from score");
+                    VM.SQL_SAVESOUTEZDATA("delete from groups");
+                    VM.SQL_SAVESOUTEZDATA("delete from rounds");
+                    VM.SQL_SAVESOUTEZDATA("delete from refly");
+                    VM.SQL_SAVESOUTEZDATA("update users set Matrixid=0");
+                    VM.BIND_JETREBAROZLOSOVAT_SCORE = VM.BIND_SQL_SOUTEZ_ROUNDS * VM.BIND_SQL_SOUTEZ_GROUPS * VM.BIND_SQL_SOUTEZ_STARTPOINTS;
+                    VM.FUNCTION_JETREBAROZLOSOVAT_OVER();
+                    ////////////////////////// 
 
 
+                    // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
 
 
-                for (int r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
-                {
-                    VM.SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + r + ",'kolo:" + r + "','auto',600,0);");
 
 
-                    for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                    for (int r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
                     {
-                        VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'Skupina:" + g + "','auto',600,0, " + r + " ," + g + ");");
+                        VM.SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + r + ",'kolo:" + r + "','auto',600,0);");
 
-                        for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+
+                        for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
                         {
+                            VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'Skupina:" + g + "','auto',600,0, " + r + " ," + g + ");");
 
-                            double x = (VM.BIND_SQL_SOUTEZ_ROUNDS + 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1);
-                            double progg = ((((r - 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1)) + g) / x);
+                            for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                            {
 
-                            Console.WriteLine(progg);
-                            VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + r + "," + g + "," + s + ",0)");
-                            VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + r + "," + g + "," + s + ",0,'True')");
-                            controller.SetProgress(progg);
-                            controller.SetMessage(string.Format("Generating: {0}%", Math.Round((progg * 100), 2)));
-                            await Task.Delay(1);
+                                double x = (VM.BIND_SQL_SOUTEZ_ROUNDS + 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1);
+                                double progg = ((((r - 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1)) + g) / x);
+
+                                Console.WriteLine(progg);
+                                VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + r + "," + g + "," + s + ",0)");
+                                VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + r + "," + g + "," + s + ",0,'True')");
+                                controller.SetProgress(progg);
+                                controller.SetMessage(string.Format("Generating: {0}%", Math.Round((progg * 100), 2)));
+                                await Task.Delay(1);
+                            }
+
+
                         }
 
-
                     }
+                    controller.SetProgress(0.90);
+                    await Task.Delay(100);
 
-                }
-                controller.SetProgress(0.90);
-                await Task.Delay(100);
+
+
+
+
+               
 
 
                 /////////////////////////////
@@ -121,7 +149,11 @@ namespace WpfApp6.View
                 string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 var directory = System.IO.Path.GetDirectoryName(path);
 
-                if (from_file == false)
+
+
+
+
+                if (typlosovani != "file")
                 {
 
                     for (var i = 0; i < VM.Players.Count; i++)
@@ -172,54 +204,116 @@ namespace WpfApp6.View
 
 
 
-                if (from_file == false)
+                if (typlosovani != "file")
                 {
 
+                    if (typlosovani == "random")
+                    {
 
-                    for (var r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                    
+
+                        for (var r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                        {
+
+                            for (var i = 0; i < VM.Players.Count; i++)
+                            {
+                                uniqueStringsid.Add(VM.Players[i].ID.ToString());
+                            }
+
+                      
+
+                                //MessageBox.Show("zadávam:" + g);
+
+                            for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                            {
+                                for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                                {
+                                    int _id = 0;
+                                    if (uniqueStringsid.Count > 0)
+                                    {
+                                        var random = new Random();
+                                        int index = random.Next(uniqueStringsid.Count);
+                                        _id = (int.Parse(uniqueStringsid[index]));
+                                        uniqueStringsid.Remove(uniqueStringsid[index]);
+                                    }
+                                    //MessageBox.Show(uniqueStringsid.Count.ToString());
+
+                                    //string  _id = VM.SQL_READSOUTEZDATA("select userid from score where userid=0 and rnd=" + r + " and grp=" + g + " and stp=" + s + " limit 1 ;", "");
+
+                                    VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + _id + ") where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
+                                    if (_id != 0)
+                                    {
+                                        VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id + "), entered='False' where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
+                                    }
+
+                                    controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
+                                    await Task.Delay(1);
+                                }
+
+
+                                //MessageBox.Show("zadáno:" + g);
+
+                            }
+
+                        }  
+                    }
+
+
+
+                    if (typlosovani == "vertical")
                     {
 
                         for (var i = 0; i < VM.Players.Count; i++)
                         {
                             uniqueStringsid.Add(VM.Players[i].ID.ToString());
                         }
+                        uniqueStringsid.Shuffle();
 
-                      
+                        int r = 1;
+                      //  for (var r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                      //  {
+                            List<string> uniqueStringsidcopy = new List<string>(uniqueStringsid);
+                            //int polozka = -1;
+                            Console.WriteLine("Nové kolo, plním znova uniqueStringsidcopy");
+                            Console.WriteLine("uniqueStringsidcopy.Count:" + uniqueStringsidcopy.Count);
+                            Console.WriteLine("uniqueStringsid.Count:" + uniqueStringsid.Count);
 
-                            //MessageBox.Show("zadávam:" + g);
-
-                        for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
-                        {
-                            for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                            for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
                             {
-                                int _id = 0;
-                                if (uniqueStringsid.Count > 0)
+                                for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
                                 {
-                                    var random = new Random();
-                                    int index = random.Next(uniqueStringsid.Count);
-                                    _id = (int.Parse(uniqueStringsid[index]));
-                                    uniqueStringsid.Remove(uniqueStringsid[index]);
+                                    int _id = 0;
+                                    if (uniqueStringsidcopy.Count > 0)
+                                    {
+                                        Console.WriteLine("uniqueStringsidcopy.Count:" + uniqueStringsidcopy.Count);
+                                        //polozka = polozka + 1;
+                                        //var random = new Random();
+                                        //int index = random.Next(uniqueStringsid.Count);
+
+
+
+                                        _id = (int.Parse(uniqueStringsidcopy[0]));
+                                        uniqueStringsidcopy.Remove(uniqueStringsidcopy[0]);
+                                    }
+
+                                    VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + _id + ") where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
+                                    if (_id != 0)
+                                    {
+                                        VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id + "), entered='False' where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
+                                    }
+
+                                    controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
+                                    await Task.Delay(1);
                                 }
-                                //MessageBox.Show(uniqueStringsid.Count.ToString());
-
-                                //string  _id = VM.SQL_READSOUTEZDATA("select userid from score where userid=0 and rnd=" + r + " and grp=" + g + " and stp=" + s + " limit 1 ;", "");
-
-                                VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + _id + ") where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
-                                if (_id != 0)
-                                {
-                                    VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id + "), entered='False' where rnd=" + r + " and grp=" + g + " and stp=" + s + " ;");
-                                }
-
-                                controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
-                                await Task.Delay(1);
-                            }
 
 
-                            //MessageBox.Show("zadáno:" + g);
+                           // }
 
                         }
-
                     }
+
+
+
                 }
                 else
                 {
@@ -292,9 +386,361 @@ namespace WpfApp6.View
                 await controller.CloseAsync();
             }
         }
+        private async void create_matrix_sekvencni_prvni(string typlosovani)
+        {
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+
+            if (VM.BIND_POCETSOUTEZICICH > (VM.BIND_SQL_SOUTEZ_GROUPS * VM.BIND_SQL_SOUTEZ_STARTPOINTS))
+            {
+                MessageDialogResult result = await currentWindow.ShowMessageAsync("Nelze", "Je více soutěžících než startovišť!", MessageDialogStyle.Affirmative);
+            }
+            else
+            {
+
+                VM.POUZITY_TYP_LOSOVANI = typlosovani;
+                var controller = await currentWindow.ShowProgressAsync("Please wait...", "Working...");
+
+                controller.SetTitle("Matrix creator");
+                VM.SQL_SAVESOUTEZDATA("delete from matrix");
+                VM.SQL_SAVESOUTEZDATA("delete from score");
+                VM.SQL_SAVESOUTEZDATA("delete from groups");
+                VM.SQL_SAVESOUTEZDATA("delete from rounds");
+                VM.SQL_SAVESOUTEZDATA("delete from refly");
+                VM.SQL_SAVESOUTEZDATA("update users set Matrixid=0");
+                VM.BIND_JETREBAROZLOSOVAT_SCORE = 9999;//VM.BIND_SQL_SOUTEZ_ROUNDS * VM.BIND_SQL_SOUTEZ_GROUPS * VM.BIND_SQL_SOUTEZ_STARTPOINTS;
+                VM.FUNCTION_JETREBAROZLOSOVAT_OVER();
+                ////////////////////////// 
+
+
+                // Get the Parent MertoWindow here. We could also use a dialogcoordinator here if we want to.
+
+
+
+
+                for (int r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                {
+                    VM.SQL_SAVESOUTEZDATA("insert into rounds (id,name,type,lenght,zadano) values (" + r + ",'kolo:" + r + "','auto',600,0);");
+
+
+                    for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                    {
+                        VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'Skupina:" + g + "','auto',600,0, " + r + " ," + g + ");");
+
+                        for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                        {
+
+                            double x = (VM.BIND_SQL_SOUTEZ_ROUNDS + 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1);
+                            double progg = ((((r - 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1)) + g) / x);
+
+                            Console.WriteLine(progg);
+                            VM.SQL_SAVESOUTEZDATA("insert into matrix (rnd,grp,stp,user) values (" + r + "," + g + "," + s + ",0)");
+                            VM.SQL_SAVESOUTEZDATA("insert into score (rnd,grp,stp,userid,entered) values (" + r + "," + g + "," + s + ",0,'True')");
+                            controller.SetProgress(progg);
+                            controller.SetMessage(string.Format("Generating: {0}%", Math.Round((progg * 100), 2)));
+                            await Task.Delay(1);
+                        }
+
+
+                    }
+
+                }
+                controller.SetProgress(0.90);
+                await Task.Delay(100);
+
+
+
+
+
+
+
+
+                /////////////////////////////
+
+                HashSet<string> uniqueStrings = new HashSet<string>();
+                List<string> uniqueStringsid = new List<string>();
+
+
+                int Round = 1;
+                int Group = 0;
+                string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                var directory = System.IO.Path.GetDirectoryName(path);
+
+
+
+
+
+
+                    for (var i = 0; i < VM.Players.Count; i++)
+                    {
+                        VM.SQL_SAVESOUTEZDATA("update users set Matrixid=" + VM.Players[i].ID + " where id=" + VM.Players[i].ID + ";");
+                    }
+
+
+
+                   
+
+                        for (var i = 0; i < VM.Players.Count; i++)
+                        {
+                            uniqueStringsid.Add(VM.Players[i].ID.ToString());
+                        }
+                        uniqueStringsid.Shuffle();
+
+                        int rr = 1;
+                        //  for (var r = 1; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                        //  {
+                        List<string> uniqueStringsidcopy = new List<string>(uniqueStringsid);
+                        //int polozka = -1;
+                        Console.WriteLine("Nové kolo, plním znova uniqueStringsidcopy");
+                        Console.WriteLine("uniqueStringsidcopy.Count:" + uniqueStringsidcopy.Count);
+                        Console.WriteLine("uniqueStringsid.Count:" + uniqueStringsid.Count);
+
+                        for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                        {
+                            for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                            {
+                                int _id = 0;
+                                if (uniqueStringsidcopy.Count > 0)
+                                {
+                                    Console.WriteLine("uniqueStringsidcopy.Count:" + uniqueStringsidcopy.Count);
+                                    //polozka = polozka + 1;
+                                    //var random = new Random();
+                                    //int index = random.Next(uniqueStringsid.Count);
+
+
+
+                                    _id = (int.Parse(uniqueStringsidcopy[0]));
+                                    uniqueStringsidcopy.Remove(uniqueStringsidcopy[0]);
+                                }
+
+                                VM.SQL_SAVESOUTEZDATA("update matrix set user=(select id from users where Matrixid=" + _id + ") where rnd=" + rr + " and grp=" + g + " and stp=" + s + " ;");
+                                if (_id != 0)
+                                {
+                                    VM.SQL_SAVESOUTEZDATA("update score set userid=(select ifnull(id,0) from users where Matrixid=" + _id + "), entered='False' where rnd=" + rr + " and grp=" + g + " and stp=" + s + " ;");
+                                }
+
+                                controller.SetMessage("Placing Round / Group / Startpoint: " + rr + " / " + g + " / " + s);
+                                await Task.Delay(1);
+                            }
+
+
+                            // }
+
+                       
+                    }
+
+
+
+
+                VM.FUNCTION_LOAD_MATRIX_FILES();
+
+                VM.FUNCTION_CHECK_ENTERED_ALL();
+
+                VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+                VM.BIND_JETREBAROZLOSOVAT_SCORE = 9847;
+                VM.FUNCTION_JETREBAROZLOSOVAT_OVER();
+                VM.BIND_ROZLOSOVANIODPOVIDAPOCTUM = "Visible";
+                // VM.BIND_SELECTED_GROUP = 1;
+                // VM.BIND_SELECTED_ROUND = 1;
+                // VM.BIND_VIEWED_ROUND = 1;
+                // VM.BIND_VIEWED_GROUP = 1;
+
+                // VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                // VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
+                VM.BIND_IS_FINAL_FLIGHT_READY = false;
+                controller.SetProgress(1);
+                controller.SetMessage("New matrix created");
+               // VM.UZ_JE_ROZLOSOVANO = true;
+                await Task.Delay(1000);
+                await controller.CloseAsync();
+            }
+        }
+
+
+        private async void create_matrix_sekvencni_zbytek()
+        {
+
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+
+            int posunute_s = 1;
+            int posunute_g = 1;
+
+
+
+            if (VM.POUZITY_TYP_LOSOVANI == "horizontal")
+                {
+                        for (var r = 2; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                        {
+
+                            for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                            {
+
+                                for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                                {
+
+                                    posunute_s = s + g;
+                                    dalsipokuss:
+                                    if (posunute_s > VM.BIND_SQL_SOUTEZ_STARTPOINTS)
+                                    {
+                                        posunute_s = posunute_s - VM.BIND_SQL_SOUTEZ_STARTPOINTS;
+                                    goto dalsipokuss;
+                                    }
+
+                                    int _id = 0;
+                                    _id =  int.Parse(VM.SQL_READSOUTEZDATA("select user from matrix where rnd=" + (r-1) + " and grp=" + g + " and stp=" + s, ""));
+
+                                    VM.SQL_SAVESOUTEZDATA("update matrix set user="+ _id + " where rnd=" + (r) + " and grp=" + g + " and stp=" + posunute_s + " ;");
+                                    if (_id != 0)
+                                    {
+                                        VM.SQL_SAVESOUTEZDATA("update score set userid=" + _id + ", entered='False' where rnd=" + (r) + " and grp=" + g + " and stp=" + posunute_s + " ;");
+                                    }
+
+                                    //controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
+                                    await Task.Delay(1);
+                                }
+
+
+                                //MessageBox.Show("zadáno:" + g);
+
+                            }
+
+                        }
+                    }
+
+            if (VM.POUZITY_TYP_LOSOVANI == "vertical")
+            {
+                for (var r = 2; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                {
+
+                    for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                    {
+
+                        for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                        {
+
+                            posunute_g = g + s;
+                        dalsipokusg:
+                            if (posunute_g > VM.BIND_SQL_SOUTEZ_GROUPS)
+                            {
+                                posunute_g = posunute_g - VM.BIND_SQL_SOUTEZ_GROUPS;
+                                goto dalsipokusg;
+                            }
+
+                            int _id = 0;
+                            _id = int.Parse(VM.SQL_READSOUTEZDATA("select user from matrix where rnd=" + (r - 1) + " and grp=" + g + " and stp=" + s, ""));
+
+                            VM.SQL_SAVESOUTEZDATA("update matrix set user=" + _id + " where rnd=" + (r) + " and grp=" + posunute_g + " and stp=" + s + " ;");
+                            if (_id != 0)
+                            {
+                                VM.SQL_SAVESOUTEZDATA("update score set userid=" + _id + ", entered='False' where rnd=" + (r) + " and grp=" + posunute_g + " and stp=" + s + " ;");
+                            }
+
+                            //controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
+                            await Task.Delay(1);
+                        }
+
+
+                        //MessageBox.Show("zadáno:" + g);
+
+                    }
+
+                }
+            }
+
+            if (VM.POUZITY_TYP_LOSOVANI == "diagonal")
+            {
+                for (var r = 2; r < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; r++)
+                {
+
+                    for (var g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
+                    {
+
+
+                        posunute_g = g + r;
+                    dalsipokusg:
+                        if (posunute_g > VM.BIND_SQL_SOUTEZ_GROUPS)
+                        {
+                            posunute_g = posunute_g - VM.BIND_SQL_SOUTEZ_GROUPS;
+                            goto dalsipokusg;
+                        }
+
+
+                        for (var s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                        {
+
+
+                            posunute_s = s + g;
+                        dalsipokuss:
+                            if (posunute_s > VM.BIND_SQL_SOUTEZ_STARTPOINTS)
+                            {
+                                posunute_s = posunute_s - VM.BIND_SQL_SOUTEZ_STARTPOINTS;
+
+
+                                goto dalsipokuss;
+                            }
+
+
+
+                            
+
+
+
+
+                            int _id = 0;
+                            _id = int.Parse(VM.SQL_READSOUTEZDATA("select user from matrix where rnd=" + (r - 1) + " and grp=" + g + " and stp=" + s, ""));
+                            //MessageBox.Show("update matrix set user=" + _id + " where rnd=" + (r) + " and grp=" + posunute_g + " and stp=" + posunute_s + " ;");
+                            Console.Write("select user from matrix where rnd=" + (r - 1) + " and grp=" + g + " and stp=" + s);
+                            Console.Write("update matrix set user=" + _id + " where rnd=" + (r) + " and grp=" + posunute_g + " and stp=" + posunute_s + " ;");
+                            Console.Write("***********");
+
+                            VM.SQL_SAVESOUTEZDATA("update matrix set user=" + _id + " where rnd=" + (r) + " and grp=" + posunute_g + " and stp=" + posunute_s + " ;");
+                            if (_id != 0)
+                            {
+                                VM.SQL_SAVESOUTEZDATA("update score set userid=" + _id + ", entered='False' where rnd=" + (r) + " and grp=" + posunute_g + " and stp=" + posunute_s + " ;");
+                            }
+
+                            //controller.SetMessage("Placing Round / Group / Startpoint: " + r + " / " + g + " / " + s);
+                            await Task.Delay(1);
+                        }
+
+
+                        //MessageBox.Show("zadáno:" + g);
+
+                    }
+
+                }
+            }
+
+            MessageBox.Show("hotovo");
+
+
+                VM.FUNCTION_LOAD_MATRIX_FILES();
+
+                VM.FUNCTION_CHECK_ENTERED_ALL();
+
+                VM.FUNCTION_ROUNDS_LOAD_ROUNDS();
+
+                VM.BIND_SELECTED_GROUP = 1;
+                VM.BIND_SELECTED_ROUND = 1;
+                VM.BIND_VIEWED_ROUND = 1;
+                VM.BIND_VIEWED_GROUP = 1;
+
+                VM.FUNCTION_SELECTED_ROUND_FLYING_USERS(0, 0);
+                VM.FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS();
+                VM.BIND_IS_FINAL_FLIGHT_READY = false;
+                //controller.SetProgress(1);
+                //controller.SetMessage("New matrix created");
+                VM.UZ_JE_ROZLOSOVANO = true;
+                await Task.Delay(1000);
+                //await controller.CloseAsync();
+            
+        }
+
         private async void matrix_user_Click(object sender, RoutedEventArgs e)
         {
-            Button selectedbutton = (sender as Button);
+            System.Windows.Controls.Button selectedbutton = (sender as System.Windows.Controls.Button);
             var currentWindow = this.TryFindParent<MetroWindow>();
 
             if (matrix_switch_user1 == "")
@@ -582,26 +1028,31 @@ Kolo : {x}
 
         }
 
-        private async void btn_draw_from_file_Click(object sender, RoutedEventArgs e)
+       
+
+        private async void btn_create_draw_all_Click(object sender, RoutedEventArgs e)
+        {
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            MessageDialogResult result = await currentWindow.ShowMessageAsync("Rozlosovat?", "Opravdu losovat ? Dojde k vymazání aktuálního rozlosování a případných výsledků", MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative){
+                object tag = ((FrameworkElement)sender).Tag;
+                create_matrix_all_rounds(tag.ToString());
+            }
+        }
+
+
+
+        private async void btn_create_draw_first_Click(object sender, RoutedEventArgs e)
         {
             var currentWindow = this.TryFindParent<MetroWindow>();
             MessageDialogResult result = await currentWindow.ShowMessageAsync("Rozlosovat?", "Opravdu losovat ? Dojde k vymazání aktuálního rozlosování a případných výsledků", MessageDialogStyle.AffirmativeAndNegative);
             if (result == MessageDialogResult.Affirmative)
             {
-                create_matrix(true);
-
+                object tag = ((FrameworkElement)sender).Tag;
+                create_matrix_sekvencni_prvni(tag.ToString());
             }
         }
 
-        private async void btn_draw_random_Click(object sender, RoutedEventArgs e)
-        {
-            var currentWindow = this.TryFindParent<MetroWindow>();
-            MessageDialogResult result = await currentWindow.ShowMessageAsync("Rozlosovat?", "Opravdu losovat ? Dojde k vymazání aktuálního rozlosování a případných výsledků", MessageDialogStyle.AffirmativeAndNegative);
-            if (result == MessageDialogResult.Affirmative){
-                create_matrix(false);
-
-            }
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -653,5 +1104,12 @@ Kolo : {x}
                 var controller = await currentWindow.ShowMessageAsync("Kontrola", "Vše v pořádku a bez chyb :)");
             }
         }
+
+        private void btn_draw_dotisk_Click(object sender, RoutedEventArgs e)
+        {
+            create_matrix_sekvencni_zbytek();
+        }
+
+      
     }
 }

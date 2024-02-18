@@ -15,6 +15,10 @@ using System.IO;
 using System.IO.Ports;
 using System.Threading.Tasks;
 using SORGAIR.Properties.Lang;
+using System.Windows.Interop;
+using System.Threading.Tasks;
+using System.Threading;
+
 
 
 namespace WpfApp6.Model
@@ -53,6 +57,48 @@ namespace WpfApp6.Model
         public string startpoint_data { get; set; }
     }
 
+    public class MyParameters
+    {
+        public int rnd { get; set; }
+        public int grp { get; set; }
+        public int stp { get; set; }
+        public int refly { get; set; }
+    }
+
+
+    public class MyParameters2
+    {
+        public int rnd { get; set; }
+        public int grp { get; set; }
+        public int stp { get; set; }
+        public decimal prepscore { get; set; }
+    }
+
+    public class MyParameters3
+    {
+        public int idsouteze { get; set; }
+        public int skrtaci { get; set; }
+
+    }
+    public class MyParameters4
+    {
+        public int rnd { get; set; }
+        public int grp { get; set; }
+        public int stp { get; set; }
+        public int usrid { get; set; }
+        public int minutes { get; set; }
+        public int seconds { get; set; }
+        public int landing { get; set; }
+        public int height { get; set; }
+        public int pen1value { get; set; }
+        public int pen1id { get; set; }
+        public int pen2value { get; set; }
+
+        public int pen2id { get; set; }
+        public string rawscore { get; set; }
+        public string prepscore { get; set; }
+        public bool nondeletable { get; set; }
+    }
 
 
     public class MODEL_ViewModel : INotifyPropertyChanged
@@ -493,6 +539,17 @@ namespace WpfApp6.Model
         }
 
 
+        string _POUZITY_TYP_LOSOVANI = "unknown";
+        public string POUZITY_TYP_LOSOVANI
+        {
+            get { return _POUZITY_TYP_LOSOVANI; }
+            set
+            {
+                _POUZITY_TYP_LOSOVANI = value; OnPropertyChanged("POUZITY_TYP_LOSOVANI");
+                SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='POUZITY_TYP_LOSOVANI'");
+
+            }
+        }
 
         public bool BIND_MENU_ENABLED_detailyastatistiky
         {
@@ -953,6 +1010,10 @@ namespace WpfApp6.Model
         #endregion
 
 
+        public List<int> customagecatidList = new List<int>(); // Tento list by byl naplněn IDčky z databáze
+
+
+
 
         #region BIND_Nastavení
         public ObservableCollection<DataObject> xxxx { get; set; } = new ObservableCollection<DataObject>();
@@ -994,16 +1055,9 @@ namespace WpfApp6.Model
             MODEL_Contest_FREQUENCIES.Add(tmp_frequencies);
 
 
-            MODEL_Contest_AGECATEGORIES.Clear();
-            var tmp_agecategories = new MODEL_Player_agecategories()
-            { ID = 0, NAME = "Senior" };
-            MODEL_Contest_AGECATEGORIES.Add(tmp_agecategories);
-            tmp_agecategories = new MODEL_Player_agecategories()
-            { ID = 1, NAME = "Junior" };
-            MODEL_Contest_AGECATEGORIES.Add(tmp_agecategories);
-            tmp_agecategories = new MODEL_Player_agecategories()
-            { ID = 2, NAME = "Žák" };
-            MODEL_Contest_AGECATEGORIES.Add(tmp_agecategories);
+            SQL_READSOUTEZDATA("select distinct id, name from Agecategories where custom = 0;", "get_agecategories");
+            SQL_READSOUTEZDATA("select distinct id, name from Agecategories where custom = 1;", "get_customagecategories");
+
 
 
 
@@ -1072,6 +1126,8 @@ namespace WpfApp6.Model
 
 
             CONTENT_RANDOM_ID = SQL_READSOUTEZDATA("select value from contest where item='CONTENT_RANDOM_ID'", "");
+            POUZITY_TYP_LOSOVANI = SQL_READSOUTEZDATA("select value from contest where item='POUZITY_TYP_LOSOVANI'", "");
+
             CONTENT_ONLINE_ENABLED = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='CONTENT_ONLINE_ENABLED'", ""));
             CONTENT_ONLINE_PUBLIC = Convert.ToBoolean(SQL_READSOUTEZDATA("select value from contest where item='CONTENT_ONLINE_PUBLIC'", ""));
 
@@ -1295,8 +1351,11 @@ namespace WpfApp6.Model
                                 FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, 0);
                                 FUNCTION_CLOCK_SET_DIRECTION(1);
                             //FUNCTION_SACLOCK_SETTIME(0, 0);
-                            FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 0, false);
-                            FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(42, 0, false);
+                            //FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 0, false);
+                            //FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(42, 0, false);
+
+                            FUNCTION_SACLOCK_SETTIMETO_CLOCK(0, 600, false);
+                            FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(50, 0, false);
 
 
 
@@ -3850,6 +3909,26 @@ namespace WpfApp6.Model
 
                     if (kamulozitvysledek == "get_players")
                     {
+
+
+
+                        string rowValues = "";
+
+                        // Projdeme všechny sloupce ve výsledku
+                        for (int i = 0; i < sqlite_datareader.FieldCount; i++)
+                        {
+                            // Získáme hodnotu aktuálního sloupce jako řetězec
+                            // Použijeme ternární operátor pro zjednodušení kódu - pokud je hodnota null, vložíme "null"
+                            string value = sqlite_datareader.IsDBNull(i) ? "null" : sqlite_datareader.GetValue(i).ToString();
+
+                            // Přidáme hodnotu do řetězce s hodnotami řádku, oddělené například čárkou
+                            rowValues += value + (i < sqlite_datareader.FieldCount - 1 ? ", " : "");
+                        }
+
+                        // Vypíšeme hodnoty z aktuálního řádku
+                        Console.WriteLine(rowValues);
+
+
                         string jmeno = sqlite_datareader.GetString(1);
                         string prijmeni = sqlite_datareader.GetString(2);
                         string country = sqlite_datareader.GetString(3);
@@ -3862,7 +3941,7 @@ namespace WpfApp6.Model
                         string club = sqlite_datareader.GetString(10);
                         string paid = sqlite_datareader.GetString(11);
                         int team = sqlite_datareader.GetInt32 (12);
-                        int customagecat = sqlite_datareader.GetInt32 (12);
+                        string customagecat = sqlite_datareader.GetString (13);
 
                         Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + jmeno + " >>>> " + kamulozitvysledek);
                         Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + prijmeni + " >>>> " + kamulozitvysledek);
@@ -3891,7 +3970,9 @@ namespace WpfApp6.Model
                             TEAM = team,
                             CUSTOMAGECAT = customagecat,
                             FREQID = int.Parse(sqlite_datareader.GetString(14)),
-                            AGECATID = int.Parse(sqlite_datareader.GetString(15))
+                            AGECATID = int.Parse(sqlite_datareader.GetString(15)),
+                            CUSTOMAGECATID = int.Parse(sqlite_datareader.GetString(16))
+
 
                         };
                         Players.Add(player);
@@ -5181,6 +5262,40 @@ namespace WpfApp6.Model
                     }
 
 
+                    if (kamulozitvysledek == "get_agecategories")
+                    {
+
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqlite_datareader.GetString(1) + " >>>> " + kamulozitvysledek);
+                        var tmp_agecategories = new MODEL_Player_agecategories()
+                        {
+                            ID = sqlite_datareader.GetInt32(0),
+                            NAME = sqlite_datareader.GetString(1)
+                        };
+                        MODEL_Contest_AGECATEGORIES.Add(tmp_agecategories);
+                        vysledek = kamulozitvysledek;
+                    }
+
+
+                    if (kamulozitvysledek == "get_customagecategories")
+                    {
+
+                        Console.WriteLine("SQL_READSOUTEZDATA [READ DATA] : " + sqlite_datareader.GetString(1) + " >>>> " + kamulozitvysledek);
+                        var tmp_agecategories = new MODEL_Player_agecategories()
+                        {
+                            ID = sqlite_datareader.GetInt32(0),
+                            NAME = sqlite_datareader.GetString(1)
+                        };
+                        MODEL_Contest_CUSTOMAGECATEGORIES.Add(tmp_agecategories);
+                        vysledek = kamulozitvysledek;
+
+
+
+                        // Při načítání dat z databáze byste naplnili idList IDčky
+                        customagecatidList.Add(sqlite_datareader.GetInt32(0)); // Příklad přidání ID, které začínají 5 a jdou výše
+
+                    }
+
+
 
                     if (kamulozitvysledek == "")
                     {
@@ -5371,7 +5486,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
 
                     FUNCTION_CLOCK_SET_STOPWATCH_TIME(0, Math.Abs(MODEL_CONTEST_SOUNDS_MAIN[0].VALUE));
-                        FUNCTION_CLOCK_SET_DIRECTION(2);
+                    FUNCTION_CLOCK_SET_DIRECTION(2);
                   
 
 
@@ -5964,12 +6079,17 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(18, 0, false);
 
 
+
+
+
                 var datet = DateTime.Now;
                 int hodiny = datet.Hour * 60 * 60;
                 int minuty = datet.Minute * 60;
                 int sum = hodiny + minuty;
                 FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
                 FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
+
+
 
                 //vytvorim velke hodiny s preptime
                 //FUNCTION_SACLOCK_CREATE_CLOCK(BIND_LETOVYCAS_PREP_MAX, 50,false);
@@ -6005,7 +6125,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 int hodiny = datet.Hour * 60 * 60;
                 int minuty = datet.Minute * 60;
                 int sum = hodiny + minuty;
-                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false);
+                FUNCTION_SACLOCK_SETPARAMSTO_CLOCK(136, 1, false); ;
                 FUNCTION_SACLOCK_SETTIMETO_CLOCK(1, sum, false);
 
             }
@@ -6917,7 +7037,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public void FUNCTION_USERS_LOAD_ALLCOMPETITORS()
         {
             Players.Clear();
-            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, (select name from Agecategories A  where A.id=U.Customagecat) Customagecat, U.Freq Freqid, U.Agecat agecatid, U.customagecat customagecatid  from users U where id > 0; ", "get_players");
             BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
             
@@ -7252,46 +7372,102 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         {
 
             if (CONTENT_ONLINE_ENABLED is true & BINDING_IS_INTERNET is true)
-            { 
+            {
                 //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
                 //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
 
+                MyParameters4 parameters = new MyParameters4
+                {
+                    rnd = rnd,
+                    grp = grp,
+                    stp = stp,
+                    usrid = usrid,
+                    minutes = minutes,
+                    seconds = seconds,
+                    landing = landing,
+                    height = height,
+                    pen1value = pen1value,
+                    pen1id = pen1id,
+                    pen2value = pen2value,
+                    pen2id = pen2id,
+                    rawscore = rawscore,
+                    prepscore = prepscore,
+                    nondeletable = nondeletable
+                };
+                Thread t_savescore = new Thread(new ParameterizedThreadStart(thread_savescore));
+                t_savescore.Start(parameters);
+
+            }
+
+        }
+
+
+        public async void thread_savescore(object parameter)
+        {
+
+            if (parameter is MyParameters4)
+            {
+                MyParameters4 parameters = (MyParameters4)parameter;
+
+                int rnd = parameters.rnd;
+                int grp = parameters.grp;
+                int stp = parameters.stp;
+                int usrid = parameters.usrid;
+                int minutes = parameters.minutes;
+                int seconds = parameters.seconds;
+                int landing = parameters.landing;
+                int height = parameters.height;
+                int pen1value = parameters.pen1value;
+                int pen1id = parameters.pen1id;
+                int pen2value = parameters.pen2value;
+                int pen2id = parameters.pen2id;
+                string rawscore = parameters.rawscore;
+                string prepscore = parameters.prepscore;
+                bool nondeletable = parameters.nondeletable;
 
 
 
-                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=insertscore&noveonlineidsouteze=999" +
+                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=insertscore&noveonlineidsouteze=" + CONTENT_MASTER_ID +
                "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
                "&rnd=" + rnd +
                "&grp=" + grp +
                "&stp=" + stp +
-               "&insorgid=" + usrid +
+                "&insorgid=" + usrid +
                "&min=" + minutes +
                "&sec=" + seconds +
-               "&landing=" + landing+
-               "&height=" + height+
+               "&landing=" + landing +
+               "&height=" + height +
                "&pen1value=" + pen1value +
                "&pen1id=" + pen1id +
                "&pen2value=" + pen2value +
                "&pen2id=" + pen2id +
                "&raw=" + rawscore +
                "&prep=" + prepscore +
-               "&entered=1"+
-               "&nondeletable=" + nondeletable
+               "&entered=1" +
+               "&nondeletable=" + nondeletable +
+               "&skrtaci=0"
                ;
-            Console.WriteLine(remoteUrl);
-            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
-            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-            HttpWebRequest.DefaultCachePolicy = policy;
+                Console.WriteLine(remoteUrl);
+                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
 
-            httpRequest.CachePolicy = policy;
-            WebResponse response = httpRequest.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            string result = reader.ReadToEnd();
+                httpRequest.CachePolicy = policy;
+                WebResponse response = httpRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                string result = reader.ReadToEnd();
 
-            Console.WriteLine(result);
+                Console.WriteLine(result);
             }
 
+
+
+
+
+
+
         }
+
 
 
         public void online_updateprepscore(int rnd, int grp, int stp, decimal prepscore)
@@ -7301,34 +7477,288 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             {
 
 
-            //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
-            //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+                //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+                //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+
+                MyParameters2 parameters = new MyParameters2
+                {
+                    rnd = rnd,
+                    grp = grp,
+                    stp = stp,
+                    prepscore = prepscore
+                };
+                Thread t_updateprepscore = new Thread(new ParameterizedThreadStart(thread_updateprepscore));
+                t_updateprepscore.Start(parameters);
+
+            }
+
+
+        }
 
 
 
 
-            string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=updateprepscore&noveonlineidsouteze=999" +
+        public async void thread_updateprepscore(object parameter)
+        {
+
+            if (parameter is MyParameters2)
+            {
+                MyParameters2 parameters = (MyParameters2)parameter;
+                int rnd = parameters.rnd;
+                int grp = parameters.grp;
+                int stp = parameters.stp;
+                decimal prepscore = parameters.prepscore;
+
+
+
+                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=updateprepscore&noveonlineidsouteze=" + CONTENT_MASTER_ID +
                "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
                "&rnd=" + rnd +
                "&grp=" + grp +
                "&stp=" + stp +
                "&prep=" + prepscore
                ;
-            Console.WriteLine(remoteUrl);
-            HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
-            HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-            HttpWebRequest.DefaultCachePolicy = policy;
+                Console.WriteLine(remoteUrl);
+                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
 
-            httpRequest.CachePolicy = policy;
-            WebResponse response = httpRequest.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            string result = reader.ReadToEnd();
+                httpRequest.CachePolicy = policy;
+                WebResponse response = httpRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                string result = reader.ReadToEnd();
 
-            Console.WriteLine(result);
+                Console.WriteLine(result);
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+        public void online_updateskrtaci(int rnd, int grp, int userid, int skrtaci)
+        {
+
+            if (CONTENT_ONLINE_ENABLED is true & BINDING_IS_INTERNET is true)
+            {
+
+                MyParameters parameters = new MyParameters
+                {
+                    rnd = rnd,
+                    grp = grp,
+                    stp = userid,
+                    refly = skrtaci
+                };
+                Thread t_updateskrtaci = new Thread(new ParameterizedThreadStart(thread_updateskrtaci));
+                t_updateskrtaci.Start(parameters);
+
+                //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+                //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+
+
+
             }
 
 
         }
+       
+
+
+        public async void thread_updateskrtaci(object parameter)
+        {
+
+            if (parameter is MyParameters)
+            {
+                MyParameters parameters = (MyParameters)parameter;
+                int rnd = parameters.rnd;
+                int grp = parameters.grp;
+                int userid = parameters.stp;
+                int skrtaci = parameters.refly;
+
+
+
+                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=updateskrtaci&noveonlineidsouteze=" + CONTENT_MASTER_ID +
+                   "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
+                   "&rnd=" + rnd +
+                   "&grp=" + grp +
+                   "&insorgid=" + userid +
+                   "&skrtaci=" + skrtaci
+                   ;
+                Console.WriteLine(remoteUrl);
+                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
+
+                httpRequest.CachePolicy = policy;
+                WebResponse response = httpRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                string result = reader.ReadToEnd();
+
+                Console.WriteLine(result);
+            }
+
+
+
+
+        }
+
+
+        public async void thread_updateskrtaciall(object parameter)
+        {
+
+            if (parameter is MyParameters3)
+            {
+                MyParameters3 parameters = (MyParameters3)parameter;
+                int idsouteze = parameters.idsouteze;
+                int skrtaci = parameters.skrtaci;
+
+
+
+
+                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=updateskrtaci_all&noveonlineidsouteze=" + idsouteze +
+                   "&master_contest_sorgairidentifikator=" + idsouteze +
+                   "&skrtaci=" + skrtaci
+                   ;
+                Console.WriteLine(remoteUrl);
+                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
+
+                httpRequest.CachePolicy = policy;
+                WebResponse response = httpRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                string result = reader.ReadToEnd();
+
+                Console.WriteLine(result);
+
+
+            }
+
+
+
+
+        }
+
+
+
+        public async void thread_updaterefly(object parameter)
+        {
+
+            if (parameter is MyParameters)
+            {
+                MyParameters parameters = (MyParameters)parameter;
+                int rnd = parameters.rnd;
+                int grp = parameters.grp;
+                int stp = parameters.stp;
+                int refly = parameters.refly;
+
+
+
+
+                string remoteUrl = "http://api.sorgair.com/api_online_results.php?action=updaterefly&noveonlineidsouteze=" + CONTENT_MASTER_ID +
+                   "&master_contest_sorgairidentifikator=" + CONTENT_RANDOM_ID +
+                   "&rnd=" + rnd +
+                   "&grp=" + grp +
+                   "&stp=" + stp +
+                   "&refly=" + refly
+                   ;
+                Console.WriteLine(remoteUrl);
+                HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                HttpWebRequest.DefaultCachePolicy = policy;
+
+                httpRequest.CachePolicy = policy;
+                WebResponse response = httpRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream());
+                string result = reader.ReadToEnd();
+
+                Console.WriteLine(result);
+
+
+
+                // Zde můžete použít hodnoty parametrů pro další zpracování
+                Console.WriteLine($"Content Master ID: {CONTENT_MASTER_ID}");
+                Console.WriteLine($"Content Random ID: {CONTENT_RANDOM_ID}");
+                Console.WriteLine($"Rnd: {rnd}");
+                Console.WriteLine($"Grp: {grp}");
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+        public void online_updaterefly(int rnd, int grp, int stp, int refly)
+        {
+
+            if (CONTENT_ONLINE_ENABLED is true & BINDING_IS_INTERNET is true)
+            {
+
+                MyParameters parameters = new MyParameters
+                {
+                    rnd = rnd,
+                    grp = grp,
+                    stp = stp,
+                    refly = refly
+                };
+                Thread t_updaterefly = new Thread(new ParameterizedThreadStart(thread_updaterefly));
+                t_updaterefly.Start(parameters);
+
+
+
+                //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+                //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+
+
+
+            }
+
+
+        }
+
+
+
+        public void online_updateskrtaci_all(int skrtaci)
+        {
+
+            if (CONTENT_ONLINE_ENABLED is true & BINDING_IS_INTERNET is true)
+            {
+
+
+
+
+
+                //SQL_SAVESOUTEZDATA("delete from score where rnd=" + rnd + " and grp=" + grp + " and stp=" + stp + ";");
+                //SQL_SAVESOUTEZDATA("insert INTO score (rnd, grp, stp, userid, minutes, seconds, landing, height, pen1value, pen1id, pen2value, pen2id, raw, prep, entered, nondeletable) VALUES(" + rnd + "," + grp + "," + stp + "," + usrid + "," + minutes + "," + seconds + "," + landing + "," + height + ", " + pen1value + ", " + pen1id + "," + pen2value + ", " + pen2id + ",'" + rawscore + "','" + prepscore + "', 'True','" + nondeletable + "');");
+
+                MyParameters3 parameters = new MyParameters3
+                {
+                    idsouteze = CONTENT_MASTER_ID,
+                    skrtaci = skrtaci
+                };
+
+                Thread t_updateskrtaciall = new Thread(new ParameterizedThreadStart(thread_updateskrtaciall));
+                t_updateskrtaciall.Start(parameters);
+
+
+
+            }
+
+
+        }
+
+
 
         public int FUNCTION_KOLIK_JE_SKUPIN_V_KOLE(int rnd, string type_skupiny, bool pridat_1)
         {
@@ -7417,12 +7847,18 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                         Console.WriteLine("zapisuji u score1 at se pocita, a score 2 at se nepocita");
                         SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
                         SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                        online_updaterefly(from_rnd, from_grp, from_stp, 0);
+                        online_updaterefly(to_rnd, to_grp, to_stp, 1);
+
                     }
                     else
                     {
                         Console.WriteLine("zapisuji u score1 at se nepocita, a score 2 at se pocita");
                         SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
                         SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                        online_updaterefly(from_rnd, from_grp, from_stp, 1);
+                        online_updaterefly(to_rnd, to_grp, to_stp, 0);
+
                     }
 
 
@@ -7433,6 +7869,9 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                     Console.WriteLine("Neřešit který výsledek je lepší. Počítá se prostě ten druhý");
                     SQL_SAVESOUTEZDATA("update score set refly='True' where rnd=" + from_rnd + " and grp=" + from_grp + " and stp=" + from_stp);
                     SQL_SAVESOUTEZDATA("update score set refly='False' where rnd=" + to_rnd + " and grp=" + to_grp + " and stp=" + to_stp);
+                    online_updaterefly(from_rnd, from_grp, from_stp, 1);
+                    online_updaterefly(to_rnd, to_grp, to_stp, 0);
+
                 }
             }
 
@@ -7609,7 +8048,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             SQL_SAVESOUTEZDATA("insert into users values (null,'"+ firstname + "', '" + lastname  + "', '" + country  + "', '" + agecat  + "', '" + freq  + "', '" + chanel1  + "', '" + chanel2 + "' , '" + failic + "', '" + naclic + "', '" + club + "' , '" + registered + "', '" + team + "', '" + customagecat + "' , 0 );");
             Players.Clear();
-            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            //SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, (select name from Agecategories A  where A.id=U.Customagecat) Customagecat, U.Freq Freqid, U.Agecat agecatid, U.customagecat customagecatid  from users U where id > 0; ", "get_players");
             BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
 
@@ -7620,7 +8060,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
             SQL_SAVESOUTEZDATA("update users set Firstname='" + firstname + "', Lastname='" + lastname + "', Country='" + country + "', Agecat='" + agecat + "', Freq='" + freq + "', Ch1='" + chanel1 + "', Ch2='" + chanel2 + "' , Failic='" + failic + "', Naclic='" + naclic + "', Club='" + club + "' , Customagecat='" + customagecat + "' , paid='"+paid+"' where ID="+ID+" ;");
             Players.Clear();
-            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            //SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, (select name from Agecategories A  where A.id=U.Customagecat) Customagecat, U.Freq Freqid, U.Agecat agecatid, U.customagecat customagecatid  from users U where id > 0; ", "get_players");
             BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
 
@@ -7633,7 +8074,8 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
             SQL_READSOUTEZDATA("update matrix set user=0 where user=" + idsouteziciho + "", "");
             SQL_READSOUTEZDATA("delete from score where userid=" + idsouteziciho + "", "");
             Players.Clear();
-            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            //SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, Customagecat, U.Freq Freqid, U.Agecat agecatid from users U where id > 0; ", "get_players");
+            SQL_READSOUTEZDATA("select ID, Firstname, Lastname, Country,(select name from Agecategories A  where A.id=U.Agecat) Agecat, (select name from Frequencies F  where F.id=U.Freq) Freq, Ch1, Ch2, Failic, Naclic, Club, Paid, Team, (select name from Agecategories A  where A.id=U.Customagecat) Customagecat, U.Freq Freqid, U.Agecat agecatid, U.customagecat customagecatid  from users U where id > 0; ", "get_players");
             BIND_POCETSOUTEZICICHMENU = SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", "");
             BIND_POCETSOUTEZICICH = Int32.Parse(SQL_READSOUTEZDATA("select count(id) pocet from users where id > 0", ""));
 
@@ -7674,6 +8116,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
         public ObservableCollection<MODEL_Player_flags> MODEL_Contest_FLAGS { get; set; } = new ObservableCollection<MODEL_Player_flags>();
 
         public ObservableCollection<MODEL_Player_agecategories> MODEL_Contest_AGECATEGORIES { get; set; } = new ObservableCollection<MODEL_Player_agecategories>();
+        public ObservableCollection<MODEL_Player_agecategories> MODEL_Contest_CUSTOMAGECATEGORIES { get; set; } = new ObservableCollection<MODEL_Player_agecategories>();
         public ObservableCollection<MODEL_Player_frequencies> MODEL_Contest_FREQUENCIES { get; set; } = new ObservableCollection<MODEL_Player_frequencies>();
 
         public void FUNCTION_LOAD_DEFAULT_ROUNDSANDGROUPS()
@@ -8677,6 +9120,23 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
 
                 SQL_SAVESOUTEZDATA("update contest set value='" + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString() + "' where item='VERZE_DB_SOUBORU'");
 
+
+                if (SQL_VERIFY_IF_EXIST("contest", "item", "POUZITY_TYP_LOSOVANI") == false)
+                {
+                    SQL_SAVESOUTEZDATA("insert into contest (item,value) values ('POUZITY_TYP_LOSOVANI','unknown');");
+                }
+
+                
+
+
+                int jenondeletable = 0;
+                jenondeletable = int.Parse(SQL_READSOUTEZDATA("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('score') WHERE name='nondeletable'", ""));
+                   
+                if (jenondeletable == 0)
+                {
+                    SQL_SAVESOUTEZDATA("ALTER TABLE `score` ADD `nondeletable` TEXT DEFAULT `False`");
+                }
+
             }
 
         }
@@ -8730,6 +9190,19 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 SQL_SAVESOUTEZDATA("update contest set value='" + value + "' where item='CONTENT_RANDOM_ID'");
                 OnPropertyChanged("CONTENT_RANDOM_ID");
                 OnPropertyChanged("CONTENT_ONLINE_URL");
+
+            }
+        }
+
+        private int _CONTENT_MASTER_ID;
+
+        public int CONTENT_MASTER_ID
+        {
+            get { return _CONTENT_MASTER_ID; }
+            set
+            {
+                _CONTENT_MASTER_ID = value;
+                OnPropertyChanged("CONTENT_MASTER_ID");
 
             }
         }
