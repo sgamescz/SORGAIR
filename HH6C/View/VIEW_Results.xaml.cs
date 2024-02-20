@@ -103,7 +103,7 @@ namespace WpfApp6.View
 
 
 
-
+            VM.maxscoreproprocenta = 0;
             VM.FUNCTION_RESULTS_LOAD_RESULTS("users", VM.BIND_ROUNDS_IN_RESULTS,99);
 
             //dataGrid_clasic_results.Columns[11].Width = new 
@@ -182,6 +182,7 @@ namespace WpfApp6.View
                 "False",
                 "True",
                 "True",
+                "True",
                 "kolo1",
                 "kolo2",
                 "kolo3",
@@ -209,27 +210,28 @@ namespace WpfApp6.View
             if (p_agecat.IsOn is true) { visibility[2] = "True"; } else { visibility[2] = "False"; }
             if (p_gpen.IsOn is true) { visibility[3] = "True"; } else { visibility[3] = "False"; }
             if (p_ztrata.IsOn is true) { visibility[4] = "True"; } else { visibility[4] = "False"; }
-            if (1 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[5] = "True"; } else { visibility[5] = "False"; }
-            if (2 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[6] = "True"; } else { visibility[6] = "False"; }
-            if (3 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[7] = "True"; } else { visibility[7] = "False"; }
-            if (4 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[8] = "True"; } else { visibility[8] = "False"; }
-            if (5 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[9] = "True"; } else { visibility[9] = "False"; }
-            if (6 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[10] = "True"; } else { visibility[10] = "False"; }
-            if (7 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[11] = "True"; } else { visibility[11] = "False"; }
-            if (8 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[12] = "True"; } else { visibility[12] = "False"; }
-            if (9 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[13] = "True"; } else { visibility[13] = "False"; }
-            if (10 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[14] = "True"; } else { visibility[14] = "False"; }
+            if (p_procenta.IsOn is true) { visibility[5] = "True"; } else { visibility[5] = "False"; }
+            if (1 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[6] = "True"; } else { visibility[6] = "False"; }
+            if (2 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[7] = "True"; } else { visibility[7] = "False"; }
+            if (3 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[8] = "True"; } else { visibility[8] = "False"; }
+            if (4 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[9] = "True"; } else { visibility[9] = "False"; }
+            if (5 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[10] = "True"; } else { visibility[10] = "False"; }
+            if (6 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[11] = "True"; } else { visibility[11] = "False"; }
+            if (7 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[12] = "True"; } else { visibility[12] = "False"; }
+            if (8 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[13] = "True"; } else { visibility[13] = "False"; }
+            if (9 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[14] = "True"; } else { visibility[14] = "False"; }
+            if (10 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[15] = "True"; } else { visibility[15] = "False"; }
 
-            if (11 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[15] = "True"; } else { visibility[15] = "False"; }
-            if (12 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[16] = "True"; } else { visibility[16] = "False"; }
-            if (13 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[17] = "True"; } else { visibility[17] = "False"; }
-            if (14 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[18] = "True"; } else { visibility[18] = "False"; }
-            if (15 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[19] = "True"; } else { visibility[19] = "False"; }
-            if (16 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[20] = "True"; } else { visibility[20] = "False"; }
-            if (17 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[21] = "True"; } else { visibility[21] = "False"; }
-            if (18 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[22] = "True"; } else { visibility[22] = "False"; }
-            if (19 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[23] = "True"; } else { visibility[23] = "False"; }
-            if (20 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[24] = "True"; } else { visibility[24] = "False"; }
+            if (11 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[16] = "True"; } else { visibility[16] = "False"; }
+            if (12 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[17] = "True"; } else { visibility[17] = "False"; }
+            if (13 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[18] = "True"; } else { visibility[18] = "False"; }
+            if (14 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[19] = "True"; } else { visibility[19] = "False"; }
+            if (15 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[20] = "True"; } else { visibility[20] = "False"; }
+            if (16 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[21] = "True"; } else { visibility[21] = "False"; }
+            if (17 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[22] = "True"; } else { visibility[22] = "False"; }
+            if (18 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[23] = "True"; } else { visibility[23] = "False"; }
+            if (19 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[24] = "True"; } else { visibility[24] = "False"; }
+            if (20 <= VM.BIND_ROUNDS_IN_RESULTS) { visibility[25] = "True"; } else { visibility[25] = "False"; }
 
 
             VM.print_basicresults("frame_small_info", "data_empty", "print_basic_resuls", "Základní výsledky", "html", visibility);

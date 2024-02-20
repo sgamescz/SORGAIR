@@ -222,7 +222,7 @@ namespace WpfApp6.Model
         bool BIND_MENU_ENABLED_vysledky_finale_value = false;
         bool BIND_MENU_ENABLED_seznamkol_value = false;
 
-
+        public Double maxscoreproprocenta = 0;
 
 
         public string BIND_SQL_SOUTEZ_KATEGORIE_value;
@@ -4298,17 +4298,25 @@ namespace WpfApp6.Model
                             tmp_hvezdickafinalisty = "";
                         }
 
-                    var _Players_Baseresults = new MODEL_Player_baseresults()
+
+                        if (maxscoreproprocenta< sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")))
+                        {
+                            maxscoreproprocenta = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"));
+                        }
+                        var _Players_Baseresults = new MODEL_Player_baseresults()
                         {
                             POSITION = tmp_hvezdickafinalisty + _results_autoincrement.ToString(),
                             ID = sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")),
-                        AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
+                            AGECAT = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("agecatstring")),
 
-                        PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
+                            PLAYERDATA = sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Lastname")) + "  " + sqlite_datareader.GetString(sqlite_datareader.GetOrdinal("Firstname")),
                             RAWSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalrawscore")),
-                        GPEN= sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
-                        PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
-                        PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare_do_kola,2).ToString("0.00"),
+                            GPEN = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("gpen")),
+                            PREPSCORE = sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")),
+                            PREPSCOREDIFF = Math.Round(sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore")) - _results_scoreompare_do_kola, 2).ToString("0.00"),
+
+                            PROCENTASCORE = (sqlite_datareader.GetDouble(sqlite_datareader.GetOrdinal("overalscore"))  / maxscoreproprocenta) *100,
+
                         RND1RES_SCORE = SQL_READSOUTEZDATA("select cast(prep as text) || ' / G' || grp from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
                         RND1RES_DATA = SQL_READSOUTEZDATA("select minutes ||':'|| seconds ||' / '||landing||' / '||height  from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
                         RND1RES_SKRTACKA = SQL_READSOUTEZDATA("select skrtacka from score where userid = " + sqlite_datareader.GetInt32(sqlite_datareader.GetOrdinal("userid")) + " and rnd=1 and refly='False'", ""),
@@ -9770,28 +9778,28 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 <th>Celkové scóre</th>
                 <th class='visibility_{visibility[3]}'>G.Pen</th>
                 <th class='visibility_{visibility[4]}'>Ztráta</th>
-                <th class='visibility_{visibility[5]}'>Kolo 1</th>
-                <th class='visibility_{visibility[6]}'>Kolo 2</th>
-                <th class='visibility_{visibility[7]}'>Kolo 3</th>
-                <th class='visibility_{visibility[8]}'>Kolo 4</th>
-                <th class='visibility_{visibility[9]}'>Kolo 5</th>
-                <th class='visibility_{visibility[10]}'>Kolo 6</th>
-                <th class='visibility_{visibility[11]}'>Kolo 7</th>
-                <th class='visibility_{visibility[12]}'>Kolo 8</th>
-                <th class='visibility_{visibility[13]}'>Kolo 9</th>
-                <th class='visibility_{visibility[14]}'>Kolo 10</th>
+                <th class='visibility_{visibility[5]}'>%</th>
+                <th class='visibility_{visibility[6]}'>Kolo 1</th>
+                <th class='visibility_{visibility[7]}'>Kolo 2</th>
+                <th class='visibility_{visibility[8]}'>Kolo 3</th>
+                <th class='visibility_{visibility[9]}'>Kolo 4</th>
+                <th class='visibility_{visibility[10]}'>Kolo 5</th>
+                <th class='visibility_{visibility[11]}'>Kolo 6</th>
+                <th class='visibility_{visibility[12]}'>Kolo 7</th>
+                <th class='visibility_{visibility[13]}'>Kolo 8</th>
+                <th class='visibility_{visibility[14]}'>Kolo 9</th>
+                <th class='visibility_{visibility[15]}'>Kolo 10</th>
 
-
-                <th class='visibility_{visibility[15]}'>Kolo 11</th>
-                <th class='visibility_{visibility[16]}'>Kolo 12</th>
-                <th class='visibility_{visibility[17]}'>Kolo 13</th>
-                <th class='visibility_{visibility[18]}'>Kolo 14</th>
-                <th class='visibility_{visibility[19]}'>Kolo 15</th>
-                <th class='visibility_{visibility[20]}'>Kolo 16</th>
-                <th class='visibility_{visibility[21]}'>Kolo 17</th>
-                <th class='visibility_{visibility[22]}'>Kolo 18</th>
-                <th class='visibility_{visibility[23]}'>Kolo 19</th>
-                <th class='visibility_{visibility[24]}'>Kolo 20</th>
+                <th class='visibility_{visibility[16]}'>Kolo 11</th>
+                <th class='visibility_{visibility[17]}'>Kolo 12</th>
+                <th class='visibility_{visibility[18]}'>Kolo 13</th>
+                <th class='visibility_{visibility[19]}'>Kolo 14</th>
+                <th class='visibility_{visibility[20]}'>Kolo 15</th>
+                <th class='visibility_{visibility[21]}'>Kolo 16</th>
+                <th class='visibility_{visibility[22]}'>Kolo 17</th>
+                <th class='visibility_{visibility[23]}'>Kolo 18</th>
+                <th class='visibility_{visibility[24]}'>Kolo 19</th>
+                <th class='visibility_{visibility[25]}'>Kolo 20</th>
 
 
 
@@ -9812,26 +9820,27 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
     <td>@SCORE</td>
     <td class='visibility_{visibility[3]}'>@GPEN</td>
     <td class='visibility_{visibility[4]}'>@LOST</td>
-    <td class='visibility_{visibility[5]} skrtacka{Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
-    <td class='visibility_{visibility[6]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2X</td>
-    <td class='visibility_{visibility[7]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3X</td>
-    <td class='visibility_{visibility[8]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4X</td>
-    <td class='visibility_{visibility[9]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5X</td>
-    <td class='visibility_{visibility[10]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6X</td>
-    <td class='visibility_{visibility[11]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7X</td>
-    <td class='visibility_{visibility[12]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8X</td>
-    <td class='visibility_{visibility[13]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9X</td>
-    <td class='visibility_{visibility[14]} skrtacka{Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10</td>
-    <td class='visibility_{visibility[15]} skrtacka{Players_Baseresults[i].RND11RES_SKRTACKA}'>@R11</td>
-    <td class='visibility_{visibility[16]} skrtacka{Players_Baseresults[i].RND12RES_SKRTACKA}'>@R12</td>
-    <td class='visibility_{visibility[17]} skrtacka{Players_Baseresults[i].RND13RES_SKRTACKA}'>@R13</td>
-    <td class='visibility_{visibility[18]} skrtacka{Players_Baseresults[i].RND14RES_SKRTACKA}'>@R14</td>
-    <td class='visibility_{visibility[19]} skrtacka{Players_Baseresults[i].RND15RES_SKRTACKA}'>@R15</td>
-    <td class='visibility_{visibility[20]} skrtacka{Players_Baseresults[i].RND16RES_SKRTACKA}'>@R16</td>
-    <td class='visibility_{visibility[21]} skrtacka{Players_Baseresults[i].RND17RES_SKRTACKA}'>@R17</td>
-    <td class='visibility_{visibility[22]} skrtacka{Players_Baseresults[i].RND18RES_SKRTACKA}'>@R18</td>
-    <td class='visibility_{visibility[23]} skrtacka{Players_Baseresults[i].RND19RES_SKRTACKA}'>@R19</td>
-    <td class='visibility_{visibility[24]} skrtacka{Players_Baseresults[i].RND20RES_SKRTACKA}'>@R20</td>
+    <td class='visibility_{visibility[5]}'>@PERC</td>
+<td class='visibility_{visibility[6]} skrtacka{Players_Baseresults[i].RND1RES_SKRTACKA}'>@R1X</td>
+<td class='visibility_{visibility[7]} skrtacka{Players_Baseresults[i].RND2RES_SKRTACKA}'>@R2X</td>
+<td class='visibility_{visibility[8]} skrtacka{Players_Baseresults[i].RND3RES_SKRTACKA}'>@R3X</td>
+<td class='visibility_{visibility[9]} skrtacka{Players_Baseresults[i].RND4RES_SKRTACKA}'>@R4X</td>
+<td class='visibility_{visibility[10]} skrtacka{Players_Baseresults[i].RND5RES_SKRTACKA}'>@R5X</td>
+<td class='visibility_{visibility[11]} skrtacka{Players_Baseresults[i].RND6RES_SKRTACKA}'>@R6X</td>
+<td class='visibility_{visibility[12]} skrtacka{Players_Baseresults[i].RND7RES_SKRTACKA}'>@R7X</td>
+<td class='visibility_{visibility[13]} skrtacka{Players_Baseresults[i].RND8RES_SKRTACKA}'>@R8X</td>
+<td class='visibility_{visibility[14]} skrtacka{Players_Baseresults[i].RND9RES_SKRTACKA}'>@R9X</td>
+<td class='visibility_{visibility[15]} skrtacka{Players_Baseresults[i].RND10RES_SKRTACKA}'>@R10X</td>
+<td class='visibility_{visibility[16]} skrtacka{Players_Baseresults[i].RND11RES_SKRTACKA}'>@R11X</td>
+<td class='visibility_{visibility[17]} skrtacka{Players_Baseresults[i].RND12RES_SKRTACKA}'>@R12X</td>
+<td class='visibility_{visibility[18]} skrtacka{Players_Baseresults[i].RND13RES_SKRTACKA}'>@R13X</td>
+<td class='visibility_{visibility[19]} skrtacka{Players_Baseresults[i].RND14RES_SKRTACKA}'>@R14X</td>
+<td class='visibility_{visibility[20]} skrtacka{Players_Baseresults[i].RND15RES_SKRTACKA}'>@R15X</td>
+<td class='visibility_{visibility[21]} skrtacka{Players_Baseresults[i].RND16RES_SKRTACKA}'>@R16X</td>
+<td class='visibility_{visibility[22]} skrtacka{Players_Baseresults[i].RND17RES_SKRTACKA}'>@R17X</td>
+<td class='visibility_{visibility[23]} skrtacka{Players_Baseresults[i].RND18RES_SKRTACKA}'>@R18X</td>
+<td class='visibility_{visibility[24]} skrtacka{Players_Baseresults[i].RND19RES_SKRTACKA}'>@R19X</td>
+<td class='visibility_{visibility[25]} skrtacka{Players_Baseresults[i].RND20RES_SKRTACKA}'>@R20X</td>
 </tr>";
                 string tabulkaletu = "";
 
@@ -9847,6 +9856,7 @@ ThemeManager.Current.ChangeTheme(System.Windows.Application.Current, pozadi[pouz
                 html_body_withrightdata = html_body_withrightdata.Replace("@SCORE", Players_Baseresults[i].PREPSCORE.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@GPEN", Players_Baseresults[i].GPEN.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@LOST", Players_Baseresults[i].PREPSCOREDIFF.ToString());
+                html_body_withrightdata = html_body_withrightdata.Replace("@PERC", Players_Baseresults[i].PROCENTASCORE.ToString());
                 html_body_withrightdata = html_body_withrightdata.Replace("@R1X", Players_Baseresults[i].RND1RES_SCORE + "<br>" + Players_Baseresults[i].RND1RES_DATA);
                 html_body_withrightdata = html_body_withrightdata.Replace("@R2X", Players_Baseresults[i].RND2RES_SCORE + "<br>" + Players_Baseresults[i].RND2RES_DATA);
                 html_body_withrightdata = html_body_withrightdata.Replace("@R3X", Players_Baseresults[i].RND3RES_SCORE + "<br>" + Players_Baseresults[i].RND3RES_DATA);

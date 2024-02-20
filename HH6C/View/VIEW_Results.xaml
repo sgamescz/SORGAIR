@@ -1047,6 +1047,13 @@
                         FontSize="12"
                         IsOn="True"
                         Toggled="ToggleSwitchfinal_Toggled" />
+                    <mah:ToggleSwitch
+     Name="p_procenta"
+     Width="115"
+     Content="%"
+     FontSize="12"
+     IsOn="True"
+     Toggled="ToggleSwitchfinal_Toggled" />
 
                 </WrapPanel>
                 <mah:NumericUpDown
@@ -1124,6 +1131,10 @@
                     <DataGridTextColumn
                         Binding="{Binding PREPSCOREDIFF}"
                         Header="Ztráta"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+                    <DataGridTextColumn
+                        Binding="{Binding PROCENTASCORE}"
+                        Header="%"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
                     <DataGridTemplateColumn
