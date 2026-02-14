@@ -240,4 +240,16 @@
   <data name="new_contest_internet" xml:space="preserve">
     <value>Vytvoření soutěže z internetu</value>
   </data>
+  <data name="txt_group" xml:space="preserve">
+    <value>Skupina</value>
+  </data>
+  <data name="txt_round" xml:space="preserve">
+    <value>Kolo</value>
+  </data>
+  <data name="txt_startpoint" xml:space="preserve">
+    <value>Startoviště</value>
+  </data>
+  <data name="x" xml:space="preserve">
+    <value />
+  </data>
 </root>

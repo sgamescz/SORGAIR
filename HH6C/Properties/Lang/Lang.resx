@@ -120,6 +120,9 @@
   <data name="age_cat" xml:space="preserve">
     <value>Age categories</value>
   </data>
+  <data name="age_cat_65" xml:space="preserve">
+    <value>65+ age category</value>
+  </data>
   <data name="age_cat_all" xml:space="preserve">
     <value>All age categories</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="age_cat_seniors" xml:space="preserve">
     <value>Senior age category</value>
+  </data>
+  <data name="age_cat_woman" xml:space="preserve">
+    <value>Woman category</value>
   </data>
   <data name="available_positions" xml:space="preserve">
     <value>Available positions</value>
@@ -338,6 +344,15 @@
   </data>
   <data name="tag_new_contest_place" xml:space="preserve">
     <value>Location|Enter contest location|BIND_NEWCONTEST_LOCATION</value>
+  </data>
+  <data name="txt_group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="txt_round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="txt_startpoint" xml:space="preserve">
+    <value>Startpoint</value>
   </data>
   <data name="where_contest_will_be" xml:space="preserve">
     <value>Where contest will be</value>

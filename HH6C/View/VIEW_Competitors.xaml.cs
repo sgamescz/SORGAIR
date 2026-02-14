@@ -86,7 +86,7 @@ namespace WpfApp6.View
         {
             l_firstname.Text = "";
             L_lastname.Text = "";
-            l_country.SelectedIndex = 58;
+            l_country.SelectedIndex = VM.VYBRANYSTAT;
             l_chanel1.Value = null ;
             l_chanel2.Value = null;
             l_club.Text = "";
@@ -134,6 +134,7 @@ namespace WpfApp6.View
             if (Int32.Parse(L_flag) >= 0 )
             {
                 Console.WriteLine(L_flag);
+                VM.VYBRANYSTAT = Int32.Parse(L_flag);
                 string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 var directory = System.IO.Path.GetDirectoryName(path);
 
@@ -268,7 +269,7 @@ namespace WpfApp6.View
                 }
                 else
                 {
-                    VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), _failictmp, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 0, 99);
+                    VM.FUNCTION_USERS_CREATE_NEW(l_firstname.Text, L_lastname.Text, VM.MODEL_Contest_FLAGS[l_country.SelectedIndex].FILENAME, VM.MODEL_Contest_AGECATEGORIES[l_agecat.SelectedIndex].ID, VM.MODEL_Contest_FREQUENCIES[l_freq.SelectedIndex].ID, Convert.ToInt32(l_chanel1.Value), Convert.ToInt32(l_chanel2.Value), _failictmp, l_naclic.Text, l_club.Text, Convert.ToBoolean(l_registered.IsOn), 0, VM.MODEL_Contest_CUSTOMAGECATEGORIES[l_customagecat.SelectedIndex].ID);
                 }
 
 
@@ -900,6 +901,11 @@ namespace WpfApp6.View
         private void print_to_html_cut_competitors_round_Click(object sender, RoutedEventArgs e)
         {
             print_scorecards_type2("scorecard_cut_competitors", "html", "rounds");
+
+        }
+
+        private void l_agecat_edit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }

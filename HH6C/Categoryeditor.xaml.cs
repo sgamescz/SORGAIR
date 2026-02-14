@@ -34,11 +34,16 @@ namespace SORGAIR
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
 
             InitializeComponent();
-            VM.SQL_OPENCONNECTION("SORG");
+            InitializeDatabaseAsync();
+        }
+
+        private async void InitializeDatabaseAsync()
+        {
+            await VM.SQL_OPENCONNECTION("SORG");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
 
-            VM.SQL_OPENCONNECTION("RULES");
+            await VM.SQL_OPENCONNECTION("RULES");
             Console.WriteLine(VM.SQL_READSORGDATA("select category from rules;", ""));
             VM.FUNCTION_LOAD_CATEGORIES();
             VM.FUNCTION_LOAD_CALENDAR_COUNTRY_SOURCES();

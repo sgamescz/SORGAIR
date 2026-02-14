@@ -1007,7 +1007,7 @@
 
         <StackPanel x:Name="mainstack" Margin="0,0,0,32">
 
-            <Grid Name="maingrid" Margin="10,0,20,0">
+            <Grid Name="maingrid" Margin="10,0,10,0">
                 <WrapPanel Margin="0,0,0,10" Orientation="Horizontal" HorizontalAlignment="Left" Width="990">
                     <StackPanel Orientation="Horizontal">
 
@@ -1021,7 +1021,7 @@
                         Background="YellowGreen"
                         Click="results_final_users_Click"
                         IsEnabled="{Binding BIND_MENU_ENABLED_finale}"
-                        Style="{StaticResource SmallTileStyle}" Width="300">
+                        Style="{StaticResource SmallTileStyle}" Width="240">
                             <iconPacks:PackIconFontAwesome
                             Width="35"
                             Height="35"
@@ -1033,10 +1033,10 @@
                         Name="results_users"
                             Height="100"
 
-                        Title="Celkové výsledky"
+                        Title="Výsledky celé soutěže"
                         VerticalContentAlignment="Center"
                         Click="results_users_Click"
-                        Style="{StaticResource SmallTileStyle}" Width="300">
+                        Style="{StaticResource SmallTileStyle}" Width="240">
                             <iconPacks:PackIconFontAwesome
                             Width="35"
                             Height="35"
@@ -1048,10 +1048,10 @@
 
                         <mah:DropDownButton Content="{Binding BINDING_SELECTED_AGECAT}" 
                                             Orientation="Vertical" 
-                                            Margin="2 0 0 0"
+                                            Margin="2 0 2 0"
                                             Background="{DynamicResource MahApps.Brushes.Accent3}" 
                                             Foreground="White" 
-                                            Width="300"
+                                            Width="240"
                                             Height="100"
                                             ItemsSource="{Binding agecatitems}" 
                                             >
@@ -1066,6 +1066,22 @@
                                 <iconPacks:PackIconUnicons Kind="ChatBubbleUser" Width="30" Height="30"/>
                             </mah:DropDownButton.Icon>
                         </mah:DropDownButton>
+                        <mah:Tile
+                        Name="results_usersbyage"
+                            Height="100"
+                                            Background="{DynamicResource MahApps.Brushes.Accent3}" 
+
+                        Title="Výsledky zvolené věkové kategorie"
+                        VerticalContentAlignment="Center"
+                        Click="results_usersbycat_Click"
+                        Style="{StaticResource SmallTileStyle}" Width="240">
+                            <iconPacks:PackIconFontAwesome
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center"
+                            Kind="TrophySolid" />
+                        </mah:Tile>
 
                         <mah:Tile
                         Name="results_teams"
@@ -1082,7 +1098,7 @@
                             Height="25"
                             Margin="0,0,0,20"
                             VerticalAlignment="Center"
-                            Kind="Jersey" />
+                            Kind="Accessibility" />
                         </mah:Tile>
 
                     </StackPanel>
@@ -1093,7 +1109,7 @@
                         <mah:Tile
                         x:Name="print_finalresults_btn"
                         Title="Tisk finálových výsledků"
-                        Width="300"
+                        Width="240"
                         Height="80"
                         HorizontalContentAlignment="Center"
                         Background="YellowGreen"
@@ -1110,8 +1126,8 @@
                         </mah:Tile>
                         <mah:Tile
                         x:Name="print_completeresults_btn"
-                        Title="Tisk oficiální výsledovky"
-                        Width="300"
+                        Title="Tisk výsledků celé soutěže"
+                        Width="240"
                                                 Height="80"
 
                         HorizontalContentAlignment="Center"
@@ -1128,17 +1144,36 @@
                         <mah:Tile
                         x:Name="print_sorgairresults_btn"
                         Title="Tisk SORG_AIR výsledovky"
-                        Width="300"
+                        Width="238"
                                                 Height="80"
+                                            Background="{DynamicResource MahApps.Brushes.Accent2}" 
 
                         HorizontalContentAlignment="Center"
                         Click="print_sorgairresults_btn_Click"
                         Style="{StaticResource SmallTileStyle}"
-                            Background="{DynamicResource MahApps.Brushes.Accent}"
                             >
                             <iconPacks:PackIconFontisto Kind="AreaChart"  Width="32" Height="32" Margin="0 0 0 20"/>
 
                         </mah:Tile>
+
+                        <mah:Tile
+                        x:Name="print_completeresultsbycat_btn"
+                        Title="Tisk výsledků zvolné věkové kat."
+                        Width="240"
+                                                Height="80"
+                                            Background="{DynamicResource MahApps.Brushes.Accent3}" 
+
+                        HorizontalContentAlignment="Center"
+                        Click="print_completeresultsbyagecat_btn_Click"
+                        Style="{StaticResource SmallTileStyle}">
+                            <iconPacks:PackIconBoxIcons
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,0,20"
+                            VerticalAlignment="Center"
+                            Kind="RegularPrinter" />
+                        </mah:Tile>
+
 
                     </StackPanel>
 
@@ -1212,10 +1247,10 @@
                     IsOn="True"
                     Toggled="ToggleSwitchfinal_Toggled" />
 
-                </WrapPanel>
+            </WrapPanel>
                 <WrapPanel
                 Name="table_filter_complete"
-                Height="72"
+                Height="101"
                     Margin="10,0,0,10"
                     HorizontalAlignment="Left"
                     Width="970"
@@ -1309,10 +1344,17 @@
                     FontSize="12"
                     IsOn="True"
                     Toggled="ToggleSwitch_Toggled" />
+                <mah:ToggleSwitch
+                    Name="p_zprocenta"
+                    Width="110"
+                    Content="Z.%"
+                    FontSize="12"
+                    IsOn="True"
+                    Toggled="ToggleSwitch_Toggled" />
 
 
 
-                </WrapPanel>
+            </WrapPanel>
            
           
             <DataGrid
@@ -1548,6 +1590,11 @@
                     <DataGridTextColumn
                         Binding="{Binding PREPSCOREDIFF_BASE}"
                         Header="Z.Ztráta"
+                        HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
+
+                    <DataGridTextColumn
+                        Binding="{Binding PROCENTASCORE}"
+                        Header="Z.%"
                         HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
 
 

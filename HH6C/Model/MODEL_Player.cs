@@ -1241,6 +1241,13 @@ namespace WpfApp6.Model
         }
 
 
+        private Double _PROCENTASCORE;
+        public Double PROCENTASCORE
+        {
+            get { return _PROCENTASCORE; }
+            set { _PROCENTASCORE = value; RaisePropertyChanged(nameof(PROCENTASCORE)); }
+        }
+
 
         private Double _GPEN;
         public Double GPEN

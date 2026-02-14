@@ -11,7 +11,11 @@ using System.Windows.Media;
 using System.Text;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing.Drawing2D;
-
+using System.Data;
+using System.Linq;
+using PdfSharp.Pdf.IO;
+using System.Data.Entity.Infrastructure;
+using SORGAIR.Properties.Lang;
 
 namespace WpfApp6.View
 {
@@ -945,8 +949,7 @@ namespace WpfApp6.View
 
                 for (int x = 1; x < VM.BIND_SQL_SOUTEZ_ROUNDS + 1; x++)
                 {
-                tabulkaletu = tabulkaletu + $@"
-Kolo : {x}
+                tabulkaletu = tabulkaletu + $@"{Lang.txt_round} : {x}
 <table>
     <tbody>
         <tr>
@@ -954,17 +957,18 @@ Kolo : {x}
 
                 for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS+1; s++)
                 {
-                    tabulkaletu = tabulkaletu + "<th>Startoviště:"+s+" </th>";
+                    tabulkaletu = tabulkaletu + "<th>"+Lang.txt_startpoint+":"+s+" </th>";
 
                 }
 
                 tabulkaletu = tabulkaletu + "</tr>";
+                
 
                 for (int g = 1; g < VM.BIND_SQL_SOUTEZ_GROUPS + 1; g++)
                 {
-                    tabulkaletu = tabulkaletu + "<tr><td class='gray'>Skupina: "+ g +"</td>";
+                    tabulkaletu = tabulkaletu + "<tr><td class='gray'>"+Lang.txt_group+": "+ g +"</td>";
                     for (int stp = 1; stp < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; stp++)
-                    {
+                {
                         string kdo = VM.SQL_READSOUTEZDATA("select Lastname || ' ' || Firstname from matrix M left join users U on M.user = U.ID where rnd=" + x.ToString() + " and grp=" + g.ToString() +" and stp="+ stp.ToString() + " ; ", "");
                         tabulkaletu = tabulkaletu + "<td>"+ kdo +"</td>";
 
@@ -974,7 +978,7 @@ Kolo : {x}
 
                 tabulkaletu = tabulkaletu + "</tr></tbody></table>";
                 }
-
+                
 
 
              
@@ -1107,9 +1111,122 @@ Kolo : {x}
 
         private void btn_draw_dotisk_Click(object sender, RoutedEventArgs e)
         {
-            create_matrix_sekvencni_zbytek();
+            //create_matrix_sekvencni_zbytek();
+            //VM.SQL_READSOUTEZDATA("SELECT m1.user as User1, m2.user as User2, COUNT(*) as CommonFlights FROM Matrix m1 JOIN Matrix m2 ON m1.rnd = m2.rnd AND m1.grp = m2.grp AND m1.user != m2.user GROUP BY m1.user, m2.user ORDER BY CommonFlights DESC; ", "");
+            //CreateInteractionMatrix();
+            string sql = "SELECT \r\n    CASE WHEN m1.user < m2.user THEN m1.user ELSE m2.user END AS User1,\r\n    CASE WHEN m1.user < m2.user THEN m2.user ELSE m1.user END AS User2,\r\n    COUNT(*) AS CommonFlights\r\nFROM \r\n    Matrix m1\r\nJOIN \r\n    Matrix m2 \r\nON \r\n    m1.rnd = m2.rnd \r\n    AND m1.grp = m2.grp \r\n    AND m1.user != m2.user\r\nGROUP BY \r\n    User1, User2\r\nORDER BY \r\n    CommonFlights DESC;";
+
+            List<string> columnNames = new List<string> { "User1", "User2", "CommonFlights" };
+
+            List<string> results = VM.SQL_READSOUTEZDATA_RETURNARR(sql, columnNames);
+
+            // Uložení výsledků do souboru
+            string filePath = "matrix.txt";
+            SaveResultsToFile(results, filePath);
         }
 
-      
+        static void SaveResultsToFile(List<string> results, string filePath)
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (string result in results)
+                {
+                    writer.WriteLine(result);
+                }
+            }
+        }
+
+
+        private void CreateInteractionMatrix()
+        {
+            string sql = "SELECT m1.user as User1, m2.user as User2, COUNT(*) as CommonFlights FROM Matrix m1 JOIN Matrix m2 ON m1.rnd = m2.rnd AND m1.grp = m2.grp AND m1.user != m2.user GROUP BY m1.user, m2.user ORDER BY CommonFlights DESC;";
+            DataTable result = ConvertStringToDataTable(VM.SQL_READSOUTEZDATA(sql,""));
+
+            // Vytvoření seznamu všech unikátních uživatelů
+            HashSet<int> users = new HashSet<int>();
+            foreach (DataRow row in result.Rows)
+            {
+                users.Add((int)row["User1"]);
+                users.Add((int)row["User2"]);
+            }
+
+            // Vytvoření matice uživatelů
+            DataTable matrix = new DataTable();
+            foreach (int user in users)
+            {
+                matrix.Columns.Add(user.ToString(), typeof(int));
+            }
+
+            // Inicializace matice s nulami
+            foreach (int user in users)
+            {
+                DataRow newRow = matrix.NewRow();
+                foreach (DataColumn col in matrix.Columns)
+                {
+                    newRow[col] = 0;
+                }
+                matrix.Rows.Add(newRow);
+            }
+
+            // Vyplnění matice hodnotami
+            foreach (DataRow row in result.Rows)
+            {
+                int user1 = (int)row["User1"];
+                int user2 = (int)row["User2"];
+                int commonFlights = (int)row["CommonFlights"];
+
+                matrix.Rows[user1][user2.ToString()] = commonFlights;
+                matrix.Rows[user2][user1.ToString()] = commonFlights;
+            }
+
+            // Uložení matice do textového souboru
+            SaveMatrixToFile(matrix, "matrix.txt");
+        }
+
+        private void SaveMatrixToFile(DataTable matrix, string filePath)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // Přidání názvů sloupců
+            IEnumerable<string> columnNames = matrix.Columns.OfType<DataColumn>().Select(column => column.ColumnName);
+            sb.AppendLine(string.Join(",", columnNames));
+
+            // Přidání dat řádků
+            foreach (DataRow row in matrix.Rows)
+            {
+                IEnumerable<string> fields = row.ItemArray.Select(field => field.ToString());
+                sb.AppendLine(string.Join(",", fields));
+            }
+
+            File.WriteAllText(filePath, sb.ToString());
+        }
+
+
+
+
+        private DataTable ConvertStringToDataTable(string data)
+        {
+            DataTable dt = new DataTable();
+            // Předpokládáme, že první řádek obsahuje hlavičky sloupců
+            string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string[] headers = lines[0].Split(',');
+
+            foreach (string header in headers)
+            {
+                dt.Columns.Add(header);
+            }
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] cells = lines[i].Split(',');
+                dt.Rows.Add(cells);
+            }
+
+            return dt;
+        }
+
+
+
+
     }
 }

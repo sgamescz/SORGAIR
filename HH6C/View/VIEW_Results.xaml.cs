@@ -8,6 +8,8 @@ using WpfApp6.Model;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using System.IO;
+using SORGAIR;
+using System.Reflection;
 
 
 
@@ -75,8 +77,10 @@ namespace WpfApp6.View
 
 
 
-            for (int i = 1; i < VM.BIND_ROUNDS_IN_RESULTS + 1; i++)
+
+                for (int i = 1; i < VM.BIND_ROUNDS_IN_RESULTS + 1; i++)
             {
+
                 if (i == 1) { R1VISIBILITY.Visibility = Visibility.Visible; }
                 if (i == 2) { R2VISIBILITY.Visibility = Visibility.Visible; }
                 if (i == 3) { R3VISIBILITY.Visibility = Visibility.Visible; }
@@ -158,10 +162,14 @@ namespace WpfApp6.View
                 if (tagbutton.IsOn == true)
                 {
                     dataGrid_clasic_results.Columns[index].Visibility = Visibility.Visible;
+                    // Příklad aktualizace viditelnosti sloupce v hlavním okně
+                    VM.SetColumnVisibility(index, Visibility.Visible);
+
                 }
                 else
                 {
                     dataGrid_clasic_results.Columns[index].Visibility = Visibility.Collapsed;
+                    VM.SetColumnVisibility(index, Visibility.Collapsed);
                 }
             }
 
@@ -277,6 +285,111 @@ namespace WpfApp6.View
 
             Console.WriteLine("skrtacky zapsany");
             udelej_zobrazeni_vysledku();
+
+        }
+
+        private async void print_baseresultsbygrp_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+            var currentWindow = this.TryFindParent<MetroWindow>();
+            var controller = await currentWindow.ShowProgressAsync("Generuji", "Připravuji výsledky k tisku");
+            controller.SetProgress(0.1);
+            await Task.Delay(300);
+
+
+            string[] visibility = {
+                "False",
+                "False",
+                "False",
+                "True",
+                "True",
+                "True",
+                "kolo1",
+                "kolo2",
+                "kolo3",
+                "kolo4",
+                "kolo5",
+                "kolo6",
+                "k7",
+                "k8",
+                "k9",
+                "k10",
+                "kolo11",
+                "kolo12",
+                "kolo13",
+                "kolo14",
+                "kolo15",
+                "kolo16",
+                "k17",
+                "k18",
+                "k19",
+                "k20"
+            };
+
+            if (p_stat.IsOn is true) { visibility[0] = "True"; } else { visibility[0] = "False"; }
+            if (p_id.IsOn is true) { visibility[1] = "True"; } else { visibility[1] = "False"; }
+            if (p_agecat.IsOn is true) { visibility[2] = "True"; } else { visibility[2] = "False"; }
+            if (p_gpen.IsOn is true) { visibility[3] = "True"; } else { visibility[3] = "False"; }
+            if (p_ztrata.IsOn is true) { visibility[4] = "True"; } else { visibility[4] = "False"; }
+            if (p_procenta.IsOn is true) { visibility[5] = "True"; } else { visibility[5] = "False"; }
+            if (1 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[6] = "True"; } else { visibility[6] = "False"; }
+            if (2 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[7] = "True"; } else { visibility[7] = "False"; }
+            if (3 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[8] = "True"; } else { visibility[8] = "False"; }
+            if (4 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[9] = "True"; } else { visibility[9] = "False"; }
+            if (5 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[10] = "True"; } else { visibility[10] = "False"; }
+            if (6 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[11] = "True"; } else { visibility[11] = "False"; }
+            if (7 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[12] = "True"; } else { visibility[12] = "False"; }
+            if (8 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[13] = "True"; } else { visibility[13] = "False"; }
+            if (9 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[14] = "True"; } else { visibility[14] = "False"; }
+            if (10 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[15] = "True"; } else { visibility[15] = "False"; }
+
+            if (11 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[16] = "True"; } else { visibility[16] = "False"; }
+            if (12 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[17] = "True"; } else { visibility[17] = "False"; }
+            if (13 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[18] = "True"; } else { visibility[18] = "False"; }
+            if (14 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[19] = "True"; } else { visibility[19] = "False"; }
+            if (15 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[20] = "True"; } else { visibility[20] = "False"; }
+            if (16 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[21] = "True"; } else { visibility[21] = "False"; }
+            if (17 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[22] = "True"; } else { visibility[22] = "False"; }
+            if (18 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[23] = "True"; } else { visibility[23] = "False"; }
+            if (19 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[24] = "True"; } else { visibility[24] = "False"; }
+            if (20 == VM.BIND_ROUNDS_IN_RESULTS) { visibility[25] = "True"; } else { visibility[25] = "False"; }
+
+
+            VM.print_basicresultsbygrp("frame_small_info", "data_empty", "print_grp_resuls", "GRP výsledky", "html", visibility);
+
+
+            controller.SetProgress(0.7);
+            await Task.Delay(300);
+            await controller.CloseAsync();
+            await Task.Delay(300);
+
+
+
+
+        }
+
+
+        private exres _existingExresWindow;
+
+        public void ShowOrUpdateExresWindow()
+        {
+            if (_existingExresWindow == null || !_existingExresWindow.IsLoaded)
+            {
+                MODEL_ViewModel existingViewModel = this.DataContext as MODEL_ViewModel;
+                _existingExresWindow = new exres(existingViewModel);
+                _existingExresWindow.Show();
+            }
+            else
+            {
+                _existingExresWindow.Activate();  // Přivede okno do popředí, pokud již existuje
+                                                  // Zde můžete také aktualizovat data nebo UI
+                _existingExresWindow.upravitdatagrid();
+            }
+        }
+
+        private void show_exres_btn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowOrUpdateExresWindow();
 
         }
     }

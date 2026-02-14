@@ -299,7 +299,7 @@
                         Height="25"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Kind="Jersey" />
+                        Kind="Accessibility" />
                 </mah:Tile>
                 <mah:Tile
                     x:Name="userdetail_freq"
@@ -560,7 +560,7 @@
                 AreAnimationsEnabled="True"
                 Header="Přidání nového soutěžícího"
                 IsModal="False"
-                IsOpen="False"
+                IsOpen="True"
                 Position="Right"
                 Theme="Adapt">
 
@@ -573,7 +573,7 @@
                     VerticalAlignment="Top">
                     <mah:SplitButton
                         x:Name="l_agecat"
-                        Width="345"
+                        Width="173"
                         Margin="205,88,0,57"
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
@@ -733,7 +733,6 @@
                         Background="{DynamicResource MahApps.Brushes.Accent2}"
                         DisplayMemberPath="FILENAME"
                         ItemsSource="{Binding MODEL_Contest_FLAGS}"
-                        SelectedIndex="58"
                         SelectionChanged="SplitButton_SelectionChanged"
                         TabIndex="7"
                         Text="test">
@@ -744,7 +743,7 @@
                                 Margin="10,0,20,0"
                                 VerticalAlignment="Center"
                                 IsTabStop="False"
-                                Kind="GlobeAmericasSolid" />
+                                Kind="_0Solid" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
 
@@ -906,6 +905,28 @@
                         <Button  Name="play_name_sound" IsEnabled="false" Margin="5" Click="play_name_sound_Click" Content="Přehrát jméno" />
                         <Button  Name="delete_name_sound" Margin="5" IsEnabled="False"  Click="delete_name_sound_Click" Content="Smazat jméno" />
                     </UniformGrid>
+                    <mah:SplitButton
+                        x:Name="l_customagecat"
+                        Width="168"
+                        Margin="382,89,0,57"
+                        HorizontalAlignment="Left"
+                        HorizontalContentAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.AccentBase}"
+                        DisplayMemberPath="NAME"
+                        ItemsSource="{Binding MODEL_Contest_CUSTOMAGECATEGORIES}"
+                        SelectedIndex="0"
+                        TabIndex="5"
+                        Text="test" >
+                        <mah:SplitButton.Icon>
+                            <iconPacks:PackIconModern
+                                Width="25"
+                                Height="25"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                IsTabStop="False"
+                                Kind="FolderPeople" />
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
 
                 </Grid>
 
@@ -937,7 +958,7 @@
                         DisplayMemberPath="NAME"
                         ItemsSource="{Binding MODEL_Contest_AGECATEGORIES}"
                         TabIndex="5"
-                        Text="test">
+                        Text="test" SelectionChanged="l_agecat_edit_SelectionChanged">
                         <mah:SplitButton.Icon>
                             <iconPacks:PackIconModern
                                 Width="25"
@@ -970,8 +991,8 @@
              Kind="FolderPeople" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
-                    
-                    
+
+
                     <mah:NumericUpDown
                         x:Name="l_chanel1_edit"
                         Width="95"
@@ -1121,7 +1142,7 @@
                                 Margin="10,0,20,0"
                                 VerticalAlignment="Center"
                                 IsTabStop="False"
-                                Kind="GlobeAmericasSolid" />
+                                Kind="_42GroupBrands" />
                         </mah:SplitButton.Icon>
                     </mah:SplitButton>
 
@@ -1366,7 +1387,7 @@
                         FontSize="12"
                         IsOn="True"
                         Margin="310,250,0,0" VerticalAlignment="Top" />
-                            
+
                             <mah:NumericUpDown
                                 x:Name="pocetnastranku2_updown"
                                 Width="314"

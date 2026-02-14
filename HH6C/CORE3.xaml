@@ -8,9 +8,8 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:language="clr-namespace:SORGAIR.Properties.Lang"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:v="clr-namespace:WpfApp6.View"
-    Title="SORG AIR 2024"
+    Title="SORG AIR 2021"
     Width="1270"
     Height="930"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -70,23 +69,6 @@
                 <Setter Property="Controls:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
             </Style>
 
-
-            <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
-                <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
-                <Style.Triggers>
-                    <Trigger Property="Orientation" Value="Horizontal">
-                        <Setter Property="Height" Value="18" />
-                        <Setter Property="MinHeight" Value="18" />
-                    </Trigger>
-                    <Trigger Property="Orientation" Value="Vertical">
-                        <Setter Property="Width" Value="18" />
-                        <Setter Property="MinWidth" Value="18" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-
-
             <Style
                 x:Key="HamburgerMenuCreatorsStyle"
                 BasedOn="{StaticResource {x:Type Controls:HamburgerMenu}}"
@@ -109,16 +91,45 @@
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
 
-
-
-            <Button Click="open_setup">
+            <Label>Original size</Label>
+            <Button Click="CLICK_originalresize">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconForkAwesome Kind="Wrench"   Width="24"
-                        Height="24" />
+                    <iconPacks:PackIconPicolIcons
+                        Width="24"
+                        Height="24"
+                        Kind="SizeBothAccept" />
+                </StackPanel>
+            </Button>
+
+            <Label>Resize mode</Label>
+            <Button Click="CLICK_resizemode">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterialDesign
+                        Width="24"
+                        Height="24"
+                        Kind="PhotoSizeSelectSmall" />
 
                 </StackPanel>
             </Button>
 
+
+            <Label>Change color</Label>
+            <Button Click="CLICK_changeforeground">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconModern
+                        Width="24"
+                        Height="24"
+                        Kind="DrawBrushReflection" />
+                </StackPanel>
+            </Button>
+            <Button Click="CLICK_changebackground">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconOcticons
+                        Width="24"
+                        Height="24"
+                        Kind="Paintcan" />
+                </StackPanel>
+            </Button>
 
 
 
@@ -331,9 +342,6 @@
 
                 <!--  Content  -->
                 <Controls:HamburgerMenu.Content>
-
-
-
                     <ScrollViewer
                         Margin="0,0,0,0"
                         HorizontalScrollBarVisibility="Auto"
@@ -346,10 +354,6 @@
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
-
-
-
-
                                 <Controls:TransitioningContentControl
                                     Margin="20,5,528,0"
                                     Content="{Binding ElementName=HamburgerMenuControl, Path=SelectedItem.Label}"
@@ -377,110 +381,6 @@
                                 RestartTransitionOnContentChange="True"
                                 Transition="Down" />
 
-
-                            <Controls:FlyoutsControl
-                                Height="862"
-                                Grid.Row="1"
-                                VerticalAlignment="Top"
-                                IsTabStop="False">
-
-
-                                <Controls:Flyout
-                x:Name="nastaveni_vzhledu"
-                Height="851"
-                Margin="3,2,0,0"
-                VerticalAlignment="Top"
-                Controls:HeaderedControlHelper.HeaderFontSize="13"
-                Controls:HeaderedControlHelper.HeaderMargin="20 0 50 0"
-                AnimateOpacity="True"
-                AreAnimationsEnabled="True"
-                Header="Setup"
-                IsModal="False"  
-                IsOpen="False"
-                Position="Top"
-                Theme="Adapt"
-                TitleVisibility="Visible">
-
-                                    <Grid>
-
-
-
-                                        <Controls:MetroHeader
-    Margin="10,8,10,599"
-    Header="setup1">
-                                            <Grid Margin="10,6,10,6">
-                                                <mah:Tile                             Title="Original window size"
-                                            Click="CLICK_originalresize"
-                                            IsEnabled="True"  Width="319"  HorizontalAlignment="Left" Margin="10,10,0,46">
-                                                    <iconPacks:PackIconPicolIcons
-                                                Width="40"
-                                                Margin="0 -10 0 0"
-                                                Height="40"
-                                                Kind="SizeBothAccept" />
-
-                                                </mah:Tile>
-                                                <mah:Tile                             Title="Resize mode"
-                                            Click="CLICK_resizemode"
-                                            IsEnabled="True"  Width="331"  HorizontalAlignment="Left" Margin="334,10,0,46">
-                                                    <iconPacks:PackIconMaterialDesign
-                                                Width="40"
-                                                Margin="0 -10 0 0"
-                                                Height="40"
-                                                Kind="PhotoSizeSelectSmall" />
-
-                                                </mah:Tile>
-
-
-
-                                            </Grid>
-
-                                        </Controls:MetroHeader>
-                                        <Controls:MetroHeader
-Margin="10,299,42,214"
-Header="setup2">
-                                            <Grid Margin="10,33,10,18">
-                                                <mah:ColorPicker SelectedColorChanged="ColorPicker_SelectedColorChanged"
-                                                mah:TextBoxHelper.ClearTextButton="False"
-                                                mah:TextBoxHelper.UseFloatingWatermark="True"
-                                                x:Name="colorpicker"
-                                                mah:TextBoxHelper.Watermark="Zvolte barvu"
-                                                AddToRecentColorsTrigger="SelectedColorChanged" Margin="339,138,0,0" HorizontalAlignment="Left" Width="336" Height="88" VerticalAlignment="Top" />
-
-
-
-
-                                                <mah:Tile                             Title="Change color schema"
-                                                Click="CLICK_changeforeground"
-                                                IsEnabled="True"  Width="319" Height="99"  HorizontalAlignment="Left" Margin="0,127,0,26">
-                                                    <iconPacks:PackIconModern
-                                                    Width="40"
-                                                    Margin="0 -10 0 0"
-                                                    Height="40"
-                                                    Kind="DrawBrushReflection" />
-
-                                                </mah:Tile>
-
-
-
-
-
-                                                <mah:Tile                             Title="Switch dark / light theme"
-                                                Click="CLICK_changebackground"
-                                                IsEnabled="True"  Width="319" Height="99"  HorizontalAlignment="Left" Margin="0,23,0,130">
-                                                    <iconPacks:PackIconOcticons
-                                                    Width="40"
-                                                    Margin="0 -10 0 0"
-                                                    Height="40"
-                                                    Kind="Paintbrush" />
-                                                </mah:Tile>
-                                            </Grid>
-                                        </Controls:MetroHeader>
-
-                                    </Grid>
-
-                                </Controls:Flyout>
-
-                            </Controls:FlyoutsControl>
 
                         </Grid>
                     </ScrollViewer>

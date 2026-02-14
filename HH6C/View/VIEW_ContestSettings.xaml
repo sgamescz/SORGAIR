@@ -121,7 +121,7 @@
                             <iconPacks:PackIconFontAwesome
                                 Width="40"
                                 Height="40"
-                                Kind="MapMarkedAltSolid" />
+                                Kind="_0Solid" />
                         </mah:Tile>
                         <mah:Tile
                             Title="{Binding BIND_SQL_SOUTEZ_DATUM}"

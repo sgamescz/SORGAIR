@@ -42,11 +42,11 @@ namespace SORGAIR
 
 
 
-        private void load_news(object sender, RoutedEventArgs e)
+        private async void load_news(object sender, RoutedEventArgs e)
         {
 
 
-            VM.SQL_OPENCONNECTION("SORG");
+            await VM.SQL_OPENCONNECTION("SORG");
             VM.typpozadi = VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "");
             Console.WriteLine(VM.typpozadi);
             Console.WriteLine("xx");

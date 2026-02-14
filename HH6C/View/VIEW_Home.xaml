@@ -382,7 +382,7 @@
                                         <iconPacks:PackIconFontAwesome
                                             Width="40"
                                             Height="40"
-                                            Kind="SignLanguageSolid" />
+                                            Kind="_0Solid" />
                                     </Controls:Tile>
 
                                     <Controls:Tile
@@ -490,7 +490,7 @@
                                             <iconPacks:PackIconFontAwesome
                                                 Width="40"
                                                 Height="40"
-                                                Kind="MapMarkedAltSolid" />
+                                                Kind="_4Solid" />
                                         </Controls:Tile>
 
                                         <Controls:Tile
@@ -706,7 +706,7 @@
                                             <iconPacks:PackIconFontAwesome
                                                 Width="40"
                                                 Height="40"
-                                                Kind="MapMarkedAltSolid" />
+                                                Kind="_4Solid" />
                                         </Controls:Tile>
                                         <Controls:Tile
                                             Title="{Binding BIND_NEWCONTEST_COUNTRY_ONLINE}"

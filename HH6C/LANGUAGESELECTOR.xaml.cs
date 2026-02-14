@@ -34,14 +34,7 @@ namespace SORGAIR
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
 
             InitializeComponent();
-            VM.SQL_OPENCONNECTION("SORG");
-            VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
-            VM.typpozadi = VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "");
-            Console.WriteLine(VM.typpozadi);
-            Console.WriteLine("xx");
-
-            VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
-            VM.SQL_CLOSECONNECTION("SORG");
+            InitializeDatabase();
 
 
             if (System.IO.Directory.Exists("autoupdate"))
@@ -61,10 +54,35 @@ namespace SORGAIR
 
                 System.Diagnostics.Process.Start("_autoupdate\\autoupdate.exe");
                 System.Environment.Exit(0); 
-                
+
             }
 
 
+        }
+
+        private async void InitializeDatabase()
+        {
+            await VM.SQL_OPENCONNECTION("SORG");
+
+            try
+            {
+                VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
+                VM.typpozadi = VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "");
+                Console.WriteLine(VM.typpozadi);
+                Console.WriteLine("xx");
+
+                VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Chyba při čtení z databáze: {ex.Message}");
+                MessageBox.Show($"Nepodařilo se načíst nastavení z databáze:\n{ex.Message}", 
+                    "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                VM.SQL_CLOSECONNECTION("SORG");
+            }
         }
 
 
@@ -96,11 +114,6 @@ namespace SORGAIR
             this.Close();
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            MetroWindow f2 = new SORGAIR.exres();
-            f2.Show(); // Shows Form2
-        }
 
         private void lang_cze(object sender, RoutedEventArgs e)
         {
@@ -128,6 +141,13 @@ namespace SORGAIR
         private void lang_hun(object sender, RoutedEventArgs e)
         {
             nacti_core("hu-HU");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MODEL_ViewModel existingViewModel = this.DataContext as MODEL_ViewModel;  // Předpokládá, že DataContext hlavního okna je MODEL_ViewModel
+            exres newExresWindow = new exres(existingViewModel);
+            newExresWindow.Show();
         }
     }
 }

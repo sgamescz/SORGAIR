@@ -70,6 +70,15 @@ namespace SORGAIR.Properties.Lang {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný 65+ age category.
+        /// </summary>
+        public static string age_cat_65 {
+            get {
+                return ResourceManager.GetString("age_cat_65", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný All age categories.
         /// </summary>
         public static string age_cat_all {
@@ -102,6 +111,15 @@ namespace SORGAIR.Properties.Lang {
         public static string age_cat_seniors {
             get {
                 return ResourceManager.GetString("age_cat_seniors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Woman category.
+        /// </summary>
+        public static string age_cat_woman {
+            get {
+                return ResourceManager.GetString("age_cat_woman", resourceCulture);
             }
         }
         
@@ -723,6 +741,33 @@ namespace SORGAIR.Properties.Lang {
         public static string tag_new_contest_place {
             get {
                 return ResourceManager.GetString("tag_new_contest_place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Group.
+        /// </summary>
+        public static string txt_group {
+            get {
+                return ResourceManager.GetString("txt_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Round.
+        /// </summary>
+        public static string txt_round {
+            get {
+                return ResourceManager.GetString("txt_round", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Startpoint.
+        /// </summary>
+        public static string txt_startpoint {
+            get {
+                return ResourceManager.GetString("txt_startpoint", resourceCulture);
             }
         }
         

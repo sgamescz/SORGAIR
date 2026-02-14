@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+
 using MahApps.Metro.Controls;
 using System.Data.SQLite;
 using WpfApp6.View;
@@ -25,9 +26,7 @@ using System.IO;
 using System.Net.Cache;
 using System.Net;
 using Microsoft.Win32;
-using SORGAIR.Properties.Lang;
-using ControlzEx.Theming;
-using System.Data.Entity.ModelConfiguration.Configuration;
+
 
 namespace WpfApp6
 {
@@ -50,8 +49,9 @@ namespace WpfApp6
             var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
 
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(langcode);
+
+
             Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator = ".";
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(langcode);
 
             InitializeComponent();
             InitializeDatabaseAsync();
@@ -59,8 +59,6 @@ namespace WpfApp6
 
         private async void InitializeDatabaseAsync()
         {
-            var langcode = SORGAIR.Properties.Settings.Default.Languagecode;
-
             await VM.SQL_OPENCONNECTION("SORG");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='pozadi'", "pozadi");
             VM.SQL_READSORGDATA("select hodnota from nastaveni where polozka='popredi' ", "popredi");
@@ -70,7 +68,7 @@ namespace WpfApp6
             string minor = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Minor.ToString().PadLeft(2, '0');
             string build = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Build.ToString().PadLeft(2, '0');
             string revision = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.Revision.ToString().PadLeft(2, '0');
-            Console.WriteLine(langcode);
+
             Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             Console.WriteLine(major + "." + minor + "." + build + "." + revision);
 
@@ -101,22 +99,6 @@ namespace WpfApp6
 
         }
 
-        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-        {
-            if (e.NewValue.HasValue)
-            {
-                Theme newTheme = new Theme(name: "CustomTheme",
-                                           displayName: "CustomTheme",
-                                           baseColorScheme: VM.pozadi[VM.pouzitepozadi].ToString(),
-                                           colorScheme: "CustomAccent",
-                                           primaryAccentColor: e.NewValue.Value,
-                                           showcaseBrush: new SolidColorBrush(e.NewValue.Value),
-                                           isRuntimeGenerated: true,
-                                           isHighContrast: true);
-
-                ThemeManager.Current.ChangeTheme(Application.Current, newTheme);
-            }
-        }
 
         public static bool CheckForInternetConnection(int timeoutMs = 10000, string url = null)
         {
@@ -168,16 +150,16 @@ namespace WpfApp6
             if (result != major + "." + minor + "." + build + "." + revision)
             {
 
-                //var currentWindow = this;
-                //var results = await currentWindow.ShowMessageAsync("Je nová verze", "K dispozici je nová verze. Chceš si přečíst co je nového a stáhnout ji ?", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
-                //if (results == null)
-                //    return;
-                //if (results == MessageDialogResult.Affirmative)
-                //{
+                var currentWindow = this;
+                var results = await currentWindow.ShowMessageAsync("Je nová verze", "K dispozici je nová verze. Chceš si přečíst co je nového a stáhnout ji ?", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AnimateShow = true, AnimateHide = true });
+                if (results == null)
+                    return;
+                if (results == MessageDialogResult.Affirmative)
+                {
                     Window printwindow = new SORGAIR.News();
                     printwindow.Show();
 
-                //}
+                }
 
 
 
@@ -300,66 +282,19 @@ namespace WpfApp6
 
         private async void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
-
-            if (MessageBox.Show("Opravdu ukončit SORG AIR?", "Ukončit ?", MessageBoxButton.YesNo) == MessageBoxResult.No)
-            {
-                e.Cancel = true;
-            }
-            else
-            {
                 VM.SQL_CLOSECONNECTION("SORG");
                 VM.SQL_CLOSECONNECTION("SOUTEZ");
-
-            }
 
         }
 
         private void CLICK_changeforeground(object sender, RoutedEventArgs e)
         {
             VM.Function_global_changeforeground = VM.Function_global_changeforeground + 1;
-
-
-            if (colorpicker.SelectedColor != null)
-            {
-                System.Windows.Media.Color c = colorpicker.SelectedColor.Value;
-                Theme newTheme = new Theme(name: "CustomTheme",
-                                               displayName: "CustomTheme",
-                                               baseColorScheme: VM.pozadi[VM.pouzitepozadi].ToString(),
-                                               colorScheme: "CustomAccent",
-                                               primaryAccentColor: c,
-                                               showcaseBrush: new SolidColorBrush(c),
-                                               isRuntimeGenerated: true,
-                                               isHighContrast: true);
-
-                ThemeManager.Current.ChangeTheme(Application.Current, newTheme);
-
-                VM.FUNCTION_Changeforegroundcolor();
-            }
-
-
         }
 
         private void CLICK_changebackground(object sender, RoutedEventArgs e)
         {
             VM.Function_global_changebackground = VM.Function_global_changebackground + 1;
-
-            if (colorpicker.SelectedColor != null)
-            {
-                System.Windows.Media.Color c = colorpicker.SelectedColor.Value;
-                Theme newTheme = new Theme(name: "CustomTheme",
-                                               displayName: "CustomTheme",
-                                               baseColorScheme: VM.pozadi[VM.pouzitepozadi].ToString(),
-                                               colorScheme: "CustomAccent",
-                                               primaryAccentColor: c,
-                                               showcaseBrush: new SolidColorBrush(c),
-                                               isRuntimeGenerated: true,
-                                               isHighContrast: true);
-
-                ThemeManager.Current.ChangeTheme(Application.Current, newTheme);
-            }
-
-
         }
 
 
@@ -466,25 +401,6 @@ namespace WpfApp6
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void open_setup(object sender, RoutedEventArgs e)
-        {
-            nastaveni_vzhledu.IsOpen = true;
-
-        }
-
-        private void results_teams_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+     
     }
 }

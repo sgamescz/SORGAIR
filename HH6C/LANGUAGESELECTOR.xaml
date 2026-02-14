@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:language="clr-namespace:SORGAIR.Properties.Lang"
-    Title="SORG AIR 2022 - Language selector"
+    Title="SORG AIR 2024 - Language selector"
     Width="619"
     Height="267"
     Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
@@ -115,15 +115,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Source="sorgairlogotransparent.png" />
-        <Button
-            Width="130"
-            Height="40"
-            Visibility="Hidden"
-            Margin="490,160,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Click="Button_Click_3"
-            Content="Slovak" />
     </Grid>
 
 </Controls:MetroWindow>

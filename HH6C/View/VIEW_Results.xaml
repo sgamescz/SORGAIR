@@ -901,24 +901,25 @@
         <StackPanel Margin="0,0,0,32" >
 
 
-            <Grid Height="200" Name="maingrid" >
+            <Grid Height="286" Name="maingrid" >
 
                 <Label
-                    Width="275"
-                    Margin="10,10,0,155"
+                    Width="198"
+                    Margin="10,10,0,0"
                     HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Background="YellowGreen"
-                    Content="Výsledky zobrazit pro  🠗 🠗 X 🠗 🠗  kol"
+                    
+                    Content="Výsledky pro kolo č:"
                     FontWeight="Medium"
-                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}" />
+                    Foreground="{DynamicResource MahApps.Brushes.SystemControlHighlightChromeWhite}" Height="86" VerticalAlignment="Top" />
                 <mah:Tile
                     Name="results_users"
                     Title="Soutěžící"
-                    Width="130"
-                    Height="75"
-                    Margin="290,10,0,0"
+                    Width="131"
+                    Height="86"
+                    Margin="365,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Right"
@@ -934,10 +935,10 @@
                 <mah:Tile
                     Name="results_teams"
                     Title="Týmy"
-                    Width="125"
+                    Width="97"
                     IsEnabled="True"
-                    Height="75"
-                    Margin="565,10,0,0"
+                    Height="85"
+                    Margin="618,11,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     HorizontalContentAlignment="Right"
@@ -948,18 +949,18 @@
                         Height="25"
                         Margin="0,0,20,0"
                         VerticalAlignment="Center"
-                        Kind="Jersey" />
+                        Kind="Accessibility" />
                 </mah:Tile>
                 <Controls:Tile
                     x:Name="print_baseresults_btn"
-                    Title="Tisk"
-                    Width="112"
-                    Height="75"
-                    Margin="0,10,10,115"
-                    HorizontalAlignment="Right"
+                    Title="Tisk výsledků"
+                    Width="350"
+                    Height="73"
+                    Margin="10,101,0,0"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Center"
                     Background="YellowGreen"
-                    Click="print_baseresults_btn_Click">
+                    Click="print_baseresults_btn_Click" VerticalAlignment="Top">
                     <iconPacks:PackIconBoxIcons
                         Width="20"
                         Height="20"
@@ -968,15 +969,48 @@
                         Kind="RegularPrinter" />
                 </Controls:Tile>
                 <Controls:Tile
+    x:Name="print_baseresultsbygroups_btn"
+    Title="{Binding BIND_ROUNDS_IN_RESULTS_FOR_PRINT}"
+                    
+    HorizontalAlignment="Left"
+    HorizontalContentAlignment="Center"
+    Background="YellowGreen"
+    Click="print_baseresultsbygrp_btn_Click" Margin="365,101,0,0" Width="131" Height="73" VerticalAlignment="Top">
+                    <iconPacks:PackIconBoxIcons
+        Width="20"
+        Height="20"
+        Margin="0,0,0,0"
+        VerticalAlignment="Center"
+        Kind="RegularPrinter" />
+                </Controls:Tile>
+
+
+                <Controls:Tile
+    x:Name="show_exres_btn"
+    Title="Odeslat na externí displej"
+                    
+    HorizontalAlignment="Left"
+    HorizontalContentAlignment="Center"
+    Background="YellowGreen"
+    Click="show_exres_btn_Click" Margin="501,101,0,0" Width="214" Height="73" VerticalAlignment="Top">
+                    <iconPacks:PackIconBoxIcons
+        Width="20"
+        Height="20"
+        Margin="0,0,0,0"
+        VerticalAlignment="Center"
+        Kind="RegularTv" />
+                </Controls:Tile>
+
+
+                <Controls:Tile
                     x:Name="skrtej"
-                    Title="Proškrtat"
-                    Width="135"
-                    Height="75"
-                    Margin="425,10,0,115"
+                    Title="Seškrtat"
+                    Width="112"
+                    Margin="501,11,0,0"
                     HorizontalAlignment="Left"
                     HorizontalContentAlignment="Right"
                     Click="skrtej_Click"
-                    IsEnabled="{Binding BIND_SKRTEJ_ENABLED}">
+                    IsEnabled="{Binding BIND_SKRTEJ_ENABLED}" Height="85" VerticalAlignment="Top">
 
                     <iconPacks:PackIconIonicons
                         Width="25"
@@ -985,30 +1019,15 @@
                         VerticalAlignment="Center"
                         Kind="CutiOS" />
                 </Controls:Tile>
-                <mah:Tile
-                    Name="results_move_to_final"
-                    Title="Postoupit zobrazené soutěžící do finále"
-                    Width="980"
-                    Height="60"
-                    Margin="10,130,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Center"
-                    Click="results_move_to_final_Click"
-                    IsEnabled="{Binding BIND_MOVE_TO_FINAL_ROUNDS}">
-                    <iconPacks:PackIconMaterial
-                        Width="25"
-                        Height="25"
-                        Margin="0,0,0,20"
-                        Kind="AccountMultipleCheckOutline" />
-                </mah:Tile>
+
+
                 <WrapPanel
                     Name="table_filter_final"
                     Height="35"
-                    Margin="10,90,10,75"
+                    Margin="10,179,10,0"
                     Background="{DynamicResource MahApps.Brushes.Accent4}"
                     Orientation="Horizontal"
-                    Visibility="Visible">
+                    Visibility="Visible" VerticalAlignment="Top">
 
                     <mah:ToggleSwitch
                         Name="p_stat"
@@ -1059,9 +1078,9 @@
                 <mah:NumericUpDown
                     x:Name="NUM_ROUNDS_IN_RESULTS"
                     Grid.Column="0"
-                    Width="275"
-                    Height="35"
-                    Margin="10,50,0,0"
+                    Width="147"
+                    Height="86"
+                    Margin="213,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     mah:TextBoxHelper.ClearTextButton="False"
@@ -1075,6 +1094,19 @@
                     SwitchUpDownButtons="True"
                     TextAlignment="Center"
                     Value="{Binding BIND_ROUNDS_IN_RESULTS}" />
+                <mah:Tile x:Name="results_move_to_final"
+              Title="Postoupit zobrazené soutěžící do finále"
+              Height="61"
+              Margin="0,219,0,0"
+              Click="results_move_to_final_Click"
+              IsEnabled="{Binding BIND_MOVE_TO_FINAL_ROUNDS}"
+              HorizontalAlignment="Center" Width="980" VerticalAlignment="Top" >
+                    <!-- Změněno z Left na Stretch -->
+                    <iconPacks:PackIconMaterial Width="25"
+                                    Height="25"
+                                    Margin="0,0,0,20"
+                                    Kind="AccountMultipleCheckOutline" />
+                </mah:Tile>
             </Grid>
 
 
@@ -1083,7 +1115,7 @@
                 Margin="0,0,0,0"
                 HorizontalAlignment="Left"
                 AutoGenerateColumns="False"
-                      Visibility="Collapsed"
+                      Visibility="Visible"
                 IsReadOnly="True"
                 ItemsSource="{Binding Players_Baseresults}">
 

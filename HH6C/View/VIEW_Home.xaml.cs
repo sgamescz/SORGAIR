@@ -313,10 +313,6 @@ namespace WpfApp6.View
         
     }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void newcontestcreate_Click(object sender, RoutedEventArgs e)
         {
@@ -372,9 +368,9 @@ namespace WpfApp6.View
 
             string catidindb;
 
-            VM.SQL_OPENCONNECTION(newdbname);
+            await VM.SQL_OPENCONNECTION(newdbname);
             //VM.SQL_OPENCONNECTION("RULES");
-            VM.SQL_OPENCONNECTION("RULES");
+            await VM.SQL_OPENCONNECTION("RULES");
             catidindb = VM.SQL_READSORGDATA("select id from rules where category = '" + VM.BIND_NEWCONTEST_CATEGORY + "'","");
             VM.SQL_CLOSECONNECTION("RULES");
 
@@ -581,7 +577,7 @@ namespace WpfApp6.View
             }
         }
 
-        private void createonlinecontent_Click(object sender, RoutedEventArgs e)
+        private async void createonlinecontent_Click(object sender, RoutedEventArgs e)
         {
 
 
@@ -612,9 +608,9 @@ namespace WpfApp6.View
 
             string catidindb;
 
-            VM.SQL_OPENCONNECTION(newdbname);
+            await VM.SQL_OPENCONNECTION(newdbname);
             //VM.SQL_OPENCONNECTION("RULES");
-            VM.SQL_OPENCONNECTION("RULES");
+            await VM.SQL_OPENCONNECTION("RULES");
             catidindb = VM.SQL_READSORGDATA("select id from rules where category = '" + VM.BIND_NEWCONTEST_CATEGORY_ONLINE + "'", "");
             VM.SQL_CLOSECONNECTION("RULES");
             VM.SQL_SAVESOUTEZDATA("delete from Sounds;");
@@ -656,7 +652,7 @@ namespace WpfApp6.View
             string[] mArrayOfcontests = new string[300];
 
 
-            string remoteUrl = "http://api.sorgair.com/api_contestdetail.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
+            string remoteUrl = "http://api.sorgair.com/api_contestdetail_new.php?id=" + VM.BIND_NEWCONTEST_ID_ONLINE;
             HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(remoteUrl);
             HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             HttpWebRequest.DefaultCachePolicy = policy;
@@ -682,19 +678,20 @@ namespace WpfApp6.View
                     string _lastname = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[1];
                     string _country = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[2];
                     int _agecat = int.Parse(soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[3])-1;
-                    string _freq = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[4];
-                    string _chanel1 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[5];
-                    string _chanel2 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[6];
-                    string _failic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[7];
-                    string _naclic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[8];
-                    string _email = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[9];
-                    string _club = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[10];
+                    int _agecat2 = int.Parse(soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[4]);
+                    string _freq = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[5];
+                    string _chanel1 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[6];
+                    string _chanel2 = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[7];
+                    string _failic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[8];
+                    string _naclic = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[9];
+                    string _email = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[10];
+                    string _club = soutezici.Split(spearator_sub, 100, StringSplitOptions.None)[11];
 
                     if (_freq.Contains("2,4")) { _freq = "0"; }
                     if (_freq.Contains("35")) { _freq = "1"; }
 
                     VM.SQL_SAVESOUTEZDATA("insert into users values (null,'" + _firstname + "', '" + _lastname + "', '" + _country + "', '" 
-                        + _agecat + "', '" + _freq + "', '" + _chanel1 + "', '" + _chanel2 + "' , '" + _failic + "', '" + _naclic + "', '" + _club + "' , 'False', '0', '0' , 0 );");
+                        + _agecat + "', '" + _freq + "', '" + _chanel1 + "', '" + _chanel2 + "' , '" + _failic + "', '" + _naclic + "', '" + _club + "' , 'False', '0', '"+ _agecat2 + "' , 0 );");
 
 
                 }
