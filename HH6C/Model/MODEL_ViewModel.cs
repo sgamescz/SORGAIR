@@ -622,25 +622,41 @@ namespace WpfApp6.Model
 
         public async void pripojserialport(string serialport)
         {
-            _RPI_serialPort = new SerialPort(serialport, 9600, Parity.None, 8, StopBits.One);
-            _RPI_serialPort.ReadTimeout = 500;
-            _RPI_serialPort.WriteTimeout = 500;
-            _RPI_serialPort.Handshake = Handshake.None;
-            _RPI_serialPort.PortName = serialport;
-            _RPI_serialPort.BaudRate = 9600;
-            _RPI_serialPort.DataBits = 8;
-            _RPI_serialPort.StopBits = StopBits.One;
-            _RPI_serialPort.Parity = Parity.None;
-            _RPI_serialPort.DataReceived += DataReceivedHandler; //This is to add event handler delegate when data is received by the port
-
             try
             {
+                // Zavření předchozího portu, pokud existuje
+                if (_RPI_serialPort != null && _RPI_serialPort.IsOpen)
+                {
+                    _RPI_serialPort.Close();
+                    _RPI_serialPort.Dispose();
+                }
+
+                _RPI_serialPort = new SerialPort(serialport, 9600, Parity.None, 8, StopBits.One);
+                _RPI_serialPort.ReadTimeout = 500;
+                _RPI_serialPort.WriteTimeout = 500;
+                _RPI_serialPort.Handshake = Handshake.None;
+                _RPI_serialPort.PortName = serialport;
+                _RPI_serialPort.BaudRate = 9600;
+                _RPI_serialPort.DataBits = 8;
+                _RPI_serialPort.StopBits = StopBits.One;
+                _RPI_serialPort.Parity = Parity.None;
+                _RPI_serialPort.DataReceived += DataReceivedHandler;
+
                 _RPI_serialPort.Open();
-                if (!(_RPI_serialPort.IsOpen))
-                    _RPI_serialPort.Open();
-                Console.WriteLine("Serial port " + serialport + " is open");
+
+                if (!_RPI_serialPort.IsOpen)
+                {
+                    Console.WriteLine($"Nepodařilo se otevřít sériový port {serialport}");
+                    MessageBox.Show($"Nepodařilo se otevřít sériový port {serialport}", 
+                        "Chyba připojení", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                Console.WriteLine($"Sériový port {serialport} byl úspěšně otevřen");
+
+                // Testovací komunikace s HW
                 await Task.Delay(100);
-                _serialPortWrite("ATI",true );
+                _serialPortWrite("ATI", true);
                 await Task.Delay(100);
                 _serialPortWrite("AT+SN", true);
                 await Task.Delay(100);
@@ -648,17 +664,31 @@ namespace WpfApp6.Model
                 await Task.Delay(100);
                 _serialPortWrite("AT+UPTIME", true);
                 await Task.Delay(100);
-                //_serialPort.Write("ATI\r");
-                //_serialPort.Write("AT+SN\r");
-
-
-
+            }
+            catch (UnauthorizedAccessException uaEx)
+            {
+                Console.WriteLine($"Přístup k portu {serialport} byl odepřen: {uaEx.Message}");
+                MessageBox.Show($"Port {serialport} je již používán jinou aplikací nebo nemáte oprávnění k přístupu.", 
+                    "Chyba přístupu", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentException argEx)
+            {
+                Console.WriteLine($"Neplatný název portu {serialport}: {argEx.Message}");
+                MessageBox.Show($"Neplatný název sériového portu: {serialport}", 
+                    "Chyba portu", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (IOException ioEx)
+            {
+                Console.WriteLine($"Chyba I/O při otevírání portu {serialport}: {ioEx.Message}");
+                MessageBox.Show($"Port {serialport} nebyl nalezen nebo je nedostupný.", 
+                    "Chyba I/O", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error opening/writing to serial port :: " + ex.Message, "Error!");
+                Console.WriteLine($"Chyba při připojování k sériovému portu {serialport}: {ex.Message}");
+                MessageBox.Show($"Nepodařilo se připojit k portu {serialport}:\n{ex.Message}", 
+                    "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
 
@@ -690,45 +720,79 @@ namespace WpfApp6.Model
 
         public async void _serialPortWrite(string cozapsat, bool ignoreconnecteddevice )
         {
-           
 
-            if (ignoreconnecteddevice is true)
+            try
             {
-                Console.WriteLine("Zapisuji na seriový port i s ignoraci pripojeneho zarizeni:" + cozapsat);
-                _RPI_serialPort.Write(cozapsat + "\r");
-            }
-            else
-            {
-                if (BINDING_HW_MENU_BASE is true)
+                if (ignoreconnecteddevice is true)
                 {
-
-                    Console.WriteLine("Zapisuji na seriový port pouze pokud je pripojeno:" + cozapsat);
-
-                znova:
-
-                    Console.WriteLine("serialport_cozapsat:" + cozapsat);
-                    Console.WriteLine("serialport_blocked:" + serialport_blocked);
-                    if (serialport_blocked is true)
+                    // Kontrola, zda je port otevřený
+                    if (_RPI_serialPort == null || !_RPI_serialPort.IsOpen)
                     {
-                        // CODE
-                        Console.WriteLine("BLOCKED BLoCKED BLOCKED");
-                        await Task.Delay(100);
-                        Console.WriteLine("LOOP znova");
-                        goto znova;
+                        Console.WriteLine("Seriový port není otevřený. Nelze zapsat: " + cozapsat);
+                        return;
+                    }
+
+                    Console.WriteLine("Zapisuji na seriový port i s ignoraci pripojeneho zarizeni:" + cozapsat);
+                    _RPI_serialPort.Write(cozapsat + "\r");
+                }
+                else
+                {
+                    if (BINDING_HW_MENU_BASE is true)
+                    {
+                        // Kontrola, zda je port otevřený
+                        if (_RPI_serialPort == null || !_RPI_serialPort.IsOpen)
+                        {
+                            Console.WriteLine("Seriový port není otevřený. Nelze zapsat: " + cozapsat);
+                            return;
+                        }
+
+                        Console.WriteLine("Zapisuji na seriový port pouze pokud je pripojeno:" + cozapsat);
+
+                    znova:
+
+                        Console.WriteLine("serialport_cozapsat:" + cozapsat);
+                        Console.WriteLine("serialport_blocked:" + serialport_blocked);
+                        if (serialport_blocked is true)
+                        {
+                            // CODE
+                            Console.WriteLine("BLOCKED BLoCKED BLOCKED");
+                            await Task.Delay(100);
+                            Console.WriteLine("LOOP znova");
+                            goto znova;
+
+                        }
+
+
+                        Console.WriteLine("NONBLOCKED NONBLoCKED NONBLOCKED");
+                        Console.Write("---------BLOCKING SERIAL PORT--------\n");
+
+                        serialport_blocked = true;
+
+
+                        _RPI_serialPort.Write(cozapsat + "\r");
 
                     }
 
-
-                    Console.WriteLine("NONBLOCKED NONBLoCKED NONBLOCKED");
-                    Console.Write("---------BLOCKING SERIAL PORT--------\n");
-
-                    serialport_blocked = true;
-
-
-                    _RPI_serialPort.Write(cozapsat + "\r");
-
                 }
+            }
+            catch (TimeoutException timeoutEx)
+            {
+                Console.WriteLine($"Timeout při zápisu na seriový port: {timeoutEx.Message}");
+                Console.WriteLine("Hardware pravděpodobně není připojen nebo neodpovídá.");
+                serialport_blocked = false; // Odblokování portu při chybě
 
+                // Volitelně: můžete nastavit flag, že HW není připojen
+                // BINDING_HW_MENU_BASE = false;
+            }
+            catch (InvalidOperationException ioEx)
+            {
+                Console.WriteLine($"Port není otevřený nebo je v neplatném stavu: {ioEx.Message}");
+                serialport_blocked = false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Chyba při zápisu na seriový port: {ex.Message}");
+                serialport_blocked = false;
             }
 
         }
