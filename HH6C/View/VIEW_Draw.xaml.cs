@@ -114,7 +114,7 @@ namespace WpfApp6.View
                         {
                             VM.SQL_SAVESOUTEZDATA("insert into groups (id,name,type,lenght,zadano, masterround, groupnumber) values (null, 'Skupina:" + g + "','auto',600,0, " + r + " ," + g + ");");
 
-                            for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1; s++)
+                            for (int s = 1; s < VM.BIND_SQL_SOUTEZ_STARTPOINTS + 1 + VM.BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE; s++)
                             {
 
                                 double x = (VM.BIND_SQL_SOUTEZ_ROUNDS + 1) * (VM.BIND_SQL_SOUTEZ_GROUPS + 1);

@@ -292,7 +292,7 @@
 
 
             <mah:MetroHeader
-                Height="190"
+                Height="205"
                 Margin="0,0,0,0"
                 Header="Nastavení letových kol">
                 <Grid Margin="30,0,0,0">
@@ -409,6 +409,26 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Content="Počet škrtaných výsledků v základních kolech" />
+                    <mah:NumericUpDown
+                        x:Name="NUM_STARTPOINTSRESERVE"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Width="70"
+                        Height="26"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        mah:TextBoxHelper.ClearTextButton="False"
+                        ButtonsAlignment="Opposite"
+                        IsEnabled="{Binding CONTEST_LOCK}"
+                        Maximum="3"
+                        Minimum="0"
+                        SwitchUpDownButtons="True"
+                        TextAlignment="Center"
+                        Value="{Binding BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE}" />
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Content="Počet rezervních startoviště v každé skupině každého kola  " Grid.RowSpan="2" Margin="0,25,0,1" />
 
                     <Label
                         Grid.Row="0"
@@ -465,8 +485,8 @@
 
             </mah:MetroHeader>
             <mah:MetroHeader
-                Height="140"
-                Margin="0,20,0,0"
+                Height="142"
+                Margin="0,00,0,0"
                 Header="Další nastavení">
                 <Grid Margin="30,0,0,9">
                     <Grid.ColumnDefinitions>
@@ -580,7 +600,7 @@
 
             </mah:MetroHeader>
 
-            <Grid Height="65">
+            <Grid Height="60">
                 <mah:Tile
                     Name="zameksoutezebutton"
                     Title="Zámek soutěže"
@@ -608,7 +628,7 @@
                     Title="Použít jako šablonu"
                     Width="158"
                     Height="Auto"
-                    Margin="0,14,152,10"
+                    Margin="0,14,152,-95"
                     HorizontalAlignment="Right"
                     HorizontalContentAlignment="Right"
                     mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Black}"

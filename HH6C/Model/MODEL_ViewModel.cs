@@ -244,7 +244,8 @@ namespace WpfApp6.Model
         public string BIND_SQL_SOUTEZ_JURY3_value;
         public int BIND_SQL_SOUTEZ_ROUNDS_value = 100;
         public int BIND_SQL_SOUTEZ_GROUPS_value = 100;
-        public int BIND_SQL_SOUTEZ_STARTPOINTS_value;
+        public int BIND_SQL_SOUTEZ_STARTPOINTS_value = 2;
+        public int BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE_value = 2 ;
         public int BIND_SQL_SOUTEZ_DELETES_value;
         public int BIND_SQL_SOUTEZ_ROUNDSFINALE_value;
         public int BIND_SQL_SOUTEZ_STARTPOINTSFINALE_value;
@@ -1051,7 +1052,7 @@ namespace WpfApp6.Model
         }
 
 
-        public string _Function_global_resizemode = "None";
+        public string _Function_global_resizemode = "Fill";
         public string Function_global_resizemode
         {
             get { 
@@ -2784,6 +2785,14 @@ namespace WpfApp6.Model
 
             }
         }
+
+
+        public int BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE
+        {
+            get { return BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE_value; }
+            set { BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE_value = value; OnPropertyChanged("BIND_SQL_SOUTEZ_STARTPOINTS_RESERVE"); }
+        }
+
 
         public int BIND_SQL_SOUTEZ_DELETES
         {

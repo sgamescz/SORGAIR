@@ -402,21 +402,21 @@ namespace WpfApp6
 
             Console.WriteLine("aaa");
 
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-            if (screenHeight < 930)
-            {
-                VM.Function_global_resizemode = "Fill";
-                this.Height = screenHeight;
-                this.Width = 1270 * (screenHeight / 930);
+            //double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            //if (screenHeight < 930)
+            //{
+            //    VM.Function_global_resizemode = "Fill";
+            //    this.Height = screenHeight;
+            //    this.Width = 1270 * (screenHeight / 930);
 
-            }
-            else
-            {
-                VM.Function_global_resizemode = "None";
-                main_master_grid.Width = this.ActualWidth;
-                main_master_grid.Height = this.ActualHeight;
+            //}
+            //else
+            //{
+            //    VM.Function_global_resizemode = "None";
+            //    main_master_grid.Width = this.ActualWidth;
+            //    main_master_grid.Height = this.ActualHeight;
 
-            }
+            //}
 
 
         }
