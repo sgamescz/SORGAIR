@@ -314,9 +314,9 @@ namespace WpfApp6.View
     }
 
 
-        private void newcontestcreate_Click(object sender, RoutedEventArgs e)
+        private async void newcontestcreate_Click(object sender, RoutedEventArgs e)
         {
-            VM.SQL_OPENCONNECTION("RULES");
+            await VM.SQL_OPENCONNECTION("RULES");
             VM.FUNCTION_LOAD_CATEGORIES();
             VM.FUNCTION_LOAD_CALENDAR_COUNTRY_SOURCES();
             VM.SQL_CLOSECONNECTION("RULES");

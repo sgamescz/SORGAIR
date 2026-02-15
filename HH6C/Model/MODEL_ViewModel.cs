@@ -3286,6 +3286,140 @@ namespace WpfApp6.Model
 
 
 
+        public void StopAllTimers()
+        {
+            try
+            {
+                // Stop all timers
+                if (MAIN_TIME_TIMER != null && MAIN_TIME_TIMER.IsEnabled)
+                {
+                    MAIN_TIME_TIMER.Stop();
+                }
+
+                if (PREP_TIME_TIMER != null && PREP_TIME_TIMER.IsEnabled)
+                {
+                    PREP_TIME_TIMER.Stop();
+                }
+
+                if (MAIN_FINAL_TIME_TIMER != null && MAIN_FINAL_TIME_TIMER.IsEnabled)
+                {
+                    MAIN_FINAL_TIME_TIMER.Stop();
+                }
+
+                if (PREP_FINAL_TIME_TIMER != null && PREP_FINAL_TIME_TIMER.IsEnabled)
+                {
+                    PREP_FINAL_TIME_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER != null && MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_ROUNDGROUP_ACTUAL_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER != null && MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_COMPETITORS_ACTUAL_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER != null && MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_ROUNDGROUP_NEXT_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER != null && MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_COMPETITORS_NEXT_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_ROUNDGROUP_FINAL_ACTUAL_TIMER != null && MAIN_DYNAMIC_ROUNDGROUP_FINAL_ACTUAL_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_ROUNDGROUP_FINAL_ACTUAL_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_COMPETITORS_FINAL_ACTUAL_TIMER != null && MAIN_DYNAMIC_COMPETITORS_FINAL_ACTUAL_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_COMPETITORS_FINAL_ACTUAL_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_ROUNDGROUP_FINAL_NEXT_TIMER != null && MAIN_DYNAMIC_ROUNDGROUP_FINAL_NEXT_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_ROUNDGROUP_FINAL_NEXT_TIMER.Stop();
+                }
+
+                if (MAIN_DYNAMIC_COMPETITORS_FINAL_NEXT_TIMER != null && MAIN_DYNAMIC_COMPETITORS_FINAL_NEXT_TIMER.IsEnabled)
+                {
+                    MAIN_DYNAMIC_COMPETITORS_FINAL_NEXT_TIMER.Stop();
+                }
+
+                // Stop all audio players
+                if (maintimewaveout != null)
+                {
+                    foreach (var waveOut in maintimewaveout)
+                    {
+                        if (waveOut != null)
+                        {
+                            waveOut.Stop();
+                            waveOut.Dispose();
+                        }
+                    }
+                }
+
+                if (preptimewaveout != null)
+                {
+                    foreach (var waveOut in preptimewaveout)
+                    {
+                        if (waveOut != null)
+                        {
+                            waveOut.Stop();
+                            waveOut.Dispose();
+                        }
+                    }
+                }
+
+                if (final_maintimewaveout != null)
+                {
+                    foreach (var waveOut in final_maintimewaveout)
+                    {
+                        if (waveOut != null)
+                        {
+                            waveOut.Stop();
+                            waveOut.Dispose();
+                        }
+                    }
+                }
+
+                if (final_preptimewaveout != null)
+                {
+                    foreach (var waveOut in final_preptimewaveout)
+                    {
+                        if (waveOut != null)
+                        {
+                            waveOut.Stop();
+                            waveOut.Dispose();
+                        }
+                    }
+                }
+
+                // Close serial ports
+                if (_serialPort != null && _serialPort.IsOpen)
+                {
+                    _serialPort.Close();
+                    _serialPort.Dispose();
+                }
+
+                if (_RPI_serialPort != null && _RPI_serialPort.IsOpen)
+                {
+                    _RPI_serialPort.Close();
+                    _RPI_serialPort.Dispose();
+                }
+
+                Console.WriteLine("All timers, audio players, and serial ports stopped successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error stopping timers: {ex.Message}");
+            }
+        }
 
 
         #endregion
@@ -3599,29 +3733,41 @@ namespace WpfApp6.Model
 
         public void SQL_CLOSECONNECTION(string KTERADB)
         {
-
-            if (KTERADB == "SORG")
+            try
             {
-                DBSORG_Connection.Close();
-            }
-
-            if (KTERADB == "RULES")
-            {
-                DBSORG_Connection.Close();
-            }
-
-
-            if (KTERADB == "SOUTEZ")
-            {
-               if (DBSOUTEZ_Connection != null)
+                if (KTERADB == "SORG")
                 {
-                    DBSOUTEZ_Connection.Close();
+                    if (DBSORG_Connection != null && DBSORG_Connection.State != System.Data.ConnectionState.Closed)
+                    {
+                        DBSORG_Connection.Close();
+                    }
                 }
 
-              
-            }
+                if (KTERADB == "RULES")
+                {
+                    if (DBSORG_Connection != null && DBSORG_Connection.State != System.Data.ConnectionState.Closed)
+                    {
+                        DBSORG_Connection.Close();
+                    }
+                }
 
-            Console.WriteLine("SQL_OPENCONNECTION [CLOSE] : " + KTERADB);
+
+                if (KTERADB == "SOUTEZ")
+                {
+                    if (DBSOUTEZ_Connection != null && DBSOUTEZ_Connection.State != System.Data.ConnectionState.Closed)
+                    {
+                        DBSOUTEZ_Connection.Close();
+                    }
+
+
+                }
+
+                Console.WriteLine("SQL_CLOSECONNECTION [CLOSE] : " + KTERADB);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"SQL_CLOSECONNECTION [ERROR] : {KTERADB} - {ex.Message}");
+            }
 
         }
 

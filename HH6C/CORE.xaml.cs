@@ -298,19 +298,41 @@ namespace WpfApp6
 
 
 
+        private bool _isClosingConfirmed = false;
+
         private async void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
-
-            if (MessageBox.Show("Opravdu ukončit SORG AIR?", "Ukončit ?", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            try
             {
-                e.Cancel = true;
+                if (!_isClosingConfirmed)
+                {
+                    e.Cancel = true;
+
+                    var result = await this.ShowMessageAsync(
+                        "Ukončit ?",
+                        "Opravdu ukončit SORG AIR?",
+                        MessageDialogStyle.AffirmativeAndNegative,
+                        new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = "Ano",
+                            NegativeButtonText = "Ne",
+                            AnimateShow = true,
+                            AnimateHide = true
+                        });
+
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        _isClosingConfirmed = true;
+                        VM.StopAllTimers();
+                        VM.SQL_CLOSECONNECTION("SORG");
+                        VM.SQL_CLOSECONNECTION("SOUTEZ");
+                        this.Close();
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                VM.SQL_CLOSECONNECTION("SORG");
-                VM.SQL_CLOSECONNECTION("SOUTEZ");
-
+                Console.WriteLine($"Error during application closing: {ex.Message}");
             }
 
         }

@@ -282,8 +282,16 @@ namespace WpfApp6
 
         private async void core_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            try
+            {
+                VM.StopAllTimers();
                 VM.SQL_CLOSECONNECTION("SORG");
                 VM.SQL_CLOSECONNECTION("SOUTEZ");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during application closing: {ex.Message}");
+            }
 
         }
 
